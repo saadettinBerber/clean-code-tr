@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 12 | Bölüm 1: Temiz Kod Nedir? — Ward Cunningham & Düşünce Okulları</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; What Is Clean Code? / Schools of Thought</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="12" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 11'den devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 11 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">“. . . tam da beklediğiniz gibi.” En son ne zaman tam da beklediğiniz gibi olan bir modül gördünüz? Baktığınız modüllerin şaşırtıcı, karmaşık, birbirine dolanmış olması daha olası değil mi? Yanıltma (misdirection) kural değil mi? Tüm sistemden fışkıran ve okuduğunuz modülün içinden geçen akıl yürütme ipliklerini yakalamaya ve tutmaya çalışarak çabalamaya alışık değil misiniz? En son ne zaman bir kodu okudunuz ve Ward'ın ifadesine kafa sallayabileceğiniz şekilde kafa salladınız?</span>
+        <span class="en-text" style="display:none;">“. . . pretty much what you expected.” When was the last time you saw a module that was pretty much what you expected? Isn’t it more likely that the modules you look at will be puzzling, complicated, tangled? Isn’t misdirection the rule? Aren’t you used to flailing about trying to grab and hold the threads of reasoning that spew forth from the whole system and weave their way through the module you are reading? When was the last time you read through some code and nodded your head the way you might have nodded your head at Ward’s statement?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ward, temiz kodu okuduğunuzda hiç şaşırmamanızı bekler. Gerçekten de, fazla çaba bile sarf etmezsiniz. Onu okursunuz ve tam da beklediğiniz gibi olur. Bariz, basit ve ikna edicidir. Her modül bir sonrakine zemin hazırlar. Her biri size bir sonrakinin nasıl yazılacağını anlatır. Bu kadar temiz olan programlar o kadar derinlemesine iyi yazılmıştır ki bunu fark etmezsiniz bile. Tasarımcı, tüm istisnai tasarımlar gibi onu gülünç derecede basit gösterir.</span>
+        <span class="en-text" style="display:none;">Ward expects that when you read clean code you won’t be surprised at all. Indeed, you won’t even expend much effort. You will read it, and it will be pretty much what you expected. It will be obvious, simple, and compelling. Each module will set the stage for the next. Each tells you how the next will be written. Programs that are that clean are so profoundly well written that you don’t even notice it. The designer makes it look ridiculously simple like all exceptional designs.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Peki ya Ward'ın güzellik (beauty) kavramı? Dillerimizin problemlerimiz için tasarlanmadığı gerçeğine hepimiz isyan ettik. Ancak Ward'ın ifadesi sorumluluğu tekrar bize yüklüyor. Güzel kodun <em>dili o problem için yaratılmış gibi gösterdiğini</em> söylüyor! Yani dili basit göstermek <em>bizim</em> sorumluluğumuzdur! Her yerdeki dil bağnazları (language bigots), dikkat edin! Programların basit görünmesini sağlayan dil değildir. Dili basit gösteren programcıdır!</span>
+        <span class="en-text" style="display:none;">And what about Ward’s notion of beauty? We’ve all railed against the fact that our languages weren’t designed for our problems. But Ward’s statement puts the onus back on us. He says that beautiful code makes the language look like it was made for the problem! So it’s our responsibility to make the language look simple! Language bigots everywhere, beware! It is not the language that makes programs appear simple. It is the programmer that make the language appear simple!</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Düşünce Okulları / Schools of Thought</span>
+        <span class="en-text" style="display:none;">Schools of Thought</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Peki ya ben (Bob Amca)? Temiz kodun ne olduğunu düşünüyorum? Bu kitap size, iğrenç detaylarıyla, benim ve dostlarımın temiz kod hakkında ne düşündüğünü anlatacak. Size temiz bir değişken isminin, temiz bir fonksiyonun, temiz bir sınıfın vb. ne olduğunu düşündüğümüzü söyleyeceğiz. Bu görüşleri mutlak doğrular olarak sunacağız ve sertliğimiz (stridence) için özür dilemeyeceğiz. Bizim için, kariyerimizin bu noktasında, bunlar mutlak doğrulardır. Onlar temiz kod hakkındaki <em>bizim düşünce okulumuzdur</em> (school of thought).</span>
+        <span class="en-text" style="display:none;">What about me (Uncle Bob)? What do I think clean code is? This book will tell you, in hideous detail, what I and my compatriots think about clean code. We will tell you what we think makes a clean variable name, a clean function, a clean class, etc. We will present these opinions as absolutes, and we will not apologize for our stridence. To us, at this point in our careers, they are absolutes. They are our school of thought about clean code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dövüş sanatçılarının hepsi en iyi dövüş sanatı veya bir dövüş sanatı içindeki en iyi teknik konusunda hemfikir değildir. Genellikle usta dövüş sanatçıları kendi düşünce okullarını kurarlar ve onlardan bir şeyler öğrenmek için öğrencileri etraflarına toplarlar. Böylece Brezilya'da Gracie ailesi tarafından kurulan ve öğretilen <em>Gracie Jiu Jitsu</em>'yu görüyoruz. Tokyo'da Okuyama Ryuho tarafından kurulan ve öğretilen <em>Hakkoryu Jiu Jitsu</em>'yu görüyoruz. Amerika Birleşik Devletleri'nde Bruce Lee tarafından kurulan ve öğretilen <em>Jeet Kune Do</em>'yu görüyoruz.</span>
+        <span class="en-text" style="display:none;">Martial artists do not all agree about the best martial art, or the best technique within a martial art. Often master martial artists will form their own schools of thought and gather students to learn from them. So we see Gracie Jiu Jistu, founded and taught by the Gracie family in Brazil. We see Hakkoryu Jiu Jistu, founded and taught by Okuyama Ryuho in Tokyo. We see Jeet Kune Do, founded and taught by Bruce Lee in the United States.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('least-surprise')">
+                <span class="tr-text">En Az Şaşırtma İlkesi</span>
+                <span class="en-text" style="display:none;">Principle of Least Surprise</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('beautiful-code')">
+                <span class="tr-text">Güzel Kod</span>
+                <span class="en-text" style="display:none;">Beautiful Code</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('language-bigotry')">
+                <span class="tr-text">Dil Bağnazlığı</span>
+                <span class="en-text" style="display:none;">Language Bigotry</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('schools-of-thought')">
+                <span class="tr-text">Düşünce Okulları</span>
+                <span class="en-text" style="display:none;">Schools of Thought</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-11.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 11 — Ron Jeffries (devam) & Ward Cunningham</span><span class="en-text" style="display:none;">Page 11 — Ron Jeffries (cont.) & Ward Cunningham</span></div>
+    </a>
+    <a href="page-13.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 13 — Düşünce Okulları (devam) & Biz Yazarlarız</span><span class="en-text" style="display:none;">Page 13 — Schools of Thought (cont.) & We Are Authors</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-least-surprise">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">En Az Şaşırtma İlkesi (Principle of Least Surprise)</span><span class="en-text" style="display:none;">Principle of Least Surprise</span></h3>
+            <button class="modal-close" onclick="closeModal('least-surprise')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ward Cunningham, temiz kodun "tam da beklediğiniz gibi" olması gerektiğini söyler. Bu, En Az Şaşırtma İlkesi (POLS) olarak bilinir. Kod, okuyucunun beklentileriyle uyumlu olmalı, gizli yan etkiler veya kafa karıştırıcı isimlendirmeler içermemelidir. Kodun akışı o kadar doğal olmalıdır ki, okuyucu bir sonraki satırın ne olacağını tahmin edebilmelidir.</span><span class="en-text" style="display:none;">Ward Cunningham says clean code should be "pretty much what you expected." This is known as the Principle of Least Surprise (POLS). Code should align with the reader's expectations, containing no hidden side effects or confusing naming. The flow of code should be so natural that the reader can predict what the next line will be.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Şaşırtıcı: `isValid` kontrolü yaparken veritabanına log atıyor</span><span class="en-text" style="display:none;">BAD — Surprising: logs to database while doing an `isValid` check</span></span>
+            <pre>function isValidSession(session) {
+    if (session.expiry < Date.now()) {
+        db.logs.insert({ event: 'expired_access_attempt', time: Date.now() }); // Sürpriz!
+        return false;
+    }
+    return true;
+}</pre>
+            <div class="explanation"><span class="tr-text">Sadece bir kontrol yapması beklenen <code>isValid...</code> fonksiyonunun bir veritabanı yazma işlemi (yan etki) yapması beklenmez. Bu, test yazmayı zorlaştırır ve kodu şaşırtıcı kılar.</span><span class="en-text" style="display:none;">An <code>isValid...</code> function, expected only to perform a check, should not perform a database write (side effect). This makes testing difficult and the code surprising.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Bariz ve ayrıştırılmış sorumluluk</span><span class="en-text" style="display:none;">GOOD — Obvious and separated responsibility</span></span>
+            <pre>function isSessionExpired(session) {
+    return session.expiry < Date.now();
+}
+
+// Loglama ihtiyacı varsa bunu çağıran yerde yap veya ismini netleştir:
+function validateAndLogSession(session) {
+    if (isSessionExpired(session)) {
+        logger.logExpiredAccess(session);
+        return false;
+    }
+    return true;
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzu bir başkasına okutun. Eğer okurken "Neden?" veya "Bunu beklemiyordum" diyorsa, orada bir "şaşırtma" vardır. Temiz kod, zihinsel yükü azaltan kodur.</span><span class="en-text" style="display:none;">Have someone else read your code. If they say "Why?" or "I didn't expect this," there's a "surprise" there. Clean code is code that reduces mental load.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-beautiful-code">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Güzel Kod (Beautiful Code)</span><span class="en-text" style="display:none;">Beautiful Code</span></h3>
+            <button class="modal-close" onclick="closeModal('beautiful-code')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ward Cunningham'a göre güzel kod, programlama dilinin sanki o problem için özel olarak yaratılmış gibi görünmesini sağlar. Bu, dile olan hakimiyetinizi ve problemi dile nasıl adapte ettiğinizi gösterir. Dile zorla bir şeyler yaptırmak yerine, dilin doğal yeteneklerini problemi çözmek için en şık şekilde kullanmaktır.</span><span class="en-text" style="display:none;">According to Ward Cunningham, beautiful code makes the programming language look like it was made for the problem. This shows your mastery of the language and how you adapted the problem to the language. Instead of forcing the language to do things, it's using the language's natural capabilities to solve the problem in the most elegant way.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Dili zorlayan, karmaşık ve hantal yapı</span><span class="en-text" style="display:none;">BAD — Forcing the language, complex and clunky structure</span></span>
+            <pre>// Bir listedeki çift sayıların karesini almak (JavaScript)
+let result = [];
+let numbers = [1, 2, 3, 4, 5, 6];
+for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] % 2 === 0) {
+        let square = numbers[i] * numbers[i];
+        result.push(square);
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu kod çalışır ama JavaScript'in modern ve fonksiyonel yeteneklerini kullanmaz. Dili "ham" bir şekilde kullanarak problemi çözmeye çalışır.</span><span class="en-text" style="display:none;">This code works but doesn't use JavaScript's modern functional capabilities. It tries to solve the problem by using the language in a "raw" way.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Dilin (JS) bu iş için yaratıldığını hissettiren akıcı kod</span><span class="en-text" style="display:none;">GOOD — Fluent code that feels like the language (JS) was made for this</span></span>
+            <pre>const squaresOfEvens = [1, 2, 3, 4, 5, 6]
+    .filter(n => n % 2 === 0)
+    .map(n => n * n);</pre>
+            <div class="explanation"><span class="tr-text">Burada dilin (JavaScript) dizi işleme yetenekleri problemle tam uyum içindedir. Okuması bir cümle gibidir: "Filtrele çift olanları, eşle karelerine."</span><span class="en-text" style="display:none;">Here, the language's (JavaScript) array processing capabilities are in full harmony with the problem. Reading it is like a sentence: "Filter the evens, map to their squares."</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-language-bigotry">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Dil Bağnazlığı (Language Bigotry)</span><span class="en-text" style="display:none;">Language Bigotry</span></h3>
+            <button class="modal-close" onclick="closeModal('language-bigotry')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Uncle Bob, "Dili basit gösteren dildir" diyenlere karşı çıkar. Ona göre suç veya başarı dilde değil, programcıdadır. Dil bağnazlığı, bir dilin her şeyi kendiliğinden temiz yapacağını sanmak veya bir dilin kısıtlamalarını kötü kod için bahane etmektir. Programcı, hangi dili kullanırsa kullansın, o dili problem için basit ve zarif gösterme sorumluluğuna sahiptir.</span><span class="en-text" style="display:none;">Uncle Bob argues against those who say "the language makes it simple." For him, the fault or success lies not with the language but with the programmer. Language bigotry is assuming a language will inherently make everything clean, or using a language's constraints as an excuse for bad code. Regardless of the language used, the programmer has the responsibility to make that language appear simple and elegant for the problem.</span></p>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Bu dilde bu iş ancak böyle yapılıyor, dil çok karmaşık" demek yerine, o dilin içinde nasıl daha temiz bir soyutlama kurabileceğinize odaklanın. Kötü kodun bahanesi dil olamaz.</span><span class="en-text" style="display:none;">Instead of saying "This is just how it's done in this language, the language is too complex," focus on how you can build a cleaner abstraction within that language. The language cannot be an excuse for bad code.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-schools-of-thought">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Düşünce Okulları (Schools of Thought)</span><span class="en-text" style="display:none;">Schools of Thought</span></h3>
+            <button class="modal-close" onclick="closeModal('schools-of-thought')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Yazılım dünyasında "tek bir doğru yol" yoktur. Tıpkı dövüş sanatlarında (Jiu Jitsu, Jeet Kune Do vb.) olduğu gibi, temiz kod konusunda da farklı "okullar" veya yaklaşımlar vardır. Bir okulun teknikleri o okulun içinde "mutlak doğru" olarak kabul edilir. Bu, diğer okulların yanlış olduğu anlamına gelmez. Önemli olan bir disiplini derinlemesine öğrenmek, ancak diğer yaklaşımlara da saygı duyup onlardan bir şeyler öğrenmektir.</span><span class="en-text" style="display:none;">In the software world, there is no "one right way." Just like in martial arts (Jiu Jitsu, Jeet Kune Do, etc.), there are different "schools" or approaches to clean code. The techniques of a school are considered "absolute right" within that school. This doesn't mean other schools are wrong. The important thing is to learn one discipline deeply but also respect and learn from other approaches.</span></p>
+            <div class="explanation"><span class="tr-text">Bu kitap <strong>Object Mentor</strong> okulunun temiz kod anlayışını temsil eder. Yazarlar kendi tecrübelerini "mutlak" gibi sunarlar çünkü bu disiplin onlara on yıllardır başarı getirmiştir.</span><span class="en-text" style="display:none;">This book represents the <strong>Object Mentor</strong> school's understanding of clean code. The authors present their experiences as "absolute" because this discipline has brought them success for decades.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 13' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 12;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

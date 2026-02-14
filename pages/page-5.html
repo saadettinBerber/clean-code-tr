@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 5 | Bölüm 1: Gökyüzündeki Büyük Yeniden Tasarım</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; The Grand Redesign in the Sky / Gökyüzündeki Büyük Yeniden Tasarım</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="5" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 4'ten devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 4 ]</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Gökyüzündeki Büyük Yeniden Tasarım <span class="section-title-sub">/ The Grand Redesign in the Sky</span></span>
+        <span class="en-text" style="display:none;">The Grand Redesign in the Sky</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Sonunda ekip isyan eder. Onlardan üretkenlik (productivity) beklenmesine rağmen bir çıkış yolu olmadığını söylerler. Yönetimden <em>gökyüzündeki büyük yeniden tasarımı</em> (the grand redesign in the sky) talep ederler. Yönetim, ekibin en yetenekli kişilerinden oluşan bir <em>tiger team</em> (kaplan ekibi) kurulmasına izin verir. Diğer herkes mevcut karmaşayı (mess) sürdürmekle görevlendirilir. Kaplan ekibi, yeni, parlak platformu inşa etmek için izole edilirler. Yeni sistem mevcut sistemin yaptığı <em>her şeyi</em> yapacaktır — aynı zamanda da onu sürdürmeye devam etmeyeceklerdir.</span>
+        <span class="en-text" style="display:none;">Eventually the team rebels. They inform management that they cannot continue to develop in this cesspool and demand a grand redesign in the sky. Management does not want to expend the resources on a whole new redesign of the project, but they cannot deny that productivity is at an all-time low. Eventually they bend to the demands of the developers and authorize the grand redesign. A new tiger team is selected. Everyone wants to be on this team because it's a green-field project. They get to start from scratch and create something truly beautiful. But only the best and brightest are chosen for the tiger team. Everyone else must continue to maintain the current system.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Şimdi iki takım yarış halindedir. Kaplan ekibi yeni sistem inşa ederken, diğer takım eski sistemi sürdürmeye çalışmaktadır. Müşteriler eski sistemde yeni özellikler talep etmeye devam ederler. Bu nedenle kaplan ekibi, değişiklikleri mevcut sisteme <em>de</em> uygulamak zorundadır. Ancak bunu yapmanın bir yolu yoktur. Eski sistemdeki değişiklikleri izole etmek için gereken tasarım yoktur. Yeni sistem, eski sistemin yaptığı her şeyi yapabilir hale gelene kadar geçen süre genellikle yıllar alır. Hatta bazen bu süre on yılı bulabilir. Bu arada mevcut sistem o kadar kötüleşir ki tamamen sürdürülemez hale gelir ve kaplan ekibinin ilk sürümünü çıkarmadan önce bile kapatılması gerekir.</span>
+        <span class="en-text" style="display:none;">Now the two teams are in a race. The tiger team must build a new system that does everything that the old system does. Not only that, they have to keep up with the changes that are continuously being made to the old system. Management will not replace the old system until the new system can do everything that the old system does. This race can go on for a very long time. I've seen it take 10 years. And by the time it's done, the original members of the tiger team are long gone, and the current members are demanding that the new system be redesigned because it's such a mess.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Eğer bu deneyimi yaşadıysanız, temiz kodun sadece bir maliyet değil, bir <em>hayatta kalma meselesi</em> olduğunu bilirsiniz.</span>
+        <span class="en-text" style="display:none;">If you have experienced even one of these symptoms, you have experienced the cost of a mess. And the cost can be significant. Indeed, the cost of a mess can be total. I've seen messes bring companies down. I've seen messes drive companies into bankruptcy. I've seen messes that have caused the loss of hundreds of millions of dollars. The cost of a mess is not just financial. It is also emotional. It is the frustration of the developers who have to work in the mess. It is the fear that every change will break something. It is the sense that the code is the enemy, that it is working against you.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Tutum / Tavrımız <span class="section-title-sub">/ Attitude</span></span>
+        <span class="en-text" style="display:none;">Attitude</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Peki iyi kod neden bu kadar çabuk bozulur? Gereksinimler (requirements) değişir mi? Evet. İş dünyası daha rekabetçi hale gelir mi? Evet. Gereksinimler daha belirsiz (vague) hale gelir mi? Evet. Bu süreçte işte her şeyi doğru yapmak için acele eder miyiz? Evet. Ancak bu durumu yaratmak için suçlayabileceğimiz çok şey var: yöneticiler (managers), pazarlamacılar (marketers), kullanıcılar, hatta diğer programcılar. Ama suçlu biziz. Biz profesyonel değiliz.</span>
+        <span class="en-text" style="display:none;">Why does good code rot so quickly into bad code? We have lots of explanations for it. We complain that the requirements changed in ways that thwart the original design. We bemoan the schedules that were too tight to do things right. We blather about stupid managers and intolerant users and useless marketing types and telephone sanitizers. But the fault, dear Horatio, is not in our stars, but in ourselves. We are unprofessional.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu durum belki biraz sert geliyor olabilir. Ama aşağıdaki Dilbert çizgi romanını dikkatlice okuyun.</span>
+        <span class="en-text" style="display:none;">This may be a bit hard to swallow. But read the following Dilbert cartoon.</span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">[Dilbert karikatürü: Programcı, yöneticinin takvime odaklanması gerektiğini söylerken, yöneticinin "Sen kodu savunmak için ne yapıyorsun?" sorusuyla karşı karşıya kalır.]</span>
+        <span class="en-text" style="display:none;">[Dilbert cartoon: Programmer explaining to manager about schedule focus, manager asking "What are you doing to defend the code?"]</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yöneticilerin ve pazarlamacıların, verebilecekleri taahhütler (commitments) hakkında bilgi almak için bize ihtiyaçları vardır. Hatta genellikle bizden bu taahhütlerin dilimizi kullanarak dile getirmemizi isterler. "Bunu Aralık ayına kadar bitirebilir misin?" diye sorarlar. Derin iç geçiririz. Dişlerimizi sıkarız. Sonra deriz ki: "Evet, yapabiliriz." Tabii ki düşünürüz: "Ama yapmayacağız — çünkü kodu temiz tutmaya çalışırsak bitiremeyiz!" Bu bizim suçumuzdur! Yöneticiler taahhüt vermek için bize güvenir; pazarlamacılar özellikleri tanıtmak için bize güvenir. Bizden bilgi almak için bize güvenirler. Eğer onlara yalan söylersek, projeyi mahvetmemize izin verirlerse, bu bizim hatamızdır.</span>
+        <span class="en-text" style="display:none;">Your managers and marketers look to you for the information they need to make promises and commitments; and even when they don't look to you, they are counting on you to defend the code. They expect that when you give them a schedule, that schedule will be based on reality. They expect that when you say you can get something done by a certain date, that you really can. They expect that when you say something can't be done, that it really can't. They expect that you will defend the code with your professional honor. They expect that you will not lie to them about the state of the code or the schedule. They expect that you will be professional.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yöneticilerin işi takvime (schedule) odaklanmaktır. Bu onların işidir — ve bunu iyi yapmak için ellerinden geleni yaparlar. Pazarlamacıların işi özellikleri (features) tanıtmaktır. Bu onların işidir — ve bunu iyi yapmak için ellerinden geleni yaparlar. <em>Bizim</em> işimiz ise kodu savunmaktır. Kodun temiz kalmasını sağlamak <em>bizim</em> işimizdir. Eğer kodu savunmazsak, hiç kimse savunmayacaktır.</span>
+        <span class="en-text" style="display:none;">It is the job of managers to focus on the schedule. That is what they do. And they do it well. It is the job of marketers to focus on features. That is what they do. And they do it well. It is our job to defend the code. It is our job to keep the code clean. If we don't defend the code, nobody will.</span>
+    </div>
+
+    <div class="page-continuation" style="margin-top: 32px;">
+        <span class="tr-text">[ Sayfa 6'ya devam edilecek ]</span>
+        <span class="en-text" style="display:none;">[ Continued on page 6 ]</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('tigerteam')">
+                <span class="tr-text">Tiger Team (Kaplan Ekibi)</span>
+                <span class="en-text" style="display:none;">Tiger Team</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('redesign')">
+                <span class="tr-text">Büyük Yeniden Tasarım</span>
+                <span class="en-text" style="display:none;">Grand Redesign</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('attitude')">
+                <span class="tr-text">Profesyonel Tutum</span>
+                <span class="en-text" style="display:none;">Professional Attitude</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-4.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 4 — Karmaşanın Toplam Maliyeti</span><span class="en-text" style="display:none;">Page 4 — The Total Cost of Owning a Mess</span></div>
+    </a>
+    <a href="page-6.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 6 — Temel İkilem</span><span class="en-text" style="display:none;">Page 6 — The Primal Conundrum</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-tigerteam">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tiger Team (Kaplan Ekibi)</span><span class="en-text" style="display:none;">Tiger Team</span></h3>
+            <button class="modal-close" onclick="closeModal('tigerteam')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Martin'in kitabında bahsettiği "Tiger Team" (Kaplan Ekibi), bir projedeki en yetenekli geliştiricilerden oluşan özel bir ekiptir. Bu ekip, mevcut karmaşayı sürdürmek yerine tamamen yeni bir sistem inşa etmek için izole edilir. Ancak Martin bu yaklaşımın tehlikelerini vurgular: Yeni sistem inşa edilirken eski sistem sürdürülmeye devam eder ve bu yarış genellikle yıllar sürer.</span><span class="en-text" style="display:none;">The "Tiger Team" in Martin's book refers to a special team composed of the most talented developers. This team is isolated to build a completely new system instead of maintaining the existing mess. However, Martin emphasizes the dangers: while the new system is being built, the old system continues to be maintained, and this race often lasts for years.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Tiger Team" zihniyetiyle paralel sistem</span><span class="en-text" style="display:none;">BAD — Parallel system with "Tiger Team" mentality</span></span>
+            <pre>// Eski sistem - sürdürülüyor ama kimse anlamıyor
+class OrderSystem {
+    process(order) {
+        if (order.type === 'legacy') {
+            // eski mantık
+        } else if (order.type === 'new') {
+            // yeni mantık, ama eskiyle karışmış
+        }
+    }
+}
+
+// Tiger Team'in yeni "mükemmel" sistemi
+class OrderSystemV2 {
+    process(order) {
+        // Sıfırdan yazıldı, edge case'ler eksik
+        return this.pipeline.validate(order).save(order);
+    }
+}
+// Sonuç: İki sistem paralel çalışıyor, veri tutarsızlıkları</pre>
+            <div class="explanation"><span class="tr-text">Yeni sistem baştan yazılırken eski sistemin karmaşıklıkları gözden kaçar. İki sistem paralel çalışmak zorunda kalır.</span><span class="en-text" style="display:none;">While rewriting from scratch, complexities of the old system are missed. Both systems must run in parallel.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Strangler Fig Pattern ile aşamalı geçiş</span><span class="en-text" style="display:none;">GOOD — Strangler Fig Pattern for gradual transition</span></span>
+            <pre>class OrderSystem {
+    constructor() {
+        this.legacyProcessor = new LegacyOrderProcessor();
+        this.modernProcessor = new ModernOrderProcessor();
+        this.featureFlags = new FeatureFlagService();
+    }
+    process(order) {
+        // Feature flag ile kontrollü geçiş
+        if (this.featureFlags.isEnabled('modern-processing', order)) {
+            return this.modernProcessor.process(order);
+        }
+        return this.legacyProcessor.process(order);
+    }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Baştan yazalım" dediğinizde sorun: "Mevcut kodun %80'i gereksiz mi, yoksa sadece anlaşılması zor mu?" Anlaşılması zorsa, refactoring yapmak baştan yazmaktan daha hızlıdır.</span><span class="en-text" style="display:none;">When saying "rewrite from scratch," ask: "Is 80% unnecessary or just hard to understand?" If hard to understand, refactoring is faster.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-redesign">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Büyük Yeniden Tasarım (Grand Redesign)</span><span class="en-text" style="display:none;">Grand Redesign in the Sky</span></h3>
+            <button class="modal-close" onclick="closeModal('redesign')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Martin'in "Gökyüzündeki Büyük Yeniden Tasarım" ifadesi, mevcut karmaşadan kaçmak için yapılan radikal ve genellikle başarısız bir girişimi tanımlar. Ekipler mevcut kodu terk edip "bu sefer doğru yapacağız" mantığıyla yeni sistem inşa ederler. Ancak bu yarış yıllar sürer ve yeni sistem de karmaşaya dönüşür.</span><span class="en-text" style="display:none;">Martin's "Grand Redesign in the Sky" describes a radical and often failed attempt to escape the current mess. Teams abandon existing code and build a new system with "we'll do it right this time" mindset.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Bu sefer mükemmel yapacağız" sendromu</span><span class="en-text" style="display:none;">BAD — "We'll make it perfect this time" syndrome</span></span>
+            <pre># Mevcut "kötü" sistem
+class UserManagement:
+    def create_user(self, data):
+        pass  # Karışık kod
+
+# Yeni "mükemmel" sistem (2 yıldır devam ediyor)
+class UserService:
+    async def create_user(self, data):
+        # Over-engineered: Event sourcing, CQRS, K8s...
+        pass
+# Sonuç: 2 yıldır geliştiriliyor, eski sistem hâlâ production'da</pre>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Aşamalı iyileştirme</span><span class="en-text" style="display:none;">GOOD — Incremental improvement</span></span>
+            <pre># Adım 1: Test coverage ekle
+# Adım 2: Validation'ı ayrı sınıfa taşı
+class UserValidator:
+    def validate(self, data): pass
+
+# Adım 3: Repository pattern uygula
+class UserRepository:
+    def save(self, user): pass
+# Her adımda sistem çalışır durumda</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Büyük yeniden tasarım" isteği duyduğunuzda sorun: "Mevcut kodu haftada 4 saat refactoring yaparak 6 ayda temizleyemez miyiz?" Genellikle cevap evettir.</span><span class="en-text" style="display:none;">When hearing "grand redesign," ask: "Can't we clean the existing code by refactoring 4 hours a week for 6 months?" Usually the answer is yes.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-attitude">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Profesyonel Tutum (Professional Attitude)</span><span class="en-text" style="display:none;">Professional Attitude</span></h3>
+            <button class="modal-close" onclick="closeModal('attitude')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Martin bu bölümde programcıların profesyonel sorumluluklarını vurgular. Kötü kodun suçunu yöneticilere atmak kolaydır. Ancak gerçek sorumluluk bizdedir. Kodu savunmak, temiz tutmak ve gerçekçi taahhütler vermek programcının işidir.</span><span class="en-text" style="display:none;">Martin emphasizes programmers' professional responsibilities. It's easy to blame managers for bad code. But the real responsibility lies with us. Defending the code and keeping it clean is the programmer's job.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Profesyonel olmayan tutum</span><span class="en-text" style="display:none;">BAD — Unprofessional attitude</span></span>
+            <pre>def process_payment(order_id, amount):
+    # HACK: Production'da test edilecek
+    # TODO: Error handling ekle
+    # FIXME: SQL injection riski var
+    conn = get_db_connection()
+    query = f"UPDATE orders SET paid = 1 WHERE id = {order_id}"
+    conn.execute(query)
+    return True
+# Sonuç: Production'da veri kaybı, gece 3'te acil düzeltme</pre>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Profesyonel kod savunma</span><span class="en-text" style="display:none;">GOOD — Professional code defense</span></span>
+            <pre>class PaymentProcessor:
+    def process(self, order_id, amount):
+        self._validate_amount(amount)
+        try:
+            with self.transaction() as tx:
+                order = tx.orders.find_by_id(order_id)
+                if not order:
+                    raise OrderNotFound(order_id)
+                order.mark_as_paid(amount)
+                tx.audit.log_payment(order_id, amount)
+            return PaymentResult.success(order_id)
+        except PaymentError as e:
+            self.notifier.alert_ops(e)
+            raise
+# "Bu özelliği 3 günde kaliteli yapabilirim. 
+# 1 günde yaparsam risk alırız. 3 gün müsade eder misiniz?"</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Yöneticiniz "Bu bugün bitmeli" dediğinde: "Bu işi bugün bitirmenin iki yolu var: 1) Hızlıca yapıp yarın düzeltmek (riskli), 2) Kapsamı küçültüp bugün temiz teslim etmek. Hangisini tercih edersiniz?"</span><span class="en-text" style="display:none;">When manager says "This must be done today:" "There are two ways: 1) Do it quickly and fix tomorrow (risky), 2) Reduce scope and deliver cleanly today. Which do you prefer?"</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 6' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 5;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 8 | Bölüm 1: Temiz Kod Nedir? — Kırık Pencereler & Grady Booch</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .author-intro em { font-style: italic; font-weight: 400; }
+        .footnote { font-size: 13px; color: #6c757d; margin-top: 8px; }
+        .footnote a { color: #495057; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; What Is Clean Code?</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="8" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 7'den devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 7 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">— bu zarafetsizliğin sonucunu tanımlamak için. "Kışkırtmak" (tempt) kelimesini kullanıyor. Burada derin bir gerçek var. Kötü kod (bad code), karmaşanın (mess) büyümesini <em>kışkırtır</em>! Başkaları kötü kodu değiştirdiğinde, onu daha da kötüleştirme eğilimindedirler.</span>
+        <span class="en-text" style="display:none;">to describe the consequence of that inelegance. He uses the word "tempt." There is a deep truth here. Bad code <em>tempts</em> the mess to grow! When others change bad code, they tend to make it worse.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Pragmatik Dave Thomas ve Andy Hunt bunu farklı bir şekilde ifade etmişlerdir. Kırık pencereler (broken windows) metaforunu kullandılar.<sup>3</sup> Kırık pencereleri olan bir bina, kimsenin umursamadığı izlenimini verir. Bu yüzden diğer insanlar da umursamayı bırakır. Daha fazla pencerenin kırılmasına izin verirler. Sonunda aktif olarak onları kırarlar. Cepheyi (facade) grafitiyle kirletir ve çöpün birikmesine izin verirler. Tek bir kırık pencere, çürüme (decay) sürecini başlatır.</span>
+        <span class="en-text" style="display:none;">Pragmatic Dave Thomas and Andy Hunt said this a different way. They used the metaphor of broken windows.<sup>3</sup> A building with broken windows looks like nobody cares about it. So other people stop caring. They allow more windows to become broken. Eventually they actively break them. They despoil the facade with graffiti and allow garbage to collect. One broken window starts the process toward decay.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bjarne ayrıca hata yönetiminin (error handling) eksiksiz olması gerektiğinden bahsediyor. Bu, detaylara dikkat etme disiplinine dayanır. Kısaltılmış hata yönetimi, programcıların detayları geçiştirmesinin sadece bir yoludur. Bellek sızıntıları (memory leaks) bir diğeri, yarış durumları (race conditions) bir başkası. Tutarsız isimlendirme (inconsistent naming) ise bir diğeri. Sonuç olarak, temiz kod (clean code) detaylara yakın ilgi gösterir.</span>
+        <span class="en-text" style="display:none;">Bjarne also mentions that error handling should be complete. This goes to the discipline of paying attention to details. Abbreviated error handling is just one way that programmers gloss over details. Memory leaks are another, race conditions still another. Inconsistent naming yet another. The upshot is that clean code exhibits close attention to detail.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bjarne, temiz kodun bir şeyi iyi yaptığı iddiasıyla bitirir. Bu basit öğüde özetlenebilecek pek çok yazılım tasarım ilkesinin (software design principles) bulunması tesadüf değildir. Yazar üstüne yazar bu düşünceyi iletmeye çalışmıştır. Kötü kod çok fazla şey yapmaya çalışır, bulanık niyeti (muddled intent) ve belirsiz amacı vardır. Temiz kod <em>odaklanmıştır</em> (focused). Her fonksiyon (function), her sınıf (class), her modül (module), çevredeki detaylar tarafından tamamen dikkat dağıtılmamış ve kirletilmemiş, tek fikirli bir tutum sergiler.</span>
+        <span class="en-text" style="display:none;">Bjarne closes with the assertion that clean code does one thing well. It is no accident that there are so many principles of software design that can be boiled down to this simple admonition. Writer after writer has tried to communicate this thought. Bad code tries to do too much, it has muddled intent and ambiguity of purpose. Clean code is <em>focused</em>. Each function, each class, each module exposes a single-minded attitude that remains entirely undistracted, and unpolluted, by the surrounding details.</span>
+    </div>
+
+    <div class="author-intro">
+        <span class="tr-text">Grady Booch, <em>Object Oriented Analysis and Design with Applications</em> kitabının yazarı</span>
+        <span class="en-text" style="display:none;">Grady Booch, author of <em>Object Oriented Analysis and Design with Applications</em></span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Temiz kod basit ve doğrudandır. Temiz kod, iyi yazılmış bir düzyazı (prose) gibi okunur. Temiz kod, tasarımcının amacını (designer's intent) asla gizlemez; aksine keskin soyutlamalar (crisp abstractions) ve açık denetim akışları (straightforward lines of control) ile doludur.</span>
+        <span class="en-text" style="display:none;">Clean code is simple and direct. Clean code reads like well-written prose. Clean code never obscures the designer's intent but rather is full of crisp abstractions and straightforward lines of control.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Grady, Bjarne ile aynı noktaların bazılarını dile getirir, ancak bir <em>okunabilirlik</em> (readability) perspektifinden bakar. Özellikle temiz kodun iyi yazılmış bir düzyazı (prose) gibi okunması gerektiği görüşünü seviyorum. Okuduğunuz gerçekten iyi bir kitabı düşünün. Kelimelerin kaybolup yerini imgeler aldığını hatırlayın! Bir film izlemek gibiydi, değil mi? Daha da iyisi! Karakterleri gördünüz, sesleri duydunuz, duygulanmayı (pathos) ve mizahı deneyimlediniz.</span>
+        <span class="en-text" style="display:none;">Grady makes some of the same points as Bjarne, but he takes a <em>readability</em> perspective. I especially like his view that clean code should read like well-written prose. Think back on a really good book that you've read. Remember how the words disappeared to be replaced by images! It was like watching a movie, wasn't it? Better! You saw the characters, you heard the sounds, you experienced the pathos and the humor.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Temiz kod okumak asla <em>Yüzüklerin Efendisi</em> okumak gibi olmayacaktır. Yine de edebi metafor kötü bir metafor değildir. İyi bir roman gibi, temiz kod çözülmesi gereken problemdeki gerilimleri açıkça ortaya koymalıdır. Bu gerilimleri bir doruk noktasına taşımalı ve ardından —</span>
+        <span class="en-text" style="display:none;">Reading clean code will never be quite like reading <em>Lord of the Rings</em>. Still, the literary metaphor is not a bad one. Like a good novel, clean code should clearly expose the tensions in the problem to be solved. It should build those tensions to a climax and then give</span>
+    </div>
+
+    <div class="footnote">
+        <span class="tr-text"><sup>3</sup> http://www.pragmaticprogrammer.com/booksellers/2004-12.html</span>
+        <span class="en-text" style="display:none;"><sup>3</sup> http://www.pragmaticprogrammer.com/booksellers/2004-12.html</span>
+    </div>
+
+    <div class="page-continuation" style="margin-top: 32px;">
+        <span class="tr-text">[ Sayfa 9'a devam edilecek ]</span>
+        <span class="en-text" style="display:none;">[ Continued on page 9 ]</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('brokenwindows')">
+                <span class="tr-text">Kırık Pencereler Teorisi</span>
+                <span class="en-text" style="display:none;">Broken Windows Theory</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('attention')">
+                <span class="tr-text">Detaylara Dikkat</span>
+                <span class="en-text" style="display:none;">Attention to Detail</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('prose')">
+                <span class="tr-text">Düzyazı Gibi Kod</span>
+                <span class="en-text" style="display:none;">Code as Prose</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-7.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 7 — Bjarne Stroustrup</span><span class="en-text" style="display:none;">Page 7 — Bjarne Stroustrup</span></div>
+    </a>
+    <a href="page-9.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 9 — Temiz Kod Nedir? (devam)</span><span class="en-text" style="display:none;">Page 9 — What Is Clean Code? (cont.)</span></div>
+    </a>
+</div>
+
+<!-- Modal: Kırık Pencereler Teorisi -->
+<div class="modal-overlay" id="modal-brokenwindows">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kırık Pencereler Teorisi (Broken Windows Theory)</span><span class="en-text" style="display:none;">Broken Windows Theory</span></h3>
+            <button class="modal-close" onclick="closeModal('brokenwindows')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Pragmatik Programcılar (Dave Thomas ve Andy Hunt) tarafından yazılıma uyarlanan bu metafor, bir binadaki tek bir kırık pencerenin tüm binayı çürümeye (decay) sürükleyebileceğini anlatır. Kodda da aynıdır: tek bir kötü kod parçası, "zaten bozuk, biraz daha bozulsa ne olacak?" zihniyetini tetikler. Kötü kod, daha fazla kötü kodu <em>kışkırtır</em>. Kimsenin umursamadığı izlenimi verir ve ekip standartları hızla erir.</span><span class="en-text" style="display:none;">Adapted to software by the Pragmatic Programmers (Dave Thomas and Andy Hunt), this metaphor explains that a single broken window in a building can drag the entire structure into decay. The same applies to code: one piece of bad code triggers the mindset of "it's already broken, a little more won't matter." Bad code <em>tempts</em> more bad code. It gives the impression nobody cares, and team standards erode rapidly.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — İlk "kırık pencere" ve ardından gelen çürüme</span><span class="en-text" style="display:none;">BAD — The first "broken window" and the decay that follows</span></span>
+            <pre>class OrderService:
+    def process(self, order):
+        # TODO: validasyon ekle (6 ay önce yazıldı)
+        
+        # Hızlı düzeltme: bazen None geliyor
+        if order is not None:
+            try:
+                total = 0
+                for item in order.items:
+                    total = total + item.price  # vergi? neyse...
+                
+                # Başka biri eklemiş, dokunma
+                if order.customer.vip:
+                    total = total * 0.9  # hardcoded indirim
+                
+                # Acil hotfix - müşteri şikayet etti
+                if order.country == "DE":
+                    total = total * 1.19  # Almanya KDV
+                elif order.country == "FR":
+                    total = total * 1.20  # Fransa KDV
+                # diğer ülkeler? sonra ekleriz...
+                
+                order.total = total
+                db.save(order)  # hata yönetimi? biri halletsin
+                send_email(order.customer.email, total)  # bazen patlar ama olsun
+            except:
+                pass  # hataları yut, kimse fark etmez
+</pre>
+            <div class="explanation"><span class="tr-text">İlk TODO zaten bir kırık pencereydi. Sonra "neyse", "dokunma", "sonra ekleriz", "biri halletsin" ve son olarak <code>except: pass</code> geldi. Her yeni geliştirici "zaten bozuk" diyerek kendi kırık penceresini ekledi.</span><span class="en-text" style="display:none;">The first TODO was already a broken window. Then came "whatever", "don't touch", "add later", "someone else will handle it", and finally <code>except: pass</code>. Each new developer said "it's already broken" and added their own broken window.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kırık pencere yok: her detay özenle ele alınmış</span><span class="en-text" style="display:none;">GOOD — No broken windows: every detail handled with care</span></span>
+            <pre>class OrderService:
+    def __init__(self, validator, tax_calculator, repository, notifier):
+        self._validator = validator
+        self._tax_calculator = tax_calculator
+        self._repository = repository
+        self._notifier = notifier
+
+    def process(self, order: Order) -> ProcessedOrder:
+        self._validator.validate(order)
+        
+        subtotal = order.calculate_subtotal()
+        discount = order.customer.discount_strategy.apply(subtotal)
+        tax = self._tax_calculator.calculate(order.country, subtotal - discount)
+        
+        processed = order.finalize(subtotal, discount, tax)
+        self._repository.save(processed)
+        self._notifier.send_confirmation(processed)
+        
+        return processed</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"İzci Kuralı"nı (Boy Scout Rule) uygulayın: kodu bulduğunuzdan daha temiz bırakın. Bir dosyada çalışırken küçük bir kırık pencere görürseniz (belirsiz isimlendirme, eksik hata yönetimi, sihirli sayı), hemen düzeltin. Kırık pencerelerin birikmesine asla izin vermeyin — ilk kırık pencere en tehlikelisidir.</span><span class="en-text" style="display:none;">Apply the "Boy Scout Rule": leave the code cleaner than you found it. When working in a file and you spot a small broken window (unclear naming, missing error handling, magic number), fix it immediately. Never let broken windows accumulate — the first one is the most dangerous.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Detaylara Dikkat -->
+<div class="modal-overlay" id="modal-attention">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Detaylara Dikkat (Attention to Detail)</span><span class="en-text" style="display:none;">Attention to Detail</span></h3>
+            <button class="modal-close" onclick="closeModal('attention')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bjarne Stroustrup, hata yönetiminin (error handling) eksiksiz olması gerektiğini vurgular. Kısaltılmış hata yönetimi, bellek sızıntıları (memory leaks), yarış durumları (race conditions) ve tutarsız isimlendirme (inconsistent naming) — bunların hepsi detayları geçiştirmenin farklı biçimleridir. Temiz kod, detaylara yakın ilgi gösterir. Her hata durumu düşünülmüş, her sınır koşulu ele alınmış, her isimlendirme tutarlıdır.</span><span class="en-text" style="display:none;">Bjarne Stroustrup emphasizes that error handling should be complete. Abbreviated error handling, memory leaks, race conditions, and inconsistent naming — all are different forms of glossing over details. Clean code exhibits close attention to detail. Every error case is considered, every edge condition is handled, every naming convention is consistent.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Detaylar geçiştirilmiş: sızıntılar, yarış durumları, tutarsız isimlendirme</span><span class="en-text" style="display:none;">BAD — Details glossed over: leaks, race conditions, inconsistent naming</span></span>
+            <pre>public class CacheManager {
+    private Map&lt;String, Object&gt; cache = new HashMap&lt;&gt;();
+    private Map&lt;String, Long&gt; TTL = new HashMap&lt;&gt;();  // tutarsız isimlendirme
+
+    public Object Get(String key) {  // tutarsız: Get vs put
+        return cache.get(key);  // TTL kontrolü yok = bellek sızıntısı
+    }
+
+    public void put(String k, Object v, long ttl) {  // k, v belirsiz
+        cache.put(k, v);
+        TTL.put(k, System.currentTimeMillis() + ttl);
+        // Thread-safe değil = yarış durumu
+    }
+
+    public void deleteOld() {  // ne zaman çağrılacak? kim çağıracak?
+        for (String key : TTL.keySet()) {  // ConcurrentModificationException riski
+            if (TTL.get(key) &lt; System.currentTimeMillis()) {
+                cache.remove(key);
+                TTL.remove(key);  // iterasyon sırasında silme!
+            }
+        }
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Dört farklı detay ihmali: (1) Tutarsız isimlendirme (<code>Get</code> vs <code>put</code>, <code>TTL</code> vs <code>cache</code>), (2) TTL kontrolsüz okuma = bellek sızıntısı, (3) Thread güvenliği yok = yarış durumu, (4) İterasyon sırasında koleksiyon değiştirme = çalışma zamanı hatası.</span><span class="en-text" style="display:none;">Four different detail oversights: (1) Inconsistent naming (<code>Get</code> vs <code>put</code>, <code>TTL</code> vs <code>cache</code>), (2) Reading without TTL check = memory leak, (3) No thread safety = race condition, (4) Modifying collection during iteration = runtime error.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her detay özenle ele alınmış</span><span class="en-text" style="display:none;">GOOD — Every detail carefully handled</span></span>
+            <pre>public class ExpiringCache&lt;T&gt; {
+    private final ConcurrentHashMap&lt;String, CacheEntry&lt;T&gt;&gt; entries;
+    private final ScheduledExecutorService cleaner;
+
+    public Optional&lt;T&gt; get(String key) {
+        CacheEntry&lt;T&gt; entry = entries.get(key);
+        if (entry == null || entry.isExpired()) {
+            entries.remove(key);
+            return Optional.empty();
+        }
+        return Optional.of(entry.value());
+    }
+
+    public void put(String key, T value, Duration timeToLive) {
+        entries.put(key, new CacheEntry&lt;&gt;(value, Instant.now().plus(timeToLive)));
+    }
+
+    private void evictExpiredEntries() {
+        entries.entrySet().removeIf(e -> e.getValue().isExpired());
+    }
+
+    private record CacheEntry&lt;T&gt;(T value, Instant expiresAt) {
+        boolean isExpired() { return Instant.now().isAfter(expiresAt); }
+    }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kod yazarken şu kontrol listesini uygulayın: (1) İsimlendirme tutarlı mı? (2) Her hata durumu ele alındı mı? (3) Kaynaklar düzgün serbest bırakılıyor mu? (4) Eşzamanlı erişim güvenli mi? (5) Sınır koşulları (null, boş koleksiyon, negatif değer) test edildi mi? Bir tane bile "sonra hallederim" cevabı varsa, o bir kırık penceredir.</span><span class="en-text" style="display:none;">Apply this checklist when coding: (1) Is naming consistent? (2) Is every error case handled? (3) Are resources properly released? (4) Is concurrent access safe? (5) Are edge cases (null, empty collection, negative value) tested? If even one answer is "I'll handle it later", that's a broken window.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Düzyazı Gibi Kod -->
+<div class="modal-overlay" id="modal-prose">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Düzyazı Gibi Kod (Code as Prose)</span><span class="en-text" style="display:none;">Code as Prose</span></h3>
+            <button class="modal-close" onclick="closeModal('prose')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Grady Booch, temiz kodun "iyi yazılmış bir düzyazı (prose) gibi okunması" gerektiğini söyler. Martin bu metaforu genişletir: iyi bir roman gibi, temiz kod da problemdeki gerilimleri ortaya koymalı, onları bir doruk noktasına taşımalı ve okuyucuya "Aaa! Tabii ki!" dedirtmelidir. Kod yazarken, okuyucunuzu bir hikâyede olduğu gibi yönlendirmelisiniz — her satır bir sonrakini doğal olarak izlemelidir.</span><span class="en-text" style="display:none;">Grady Booch says clean code should "read like well-written prose." Martin extends this metaphor: like a good novel, clean code should expose the tensions in the problem, build them to a climax, and give the reader an "Aha! Of course!" moment. When writing code, you should guide your reader as in a story — each line should naturally follow the previous one.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Okunamayan "şifreli" kod: hikâye anlatmıyor</span><span class="en-text" style="display:none;">BAD — Unreadable "cryptic" code: tells no story</span></span>
+            <pre>function proc(d, t) {
+    const r = [];
+    const n = new Date();
+    for (let i = 0; i < d.length; i++) {
+        const x = d[i];
+        if (x.s === 1 && x.e > n) {
+            if (t === 1) {
+                if (x.p > 100) r.push(x);
+            } else if (t === 2) {
+                if (x.c >= 4.0) r.push(x);
+            }
+        }
+    }
+    r.sort((a, b) => b.p - a.p);
+    return r.slice(0, 10);
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu kodu okumak bir bulmacayı çözmek gibi. <code>d</code>, <code>t</code>, <code>x</code>, <code>s</code>, <code>e</code>, <code>p</code>, <code>c</code> — hiçbir değişkenin ne anlama geldiğini bilmiyorsunuz. Kod bir hikâye anlatmıyor; şifre çözmeye zorluyor.</span><span class="en-text" style="display:none;">Reading this code is like solving a puzzle. <code>d</code>, <code>t</code>, <code>x</code>, <code>s</code>, <code>e</code>, <code>p</code>, <code>c</code> — you have no idea what any variable means. The code doesn't tell a story; it forces you to decrypt.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Düzyazı gibi okunur: bir hikâye anlatır</span><span class="en-text" style="display:none;">GOOD — Reads like prose: tells a story</span></span>
+            <pre>function findTopProducts(products, searchStrategy) {
+    const activeProducts = products
+        .filter(product => product.isActive() && !product.isExpired());
+    
+    const matchingProducts = searchStrategy.apply(activeProducts);
+    
+    const topTen = matchingProducts
+        .sort(byPriceDescending)
+        .slice(0, 10);
+    
+    return topTen;
+}
+
+const premiumProducts = findTopProducts(catalog, new PriceAbove(100));
+const topRated = findTopProducts(catalog, new RatingAbove(4.0));</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzu sesli okuyun. Eğer İngilizce (veya Türkçe) bir cümle gibi akıyorsa, doğru yoldasınız: <code>findTopProducts(catalog, new PriceAbove(100))</code> → "Fiyatı 100'ün üstünde olan en iyi ürünleri bul." Eğer sesli okuduğunuzda anlamsız geliyorsa (<code>proc(d, 1)</code> → ???), yeniden isimlendirin.</span><span class="en-text" style="display:none;">Read your code aloud. If it flows like an English (or Turkish) sentence, you're on the right track: <code>findTopProducts(catalog, new PriceAbove(100))</code> → "Find top products in catalog with price above 100." If reading aloud makes no sense (<code>proc(d, 1)</code> → ???), rename.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 9' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 8;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

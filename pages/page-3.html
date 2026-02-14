@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 3 | Bölüm 1: Kötü Kod</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .home-link:hover { opacity: 1; }
+
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8d44d;
+        }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+
+        .illustration-note {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        blockquote {
+            border-left: 4px solid #e8d44d;
+            padding: 12px 20px;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #495057;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26,26,46,0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+
+        .modal-body .explanation {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #495057;
+        }
+
+        /* Nav */
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+
+        .not-translated {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Üst Bar -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; Bad Code / Kötü Kod</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="3" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Ana İçerik -->
+<div class="content-wrapper">
+
+    <!-- Bad Code -->
+    <div class="section-title">
+        <span class="tr-text">Kötü Kod <span class="section-title-sub">/ Bad Code</span></span>
+        <span class="en-text" style="display:none;">Bad Code</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Geçenlerde Kent Beck'in <em>Implementation Patterns</em><sup>1</sup> kitabının önsözünü okuyordum. Şöyle diyor: "...bu kitap oldukça kırılgan (fragile) bir önermeye dayanıyor: iyi kodun önemli olduğu." <em>Kırılgan</em> bir önerme mi? Katılmıyorum! Bence bu önerme, zanaatımızdaki (Craftsmanship) tüm önermelerin en sağlam, en desteklenmiş ve en yüklü olanıdır (ve sanırım Kent de bunu biliyor). İyi kodun önemli olduğunu biliyoruz, çünkü onun yokluğuyla uzun süredir başa çıkmak zorunda kaldık.</span>
+        <span class="en-text" style="display:none;">I was recently reading the preface to Kent Beck's book <em>Implementation Patterns</em>.<sup>1</sup> He says, ". . . this book is based on a rather fragile premise: that good code matters. . . ." A <em>fragile</em> premise? I disagree! I think that premise is one of the most robust, supported, and overloaded of all the premises in our craft (and I think Kent knows it). We know good code matters because we've had to deal for so long with its lack.</span>
+    </div>
+
+    <!-- İllüstrasyon notu -->
+    <div class="illustration-note">
+        <span class="tr-text">[ Kitaptaki illüstrasyon: Kent Beck'in portresi ]</span>
+        <span class="en-text" style="display:none;">[ Book illustration: Portrait of Kent Beck ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">80'lerin sonlarında bir şirketin müthiş (<em>killer</em>) bir uygulama yazdığını biliyorum. Çok popülerdi ve birçok profesyonel onu satın alıp kullandı. Ama sonra sürüm döngüleri (release cycles) uzamaya başladı. Hatalar (Bug) bir sürümden diğerine düzeltilmiyordu. Yükleme süreleri uzadı, çökmeler arttı. Bir gün ürünü sinirle kapatıp bir daha hiç kullanmadığım günü hatırlıyorum. Şirket kısa süre sonra battı.</span>
+        <span class="en-text" style="display:none;">I know of one company that, in the late 80s, wrote a <em>killer</em> app. It was very popular, and lots of professionals bought and used it. But then the release cycles began to stretch. Bugs were not repaired from one release to the next. Load times grew and crashes increased. I remember the day I shut the product down in frustration and never used it again. The company went out of business a short time after that.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yirmi yıl sonra o şirketin ilk çalışanlarından biriyle tanıştım ve ona ne olduğunu sordum. Cevabı korkularımı doğruladı. Ürünü aceleyle piyasaya sürmüşler ve kodda büyük bir karmaşa (mess) oluşturmuşlardı. Yeni özellikler ekledikçe kod giderek kötüleşmiş, sonunda yönetilemez hale gelmişti. <em>Şirketi batıran kötü koddu.</em></span>
+        <span class="en-text" style="display:none;">Two decades later I met one of the early employees of that company and asked him what had happened. The answer confirmed my fears. They had rushed the product to market and had made a huge mess in the code. As they added more and more features, the code got worse and worse until they simply could not manage it any longer. <em>It was the bad code that brought the company down.</em></span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kötü kod yüzünden hiç ciddi şekilde engellendiniz mi? Eğer biraz deneyimi olan bir programcıysanız, bu engeli defalarca hissetmişsinizdir. Hatta bunun için bir ismimiz bile var. Buna <em>çamura batma</em> (wading) diyoruz. Kötü kodun içinden geçmeye çalışıyoruz. Dolanmış çalılıklar ve gizli tuzaklarla dolu bir bataklıkta ilerliyoruz. Bir ipucu, bir iz bulmaya çabalıyoruz; ama gördüğümüz tek şey daha fazla anlamsız kod.</span>
+        <span class="en-text" style="display:none;">Have <em>you</em> ever been significantly impeded by bad code? If you are a programmer of any experience then you've felt this impediment many times. Indeed, we have a name for it. We call it <em>wading</em>. We wade through bad code. We slog through a morass of tangled brambles and hidden pitfalls. We struggle to find our way, hoping for some hint, some clue, of what is going on; but all we see is more and more senseless code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Elbette kötü kod yüzünden engellendiniz. Peki — neden yazdınız?</span>
+        <span class="en-text" style="display:none;">Of course you have been impeded by bad code. So then—why did you write it?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Hızlı olmaya mı çalışıyordunuz? Aceleniz mi vardı? Muhtemelen evet. Belki işi düzgün yapmak için zamanınız olmadığını düşündünüz; kodunuzu temizlemeye vakit ayırsanız patronunuzun size kızacağını hissettiniz. Belki bu program üzerinde çalışmaktan bıkmıştınız ve bir an önce bitirmek istiyordunuz. Ya da teslim etmeniz gereken diğer işlerin yığıldığını gördünüz ve bir sonrakine geçebilmek için bu modülü aceleyle birleştirmeniz gerektiğini fark ettiniz. Hepimiz yaptık bunu.</span>
+        <span class="en-text" style="display:none;">Were you trying to go fast? Were you in a rush? Probably so. Perhaps you felt that you didn't have time to do a good job; that your boss would be angry with you if you took the time to clean up your code. Perhaps you were just tired of working on this program and wanted it to be over. Or maybe you looked at the backlog of other stuff that you had promised to get done and realized that you needed to slam this module together so you could move on to the next. We've all done it.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Hepimiz az önce yarattığımız karmaşaya baktık ve sonra başka bir güne bırakmayı seçtik. Hepimiz dağınık programımızın çalıştığını görmenin rahatlamasını hissettik ve</span>
+        <span class="en-text" style="display:none;">We've all looked at the mess we've just made and then have chosen to leave it for another day. We've all felt the relief of seeing our messy program work and deciding that a</span>
+    </div>
+
+    <div style="font-size: 12px; color: #6c757d; margin-top: 32px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+        <span class="tr-text">1. [Beck07].</span>
+        <span class="en-text" style="display:none;">1. [Beck07].</span>
+    </div>
+
+    <!-- Kavram Butonları -->
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('badcode')">
+                <span class="tr-text">Kötü Kod (Bad Code)</span>
+                <span class="en-text" style="display:none;">Bad Code</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('wading')">
+                <span class="tr-text">Çamura Batma (Wading)</span>
+                <span class="en-text" style="display:none;">Wading Through Code</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('technicaldebt')">
+                <span class="tr-text">Teknik Borç (Technical Debt)</span>
+                <span class="en-text" style="display:none;">Technical Debt</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sayfa Navigasyonu -->
+<div class="page-nav">
+    <a href="page-2.html" class="nav-btn">
+        <div class="nav-btn-label">
+            <span class="tr-text">Önceki Sayfa</span>
+            <span class="en-text" style="display:none;">Previous Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 2 — Kod Her Zaman Var Olacak</span>
+            <span class="en-text" style="display:none;">Page 2 — There Will Be Code</span>
+        </div>
+    </a>
+    <a href="page-4.html" class="nav-btn next">
+        <div class="nav-btn-label">
+            <span class="tr-text">Sonraki Sayfa</span>
+            <span class="en-text" style="display:none;">Next Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 4 — Karmaşanın Toplam Maliyeti</span>
+            <span class="en-text" style="display:none;">Page 4 — The Total Cost of Owning a Mess</span>
+        </div>
+    </a>
+</div>
+
+<!-- Modal: Bad Code -->
+<div class="modal-overlay" id="modal-badcode">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Kötü Kod (Bad Code)</span>
+                <span class="en-text" style="display:none;">Bad Code</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('badcode')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Kötü kod (Bad Code), okunması, anlaşılması ve bakımı zor olan koddur. Martin'in bu bölümde vurguladığı gibi, kötü kod sadece bireysel bir sorun değil — şirketleri batırabilecek kadar ciddi bir tehlikedir. Kod kalitesindeki düşüş zamanla katlanarak büyür ve sonunda projeyi yönetilemez hale getirir.</span>
+                <span class="en-text" style="display:none;">Bad Code is code that is difficult to read, understand, and maintain. As Martin emphasizes in this section, bad code isn't just an individual problem — it's a threat serious enough to bring down companies. The decline in code quality compounds over time and eventually makes the project unmanageable.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ</span>
+                <span class="en-text" style="display:none;">BAD</span>
+            </span>
+<pre>
+def proc(d):
+    r = []
+    for i in d:
+        if i['s'] == 'A' and i['a'] > 18:
+            x = i['n'].split(' ')
+            i['fn'] = x[0]
+            i['ln'] = x[-1] if len(x) > 1 else ''
+            i['e'] = x[0].lower() + '@company.com'
+            r.append(i)
+        # TODO: handle other cases later
+    return r
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Tek harfli değişkenler (<code>d</code>, <code>r</code>, <code>i</code>, <code>x</code>), sihirli string'ler (<code>'A'</code>, <code>18</code>), iç içe geçmiş mantık, eksik hata yönetimi ve ertelenmiş TODO. Bu kodu yazan kişi dışında kimse neyin ne olduğunu anlayamaz. Tam olarak Martin'in tarif ettiği "çamura batma" deneyimi.</span>
+                <span class="en-text" style="display:none;">Single-letter variables (<code>d</code>, <code>r</code>, <code>i</code>, <code>x</code>), magic strings (<code>'A'</code>, <code>18</code>), tangled logic, missing error handling, and deferred TODOs. Nobody except the author can understand what's going on. Exactly the "wading" experience Martin describes.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ</span>
+                <span class="en-text" style="display:none;">GOOD</span>
+            </span>
+<pre>
+ACTIVE_STATUS = 'A'
+MINIMUM_AGE = 18
+
+def find_eligible_employees(employees):
+    eligible = []
+    for employee in employees:
+        if is_eligible(employee):
+            enrich_with_contact_info(employee)
+            eligible.append(employee)
+    return eligible
+
+def is_eligible(employee):
+    return (employee['status'] == ACTIVE_STATUS
+            and employee['age'] > MINIMUM_AGE)
+
+def enrich_with_contact_info(employee):
+    name_parts = employee['name'].split(' ')
+    employee['first_name'] = name_parts[0]
+    employee['last_name'] = name_parts[-1] if len(name_parts) > 1 else ''
+    employee['email'] = f"{name_parts[0].lower()}@company.com"
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Aynı iş mantığı, ama artık okunabilir. Fonksiyonlar tek sorumluluk taşıyor, sabitler anlamlı isimlerle tanımlanmış, değişken adları bağlamı açıklıyor. Kodu ilk kez gören biri bile "uygun çalışanları bul ve iletişim bilgilerini ekle" diye özetleyebilir.</span>
+                <span class="en-text" style="display:none;">Same business logic, but now readable. Functions carry single responsibilities, constants have meaningful names, variable names explain context. Even a first-time reader can summarize it as "find eligible employees and enrich with contact info."</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Kendinizi "bunu sonra düzeltirim" derken yakalarsanız, durun. Martin'in bu bölümde anlattığı şirket tam da bu zihniyetle battı. "Sonra" hiçbir zaman gelmez. LeBlanc Yasası'nı (LeBlanc's Law) hatırlayın: <em>Sonra asla demektir</em> (Later equals never).</span>
+                <span class="en-text" style="display:none;">When you catch yourself saying "I'll fix this later," stop. The company Martin describes in this section failed with exactly this mentality. "Later" never comes. Remember LeBlanc's Law: <em>Later equals never</em>.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Wading -->
+<div class="modal-overlay" id="modal-wading">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Çamura Batma (Wading)</span>
+                <span class="en-text" style="display:none;">Wading Through Code</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('wading')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Çamura batma (Wading), kötü kodun içinden geçmeye çalışırken yaşanan deneyimdir. Martin bu kavramı bir bataklıkta ilerlemeye benzetir: dolanmış çalılıklar, gizli tuzaklar ve anlam veremediğiniz kod yığınları arasında mücadele edersiniz. Bu deneyim, kötü kodun en belirgin belirtisidir.</span>
+                <span class="en-text" style="display:none;">Wading is the experience of trying to navigate through bad code. Martin likens it to trudging through a swamp: tangled brambles, hidden pitfalls, and piles of senseless code you struggle to make sense of. This experience is the most telling symptom of bad code.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ — Çamura batma deneyimi</span>
+                <span class="en-text" style="display:none;">BAD — The wading experience</span>
+            </span>
+<pre>
+public class OrderService {
+    public double calc(List&lt;Map&lt;String, Object&gt;&gt; items, String t, boolean m, double d) {
+        double total = 0;
+        for (Map&lt;String, Object&gt; item : items) {
+            double p = (double) item.get("p");
+            int q = (int) item.get("q");
+            if (t.equals("B2B")) {
+                total += p * q * 0.85;
+            } else if (t.equals("B2C")) {
+                total += p * q;
+                if (m) total -= total * 0.1;  // member?
+            }
+        }
+        if (d > 0) total -= d;  // what is d?
+        if (total < 0) total = 0;
+        return total;  // tax not included? maybe?
+        // NOTE: john said we need to add shipping but idk where
+    }
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Bu kodu okuyan biri "çamura batma" deneyimi yaşar. <code>t</code>, <code>m</code>, <code>d</code> ne anlama geliyor? <code>"B2B"</code>, <code>"B2C"</code> sihirli string'ler neden sabit değil? Kaldırılan indirim (%10) neyin indirimi? Yorumlar belirsiz, <code>d</code> açıklanmamış, vergi ve kargo durumu muğlak. Kodu okumak bir bulmaca çözmek gibi.</span>
+                <span class="en-text" style="display:none;">Reading this code is a "wading" experience. What do <code>t</code>, <code>m</code>, <code>d</code> mean? Why aren't <code>"B2B"</code>, <code>"B2C"</code> constants? What is the 10% discount for? Comments are vague, <code>d</code> is unexplained, tax and shipping status are ambiguous. Reading this code is like solving a puzzle.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ — Akan su gibi okunabilir</span>
+                <span class="en-text" style="display:none;">GOOD — Reads like flowing water</span>
+            </span>
+<pre>
+public class OrderService {
+    private static final double B2B_DISCOUNT_RATE = 0.15;
+    private static final double MEMBERSHIP_DISCOUNT_RATE = 0.10;
+
+    public double calculateTotal(List&lt;OrderItem&gt; items,
+                                 CustomerType customerType,
+                                 boolean isMember,
+                                 double couponDiscount) {
+        double subtotal = calculateSubtotal(items, customerType);
+
+        if (isMember) {
+            subtotal -= subtotal * MEMBERSHIP_DISCOUNT_RATE;
+        }
+
+        double total = subtotal - couponDiscount;
+        return Math.max(total, 0);
+    }
+
+    private double calculateSubtotal(List&lt;OrderItem&gt; items,
+                                     CustomerType customerType) {
+        double subtotal = 0;
+        for (OrderItem item : items) {
+            double lineTotal = item.getPrice() * item.getQuantity();
+            if (customerType == CustomerType.B2B) {
+                lineTotal *= (1 - B2B_DISCOUNT_RATE);
+            }
+            subtotal += lineTotal;
+        }
+        return subtotal;
+    }
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Artık çamura batma yok. Her parametre ne olduğunu söylüyor (<code>customerType</code>, <code>isMember</code>, <code>couponDiscount</code>). Sihirli sayılar anlamlı sabitlere dönüşmüş. <code>OrderItem</code> nesnesi (Object) <code>Map&lt;String, Object&gt;</code>'in yerini almış. Mantık küçük, odaklı metotlara bölünmüş. Bir nehir gibi akıyor.</span>
+                <span class="en-text" style="display:none;">No more wading. Every parameter tells what it is (<code>customerType</code>, <code>isMember</code>, <code>couponDiscount</code>). Magic numbers became meaningful constants. <code>OrderItem</code> object replaced <code>Map&lt;String, Object&gt;</code>. Logic is split into small, focused methods. It flows like a river.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Bir kodu okurken kendinizi yavaşladığınızı, geri dönüp tekrar okuduğunuzu fark ediyorsanız, "çamura batıyorsunuz" demektir. Bu bir kod kokusu (Code Smell). O kodu yeniden düzenleyin — sonraki kişi (muhtemelen gelecekteki siz) size teşekkür edecektir.</span>
+                <span class="en-text" style="display:none;">If you notice yourself slowing down while reading code, going back to re-read sections, you're "wading." This is a code smell. Refactor that code — the next person (probably future you) will thank you.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Technical Debt -->
+<div class="modal-overlay" id="modal-technicaldebt">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Teknik Borç (Technical Debt)</span>
+                <span class="en-text" style="display:none;">Technical Debt</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('technicaldebt')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Martin'in bu bölümde anlattığı şirket hikayesi, teknik borcun (Technical Debt) somut bir örneğidir. Aceleyle yazılan kod, kısa vadede zaman kazandırır ama uzun vadede faiz biriktirir: her yeni özellik daha uzun sürer, her düzeltme yeni hatalar doğurur. Sonunda borç ödenemez hale gelir ve proje çöker.</span>
+                <span class="en-text" style="display:none;">The company story Martin tells in this section is a concrete example of Technical Debt. Code written in haste saves time in the short term but accumulates interest: every new feature takes longer, every fix introduces new bugs. Eventually the debt becomes unpayable and the project collapses.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ — Teknik borç biriktirme</span>
+                <span class="en-text" style="display:none;">BAD — Accumulating technical debt</span>
+            </span>
+<pre>
+# Sprint 1: "Hızlıca yapalım"
+def get_users():
+    conn = sqlite3.connect('db.sqlite')
+    users = conn.execute('SELECT * FROM users').fetchall()
+    conn.close()
+    return users
+
+# Sprint 3: "Bunu da ekle, acil"
+def get_users_v2():
+    conn = sqlite3.connect('db.sqlite')
+    users = conn.execute('SELECT * FROM users').fetchall()
+    conn.close()
+    # HACK: filter active users here because
+    # we can't change the query now
+    return [u for u in users if u[5] == 1]
+
+# Sprint 7: "Neden bu kadar yavaş?!"
+def get_users_v3():
+    # TODO: this is getting out of hand
+    conn = sqlite3.connect('db.sqlite')
+    users = conn.execute('SELECT * FROM users').fetchall()
+    conn.close()
+    active = [u for u in users if u[5] == 1]
+    # HACK: deduplicate because of that join bug
+    seen = set()
+    result = []
+    for u in active:
+        if u[0] not in seen:
+            seen.add(u[0])
+            result.append(u)
+    return result
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Her sprint'te bir önceki hack'in üzerine yeni hack'ler ekleniyor. Veritabanı bağlantısı her yerde tekrar ediliyor, <code>v2</code>, <code>v3</code> gibi versiyonlu fonksiyonlar türüyor, filtreleme mantığı SQL yerine Python'da yapılıyor, ve kimse eski kodu düzeltmeye cesaret edemiyor. Klasik teknik borç spirali.</span>
+                <span class="en-text" style="display:none;">Each sprint piles new hacks on top of previous ones. Database connection is duplicated everywhere, versioned functions like <code>v2</code>, <code>v3</code> emerge, filtering logic moves from SQL to Python, and nobody dares fix the old code. A classic technical debt spiral.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ — Borcu öde, temiz tut</span>
+                <span class="en-text" style="display:none;">GOOD — Pay the debt, keep it clean</span>
+            </span>
+<pre>
+class UserRepository:
+    def __init__(self, db_path='db.sqlite'):
+        self.db_path = db_path
+
+    def find_active_users(self):
+        query = """
+            SELECT DISTINCT id, name, email
+            FROM users
+            WHERE is_active = 1
+        """
+        with sqlite3.connect(self.db_path) as conn:
+            return conn.execute(query).fetchall()
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Tek bir sınıf (Class), tek bir sorumluluk. Veritabanı bağlantısı <code>with</code> ile güvenli şekilde yönetiliyor. Filtreleme ve tekilleştirme SQL seviyesinde yapılıyor (olması gerektiği gibi). Versiyonlu fonksiyonlar yerine tek, net bir metot. Teknik borç sıfır.</span>
+                <span class="en-text" style="display:none;">One class, one responsibility. Database connection is safely managed with <code>with</code>. Filtering and deduplication are done at SQL level (where they belong). One clear method instead of versioned functions. Zero technical debt.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">İzci Kuralı'nı (Boy Scout Rule) uygulayın: "Kamp alanını bulduğunuzdan daha temiz bırakın." Her dosyaya dokunduğunuzda en az bir küçük iyileştirme yapın — bir değişkeni yeniden adlandırın, bir sihirli sayıyı sabite çevirin. Küçük ödemeler teknik borcun birikmesini engeller.</span>
+                <span class="en-text" style="display:none;">Apply the Boy Scout Rule: "Leave the campground cleaner than you found it." Every time you touch a file, make at least one small improvement — rename a variable, convert a magic number to a constant. Small payments prevent technical debt from accumulating.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 3;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 4' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+</script>
+
+</body>
+</html>

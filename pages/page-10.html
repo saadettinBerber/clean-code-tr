@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 10 | Bölüm 1: Temiz Kod Nedir? — Michael Feathers & Ron Jeffries</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .author-intro em { font-style: italic; font-weight: 400; }
+        .simple-rules { background: #fff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #e8d44d; }
+        .simple-rules ul { margin-left: 24px; }
+        .simple-rules li { margin-bottom: 8px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; What Is Clean Code?</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="10" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 9'dan devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 9 ]</span>
+    </div>
+
+    <div class="author-intro">
+        <span class="tr-text">Michael Feathers, <em>Working Effectively with Legacy Code</em> kitabının yazarı</span>
+        <span class="en-text" style="display:none;">Michael Feathers, author of Working Effectively with Legacy Code</span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Temiz kodda fark ettiğim tüm nitelikleri listeleyebilirdim, ancak hepsine yol açan bir üstün nitelik vardır. Temiz kod her zaman <em>önemseyen birinin</em> yazdığı gibi görünür. Onu daha iyi hale getirmek için yapabileceğin bariz bir şey yoktur. Kodun yazarı tüm bu şeyleri düşünmüştür ve iyileştirmeler hayal etmeye çalışırsan, bulunduğun yere geri dönersin — senin için bırakılan kodun karşısında takdirle oturursun — zanaata derinlemesine önemseyen birinin bıraktığı kod.</span>
+        <span class="en-text" style="display:none;">I could list all of the qualities that I notice in clean code, but there is one overarching quality that leads to all of them. Clean code always looks like it was written by someone who cares. There is nothing obvious that you can do to make it better. All of those things were thought about by the code's author, and if you try to imagine improvements, you're led back to where you are, sitting in appreciation of the code someone left for you—code left by someone who cares deeply about the craft.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tek kelime: <em>önemseme</em> (care). Bu, bu kitabın asıl konusu. Belki de uygun bir alt başlık <em>Koda Nasıl Önemseme Gösterilir</em> (How to Care for Code) olurdu.</span>
+        <span class="en-text" style="display:none;">One word: care. That's really the topic of this book. Perhaps an appropriate subtitle would be How to Care for Code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Michael tam isabet etti. Temiz kod, özenle ilgilenilen (taken care of) koddur. Birisi onu basit ve düzenli tutmak için zaman ayırmıştır. Detaylara uygun şekilde dikkat etmiştir. Önemsemiştir.</span>
+        <span class="en-text" style="display:none;">Michael hit it on the head. Clean code is code that has been taken care of. Someone has taken the time to keep it simple and orderly. They have paid appropriate attention to details. They have cared.</span>
+    </div>
+
+    <div class="author-intro">
+        <span class="tr-text">Ron Jeffries, <em>Extreme Programming Installed</em> ve <em>Extreme Programming Adventures in C#</em> kitaplarının yazarı</span>
+        <span class="en-text" style="display:none;">Ron Jeffries, author of Extreme Programming Installed and Extreme Programming Adventures in C#</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ron kariyerine Stratejik Hava Komutanlığı'nda (Strategic Air Command) Fortran programlama yaparak başladı ve neredeyse her dilde ve neredeyse her makinede kod yazdı. Sözlerini dikkatle değerlendirmek faydalıdır.</span>
+        <span class="en-text" style="display:none;">Ron began his career programming in Fortran at the Strategic Air Command and has written code in almost every language and on almost every machine. It pays to consider his words carefully.</span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Son yıllarda, Beck'in basit kod kurallarıyla başlıyorum ve neredeyse bunlarla bitiriyorum. Öncelik sırasına göre, basit kod:
+            <br>* Tüm testleri çalıştırır;
+            <br>* Tekrar (duplication) içermez;
+            <br>* Sistemdeki tüm tasarım fikirlerini ifade eder;
+            <br/>Sınıf, metot, fonksiyon ve benzeri varlıkların (entities) sayısını minimize eder.</span>
+        <span class="en-text" style="display:none;">In recent years I begin, and nearly end, with Beck's rules of simple code. In priority order, simple code:
+            <br>* Runs all the tests;
+            <br>* Contains no duplication;
+            <br>* Expresses all the design ideas that are in the system;
+            <br>* Minimizes the number of entities such as classes, methods, functions, and the like.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bunların arasından ben çoğunlukla tekrara (duplication) odaklanırım. Aynı şey tekrar tekrar yapıldığında, bu zihnimizdeki bir fikrin kodda iyi temsil edilmediğinin işaretidir. Bunun ne olduğunu anlamaya çalışırım. Sonra bu fikri daha açık bir şekilde ifade etmeye çalışırım.</span>
+        <span class="en-text" style="display:none;">Of these, I focus mostly on duplication. When the same thing is done over and over, it's a sign that there is an idea in our mind that is not well represented in the code. I try to figure out what it is. Then I try to express that idea more clearly.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Benim için ifade gücü (expressiveness), anlamlı isimleri (meaningful names) içerir ve yerleşmeden önce şeylerin isimlerini birkaç kez değiştirme ihtimalim yüksektir. Eclipse gibi modern kodlama araçlarıyla yeniden adlandırma (renaming) oldukça ucuzdur, bu yüzden değiştirmek beni rahatsız etmez. Ancak ifade gücü isimlerin ötesine gider.</span>
+        <span class="en-text" style="display:none;">Expressiveness to me includes meaningful names, and I am likely to change the names of things several times before I settle in. With modern coding tools such as Eclipse, renaming is quite inexpensive, so it doesn't trouble me to change. Expressiveness goes beyond names, however.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('care')">
+                <span class="tr-text">Kodu Önemsemek</span>
+                <span class="en-text" style="display:none;">Code Written by Someone Who Cares</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('simplecode')">
+                <span class="tr-text">Beck'in Basit Kod Kuralları</span>
+                <span class="en-text" style="display:none;">Beck's Rules of Simple Code</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('duplication')">
+                <span class="tr-text">Tekrarsızlık (DRY)</span>
+                <span class="en-text" style="display:none;">No Duplication (DRY)</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('expressiveness')">
+                <span class="tr-text">İfade Gücü</span>
+                <span class="en-text" style="display:none;">Expressiveness</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-9.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 9 — "Big" Dave Thomas & Okuryazar Programlama</span><span class="en-text" style="display:none;">Page 9 — "Big" Dave Thomas & Literate Programming</span></div>
+    </a>
+    <a href="page-11.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 11 — Ron Jeffries (devam) & Ward Cunningham</span><span class="en-text" style="display:none;">Page 11 — Ron Jeffries (cont.) & Ward Cunningham</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-care">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kodu Önemsemek (Code Written by Someone Who Cares)</span><span class="en-text" style="display:none;">Code Written by Someone Who Cares</span></h3>
+            <button class="modal-close" onclick="closeModal('care')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Michael Feathers'e göre temiz kodun en önemli özelliği şudur: "Temiz kod her zaman önemseyen birinin yazdığı gibi görünür." Bu, teknik beceriden daha derin bir felsefedir. "Önemseme" (care), detaylara dikkat etmek, başkaları için düşünmek, kodun gelecekteki bakımcısını (muhtemelen kendinizi) düşünmek demektir. Feathers: "Onu daha iyi hale getirmek için yapabileceğin bariz bir şey yoktur" der — çünkü yazarı zaten her şeyi düşünmüştür. Bu, "yeterince iyi" (good enough) değil, "özenle işlenmiş" (crafted) kod demektir.</span><span class="en-text" style="display:none;">According to Michael Feathers, the most important quality of clean code is this: "Clean code always looks like it was written by someone who cares." This is a philosophy deeper than technical skill. "Care" means paying attention to details, thinking about others, considering the future maintainer of the code (probably yourself). Feathers says: "There is nothing obvious that you can do to make it better" — because the author has already thought of everything. This isn't "good enough" code, it's "crafted" code.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Önemsenmemiş: aceleyle, "işi görsün" mantığıyla yazılmış</span><span class="en-text" style="display:none;">BAD — Uncared for: rushed, "just make it work" mentality</span></span>
+            <pre>// Hızlıca yaptım, deadline yaklaşıyordu
+function calc(a, b, c) {
+    var r = a * b;
+    if (c == 'd') {
+        r = r / 30;
+    } else if (c == 'm') {
+        r = r / 365 * 30;
+    }
+    // TODO: refactor later
+    return r.toFixed(2);
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu kod "çalışıyor" ama önemsememenin işaretleri her yerde: anlamsız değişken adları (<code>a</code>, <code>b</code>, <code>c</code>), sihirli sayılar (30, 365), yorumlanmış TODO, hata yönetimi yok. Yazar "sonra düzeltirim" demiş ama Martin'in de dediği gibi: "Sonra asla demektir" (Later equals never).</span><span class="en-text" style="display:none;">This code "works" but signs of not caring are everywhere: meaningless variable names (<code>a</code>, <code>b</code>, <code>c</code>), magic numbers (30, 365), commented-out TODO, no error handling. The author said "will fix later" but as Martin says: "Later equals never."</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Özenle yazılmış: her detay düşünülmüş</span><span class="en-text" style="display:none;">GOOD — Carefully crafted: every detail considered</span></span>
+            <pre>enum InterestPeriod {
+    DAILY,
+    MONTHLY
+}
+
+class InterestCalculator {
+    private static readonly DAYS_IN_MONTH = 30;
+    private static readonly DAYS_IN_YEAR = 365;
+
+    calculateDailyInterest(
+        principal: number,
+        annualRate: number,
+        period: InterestPeriod
+    ): Money {
+        this.validateInputs(principal, annualRate);
+        
+        const dailyRate = this.calculateDailyRate(annualRate);
+        const interest = principal * dailyRate;
+        
+        return period === InterestPeriod.MONTHLY
+            ? this.scaleToMonth(interest)
+            : Money.of(interest);
+    }
+
+    private calculateDailyRate(annualRate: number): number {
+        return annualRate / InterestCalculator.DAYS_IN_YEAR;
+    }
+
+    private scaleToMonth(dailyInterest: number): Money {
+        return Money.of(dailyInterest * InterestCalculator.DAYS_IN_MONTH);
+    }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her kod parçasını göndermeden önce kendinize şunu sorun: "Bu kodu başka biri okuduğunda (veya 6 ay sonra ben), 'bu kişi kodu önemsiyor' hissine kapılacak mı?" Eğer cevap hayırsa, bir kez daha düşünün. Önemseme (care), kodu yeniden yazma sürecinde gösterilir — isimleri iyileştirmek, sihirli sayıları sabitlere çevirmek, edge case'leri ele almak.</span><span class="en-text" style="display:none;">Before submitting any code, ask yourself: "Will someone else reading this (or me in 6 months) get the feeling that this person cares about code?" If the answer is no, think again. Care is shown in the rewriting process — improving names, converting magic numbers to constants, handling edge cases.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-simplecode">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Beck'in Basit Kod Kuralları (Beck's Rules of Simple Code)</span><span class="en-text" style="display:none;">Beck's Rules of Simple Code</span></h3>
+            <button class="modal-close" onclick="closeModal('simplecode')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ron Jeffries, Kent Beck'in "basit kod" (simple code) kurallarını sıralar. Bu kurallar öncelik sırasına göre dizilmiştir: (1) Tüm testleri çalıştırır — testleri olmayan kod basit değildir; (2) Tekrar (duplication) içermez — DRY (Don't Repeat Yourself) ilkesi; (3) Tüm tasarım fikirlerini ifade eder — kod kendi hikayesini anlatmalı; (4) Varlık sayısını minimize eder — sınıf, metot, fonksiyon sayısını azalt. Bu kurallar Extreme Programming (XP) ve TDD'nin temelini oluşturur.</span><span class="en-text" style="display:none;">Ron Jeffries lists Kent Beck's "simple code" rules. These are ordered by priority: (1) Runs all the tests — code without tests isn't simple; (2) Contains no duplication — DRY principle; (3) Expresses all design ideas — code should tell its own story; (4) Minimizes number of entities — reduce classes, methods, functions. These rules form the foundation of Extreme Programming (XP) and TDD.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Basit kod kurallarını ihlal ediyor: test yok, tekrar var, ifade gücü düşük, çok fazla varlık</span><span class="en-text" style="display:none;">BAD — Violates simple code rules: no tests, duplication, low expressiveness, too many entities</span></span>
+            <pre>class OrderService {
+    processOrder(order) {
+        // Aynı hesaplama tekrar ediliyor (duplication)
+        let subtotal = order.items.reduce((s, i) => s + i.price * i.qty, 0);
+        let tax = subtotal * 0.18;
+        let total = subtotal + tax;
+        this.saveToDb(order, total);
+    }
+}
+
+class InvoiceService {
+    createInvoice(order) {
+        // Aynı hesaplama burada da tekrar ediliyor!
+        let subtotal = order.items.reduce((s, i) => s + i.price * i.qty, 0);
+        let tax = subtotal * 0.18;
+        let total = subtotal + tax;
+        return { orderId: order.id, amount: total };
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Problemler: (1) Test yok, (2) Aynı hesaplama mantığı iki sınıfta tekrar ediyor (duplication), (3) 0.18 nedir? (sihirli sayı), (4) `s`, `i` gibi kısa isimler anlamı gizliyor. Kuralların hiçbirine uymuyor.</span><span class="en-text" style="display:none;">Problems: (1) No tests, (2) Same calculation logic repeated in two classes (duplication), (3) What is 0.18? (magic number), (4) Short names like <code>s</code>, <code>i</code> hide meaning. Violates all rules.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Beck'in tüm kurallarına uyuyor</span><span class="en-text" style="display:none;">GOOD — Follows all of Beck's rules</span></span>
+            <pre>// Test kapsamında (Rule 1: Runs all tests)
+describe('OrderPricing', () => {
+    it('calculates total with 18% VAT', () => {
+        const items = [new Item('Book', 100, 1)];
+        expect(new OrderPricing(items).total().amount).toBe(118);
+    });
+});
+
+// Tekrar kaldırıldı, tek bir varlık (Rule 2 & 4: No duplication, minimize entities)
+class OrderPricing {
+    private static readonly VAT_RATE = 0.18;
+
+    constructor(private items: Item[]) {}
+
+    total(): Money {
+        const subtotal = this.calculateSubtotal();
+        const tax = this.calculateTax(subtotal);
+        return new Money(subtotal + tax);
+    }
+
+    private calculateSubtotal(): number {
+        return this.items.reduce(
+            (sum, item) => sum + item.unitPrice * item.quantity,
+            0
+        );
+    }
+
+    private calculateTax(subtotal: number): number {
+        return subtotal * OrderPricing.VAT_RATE;
+    }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Beck'in kurallarını ezberleyin ve kod yazarken sırayla kontrol edin: Önce test yaz (Red-Green-Refactor), sonra tekrarları kaldır (Extract Method/Class), sonra isimleri netleştir (Rename), sonra sadeleştir (Inline/Remove unnecessary entities). Bu dört adım "basit kod"a ulaştırır.</span><span class="en-text" style="display:none;">Memorize Beck's rules and check them in order while coding: First write tests (Red-Green-Refactor), then remove duplication (Extract Method/Class), then clarify names (Rename), then simplify (Inline/Remove unnecessary entities). These four steps lead to "simple code."</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-duplication">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tekrarsızlık / DRY İlkesi (No Duplication)</span><span class="en-text" style="display:none;">No Duplication (DRY)</span></h3>
+            <button class="modal-close" onclick="closeModal('duplication')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ron Jeffries, Beck'in kuralları arasından "çoğunlukla tekrara odaklanırım" der. Tekrar (duplication), zihnimizdeki bir fikrin kodda iyi temsil edilmediğinin işaretidir. Aynı şeyi tekrar tekrar yaptığınızda, bu bilgi orada "orada" olmalıdır ama nerede? "Tekrar Kötüdür" (Duplication Is Evil) — Andy Hunt ve Dave Thomas'ın Pragmatic Programcılar kitabından. DRY (Don't Repeat Yourself) ilkesi: her bilgi parçasının sistemde tek, kesin ve güvenilir bir temsili olmalıdır.</span><span class="en-text" style="display:none;">Ron Jeffries says "I focus mostly on duplication" among Beck's rules. Duplication is a sign that an idea in our mind is not well represented in the code. When you do the same thing over and over, that knowledge should be "there" somewhere — but where? "Duplication Is Evil" — from Andy Hunt and Dave Thomas's Pragmatic Programmer. DRY (Don't Repeat Yourself) principle: every piece of knowledge should have a single, unambiguous, authoritative representation in the system.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><n="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Aynı mantık her yerde tekrar ediliyor</span><span class="en-text" style="display:none;">BAD — Same logic repeated everywhere</span></span>
+            <pre>// Kullanıcı kaydı controller'ında
+async function registerUser(req, res) {
+    const email = req.body.email;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email' });
+    }
+    // ... kayıt işlemi
+}
+
+// Şifre sıfırlama controller'ında
+async function resetPassword(req, res) {
+    const email = req.body.email;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email' });
+    }
+    // ... sıfırlama işlemi
+}
+
+// Admin panelinde
+async function inviteAdmin(req, res) {
+    const email = req.body.email;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email' });
+    }
+    // ... davet işlemi
+}</pre>
+            <div class="explanation"><span class="tr-text">Aynı e-posta doğrulama mantığı 3 farklı yerde kopyalanmış! Regex değişirse? Hata mesajı değişirse? 3 yerde güncelleme yapmalısınız — birini unutursanız tutarsızlık oluşur. Bu "bilgi parçası" (e-posta formatı) tek bir yerde olmalıydı.</span><span class="en-text" style="display:none;">The same email validation logic copied in 3 different places! If the regex changes? If the error message changes? You must update in 3 places — miss one and you have inconsistency. This "piece of knowledge" (email format) should be in one place.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Bilgi tek bir yerde, merkezi olarak yönetiliyor</span><span class="en-text" style="display:none;">GOOD — Knowledge in one place, centrally managed</span></span>
+            <pre>// Tek doğruluk kaynağı (Single source of truth)
+class EmailValidator {
+    private static readonly EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    private static readonly ERROR_MESSAGE = 'Invalid email format';
+
+    static validate(email: string): ValidationResult {
+        if (!this.EMAIL_REGEX.test(email)) {
+            return ValidationResult.failure(this.ERROR_MESSAGE);
+        }
+        return ValidationResult.success();
+    }
+}
+
+// Tüm controller'larda kullanım
+async function registerUser(req, res) {
+    const validation = EmailValidator.validate(req.body.email);
+    if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+    }
+    // ... kayıt işlemi
+}
+
+async function resetPassword(req, res) {
+    const validation = EmailValidator.validate(req.body.email);
+    if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+    }
+    // ... sıfırlama işlemi
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Üçüncü kural" (Rule of Three): Aynı şeyi üçüncü kez yazmak üzereyseniz, soyutlayın! İki kopya kabul edilebilir olabilir ama üçüncü bir işaret — bu bilgi bir abstraction (sınıf, fonksiyon, sabit) olarak merkezileştirilmeli. Ron'un dediği gibi: "Tekrar edildiğinde, zihnimizdeki bir fikir kodda iyi temsil edilmemiştir."</span><span class="en-text" style="display:none;">"Rule of Three": If you're about to write the same thing a third time, abstract it! Two copies might be acceptable, but a third is a signal — this knowledge should be centralized as an abstraction (class, function, constant). As Ron says: "When it's repeated, an idea in our mind is not well represented in the code."</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-expressiveness">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İfade Gücü (Expressiveness)</span><span class="en-text" style="display:none;">Expressiveness</span></h3>
+            <button class="modal-close" onclick="closeModal('expressiveness')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ron Jeffries için "ifade gücü" (expressiveness), Beck'in basit kod kurallarının üçüncüsüdür: "Sistemdeki tüm tasarım fikirlerini ifade eder." İfade gücü sadece anlamlı isimleri değil, kodun yapısını da kapsar: bir nesne veya metot birden fazla şey mi yapıyor? Öyleyse bölünmelidir. Ron, modern IDE'lerin (Eclipse gibi) yeniden adlandırmayı ucuz hale getirdiğini vurgular — bu nedenle doğru ismi bulana kadar birkaç kez değiştirmekten çekinmeyin. İyi kod, yazarından bağımsız olarak kendi hikayesini anlatır.</span><span class="en-text" style="display:none;">For Ron Jeffries, "expressiveness" is the third of Beck's simple code rules: "Expresses all the design ideas that are in the system." Expressiveness includes not just meaningful names but the structure of code: is an object or method doing more than one thing? Then it should be split. Ron emphasizes that modern IDEs (like Eclipse) make renaming inexpensive — so don't hesitate to change names several times until you find the right one. Good code tells its own story, independent of its author.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Düşük ifade gücü: isimler anlam vermiyor, birden fazla şey yapıyor</span><span class="en-text" style="display:none;">BAD — Low expressiveness: names don't convey meaning, doing multiple things</span></span>
+            <pre>class DataMgr {
+    handleStuff(data) {
+        // Validation + Transformation + Persistence + Notification
+        if (!data || !data.id) return null;
+        
+        const transformed = {
+            uid: data.id.toUpperCase(),
+            ts: new Date().toISOString(),
+            ...data
+        };
+        
+        db.collection('items').insertOne(transformed);
+        
+        sendEmail('admin@company.com', 'New item added');
+        
+        return transformed;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">`DataMgr` ne yönetir? `handleStuff` ne yapar? "Stuff" kelimesi "bir şeyler" demek — bu ifade edici değil. Metot 4 farklı şey yapıyor: doğrulama, dönüşüm, kalıcılık, bildirim. Her biri ayrı bir fikir ama hepsi bir arada — ifade gücü düşük.</span><span class="en-text" style="display:none;">What does <code>DataMgr</code> manage? What does <code>handleStuff</code> do? "Stuff" means "something" — not expressive. The method does 4 different things: validation, transformation, persistence, notification. Each is a separate idea but all mixed together — low expressiveness.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Yüksek ifade gücü: her varlık bir fikri temsil ediyor</span><span class="en-text" style="display:none;">GOOD — High expressiveness: each entity represents one idea</span></span>
+            <pre>class ProductRegistrationService {
+    constructor(
+        private validator: ProductValidator,
+        private transformer: ProductTransformer,
+        private repository: ProductRepository,
+        private notifier: RegistrationNotifier
+    ) {}
+
+    async register(newProduct: NewProductDto): Promise<RegisteredProduct> {
+        this.validator.validate(newProduct);
+        
+        const product = this.transformer.toDomainModel(newProduct);
+        const saved = await this.repository.save(product);
+        
+        await this.notifier.notifyAdminOfNewProduct(saved);
+        
+        return saved;
+    }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İfade gücünü artırmak için "Extract Method" refactoring'ini sık kullanın. Bir yorum yazmak istediğinizde ("// şunu yapıyor"), o kodu bir metota çıkarın ve yorum metodun adı olsun. Ron'un dediği gibi: "İfade gücü bana anlamlı isimleri içerir ve yerleşmeden önce şeylerin isimlerini birkaç kez değiştirme ihtimalim yüksektir." IDE'nizin yeniden adlandırma (Refactor → Rename) özelliğini kullanın!</span><span class="en-text" style="display:none;">To increase expressiveness, use "Extract Method" refactoring frequently. When you want to write a comment ("// does this"), extract that code into a method and make the comment the method name. As Ron says: "Expressiveness to me includes meaningful names, and I am likely to change the names of things several times before I settle in." Use your IDE's renaming (Refactor → Rename) feature!</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 11' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 10;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

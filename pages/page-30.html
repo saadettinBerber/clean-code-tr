@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 30 | Bölüm 2: Anlamlı İsimler — Son Sözler</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .final-words-banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e8d44d; padding: 32px; border-radius: 16px; margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-left: 8px solid #e8d44d;
+        }
+        .final-words-title { font-size: 24px; font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Final Words / Son Sözler</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="30" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kısa isimler uzunlardan genelde daha iyidir, yeter ki açık olsunlar. İsme gerekenden fazla bağlam (context) eklemeyin.</span>
+        <span class="en-text" style="display:none;">Shorter names are generally better than longer ones, so long as they are clear. Add no more context to a name than is necessary.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code>accountAddress</code> ve <code>customerAddress</code>, <code>Address</code> sınıfı için iyi instance (örnek) isimleridir ama sınıf isimleri için kötü olabilir. <code>Address</code> sınıf için iyi bir isimdir. MAC adresi, port adresi ve Web adresi arasında ayrım yapmak gerekiyorsa <code>PostalAddress</code>, <code>MAC</code> ve <code>URI</code> kullanılabilir. Sonuçtaki isimler daha keskindir (precise).</span>
+        <span class="en-text" style="display:none;">The names <code>accountAddress</code> and <code>customerAddress</code> are fine names for instances of the class <code>Address</code> but could be poor names for classes. <code>Address</code> is a fine name for a class. If you need to differentiate between MAC addresses, port addresses, and Web addresses, you might consider <code>PostalAddress</code>, <code>MAC</code>, and <code>URI</code>. The resulting names are more precise.</span>
+    </div>
+
+    <div class="final-words-banner">
+        <div class="final-words-title">
+            <span class="tr-text">Son Sözler / Final Words</span>
+            <span class="en-text" style="display:none;">Final Words</span>
+        </div>
+        <div class="content-paragraph">
+            <span class="tr-text">İyi isimler seçmenin en zor yanı, iyi betimleyici beceriler ve paylaşılan kültürel bir arka plan gerektirmesidir. Bu bir öğretme meselesidir, teknik, iş veya yönetim meselesi değil.</span>
+            <span class="en-text" style="display:none;">The hardest thing about choosing good names is that it requires good descriptive skills and a shared cultural background. This is a teaching issue, not a technical, business, or management issue.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">İnsanlar başka geliştiricilerin itiraz edeceği korkusuyla isimleri değiştirmekten korkar. Biz bu korkuyu paylaşmıyoruz ve isimlerin (daha iyiye) değiştiğinde minnettar olduğumuzu buluyoruz.</span>
+            <span class="en-text" style="display:none;">People are also afraid of renaming things for fear that some other developers will object. We do not share that fear and find that we are actually grateful when names change (for the better).</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kodun paragraflar ve cümleler gibi okunup okunmadığına odaklanabilmek için modern araçları kullanırız. İsim değiştirirken birini şaşırtabilirsiniz, tıpkı diğer kod iyileştirmelerinde (improvements) olduğu gibi. Bunun sizi durdurmasına izin vermeyin.</span>
+            <span class="en-text" style="display:none;">We use modern tools to help us, so we can focus on whether the code reads like paragraphs and sentences. You might surprise someone when you rename, just as you might with any other code improvement. Don’t let it stop you.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu kurallardan bazılarını uygulayın ve kodunuzun okunabilirliğinin gelişip gelişmediğine bakın. Başkasının kodunu sürdürüyorsanız (maintaining), bu sorunları çözmeye yardımcı olmak için yeniden düzenleme (refactoring) araçlarını kullanın. Kısa vadede ve uzun vadede karşılığını verecektir.</span>
+            <span class="en-text" style="display:none;">Follow some of these rules and see if you don’t improve the readability of your code. If you are maintaining someone else’s code, use refactoring tools to help resolve these problems. It will pay off in the short term and continue to pay off in the long term.</span>
+        </div>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('short-names')">
+                <span class="tr-text">Kısa ve Öz İsimler</span>
+                <span class="en-text" style="display:none;">Short Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('precise-names')">
+                <span class="tr-text">Keskin İsimler</span>
+                <span class="en-text" style="display:none;">Precise Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('renaming-fear')">
+                <span class="tr-text">Yeniden Adlandırma Korkusu</span>
+                <span class="en-text" style="display:none;">Fear of Renaming</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-29.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 29 — Gereksiz Bağlamdan Kaçın</span><span class="en-text" style="display:none;">Page 29 — Avoid Gratuitous Context</span></div>
+    </a>
+    <a href="page-31.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 31)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Bölüm</span><span class="en-text" style="display:none;">Next Chapter</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Bölüm 3: Fonksiyonlar / Functions</span><span class="en-text" style="display:none;">Chapter 3: Functions</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-short-names">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kısa ve Öz İsimler (Short Names)</span><span class="en-text" style="display:none;">Short Names</span></h3>
+            <button class="modal-close" onclick="closeModal('short-names')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">İsimler açık olduğu sürece kısa olmaları tercih edilir. Gereksiz kelimeler ekleyerek ismi kalabalıklaştırmak yerine, bağlamı (class/namespace) kullanarak anlamı koruyun.</span><span class="en-text" style="display:none;">Shorter names are preferred as long as they remain clear. Instead of cluttering a name with unnecessary words, maintain meaning using context (class/namespace).</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Gereksiz uzun isim</span><span class="en-text" style="display:none;">BAD — Unnecessarily long name</span></span>
+<pre>class Employee {
+    private String employeeName;
+    private String employeePrimaryPostalAddress;
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kısa ve bağlama uygun</span><span class="en-text" style="display:none;">GOOD — Short and context-aware</span></span>
+<pre>class Employee {
+    private String name;
+    private String address;
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer isim sınıfın adını tekrarlıyorsa (Employee.employeeName), bu bir "noise word" (gürültü kelimesi) işaretidir. Sınıf zaten bağlamı sağlar.</span><span class="en-text" style="display:none;">If a name repeats the class name (Employee.employeeName), it's a sign of a "noise word." The class already provides the context.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-precise-names">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Keskin İsimler (Precise Names)</span><span class="en-text" style="display:none;">Precise Names</span></h3>
+            <button class="modal-close" onclick="closeModal('precise-names')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Aynı genel kategoriye giren ama farklı türdeki verileri ayırmak için spesifik terimler kullanın. "Address" genel bir terimdir; eğer farklı türlerini saklıyorsanız bunları belirtin.</span><span class="en-text" style="display:none;">Use specific terms to differentiate between data that falls into the same general category but is of different types. "Address" is general; if you store different types, specify them.</span></p>
+
+            <h4><span class="tr-text">İyi Örnek</span><span class="en-text" style="display:none;">Good Example</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Keskin ayrım</span><span class="en-text" style="display:none;">GOOD — Precise distinction</span></span>
+<pre>class NetworkConfiguration {
+    String mac;        // Fiziksel adres
+    String uri;        // Web adresi
+    String ip;         // Protokol adresi
+    String postal;     // Posta adresi
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İsimleriniz ne kadar keskinse, okuyucunun dökümantasyona bakma ihtiyacı o kadar azalır. <code>URI</code> ismi <code>webAddress</code> isminden daha teknik ve keskindir.</span><span class="en-text" style="display:none;">The more precise your names, the less the reader needs to consult documentation. <code>URI</code> is more technical and precise than <code>webAddress</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-renaming-fear">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Yeniden Adlandırma Korkusu (Fear of Renaming)</span><span class="en-text" style="display:none;">Fear of Renaming</span></h3>
+            <button class="modal-close" onclick="closeModal('renaming-fear')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bir ismin kötü olduğunu fark ettiğinizde onu değiştirmekten çekinmeyin. Modern IDE'ler (IntelliJ, VS Code, vb.) "Rename" (Yeniden Adlandır) özelliği ile tüm projede güvenle değişiklik yapmanızı sağlar.</span><span class="en-text" style="display:none;">Don't hesitate to rename a name when you realize it's poor. Modern IDEs (IntelliJ, VS Code, etc.) allow you to safely make changes across the entire project with the "Rename" feature.</span></p>
+
+            <div class="explanation"><span class="tr-text">Yazılım geliştirmede tek sabit değişimdir. İyi bir isim bulduğunuzda eskiyi çöpe atmak projenin sağlığı için en iyisidir.</span><span class="en-text" style="display:none;">The only constant in software development is change. Discarding the old when you find a better name is best for the project's health.</span></div>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir değişkenin ismini her okuduğunuzda "bu aslında X olmalıydı" diye düşünüyorsanız, hemen <code>Shift+F6</code> (veya ilgili kısayol) ile değiştirin. O saniyeyi harcamak, gelecekteki saatleri kurtarır.</span><span class="en-text" style="display:none;">If every time you read a variable's name you think "this should actually be X," change it immediately with <code>Shift+F6</code> (or the relevant shortcut). Spending that second saves hours in the future.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert("Sayfa " + num + " henüz çevrilmedi. '/cevir " + num + "' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 30;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

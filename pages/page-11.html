@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 11 | Bölüm 1: Temiz Kod Nedir? — Ron Jeffries & Ward Cunningham</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .author-intro em { font-style: italic; font-weight: 400; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; What Is Clean Code?</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="11" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 10'dan devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 10 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ancak ifade gücü (expressiveness) isimlerin ötesine geçer. Ayrıca bir nesnenin veya metodun birden fazla iş yapıp yapmadığına da bakarım. Eğer bu bir nesneyse, muhtemelen iki veya daha fazla nesneye bölünmesi gerekir. Eğer bir metotsa, üzerinde her zaman Metot Çıkarma (Extract Method) yeniden düzenlemesini (refactoring) uygularım; bu da ne yaptığını daha açıkça söyleyen bir metot ve nasıl yapıldığını söyleyen bazı alt metotlarla sonuçlanır.</span>
+        <span class="en-text" style="display:none;">Expressiveness goes beyond names, however. I also look at whether an object or method is doing more than one thing. If it’s an object, it probably needs to be broken into two or more objects. If it’s a method, I will always use the Extract Method refactoring on it, resulting in one method that says more clearly what it does, and some submethods saying how it is done.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tekrarın olmaması (duplication) ve ifade gücü (expressiveness) beni temiz kod olarak kabul ettiğim şeye çok yaklaştırıyor ve kirli kodu sadece bu iki şeyi akılda tutarak iyileştirmek devasa bir fark yaratabilir. Yine de, yaptığımın farkında olduğum, açıklaması biraz daha zor olan bir şey daha var.</span>
+        <span class="en-text" style="display:none;">Duplication and expressiveness take me a very long way into what I consider clean code, and improving dirty code with just these two things in mind can make a huge difference. There is, however, one other thing that I’m aware of doing, which is a bit harder to explain.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yıllarca bu işi yaptıktan sonra, bana öyle geliyor ki tüm programlar birbirine çok benzer elemanlardan oluşuyor. Bir örnek "bir koleksiyon içinde bir şeyler bulmak"tır. İster çalışan kayıtlarından oluşan bir veri tabanımız, ister anahtar ve değerlerden oluşan bir hash map'imiz, isterse bir tür öğeden oluşan bir dizimiz olsun, kendimizi sık sık o koleksiyondan belirli bir öğeyi isterken buluruz. Bunun gerçekleştiğini gördüğümde, belirli uygulamayı genellikle daha soyut bir metot veya sınıf içine sarmalarım (wrap). Bu bana birkaç ilginç avantaj sağlar.</span>
+        <span class="en-text" style="display:none;">After years of doing this work, it seems to me that all programs are made up of very similar elements. One example is “find things in a collection.” Whether we have a database of employee records, or a hash map of keys and values, or an array of items of some kind, we often find ourselves wanting a particular item from that collection. When I find that happening, I will often wrap the particular implementation in a more abstract method or class. That gives me a couple of interesting advantages.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İşlevselliği şimdi basit bir şeyle, diyelim ki bir hash map ile uygulayabilirim, ancak artık bu aramaya yapılan tüm referanslar benim küçük soyutlamam (abstraction) tarafından kapsandığı için, uygulamayı istediğim zaman değiştirebilirim. Daha sonra değiştirme yeteneğimi korurken hızlıca ilerleyebilirim.</span>
+        <span class="en-text" style="display:none;">I can implement the functionality now with something simple, say a hash map, but since now all the references to that search are covered by my little abstraction, I can change the implementation any time I want. I can go forward quickly while preserving my ability to change later.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ek olarak, koleksiyon soyutlaması (collection abstraction) genellikle dikkatimi "gerçekte" ne olup bittiğine çeker ve tek ihtiyacım olan istediğimi bulmanın birkaç oldukça basit yolu iken, beni gelişigüzel bir koleksiyon davranışı uygulama yoluna girmekten alıkoyar.</span>
+        <span class="en-text" style="display:none;">In addition, the collection abstraction often calls my attention to what’s “really” going on, and keeps me from running down the path of implementing arbitrary collection behavior when all I really need is a few fairly simple ways of finding what I want.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Azaltılmış tekrar (reduced duplication), yüksek ifade gücü (high expressiveness) ve basit soyutlamaların (simple abstractions) erkenden inşa edilmesi. Benim için temiz kodu oluşturan şey budur.</span>
+        <span class="en-text" style="display:none;">Reduced duplication, high expressiveness, and early building of simple abstractions. That’s what makes clean code for me.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Burada, birkaç kısa paragrafta Ron bu kitabın içeriğini özetledi. Tekrar yok, tek bir iş, ifade gücü, minik soyutlamalar. Her şey orada.</span>
+        <span class="en-text" style="display:none;">Here, in a few short paragraphs, Ron has summarized the contents of this book. No duplication, one thing, expressiveness, tiny abstractions. Everything is there.</span>
+    </div>
+
+    <div class="author-intro">
+        <span class="tr-text">Ward Cunningham, Wiki'nin mucidi, Fit'in mucidi, eXtreme Programming'in kurucularından. Design Patterns'in arkasındaki itici güç. Smalltalk ve OO (Nesne Yönelimli) düşünce lideri. Kodu önemseyen herkesin vaftiz babası.</span>
+        <span class="en-text" style="display:none;">Ward Cunningham, inventor of Wiki, inventor of Fit, coinventor of eXtreme Programming. Motive force behind Design Patterns. Smalltalk and OO thought leader. The godfather of all those who care about code.</span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Okuduğunuz her bir rutin tam da beklediğiniz (pretty much what you expected) gibi çıktığında temiz kod üzerinde çalıştığınızı anlarsınız. Kod aynı zamanda programlama dilinin o problem için yaratılmış gibi görünmesini sağladığında, buna güzel kod (beautiful code) diyebilirsiniz.</span>
+        <span class="en-text" style="display:none;">You know you are working on clean code when each routine you read turns out to be pretty much what you expected. You can call it beautiful code when the code also makes it look like the language was made for the problem.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bunun gibi ifadeler Ward'ın karakteristiğidir. Okur, başınızı sallar ve sonra bir sonraki konuya geçersiniz. Kulağa o kadar makul, o kadar bariz gelir ki, derin bir şey olarak neredeyse algılanmaz. Tam da beklediğiniz gibi olduğunu düşünebilirsiniz. Ama hadi daha yakından bakalım.</span>
+        <span class="en-text" style="display:none;">Statements like this are characteristic of Ward. You read it, nod your head, and then go on to the next topic. It sounds so reasonable, so obvious, that it barely registers as something profound. You might think it was pretty much what you expected. But let’s take a closer look.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('extract-method')">
+                <span class="tr-text">Metot Çıkarma</span>
+                <span class="en-text" style="display:none;">Extract Method</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('collection-abstraction')">
+                <span class="tr-text">Koleksiyon Soyutlama</span>
+                <span class="en-text" style="display:none;">Collection Abstraction</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('what-expected')">
+                <span class="tr-text">Bekleneni Karşılamak</span>
+                <span class="en-text" style="display:none;">What You Expected</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-10.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 10 — Michael Feathers & Ron Jeffries</span><span class="en-text" style="display:none;">Page 10 — Michael Feathers & Ron Jeffries</span></div>
+    </a>
+    <a href="page-12.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 12 — Ward Cunningham (devam) & Düşünce Okulları</span><span class="en-text" style="display:none;">Page 12 — Ward Cunningham (cont.) & Schools of Thought</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-extract-method">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Metot Çıkarma (Extract Method)</span><span class="en-text" style="display:none;">Extract Method</span></h3>
+            <button class="modal-close" onclick="closeModal('extract-method')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ron Jeffries, bir metodun birden fazla iş yapması durumunda her zaman "Metot Çıkarma" (Extract Method) refactoring'ini uyguladığını belirtir. Bu teknik, bir metodun içindeki mantıksal bir parçayı alıp yeni bir metot haline getirmektir. Sonuçta ana metot "ne yapıldığını" (üst düzey mantık) açıkça söylerken, alt metotlar "nasıl yapıldığını" (detaylar) saklar. Bu, "Tek Sorumluluk İlkesi"ni (Single Responsibility Principle) metot düzeyinde uygular.</span><span class="en-text" style="display:none;">Ron Jeffries states that if a method is doing more than one thing, he always uses the "Extract Method" refactoring. This technique involves taking a logical part of a method and making it into a new method. The result is one method that says clearly "what it does" (high-level logic), and submethods saying "how it is done" (implementation details). This applies the "Single Responsibility Principle" at the method level.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Çok iş yapan, okunması zor metot</span><span class="en-text" style="display:none;">BAD — Doing too much, hard to read method</span></span>
+            <pre>function processUserReport(users) {
+    let report = "User Report\n----------\n";
+    for (let user of users) {
+        if (user.active && user.age > 18) {
+            let formattedName = user.firstName.toUpperCase() + " " + user.lastName.toUpperCase();
+            report += `ID: ${user.id} | Name: ${formattedName} | Status: Active\n`;
+        }
+    }
+    fs.writeFileSync('report.txt', report);
+    console.log("Report generated successfully.");
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu metot hem filtreleme yapıyor, hem isim formatlıyor, hem rapor metni oluşturuyor, hem de dosya sistemine yazıyor. Çok fazla sorumluluğu var ve "nasıl" yapıldığına dair detaylar (toUpperCase, template strings, fs) "ne" yapıldığını (rapor oluşturma) gölgeliyor.</span><span class="en-text" style="display:none;">This method does filtering, name formatting, report text generation, and writing to the file system. It has too many responsibilities, and the details of "how" (toUpperCase, template strings, fs) obscure "what" is being done (generating a report).</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Metot çıkarma ile basitleştirilmiş ve ifade gücü artırılmış</span><span class="en-text" style="display:none;">GOOD — Simplified and expressive via Extract Method</span></span>
+            <pre>function generateActiveAdultReport(users) {
+    const activeAdults = users.filter(isAdultAndActive);
+    const reportContent = createReportContent(activeAdults);
+    
+    saveToFile('report.txt', reportContent);
+    notifySuccess();
+}
+
+function isAdultAndActive(user) {
+    return user.active && user.age > 18;
+}
+
+function createReportContent(users) {
+    const header = "User Report\n----------\n";
+    const body = users.map(formatUserLine).join("\n");
+    return header + body;
+}
+
+function formatUserLine(user) {
+    const name = `${user.firstName} ${user.lastName}`.toUpperCase();
+    return `ID: ${user.id} | Name: ${name} | Status: Active`;
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer bir metot içinde bir blok kodu açıklamak için yorum satırı yazma gereği duyuyorsanız, o blok kod "Metot Çıkarma" için adaydır. Metot ismi, yazdığınız yorumun kendisi olmalıdır. Örneğin: <code>// Kullanıcı aktif mi kontrol et</code> yorumu yerine <code>isActive(user)</code> metodu oluşturun.</span><span class="en-text" style="display:none;">If you feel the need to write a comment to explain a block of code within a method, that block is a candidate for "Extract Method". The method name should be the comment itself. For example, instead of a comment <code>// check if user is active</code>, create an <code>isActive(user)</code> method.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-collection-abstraction">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Koleksiyon Soyutlama (Collection Abstraction)</span><span class="en-text" style="display:none;">Collection Abstraction</span></h3>
+            <button class="modal-close" onclick="closeModal('collection-abstraction')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ron Jeffries, koleksiyonlarda (dizi, liste, map vb.) arama yapma gibi tekrarlayan işleri daha soyut bir metot veya sınıf içine sarmalamayı (wrap) önerir. Bu soyutlama, uygulamanın detaylarını (örneğin bir veri yapısının iç işleyişini) gizleyerek, gelecekte bu yapının kolayca değiştirilmesine (örneğin diziden hash map'e geçiş) olanak tanır. Ayrıca, kodun ne yapmak istediğine (niyetine) odaklanmasını sağlar.</span><span class="en-text" style="display:none;">Ron Jeffries suggests wrapping repetitive tasks like searching in collections (arrays, lists, maps, etc.) in a more abstract method or class. This abstraction hides implementation details (like the internal workings of a data structure), allowing for easy changes in the future (e.g., switching from an array to a hash map). It also keeps the code focused on what it wants to achieve (intent).</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Ham veri yapısı her yerde kullanılıyor</span><span class="en-text" style="display:none;">BAD — Raw data structure used everywhere</span></span>
+            <pre>// Ürün listesinde arama her yerde tekrarlanıyor
+const products = [{id: 1, name: 'A'}, {id: 2, name: 'B'}];
+
+// Sipariş işlemede
+const p1 = products.find(p => p.id === order.productId);
+
+// Sepet güncellemede
+const p2 = products.find(p => p.id === cart.itemId);
+
+// Stok kontrolünde
+const p3 = products.find(p => p.id === stockRequest.id);</pre>
+            <div class="explanation"><span class="tr-text">Eğer <code>products</code> listesi çok büyürse ve bir <code>Map</code> yapısına geçmek isterseniz, <code>find</code> kullandığınız her yeri güncellemeniz gerekir. Ayrıca <code>p => p.id === ...</code> mantığı kodun her yerine yayılmıştır.</span><span class="en-text" style="display:none;">If the <code>products</code> list grows too large and you want to switch to a <code>Map</code>, you'd have to update everywhere you used <code>find</code>. Also, the <code>p => p.id === ...</code> logic is spread across the code.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Koleksiyon bir soyutlama arkasına gizlenmiş</span><span class="en-text" style="display:none;">GOOD — Collection hidden behind an abstraction</span></span>
+            <pre>class ProductCatalog {
+    private products = new Map<number, Product>();
+
+    findById(id: number): Product | undefined {
+        return this.products.get(id);
+    }
+
+    // Gelecekte implementasyonu değiştirmek çok kolay!
+}
+
+// Kullanım
+const catalog = new ProductCatalog();
+const p1 = catalog.findById(order.productId);
+const p2 = catalog.findById(cart.itemId);</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Ham koleksiyonları (naked collections) sınıflarınızın içinde doğrudan expose etmeyin. Onları bir sınıf (Domain Object veya Repository gibi) içine sarmalayarak, koleksiyon üzerinde yapılayabilecek işlemleri (ekleme, bulma, filtreleme) anlamlı metot isimleriyle sunun. Bu, kodun "ne" yaptığını bariz kılar.</span><span class="en-text" style="display:none;">Don't expose raw (naked) collections directly in your classes. Wrap them in a class (like a Domain Object or Repository) and provide operations (add, find, filter) with meaningful method names. This makes "what" the code does obvious.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-what-expected">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Bekleneni Karşılamak (Pretty Much What You Expected)</span><span class="en-text" style="display:none;">Pretty Much What You Expected</span></h3>
+            <button class="modal-close" onclick="closeModal('what-expected')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Ward Cunningham'ın temiz kod tanımı şöyledir: "Okuduğunuz her bir rutin tam da beklediğiniz gibi çıktığında temiz kod üzerinde çalıştığınızı anlarsınız." Bu, "En Az Şaşırtma İlkesi"nin (Principle of Least Surprise) koda yansımasıdır. Eğer bir metot ismi <code>calculateTax</code> ise ve içinde gerçekten vergi hesaplanıyorsa (ve e-posta göndermek gibi sürpriz yan etkileri yoksa), o kod temizdir. Temiz kod, okuyucunun zihinsel modelini kırmaz.</span><span class="en-text" style="display:none;">Ward Cunningham defines clean code as: "You know you are working on clean code when each routine you read turns out to be pretty much what you expected." This is the "Principle of Least Surprise" applied to code. If a method named <code>calculateTax</code> actually calculates tax (and has no surprise side effects like sending an email), it's clean. Clean code doesn't break the reader's mental model.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Şaşırtıcı ve beklenmedik davranışlar</span><span class="en-text" style="display:none;">BAD — Surprising and unexpected behavior</span></span>
+            <pre>function getName(user) {
+    if (!user.name) {
+        user.name = "Guest"; // Beklenmedik yan etki: Mutasyon!
+        db.users.update(user); // Beklenmedik yan etki: DB Kaydı!
+    }
+    return user.name;
+}</pre>
+            <div class="explanation"><span class="tr-text"><code>getName</code> isminde bir metodun sadece bir string dönmesi beklenir. Ancak bu metot hem nesneyi değiştiriyor hem de veritabanına kayıt yapıyor. Okuyucu bunu çağırdığında sistemin durumunun değişeceğini beklemez. Bu "kirli" bir koddur.</span><span class="en-text" style="display:none;">A method named <code>getName</code> is expected to just return a string. However, this method both mutates the object and writes to the database. The reader doesn't expect the system state to change when calling this. This is "dirty" code.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Bariz ve beklenen davranış</span><span class="en-text" style="display:none;">GOOD — Obvious and expected behavior</span></span>
+            <pre>function getDisplayName(user) {
+    return user.name || "Guest";
+}
+
+// Veya durumu değiştirmek gerekiyorsa ismi ona göre ver:
+async function ensureUserHasName(user) {
+    if (user.name) return;
+    
+    user.name = "Guest";
+    await db.users.update(user);
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Prensip: Şaşırtma!" Kodunuzun bir polisiye romanı gibi sürpriz sonları olmamalıdır. Bir fonksiyonun ismi ne vaat ediyorsa, gövdesi sadece onu yapmalıdır. Eğer bir rutin okurken "Ah, neden bunu burada yapmış?" diyorsanız, o kod temiz değildir.</span><span class="en-text" style="display:none;">"Principle: Don't surprise!" Your code shouldn't have plot twists like a mystery novel. What a function name promises, its body should deliver — and nothing else. If you find yourself saying "Ah, why did they do that here?" while reading a routine, it's not clean.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 12' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 11;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

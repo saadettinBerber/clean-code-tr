@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 18 | Bölüm 2: Anlamlı İsimler — Niyet Belirten İsimler Kullanın</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .numbered-list { margin: 16px 0; padding-left: 24px; }
+        .numbered-list li { margin-bottom: 8px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Use Intention-Revealing Names</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="18" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="margin-top: 0;">
+        <span class="tr-text">Niyet Belirten İsimler Kullanın / Use Intention-Revealing Names</span>
+        <span class="en-text" style="display:none;">Use Intention-Revealing Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İsimlerin niyeti açığa çıkarması gerektiğini söylemek kolaydır. Size vurgulamak istediğimiz şey, bu konuda <em>ciddi</em> olduğumuzdur. İyi isimler seçmek zaman alır ama kazandırdığı zaman harcananı fazlasıyla karşılar. Bu yüzden isimlerinize özen gösterin ve daha iyisini bulduğunuzda değiştirin. Kodunuzu okuyan herkes (siz dahil) daha mutlu olacaktır.</span>
+        <span class="en-text" style="display:none;">It is easy to say that names should reveal intent. What we want to impress upon you is that we are <em>serious</em> about this. Choosing good names takes time but saves more than it takes. So take care with your names and change them when you find better ones. Everyone who reads your code (including you) will be happier if you do.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir değişkenin (variable), fonksiyonun (function) veya sınıfın (class) adı, tüm büyük soruları cevaplamalıdır. Size neden var olduğunu, ne yaptığını ve nasıl kullanıldığını söylemelidir. Eğer bir isim yorum (comment) gerektiriyorsa, o isim niyetini açığa çıkarmıyor demektir.</span>
+        <span class="en-text" style="display:none;">The name of a variable, function, or class, should answer all the big questions. It should tell you why it exists, what it does, and how it is used. If a name requires a comment, then the name does not reveal its intent.</span>
+    </div>
+
+<pre class="code-block">int d; // elapsed time in days</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">d</code> ismi hiçbir şey ifade etmez. Geçen zamanı, günleri ya da herhangi bir şeyi çağrıştırmaz. Neyin ölçüldüğünü ve ölçüm birimini belirten bir isim seçmeliyiz:</span>
+        <span class="en-text" style="display:none;">The name <code class="inline">d</code> reveals nothing. It does not evoke a sense of elapsed time, nor of days. We should choose a name that specifies what is being measured and the unit of that measurement:</span>
+    </div>
+
+<pre class="code-block">int elapsedTimeInDays;
+int daysSinceCreation;
+int daysSinceModification;
+int fileAgeInDays;</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Niyeti açığa çıkaran isimler seçmek, kodu anlamayı ve değiştirmeyi çok daha kolay hale getirir. Bu kodun amacı nedir?</span>
+        <span class="en-text" style="display:none;">Choosing names that reveal intent can make it much easier to understand and change code. What is the purpose of this code?</span>
+    </div>
+
+<pre class="code-block">public List&lt;int[]&gt; getThem() {
+    List&lt;int[]&gt; list1 = new ArrayList&lt;int[]&gt;();
+    for (int[] x : theList)
+        if (x[0] == 4)
+            list1.add(x);
+    return list1;
+}</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kodun ne yaptığını anlamak neden zor? Karmaşık ifadeler (complex expressions) yok. Boşluklar ve girinti (spacing and indentation) makul. Yalnızca üç değişken ve iki sabit var. Süslü sınıflar veya çok biçimli metotlar (polymorphic methods) bile yok — sadece bir dizi listesi (ya da öyle görünüyor).</span>
+        <span class="en-text" style="display:none;">Why is it hard to tell what this code is doing? There are no complex expressions. Spacing and indentation are reasonable. There are only three variables and two constants. There aren't even any fancy classes or polymorphic methods, just a list of arrays (or so it seems).</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Sorun kodun basitliği (simplicity) değil, kodun <em>örtüklüğüdür</em> (implicity — bir ifade türetmek gerekirse): bağlamın (context) kodun içinde açıkça belirtilmemiş olma derecesidir. Kod, örtük olarak şu soruların yanıtlarını bilmemizi gerektirir:</span>
+        <span class="en-text" style="display:none;">The problem isn't the simplicity of the code but the <em>implicity</em> of the code (to coin a phrase): the degree to which the context is not explicit in the code itself. The code implicitly requires that we know the answers to questions such as:</span>
+    </div>
+
+    <ol class="numbered-list">
+        <li>
+            <span class="tr-text"><code class="inline">theList</code> içinde ne tür şeyler var?</span>
+            <span class="en-text" style="display:none;">What kinds of things are in <code class="inline">theList</code>?</span>
+        </li>
+        <li>
+            <span class="tr-text"><code class="inline">theList</code> içindeki bir öğenin sıfırıncı alt indisinin (zeroth subscript) önemi nedir?</span>
+            <span class="en-text" style="display:none;">What is the significance of the zeroth subscript of an item in <code class="inline">theList</code>?</span>
+        </li>
+        <li>
+            <span class="tr-text"><code class="inline">4</code> değerinin önemi nedir?</span>
+            <span class="en-text" style="display:none;">What is the significance of the value <code class="inline">4</code>?</span>
+        </li>
+        <li>
+            <span class="tr-text">Döndürülen listeyi nasıl kullanırım?</span>
+            <span class="en-text" style="display:none;">How would I use the list being returned?</span>
+        </li>
+    </ol>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('intention-revealing')">
+                <span class="tr-text">Niyet Belirten İsimler</span>
+                <span class="en-text" style="display:none;">Intention-Revealing Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('implicity')">
+                <span class="tr-text">Kodun Örtüklüğü</span>
+                <span class="en-text" style="display:none;">Implicity of Code</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-17.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 17 — Bölüm 2: Anlamlı İsimler (Giriş)</span><span class="en-text" style="display:none;">Page 17 — Chapter 2: Meaningful Names (Introduction)</span></div>
+    </a>
+    <a href="page-19.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 19 — Niyet Belirten İsimler (devam) &amp; Yanlış Bilgi Vermekten Kaçının</span><span class="en-text" style="display:none;">Page 19 — Intention-Revealing Names (cont.) &amp; Avoid Disinformation</span></div>
+    </a>
+</div>
+
+<!-- Modal: Niyet Belirten İsimler -->
+<div class="modal-overlay" id="modal-intention-revealing">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Niyet Belirten İsimler (Intention-Revealing Names)</span><span class="en-text" style="display:none;">Intention-Revealing Names</span></h3>
+            <button class="modal-close" onclick="closeModal('intention-revealing')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Niyet belirten isimler (Intention-Revealing Names), bir değişkenin, fonksiyonun veya sınıfın adının yalnızca ona bakarak amacını anlamamızı sağlayan isimlerdir. İyi bir isim üç soruyu cevaplamalıdır: <strong>Neden var?</strong> <strong>Ne yapıyor?</strong> <strong>Nasıl kullanılıyor?</strong> Eğer bir ismin yanına yorum eklemeniz gerekiyorsa, isim yeterince iyi değildir.</span><span class="en-text" style="display:none;">Intention-Revealing Names are names that let us understand the purpose of a variable, function, or class just by looking at it. A good name should answer three questions: <strong>Why does it exist?</strong> <strong>What does it do?</strong> <strong>How is it used?</strong> If you need to add a comment next to a name, the name isn't good enough.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — İsimler niyeti gizliyor</span><span class="en-text" style="display:none;">BAD — Names hide intent</span></span>
+<pre>function process(arr) {
+    const res = [];
+    for (const item of arr) {
+        if (item.s === 1) {
+            res.push(item);
+        }
+    }
+    return res;
+}
+
+const d = process(data);  // ???</pre>
+            <div class="explanation"><span class="tr-text"><code>process</code> ne işler? <code>arr</code> neler içerir? <code>s === 1</code> ne anlama gelir? <code>d</code> ne tutacak? Her bir satır için zihinsel çözümleme yapmak gerekiyor.</span><span class="en-text" style="display:none;">What does <code>process</code> do? What does <code>arr</code> contain? What does <code>s === 1</code> mean? What will <code>d</code> hold? You need to mentally decode each line.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — İsimler niyeti açıkça ortaya koyuyor</span><span class="en-text" style="display:none;">GOOD — Names clearly reveal intent</span></span>
+<pre>const TASK_STATUS_ACTIVE = 1;
+
+function getActiveTasks(allTasks) {
+    const activeTasks = [];
+    for (const task of allTasks) {
+        if (task.status === TASK_STATUS_ACTIVE) {
+            activeTasks.push(task);
+        }
+    }
+    return activeTasks;
+}
+
+const activeTasks = getActiveTasks(projectTasks);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İsim seçerken "Bu ismi 3 ay sonra tekrar gördüğümde hâlâ anlayacak mıyım?" testini uygulayın. Yorum yazmayı düşündüğünüz her yerde, önce ismi iyileştirmeyi deneyin — yoruma gerek kalmamalı.</span><span class="en-text" style="display:none;">When choosing a name, apply the "Will I still understand this name 3 months from now?" test. Wherever you're tempted to write a comment, try improving the name first — no comment should be necessary.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Kodun Örtüklüğü -->
+<div class="modal-overlay" id="modal-implicity">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kodun Örtüklüğü (Implicity of Code)</span><span class="en-text" style="display:none;">Implicity of Code</span></h3>
+            <button class="modal-close" onclick="closeModal('implicity')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kodun örtüklüğü (implicity), kodun anlaşılması için gerekli bağlamın (context) kodun kendisinde açıkça yer almama derecesidir. Bir kod parçası teknik olarak basit olabilir — az değişken, az satır, karmaşık ifade yok — ama yine de anlaşılmaz olabilir çünkü okuyucunun bilmesi gereken bağlam kodda değil, yazarın kafasındadır.</span><span class="en-text" style="display:none;">Implicity of code is the degree to which the context needed to understand the code is not explicitly present in the code itself. A piece of code can be technically simple — few variables, few lines, no complex expressions — but still be incomprehensible because the context the reader needs is not in the code, but in the author's head.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Basit ama tamamen örtük</span><span class="en-text" style="display:none;">BAD — Simple but completely implicit</span></span>
+<pre>def check(items):
+    return [i for i in items if i[2] > 30 and i[0] == 'X']</pre>
+            <div class="explanation"><span class="tr-text">Kod bir satır ve "basit" görünüyor ama: <code>items</code> nedir? <code>i[2]</code> ne anlama gelir? <code>30</code> neyin sınırı? <code>'X'</code> ne durumu ifade eder? Tüm bağlam örtüktür.</span><span class="en-text" style="display:none;">The code is one line and looks "simple" but: What are <code>items</code>? What does <code>i[2]</code> mean? What's the threshold <code>30</code>? What does <code>'X'</code> represent? All context is implicit.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Bağlam açıkça kodda yer alıyor</span><span class="en-text" style="display:none;">GOOD — Context is explicit in the code</span></span>
+<pre>MINIMUM_AGE_DAYS = 30
+STATUS_EXPIRED = 'X'
+
+def find_expired_old_records(records):
+    return [
+        record for record in records
+        if record.age_in_days > MINIMUM_AGE_DAYS
+        and record.status == STATUS_EXPIRED
+    ]</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir fonksiyon yazdıktan sonra, kodunuzu bir "yabancı gözüyle" okuyun. Eğer herhangi bir satırda "Bu ne demek?" sorusu akla geliyorsa, o bilgi açıkça (explicit) kodda yer almalıdır. Sihirli sayıları (magic numbers) adlandırılmış sabitlerle, indisleri anlamlı alanlarla (fields) değiştirin.</span><span class="en-text" style="display:none;">After writing a function, read your code with "stranger's eyes." If the question "What does this mean?" comes to mind at any line, that information should be explicit in the code. Replace magic numbers with named constants, indices with meaningful fields.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 18;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 7 | Bölüm 1: Temiz Kod Nedir? — Bjarne Stroustrup</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .author-intro em { font-style: italic; font-weight: 400; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; The Art of Clean Code?, What Is Clean Code?</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="7" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 6'dan devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 6 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Temiz kod yazmak, zahmetli bir süreçte edinilen bir "temizlik" duygusuyla uygulanan sayısız küçük tekniğin disiplinli kullanımını gerektirir. Bu "kod duygusu" (code-sense) anahtardır. Bazılarımız onunla doğar. Bazılarımız onu edinmek için savaşmak zorundadır. Kod duygusu yalnızca kodun iyi mi kötü mü olduğunu görmemizi sağlamakla kalmaz, aynı zamanda kötü kodu temiz koda dönüştürmek için disiplinimizi uygulama stratejisini de gösterir.</span>
+        <span class="en-text" style="display:none;">Writing clean code requires the disciplined use of a myriad little techniques applied through a painstakingly acquired sense of "cleanliness." This "code-sense" is the key. Some of us are born with it. Some of us have to fight to acquire it. Not only does it let us see whether code is good or bad, but it also shows us the strategy for applying our discipline to transform bad code into clean code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">"Kod duygusu" (code-sense) olmayan bir programcı dağınık bir modüle (module) bakıp karmaşayı fark edebilir ama ne yapacağı hakkında hiçbir fikri olmaz. "Kod duygusu" olan bir programcı ise dağınık bir modüle bakıp seçenekleri ve varyasyonları görür. "Kod duygusu", o programcının en iyi varyasyonu seçmesine ve davranışı koruyan dönüşümlerin (behavior preserving transformations) bir dizisini planlayarak mevcut durumdan hedeflenen duruma ulaşmasına rehberlik eder.</span>
+        <span class="en-text" style="display:none;">A programmer without "code-sense" can look at a messy module and recognize the mess but will have no idea what to do about it. A programmer with "code-sense" will look at a messy module and see options and variations. The "code-sense" will help that programmer choose the best variation and guide him or her to plot a sequence of behavior preserving transformations to get from here to there.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kısacası, temiz kod yazan bir programcı, boş bir ekranı bir dizi dönüşümden (transformations) geçirerek zarif bir şekilde kodlanmış (elegantly coded) bir sisteme dönüştürebilen bir sanatkârdır.</span>
+        <span class="en-text" style="display:none;">In short, a programmer who writes clean code is an artist who can take a blank screen through a series of transformations until it is an elegantly coded system.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Temiz Kod Nedir? <span class="section-title-sub">/ What Is Clean Code?</span></span>
+        <span class="en-text" style="display:none;">What Is Clean Code?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Muhtemelen programcı sayısı kadar tanım vardır. Bu yüzden çok tanınmış ve derin deneyime sahip bazı programcılara ne düşündüklerini sordum.</span>
+        <span class="en-text" style="display:none;">There are probably as many definitions as there are programmers. So I asked some very well-known and deeply experienced programmers what they thought.</span>
+    </div>
+
+    <div class="author-intro">
+        <span class="tr-text">Bjarne Stroustrup, C++'ın yaratıcısı ve <em>The C++ Programming Language</em> kitabının yazarı</span>
+        <span class="en-text" style="display:none;">Bjarne Stroustrup, inventor of C++ and author of <em>The C++ Programming Language</em></span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Kodumun zarif (elegant) ve verimli (efficient) olmasını severim. Mantık, hataların (bugs) saklanmasını zorlaştıracak kadar açık olmalı; bağımlılıklar (dependencies) bakımı kolaylaştırmak için minimum düzeyde tutulmalı; hata yönetimi (error handling) açıkça ifade edilmiş bir stratejiye göre eksiksiz olmalı; ve performans, insanları ilkesiz optimizasyonlarla (unprincipled optimizations) kodu kirletmeye kışkırtmamak için optimale yakın olmalıdır. Temiz kod bir şeyi iyi yapar.</span>
+        <span class="en-text" style="display:none;">I like my code to be elegant and efficient. The logic should be straightforward to make it hard for bugs to hide, the dependencies minimal to ease maintenance, error handling complete according to an articulated strategy, and performance close to optimal so as not to tempt people to make the code messy with unprincipled optimizations. Clean code does one thing well.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bjarne "zarif" (elegant) kelimesini kullanıyor. Bu oldukça güçlü bir kelime! MacBook®'umdaki sözlük şu tanımları veriyor: <em>görünüm veya tavır bakımından hoş derecede zarif ve şık; hoş derecede yaratıcı ve basit</em>. "Hoş" (pleasing) kelimesine yapılan vurguya dikkat edin. Görünüşe göre Bjarne, temiz kodun okunmasının <em>hoş</em> olduğunu düşünüyor. Kodu okumak, iyi yapılmış bir müzik kutusu ya da iyi tasarlanmış bir araba gibi sizi gülümsetmelidir.</span>
+        <span class="en-text" style="display:none;">Bjarne uses the word "elegant." That's quite a word! The dictionary in my MacBook® provides the following definitions: <em>pleasingly graceful and stylish in appearance or manner; pleasingly ingenious and simple</em>. Notice the emphasis on the word "pleasing." Apparently Bjarne thinks that clean code is <em>pleasing</em> to read. Reading it should make you smile the way a well-crafted music box or well-designed car would.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bjarne ayrıca verimlilikten (efficiency) <em>iki kez</em> bahsediyor. C++'ın yaratıcısından geldiği düşünüldüğünde belki bu bizi şaşırtmamalı; ama bence bunun salt hız arzusundan ötesi var. Boşa harcanan döngüler zarafetle bağdaşmaz, hoş değildir. Ve şimdi Bjarne'nin kullandığı kelimeye dikkat edin —</span>
+        <span class="en-text" style="display:none;">Bjarne also mentions efficiency—<em>twice</em>. Perhaps this should not surprise us coming from the inventor of C++; but I think there's more to it than the sheer desire for speed. Wasted cycles are inelegant, they are not pleasing. And now note the word that Bjarne uses</span>
+    </div>
+
+    <div class="page-continuation" style="margin-top: 32px;">
+        <span class="tr-text">[ Sayfa 8'e devam edilecek ]</span>
+        <span class="en-text" style="display:none;">[ Continued on page 8 ]</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('codesense')">
+                <span class="tr-text">Kod Duygusu</span>
+                <span class="en-text" style="display:none;">Code-Sense</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('elegant')">
+                <span class="tr-text">Zarif Kod</span>
+                <span class="en-text" style="display:none;">Elegant Code</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('onething')">
+                <span class="tr-text">Bir Şeyi İyi Yap</span>
+                <span class="en-text" style="display:none;">Does One Thing Well</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-6.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 6 — Temel İkilem</span><span class="en-text" style="display:none;">Page 6 — The Primal Conundrum</span></div>
+    </a>
+    <a href="page-8.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 8 — Temiz Kod Nedir? (devam)</span><span class="en-text" style="display:none;">Page 8 — What Is Clean Code? (cont.)</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-codesense">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kod Duygusu (Code-Sense)</span><span class="en-text" style="display:none;">Code-Sense</span></h3>
+            <button class="modal-close" onclick="closeModal('codesense')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Martin'e göre "kod duygusu" (code-sense), temiz kod yazmanın anahtarıdır. Bu yeti yalnızca kodun iyi mi kötü mü olduğunu görmenizi sağlamakla kalmaz; aynı zamanda kötü kodu temiz koda dönüştürmek için hangi adımları atacağınızı da gösterir. Kod duygusu olan bir programcı bir karmaşayı gördüğünde seçenekleri ve varyasyonları fark eder — kod duygusu olmayan programcı ise sadece karmaşayı fark edip çaresiz kalır.</span><span class="en-text" style="display:none;">According to Martin, "code-sense" is the key to writing clean code. This sense not only lets you see whether code is good or bad; it also shows you the strategy for transforming bad code into clean code. A programmer with code-sense sees options and variations when looking at a mess — a programmer without it only recognizes the mess but feels helpless.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Karmaşayı fark ediyor ama ne yapacağını bilmiyor</span><span class="en-text" style="display:none;">BAD — Recognizes the mess but doesn't know what to do</span></span>
+            <pre>function getReport(data, type, format, includeHeader, sortBy, filterBy) {
+    let result = [];
+    for (let i = 0; i < data.length; i++) {
+        if (filterBy) {
+            if (data[i][filterBy.field] === filterBy.value) {
+                result.push(data[i]);
+            }
+        } else {
+            result.push(data[i]);
+        }
+    }
+    if (sortBy) {
+        result.sort((a, b) => a[sortBy] > b[sortBy] ? 1 : -1);
+    }
+    if (type === 'summary') {
+        let summary = {};
+        for (let i = 0; i < result.length; i++) {
+            // ... 40 satır daha
+        }
+        return formatOutput(summary, format, includeHeader);
+    } else if (type === 'detailed') {
+        // ... 60 satır daha
+    }
+    return formatOutput(result, format, includeHeader);
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu fonksiyonun kötü olduğunu hissedebilirsiniz — ama "nasıl düzeltirim?" sorusuna cevabınız yoksa, henüz kod duygunuz gelişmemiş demektir.</span><span class="en-text" style="display:none;">You can feel this function is bad — but if you can't answer "how do I fix it?", your code-sense hasn't developed yet.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kod duygusuyla dönüştürülmüş: her adım davranışı koruyarak</span><span class="en-text" style="display:none;">GOOD — Transformed with code-sense: each step preserving behavior</span></span>
+            <pre>class ReportBuilder {
+    constructor(data) {
+        this.pipeline = [...data];
+    }
+
+    filterBy(field, value) {
+        this.pipeline = this.pipeline.filter(item => item[field] === value);
+        return this;
+    }
+
+    sortBy(field) {
+        this.pipeline.sort((a, b) => a[field] > b[field] ? 1 : -1);
+        return this;
+    }
+
+    build(strategy) {
+        return strategy.generate(this.pipeline);
+    }
+}
+
+const report = new ReportBuilder(salesData)
+    .filterBy('region', 'EMEA')
+    .sortBy('revenue')
+    .build(new SummaryStrategy());</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kod duygunuzu geliştirmek için "refactoring kata" yapın: Bilerek karmaşık bir fonksiyon alıp, her adımda testlerin geçmeye devam ettiğinden emin olarak küçük dönüşümler uygulayın. Extract Method, Replace Conditional with Polymorphism, Introduce Parameter Object gibi refactoring tekniklerini pratik edin.</span><span class="en-text" style="display:none;">To develop code-sense, do "refactoring katas": deliberately take a messy function and apply small transformations, ensuring tests pass at each step. Practice techniques like Extract Method, Replace Conditional with Polymorphism, Introduce Parameter Object.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-elegant">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Zarif Kod (Elegant Code)</span><span class="en-text" style="display:none;">Elegant Code</span></h3>
+            <button class="modal-close" onclick="closeModal('elegant')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bjarne Stroustrup temiz kodu tanımlarken "zarif" (elegant) kelimesini kullanır. Martin bu kelimeyi sözlükten açar: <em>"görünüm veya tavır bakımından hoş derecede zarif ve şık; hoş derecede yaratıcı ve basit."</em> Zarif kod okunması hoş olan koddur — iyi yapılmış bir müzik kutusu gibi sizi gülümsetir. Aynı zamanda verimlidir (efficient): boşa harcanan döngüler zarafetle bağdaşmaz.</span><span class="en-text" style="display:none;">Bjarne Stroustrup uses the word "elegant" when defining clean code. Martin looks it up: <em>"pleasingly graceful and stylish in appearance or manner; pleasingly ingenious and simple."</em> Elegant code is pleasing to read — it makes you smile like a well-crafted music box. It's also efficient: wasted cycles are inelegant.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Ne zarif ne de verimli</span><span class="en-text" style="display:none;">BAD — Neither elegant nor efficient</span></span>
+            <pre>def find_duplicates(items):
+    duplicates = []
+    for i in range(len(items)):
+        for j in range(len(items)):
+            if i != j and items[i] == items[j]:
+                if items[i] not in duplicates:
+                    duplicates.append(items[i])
+    return duplicates
+
+# O(n²) karmaşıklık, okunması zor, niyeti belirsiz</pre>
+            <div class="explanation"><span class="tr-text">İç içe döngü hem verimsiz (O(n²)) hem de okunması güç. Kodun amacı (niyet) iç içe geçmiş mantığın arkasına gizlenmiş durumda.</span><span class="en-text" style="display:none;">Nested loops are both inefficient (O(n²)) and hard to read. The code's intent is buried behind tangled logic.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Zarif: basit, verimli, niyeti açık</span><span class="en-text" style="display:none;">GOOD — Elegant: simple, efficient, clear intent</span></span>
+            <pre>def find_duplicates(items):
+    seen = set()
+    return {item for item in items if item in seen or seen.add(item)}
+
+# O(n) karmaşıklık, tek satır, niyet kristal netliğinde
+# "Daha önce gördüklerimi bul" — hepsi bu</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Zarafet testi: Kodunuzu sesli okuyun. Eğer bir cümle gibi akıyorsa, zariftir. Eğer kendinize "bu ne yapıyor?" diye soruyorsanız, henüz zarif değildir. Bjarne'nin dediği gibi: kod sizi gülümsetmeli.</span><span class="en-text" style="display:none;">Elegance test: read your code aloud. If it flows like a sentence, it's elegant. If you ask yourself "what does this do?", it's not elegant yet. As Bjarne says: code should make you smile.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-onething">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Bir Şeyi İyi Yap (Does One Thing Well)</span><span class="en-text" style="display:none;">Does One Thing Well</span></h3>
+            <button class="modal-close" onclick="closeModal('onething')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bjarne Stroustrup'un temiz kod tanımı şu cümleyle biter: <em>"Temiz kod bir şeyi iyi yapar."</em> Bu, Tek Sorumluluk İlkesinin (Single Responsibility Principle) özüdür. Her fonksiyon, her sınıf, her modül tek bir amaca odaklanmalıdır. Birden fazla şey yapmaya çalışan kod karmaşıklaşır, test edilmesi zorlaşır ve değişikliklere kırılgan hale gelir.</span><span class="en-text" style="display:none;">Bjarne Stroustrup's clean code definition ends with: <em>"Clean code does one thing well."</em> This is the essence of the Single Responsibility Principle. Every function, class, and module should focus on a single purpose. Code that tries to do multiple things becomes complex, hard to test, and fragile to changes.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Bir fonksiyon, üç sorumluluk</span><span class="en-text" style="display:none;">BAD — One function, three responsibilities</span></span>
+            <pre>public class UserManager {
+    public boolean registerUser(String email, String password) {
+        // 1. Validasyon
+        if (email == null || !email.contains("@")) return false;
+        if (password.length() < 8) return false;
+
+        // 2. Veritabanına kayıt
+        Connection conn = DriverManager.getConnection(DB_URL);
+        PreparedStatement stmt = conn.prepareStatement(
+            "INSERT INTO users (email, password) VALUES (?, ?)");
+        stmt.setString(1, email);
+        stmt.setString(2, hashPassword(password));
+        stmt.executeUpdate();
+        conn.close();
+
+        // 3. Hoş geldin e-postası gönder
+        Transport transport = Session.getInstance(props).getTransport();
+        transport.connect();
+        MimeMessage msg = new MimeMessage(session);
+        msg.setSubject("Hoş geldiniz!");
+        msg.setText("Kayıt başarılı...");
+        transport.sendMessage(msg, msg.getAllRecipients());
+        transport.close();
+
+        return true;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu fonksiyon validasyon, veritabanı kaydı ve e-posta gönderimi olmak üzere üç farklı şey yapıyor. Herhangi birinde değişiklik gerektiğinde tüm fonksiyonu anlamak ve riske atmak zorundasınız.</span><span class="en-text" style="display:none;">This function does three different things: validation, database saving, and email sending. Changing any one requires understanding and risking the entire function.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her bileşen bir şeyi iyi yapar</span><span class="en-text" style="display:none;">GOOD — Each component does one thing well</span></span>
+            <pre>public class UserRegistration {
+    private final UserValidator validator;
+    private final UserRepository repository;
+    private final WelcomeMailer mailer;
+
+    public User register(RegistrationRequest request) {
+        validator.validate(request);
+        User user = repository.save(request.toUser());
+        mailer.sendWelcome(user);
+        return user;
+    }
+}
+
+public class UserValidator {
+    public void validate(RegistrationRequest request) {
+        requireValidEmail(request.email());
+        requireStrongPassword(request.password());
+    }
+}
+
+public class UserRepository {
+    public User save(User user) { /* sadece kayıt */ }
+}
+
+public class WelcomeMailer {
+    public void sendWelcome(User user) { /* sadece e-posta */ }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Fonksiyonunuzun ne yaptığını tek cümlede açıklayın. Eğer cümlede "ve" veya "veya" kullanmak zorunda kalıyorsanız, fonksiyonunuz birden fazla şey yapıyor demektir. "Bu fonksiyon kullanıcıyı doğrular VE kaydeder VE e-posta gönderir" → üç fonksiyon olmalı.</span><span class="en-text" style="display:none;">Describe what your function does in one sentence. If you need "and" or "or" in that sentence, your function does more than one thing. "This function validates the user AND saves AND sends email" → should be three functions.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 8' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 7;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>
