@@ -65,6 +65,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Factory Method | Fabrika Metodu (Factory Method) | Nesne oluşturma mantığını kapsülleyen metot |
 | False Clue | Yanlış İpucu (False Clue) | Kodun anlamını bulanıklaştıran yanıltıcı isimler |
 | Feature | Özellik (Feature) | |
+| FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
 | Focused | Odaklanmış (Focused) | Temiz kodun tek amaca yönelik olması |
 | Function | Fonksiyon (Function) | |
 | Gratuitous Context | Gereksiz Bağlam (Gratuitous Context) | Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek |
@@ -130,6 +131,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Release Cycle | Yayın Döngüsü (Release Cycle) | Ürün sürüm yayınlama süreci |
 | Renaming | Yeniden Adlandırma (Renaming) | Değişken/fonksiyon/sınıf adını değiştirme |
 | Requirement | Gereksinim (Requirement) | |
+| Routine | Rutin (Routine) | Programlamanın ilk günlerindeki fonksiyon benzeri yapı |
 | Schedule | Takvim / Zamanlama (Schedule) | |
 | School of Thought | Düşünce Okulu (School of Thought) | |
 | Scope | Kapsam (Scope) | Bir değişkenin geçerli olduğu kod alanı |
@@ -144,6 +146,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Source File | Kaynak Dosyası (Source File) | Programın kaynak kodunu içeren dosya |
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
+| StringBuffer | StringBuffer | Java'da değiştirilebilir dizgi nesnesi |
+| Subroutine | Alt Rutin (Subroutine) | Programlamanın ilk günlerindeki alt program yapısı |
+| Subprogram | Alt Program (Subprogram) | Fortran/PL1 döneminde kullanılan program parçası |
 | Subscript | Alt İndis (Subscript) | Dizi veya koleksiyondaki öğeye erişim indeksi |
 | Technical Debt | Teknik Borç (Technical Debt) | Hızlı çözümlerden kaynaklanan birikmiş kod sorunları |
 | Test | Test | Çevrilmez |
