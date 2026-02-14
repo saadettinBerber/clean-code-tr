@@ -18,7 +18,7 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ## Son Çevrilen Sayfa Takibi
 
 - **KRİTİK KURAL**: Her çeviri tamamlandığında, bu dosyadaki `last_translated_page` değerini güncelle.
-- **last_translated_page**: 30
+- **last_translated_page**: 31
 - Kullanıcı "sıradaki sayfa", "sonraki sayfa", "next", "devam" gibi ifadeler kullandığında veya `/cevir next` yazdığında, `last_translated_page + 1` sayfasını çevir.
 - Eğer `last_translated_page` değeri 0 ise ve kullanıcı "sıradaki" derse, sayfa 1'den başla.
 
@@ -129,6 +129,7 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 8. **index.html'i güncelle**: `TRANSLATED_PAGES` objesine, sayfa kartına, badge ve input-hint'e yeni sayfayı ekle.
 9. **Glossary'yi güncelle**: Yeni terimler varsa glossary'ye ekle.
 10. **last_translated_page değerini güncelle**: Bu dosyadaki (CLAUDE.md) değeri güncelle.
+11. **GitHub'a push et**: Tüm değişiklikleri commit'le ve GitHub'a push et. Commit mesajı `Sayfa X çevirisi eklendi` formatında olsun. Bu adım her çeviri sonunda otomatik yapılır.
 
 ## Önemli Notlar
 
