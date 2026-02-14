@@ -57,7 +57,8 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
   - `index.html`: Ana sayfa (navigasyon hub'ı, sayfa numarası giriş kutusu, çevrilen sayfaların listesi)
   - `pages/page-X.html`: Her çevrilen sayfa `pages/` klasörü altında ayrı dosyada saklanır (örnek: `pages/page-1.html`, `pages/page-2.html`)
   - Sayfa dosyalarından `index.html`'e linkler `../index.html` şeklinde, sayfalar arası linkler ise `page-X.html` şeklinde (aynı dizinde oldukları için) olmalıdır.
-- Her sayfa dosyası bağımsız (standalone) olmalı, tüm CSS ve JS inline olmalıdır (harici dosya bağımlılığı yok).
+- Her sayfa dosyası CSS'i inline içerir, JS ise `../js/common.js` harici dosyasından yüklenir.
+- Her sayfa dosyasında sadece `<script>const CURRENT_PAGE = X;</script>` ve `<script src="../js/common.js"></script>` bulunur.
 - Responsive tasarım (mobil uyumlu).
 - Türkçe karakter desteği (UTF-8).
 - **Her yeni çeviri yapıldığında `index.html` de güncellenmelidir**:
@@ -125,7 +126,7 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 4. **Çeviriyi yap**: Kurallara uygun şekilde hem EN hem TR metinleri hazırla.
 5. **Kavram butonlarını hazırla**: Sayfadaki önemli kavramlar için few-shot örnekler oluştur.
 6. **Sayfa HTML dosyasını oluştur**: `pages/page-X.html` olarak tüm bileşen kurallarına uygun HTML dosyasını yaz.
-7. **Mevcut sayfaların PAGES_MAP'ini güncelle**: Yeni eklenen sayfa, TÜM mevcut sayfa dosyalarındaki `PAGES_MAP` objesine eklenmelidir. Bu sayede herhangi bir sayfadan yeni sayfaya sayfa numarası input'u ile gidilebilir. Bu güncelleme toplu olarak (refactoring-assistant agent veya replace_all ile) yapılmalıdır.
+7. **js/common.js'deki PAGES_MAP'i güncelle**: Yeni eklenen sayfayı `js/common.js` dosyasındaki `PAGES_MAP` objesine ekle. Tek dosya güncellemesi yeterlidir, sayfa dosyalarına dokunmaya gerek yoktur.
 8. **index.html'i güncelle**: `TRANSLATED_PAGES` objesine, sayfa kartına, badge ve input-hint'e yeni sayfayı ekle.
 9. **Glossary'yi güncelle**: Yeni terimler varsa glossary'ye ekle.
 10. **last_translated_page değerini güncelle**: Bu dosyadaki (CLAUDE.md) değeri güncelle.

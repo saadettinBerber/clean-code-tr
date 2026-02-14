@@ -50,26 +50,23 @@ Kullanıcı bu skill'i çağırdığında aşağıdaki adımları takip et:
 
 - Dosya yolu: `/home/b920/Desktop/make_greater/Clean Code/pages/page-X.html` (X = sayfa numarası)
 - CLAUDE.md'deki HTML çıktı kurallarına uy.
-- Tüm CSS ve JS inline.
+- CSS inline, JS ise `../js/common.js` harici dosyasından yüklenir.
+- Script bölümü sadece şu 2 satırdan oluşmalı:
+  - `<script>const CURRENT_PAGE = X;</script>`
+  - `<script src="../js/common.js"></script>`
 - EN/TR toggle, kavram butonları dahil.
 - Navigasyon butonları (alt kısım):
   - Önceki sayfa: Eğer çevrilmişse `<a href="page-(X-1).html">`, yoksa disabled
   - Sonraki sayfa: Eğer çevrilmişse `<a href="page-(X+1).html">`, yoksa `not-translated` sınıfıyla göster
 - Üst barda `../index.html`'e dönüş linki (Ana Sayfa) olmalı.
-- **Sayfa Numarası Input'u (Üst Bar)**: Sağ üstte interaktif input olmalı:
-  - `PAGES_MAP` objesi: Tüm çevrilen sayfaların `{numara: 'page-X.html'}` formatında listesi
-  - `CURRENT_PAGE` değişkeni: Bu sayfanın numarası
-  - Kullanıcı sayfa numarası yazıp Enter'a basınca ilgili sayfaya yönlendirilir
-  - Çevrilmemiş sayfa girilirse tooltip ile uyarı gösterilir
-  - Focus kaybedilince mevcut sayfa numarasına döner
+- **Sayfa Numarası Input'u (Üst Bar)**: Sağ üstte interaktif input olmalı (JS işlevleri `common.js`'den gelir):
   - CSS sınıfları: `.page-number-wrapper`, `.page-number-label`, `.page-number-input`, `.page-nav-tooltip`
 
-## 6b. Mevcut Sayfaların PAGES_MAP'ini Güncelle
+## 6b. js/common.js'deki PAGES_MAP'i Güncelle
 
-- **KRİTİK**: Yeni sayfa eklendiğinde, TÜM mevcut sayfa dosyalarındaki `PAGES_MAP` objesine yeni sayfa eklenmelidir.
-- Bu sayede herhangi bir sayfadan yeni sayfaya sayfa numarası input'u ile gidilebilir.
-- Bu güncelleme toplu olarak yapılmalıdır (refactoring-assistant agent veya `replace_all` ile).
-- Örnek: Sayfa 20 eklendiğinde, page-1.html'den page-19.html'e kadar tüm dosyalardaki `PAGES_MAP` objesine `20:'page-20.html'` eklenir.
+- **KRİTİK**: Yeni sayfa eklendiğinde, `js/common.js` dosyasındaki `PAGES_MAP` objesine yeni sayfa eklenmelidir.
+- Tek dosya güncellemesi yeterlidir, sayfa dosyalarına dokunmaya gerek yoktur.
+- Örnek: Sayfa 32 eklendiğinde, `js/common.js`'deki `PAGES_MAP` objesine `32:'page-32.html'` eklenir.
 
 ## 6c. index.html Güncelle
 
