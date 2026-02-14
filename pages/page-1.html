@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 1 | Bolum 1: Temiz Kod</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        /* Ust Bar */
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #adb5bd;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .home-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+
+        /* Dil Toggle */
+        .lang-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Ana Icerik */
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        /* Chapter Header */
+        .chapter-header {
+            display: flex;
+            align-items: flex-end;
+            gap: 24px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 3px solid #e8d44d;
+        }
+
+        .chapter-number {
+            font-size: 80px;
+            font-weight: 800;
+            color: #1a1a2e;
+            line-height: 1;
+            opacity: 0.15;
+        }
+
+        .chapter-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .chapter-title-tr {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .chapter-title-en {
+            font-size: 20px;
+            font-weight: 400;
+            color: #6c757d;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .content-paragraph em, .content-paragraph i {
+            font-style: italic;
+        }
+
+        .illustration-note {
+            background: #e9ecef;
+            border: 1px dashed #adb5bd;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 24px 0;
+            color: #6c757d;
+            font-size: 15px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8d44d;
+        }
+
+        .section-title-sub {
+            font-size: 16px;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        /* Kavram Butonlari */
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26,26,46,0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .modal-body .explanation {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #495057;
+        }
+
+        /* Sayfa Navigasyonu */
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .nav-btn:hover:not(.disabled) {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .nav-btn.next {
+            text-align: right;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 800px;
+            margin: 0 auto 24px;
+            padding: 0 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+            .book-title {
+                font-size: 14px;
+            }
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+            .chapter-header {
+                gap: 16px;
+            }
+            .chapter-number {
+                font-size: 56px;
+            }
+            .chapter-title-tr {
+                font-size: 24px;
+            }
+            .chapter-title-en {
+                font-size: 16px;
+            }
+            .section-title {
+                font-size: 22px;
+            }
+            .page-nav {
+                flex-direction: column;
+            }
+            .nav-btn.next {
+                text-align: left;
+            }
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Ust Bar -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="book-title">
+            Clean Code &mdash; Robert C. Martin
+            <a href="../index.html" class="home-link">Ana Sayfa</a>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="1" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Ana Icerik -->
+<div class="content-wrapper">
+
+    <!-- Chapter Header -->
+    <div class="chapter-header">
+        <div class="chapter-number">1</div>
+        <div class="chapter-title-group">
+            <div class="chapter-title-tr">Temiz Kod</div>
+            <div class="chapter-title-en">Clean Code</div>
+        </div>
+    </div>
+
+    <!-- Illustration Note -->
+    <div class="illustration-note">
+        <span class="tr-text">[ Kitaptaki illustrasyon: Antik Yunan tapinaginin onunde oturan, elinde parsomen tutan bir dusunur figuru ]</span>
+        <span class="en-text" style="display:none;">[ Book illustration: A thinker figure sitting in front of an ancient Greek temple, holding a scroll ]</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kitabi iki nedenden dolayi okuyorsunuz. Birincisi, bir programcisiniz. Ikincisi, daha iyi bir programci olmak istiyorsunuz. Guzel. Daha iyi programcilara ihtiyacimiz var.</span>
+        <span class="en-text" style="display:none;">You are reading this book for two reasons. First, you are a programmer. Second, you want to be a better programmer. Good. We need better programmers.</span>
+    </div>
+
+    <!-- Kavram Butonlari -->
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('cleancode')">
+                <span class="tr-text">Temiz Kod (Clean Code)</span>
+                <span class="en-text" style="display:none;">Clean Code</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('craftsmanship')">
+                <span class="tr-text">Yazilim Zanaati (Software Craftsmanship)</span>
+                <span class="en-text" style="display:none;">Software Craftsmanship</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sayfa Navigasyonu -->
+<div class="page-nav">
+    <div class="nav-btn disabled">
+        <div class="nav-btn-label">
+            <span class="tr-text">Onceki Sayfa</span>
+            <span class="en-text" style="display:none;">Previous Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">&mdash;</span>
+            <span class="en-text" style="display:none;">&mdash;</span>
+        </div>
+    </div>
+    <a href="page-2.html" class="nav-btn next">
+        <div class="nav-btn-label">
+            <span class="tr-text">Sonraki Sayfa</span>
+            <span class="en-text" style="display:none;">Next Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 2 &mdash; Kod Her Zaman Var Olacak</span>
+            <span class="en-text" style="display:none;">Page 2 &mdash; There Will Be Code</span>
+        </div>
+    </a>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    Clean Code &copy; Robert C. Martin &mdash; Egitim Amacli Ceviri
+</div>
+
+<!-- Modal: Clean Code -->
+<div class="modal-overlay" id="modal-cleancode">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Temiz Kod (Clean Code)</span>
+                <span class="en-text" style="display:none;">Clean Code</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('cleancode')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Aciklamasi</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Temiz Kod (Clean Code), okunabilir, anlasilabilir ve bakimi kolay kod yazma disiplinidir. Degisken, fonksiyon ve sinif isimlendirmesi bu disiplinin en temel yapitasidir. Iyi isimlendirilmis kod, yorum satirlarina ihtiyac duymadan kendini aciklar.</span>
+                <span class="en-text" style="display:none;">Clean Code is the discipline of writing readable, understandable, and maintainable code. Naming of variables, functions, and classes is the most fundamental building block of this discipline. Well-named code explains itself without needing comments.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kotu Ornek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KOTU</span>
+                <span class="en-text" style="display:none;">BAD</span>
+            </span>
+<pre>def p(l):
+    t = 0
+    for i in l:
+        if i > 0:
+            t = t + i
+    return t</pre>
+            <div class="explanation">
+                <span class="tr-text">Fonksiyon ve degisken isimleri tamamen anlamsiz. <code>p</code>, <code>l</code>, <code>t</code>, <code>i</code> gibi tek harfli isimler kodun ne yaptigini gizliyor.</span>
+                <span class="en-text" style="display:none;">Function and variable names are completely meaningless. Single-letter names like <code>p</code>, <code>l</code>, <code>t</code>, <code>i</code> hide what the code does.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">Iyi Ornek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">IYI</span>
+                <span class="en-text" style="display:none;">GOOD</span>
+            </span>
+<pre>def sum_positive_numbers(numbers):
+    total = 0
+    for number in numbers:
+        if number > 0:
+            total += number
+    return total</pre>
+            <div class="explanation">
+                <span class="tr-text">Fonksiyon adi (<code>sum_positive_numbers</code>) tam olarak ne yaptigini soyluyor. Degisken adlari (<code>numbers</code>, <code>total</code>, <code>number</code>) baglami acikca ortaya koyuyor.</span>
+                <span class="en-text" style="display:none;">The function name (<code>sum_positive_numbers</code>) tells exactly what it does. Variable names (<code>numbers</code>, <code>total</code>, <code>number</code>) clearly convey context.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik Ipucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Bir fonksiyon veya degisken adlandirirken kendinize sunu sorun: "Bu kodu 6 ay sonra okudugumda ne yaptigini anlayabilir miyim?" Eger cevap hayirsa, ismi degistirin.</span>
+                <span class="en-text" style="display:none;">When naming a function or variable, ask yourself: "Will I understand what this does 6 months from now?" If the answer is no, rename it.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Software Craftsmanship -->
+<div class="modal-overlay" id="modal-craftsmanship">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Yazilim Zanaati (Software Craftsmanship)</span>
+                <span class="en-text" style="display:none;">Software Craftsmanship</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('craftsmanship')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Aciklamasi</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Yazilim Zanaati (Software Craftsmanship), yazilim gelistirmeyi sadece bir muhendislik dalasi degil, ayni zamanda bir zanaat olarak goren yaklasimdir. "Calisiyor" demek yeterli degildir; kodun ayni zamanda ozenle, dikkatle ve guzellikle yazilmis olmasi gerekir. Bu, profesyonellik ve sorumluluk bilinciyle kod yazmak demektir.</span>
+                <span class="en-text" style="display:none;">Software Craftsmanship is an approach that views software development not just as an engineering discipline, but also as a craft. "It works" is not enough; code must also be written with care, attention, and elegance. This means writing code with professionalism and a sense of responsibility.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kotu Ornek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KOTU</span>
+                <span class="en-text" style="display:none;">BAD</span>
+            </span>
+<pre>// TODO: fix this later
+// HACK: don't know why this works
+function calcPrice(x, y, z) {
+    var r = x * y;
+    if (z) r = r - (r * 0.1); // 10% discount maybe?
+    return r;
+}</pre>
+            <div class="explanation">
+                <span class="tr-text">Bu kod "isini olsun bitsin" zihniyetiyle yazilmis. Gecici cozumler (hack), belirsiz TODO'lar, anlamsiz degisken adlari ve sihirli sayilar (magic numbers) iceriyor.</span>
+                <span class="en-text" style="display:none;">This code was written with a "just get it done" mentality. It contains hacks, vague TODOs, meaningless variable names, and magic numbers.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">Iyi Ornek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">IYI</span>
+                <span class="en-text" style="display:none;">GOOD</span>
+            </span>
+<pre>const LOYALTY_DISCOUNT_RATE = 0.10;
+
+function calculateTotalPrice(unitPrice, quantity, isLoyalCustomer) {
+    const subtotal = unitPrice * quantity;
+
+    if (isLoyalCustomer) {
+        return subtotal - (subtotal * LOYALTY_DISCOUNT_RATE);
+    }
+
+    return subtotal;
+}</pre>
+            <div class="explanation">
+                <span class="tr-text">Bu kod ozenle yazilmis. Sabitler anlamli isimlerle tanimlanmis (<code>LOYALTY_DISCOUNT_RATE</code>), fonksiyon ve parametre adlari kendi kendini acikliyor.</span>
+                <span class="en-text" style="display:none;">This code was written with care. Constants have meaningful names (<code>LOYALTY_DISCOUNT_RATE</code>), function and parameter names are self-documenting.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik Ipucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Her commit yapmadan once kodunuza bir adim geriden bakin. "Bu kodu bir is arkadasima gostermekten gurur duyar miyim?" diye sorun.</span>
+                <span class="en-text" style="display:none;">Before every commit, step back and look at your code. Ask yourself: "Would I be proud to show this to a colleague?"</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dil yonetimi
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+
+    // Modal yonetimi
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 1;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

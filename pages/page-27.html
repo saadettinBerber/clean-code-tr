@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 27 | Bölüm 2: Anlamlı İsimler — Çözüm Alanı ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Solution and Problem Domain Names / Meaningful Context</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="27" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Eğer "her kavram için tek kelime" kuralına uyarsanız, örneğin <code>add</code> metoduna sahip birçok sınıfınız olabilir. Farklı <code>add</code> metotlarının parametre listeleri ve dönüş değerleri anlamsal olarak eşdeğer olduğu sürece her şey yolundadır.</span>
+        <span class="en-text" style="display:none;">If you follow the “one word per concept” rule, you could end up with many classes that have, for example, an <code>add</code> method. As long as the parameter lists and return values of the various <code>add</code> methods are semantically equivalent, all is well.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ancak birisi, aslında aynı anlamda ekleme yapmadığı halde "tutarlılık" adına <code>add</code> kelimesini kullanmaya karar verebilir. Diyelim ki mevcut iki değeri toplayarak veya birbirine bağlayarak yeni bir değer oluşturan birçok sınıfımızda <code>add</code> metodu var. Şimdi tek bir parametreyi bir koleksiyona (collection) yerleştiren bir metoda sahip yeni bir sınıf yazdığımızı varsayalım. Bu metoda <code>add</code> demeli miyiz? Diğer pek çok <code>add</code> metodumuz olduğu için tutarlı görünebilir, ancak bu durumda semantik (anlamsal yapı) farklıdır; bu yüzden <code>insert</code> veya <code>append</code> gibi bir isim kullanmalıyız. Yeni metoda <code>add</code> demek bir kelime oyunu (pun) olurdu.</span>
+        <span class="en-text" style="display:none;">However one might decide to use the word <code>add</code> for “consistency” when he or she is not in fact adding in the same sense. Let’s say we have many classes where <code>add</code> will create a new value by adding or concatenating two existing values. Now let’s say we are writing a new class that has a method that puts its single parameter into a collection. Should we call this method <code>add</code>? It might seem consistent because we have so many other <code>add</code> methods, but in this case, the semantics are different, so we should use a name like <code>insert</code> or <code>append</code> instead. To call the new method <code>add</code> would be a pun.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yazarlar olarak amacımız, kodumuzu anlaşılması mümkün olduğunca kolay hale getirmektir. Kodumuzun yoğun bir çalışma değil, hızlı bir göz gezdirme (skim) olmasını isteriz. Yazarın kendini açıkça ifade etmekten sorumlu olduğu popüler karton kapaklı kitap modelini (popular paperback model) kullanmak isteriz; okuyucunun anlamı kağıttan kazıyıp çıkarmak zorunda olduğu akademik modeli değil.</span>
+        <span class="en-text" style="display:none;">Our goal, as authors, is to make our code as easy as possible to understand. We want our code to be a quick skim, not an intense study. We want to use the popular paperback model whereby the author is responsible for making himself clear and not the academic model where it is the scholar’s job to dig the meaning out of the paper.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Çözüm Alanı İsimlerini Kullanma / Use Solution Domain Names</span>
+        <span class="en-text" style="display:none;">Use Solution Domain Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodunuzu okuyacak kişilerin programcılar olacağını unutmayın. Bu yüzden bilgisayar bilimleri (CS) terimlerini, algoritma isimlerini, desen (pattern) isimlerini, matematik terimlerini ve benzerlerini kullanmaktan çekinmeyin. Her ismi problem alanından (problem domain) çekip çıkarmak akıllıca değildir; çünkü iş arkadaşlarımızın zaten farklı bir isimle bildikleri bir kavramın ne anlama geldiğini sormak için sürekli müşteriye koşmalarını istemeyiz.</span>
+        <span class="en-text" style="display:none;">Remember that the people who read your code will be programmers. So go ahead and use computer science (CS) terms, algorithm names, pattern names, math terms, and so forth. It is not wise to draw every name from the problem domain because we don’t want our coworkers to have to run back and forth to the customer asking what every name means when they already know the concept by a different name.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code>AccountVisitor</code> ismi, ZİYARETÇİ desenine (VISITOR pattern) aşina olan bir programcı için çok şey ifade eder. Hangi programcı bir İş Kuyruğu'nun (JobQueue) ne olduğunu bilmez? Programcıların yapmak zorunda olduğu pek çok teknik şey vardır. Bunlar için teknik isimler seçmek genellikle en uygun yoldur.</span>
+        <span class="en-text" style="display:none;">The name <code>AccountVisitor</code> means a great deal to a programmer who is familiar with the VISITOR pattern. What programmer would not know what a <code>JobQueue</code> was? There are lots of very technical things that programmers have to do. Choosing technical names for those things is usually the most appropriate course.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Problem Alanı İsimlerini Kullanma / Use Problem Domain Names</span>
+        <span class="en-text" style="display:none;">Use Problem Domain Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yaptığınız iş için bir "programcı dili" (programmer-eese) yoksa, problem alanından (problem domain) bir isim kullanın. En azından kodu koruyan programcı, bir alan uzmanına (domain expert) bunun ne anlama geldiğini sorabilir.</span>
+        <span class="en-text" style="display:none;">When there is no “programmer-eese” for what you’re doing, use the name from the problem domain. At least the programmer who maintains your code can ask a domain expert what it means.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Çözüm ve problem alanı kavramlarını birbirinden ayırmak, iyi bir programcı ve tasarımcının görevinin bir parçasıdır. Problem alanı kavramlarıyla daha çok ilgili olan kodlar, problem alanından seçilmiş isimlere sahip olmalıdır.</span>
+        <span class="en-text" style="display:none;">Separating solution and problem domain concepts is part of the job of a good programmer and designer. The code that has more to do with problem domain concepts should have names drawn from the problem domain.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Anlamlı Bağlam Ekleme / Add Meaningful Context</span>
+        <span class="en-text" style="display:none;">Add Meaningful Context</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kendi başlarına anlamlı olan çok az isim vardır; çoğu değildir. Bunun yerine, isimleri iyi adlandırılmış sınıflar, fonksiyonlar veya ad alanları (namespaces) içine yerleştirerek okuyucu için bir bağlam (context) oluşturmanız gerekir. Her şey başarısız olduğunda, ismin önüne bir önek (prefix) eklemek son çare olarak gerekli olabilir.</span>
+        <span class="en-text" style="display:none;">There are a few names which are meaningful in and of themselves—most are not. Instead, you need to place names in context for your reader by enclosing them in well-named classes, functions, or namespaces. When all else fails, then prefixing the name may be necessary as a last resort.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('pun')">
+                <span class="tr-text">Kelime Oyunlarından Kaçınma</span>
+                <span class="en-text" style="display:none;">Avoid Punning</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('solution-domain')">
+                <span class="tr-text">Çözüm Alanı İsimleri</span>
+                <span class="en-text" style="display:none;">Solution Domain Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('problem-domain')">
+                <span class="tr-text">Problem Alanı İsimleri</span>
+                <span class="en-text" style="display:none;">Problem Domain Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('context')">
+                <span class="tr-text">Anlamlı Bağlam</span>
+                <span class="en-text" style="display:none;">Meaningful Context</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-26.html" class="nav-btn not-translated" onclick="return handleUntranslated(event, 26)">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 26 — Şirinlikten Kaçının / Her Kavram İçin Tek Kelime</span><span class="en-text" style="display:none;">Page 26 — Don't Be Cute / One Word per Concept</span></div>
+    </a>
+    <a href="page-28.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 28)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 28 — Anlamlı Bağlam (devam)</span><span class="en-text" style="display:none;">Page 28 — Meaningful Context (cont.)</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-pun">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kelime Oyunlarından Kaçınma (Avoid Punning)</span><span class="en-text" style="display:none;">Avoid Punning</span></h3>
+            <button class="modal-close" onclick="closeModal('pun')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Aynı kelimeyi iki farklı amaç için kullanmak bir kelime oyunudur. "Tutarlılık" adına farklı anlamlara gelen eylemler için aynı kelimeyi seçmek okuyucuyu yanıltır. Örneğin, iki sayıyı toplamak ile bir öğeyi listeye eklemek farklı anlamsal eylemlerdir.</span><span class="en-text" style="display:none;">Using the same word for two different purposes is punning. Choosing the same word for actions with different meanings for the sake of "consistency" misleads the reader. For example, adding two numbers and inserting an item into a list are different semantic actions.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "add" kelimesinin aşırı yüklenmesi</span><span class="en-text" style="display:none;">BAD — Overloading the word "add"</span></span>
+<pre>public class Calculator {
+    public int add(int a, int b) { return a + b; }
+}
+
+public class UserList {
+    // Koleksiyona ekleme yaparken de 'add' kullanılmış
+    public void add(User user) { users.add(user); }
+}</pre>
+            <div class="explanation"><span class="tr-text">Burada <code>UserList.add</code> metodu matematiksel bir toplama yapmıyor, sadece koleksiyona bir öğe yerleştiriyor. Diğer sınıflardaki <code>add</code> metotlarıyla "benzer" görünse de işlevi farklıdır.</span><span class="en-text" style="display:none;">Here, <code>UserList.add</code> doesn't perform a mathematical addition; it just inserts an item into a collection. Even if it looks "consistent" with other <code>add</code> methods, its function is different.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Anlamsal olarak doğru terimler</span><span class="en-text" style="display:none;">GOOD — Semantically correct terms</span></span>
+<pre>public class Calculator {
+    public int add(int a, int b) { return a + b; }
+}
+
+public class UserList {
+    public void insert(User user) { users.add(user); }
+    // veya
+    public void append(User user) { users.add(user); }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzu bir "paperback" (karton kapaklı popüler roman) gibi yazın. Okuyucunun anlamı çözmek için dedektiflik yapmasına gerek kalmamalı. Kelimelerin yaygın teknik anlamlarına sadık kalın.</span><span class="en-text" style="display:none;">Write your code like a "paperback" novel. The reader shouldn't have to play detective to figure out the meaning. Stick to common technical meanings of words.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-solution-domain">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Çözüm Alanı İsimleri (Solution Domain Names)</span><span class="en-text" style="display:none;">Solution Domain Names</span></h3>
+            <button class="modal-close" onclick="closeModal('solution-domain')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kodunuzu programcılar okur. Bu yüzden teknik terimleri (algoritmalar, desenler, veri yapıları) kullanmaktan çekinmeyin. Bir programcıya "Müşteri Hesabı Veri Erişim Nesnesi" demek yerine "AccountDAO" demek çok daha hızlı ve net bir iletişim sağlar.</span><span class="en-text" style="display:none;">Programmers read your code. So don't hesitate to use technical terms (algorithms, patterns, data structures). Saying "AccountDAO" to a programmer is much faster and clearer than saying "Customer Account Data Access Object."</span></p>
+
+            <h4><span class="tr-text">İyi Örnekler</span><span class="en-text" style="display:none;">Good Examples</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Teknik terimlerin kullanımı</span><span class="en-text" style="display:none;">GOOD — Use of technical terms</span></span>
+<pre>// Programcılar bu isimlerin ne anlama geldiğini hemen anlar:
+class AccountObserver { ... }
+class EmailPriorityQueue { ... }
+public void sortWithQuickSort() { ... }
+public UserFactory userFactory; </pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer bir tasarım deseni (design pattern) kullanıyorsanız, o desenin adını sınıf ismine dahil edin. Örneğin, <code>Account</code> yerine <code>AccountProxy</code> veya <code>AccountDecorator</code> kullanmak, kodun mimari rolünü anında açıklar.</span><span class="en-text" style="display:none;">If you are using a design pattern, include its name in the class name. For example, using <code>AccountProxy</code> or <code>AccountDecorator</code> instead of just <code>Account</code> immediately clarifies the code's architectural role.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-problem-domain">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Problem Alanı İsimleri (Problem Domain Names)</span><span class="en-text" style="display:none;">Problem Domain Names</span></h3>
+            <button class="modal-close" onclick="closeModal('problem-domain')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Yaptığınız işin teknik bir karşılığı yoksa, o işin yapıldığı alanın (finans, sağlık, oyun vb.) terminolojisini kullanın. Bu, teknik olmayan ekip üyeleri ve alan uzmanlarıyla aynı dili konuşmanızı sağlar ve bakım aşamasında anlam karmaşasını önler.</span><span class="en-text" style="display:none;">If there is no technical equivalent for what you're doing, use the terminology of the domain (finance, health, gaming, etc.) where the work is done. This allows you to speak the same language as non-technical team members and domain experts, preventing confusion during maintenance.</span></p>
+
+            <h4><span class="tr-text">Örnek</span><span class="en-text" style="display:none;">Example</span></h4>
+            <div class="explanation"><span class="tr-text">Bir bankacılık uygulamasında teknik bir kuyruk yapısı kurmuyorsanız, "bekleyen işlemler" için <code>PendingTransactions</code> demek, <code>OperationBuffer</code> demekten daha anlamlıdır.</span><span class="en-text" style="display:none;">In a banking application, unless you are building a technical queue structure, saying <code>PendingTransactions</code> for "waiting operations" is more meaningful than saying <code>OperationBuffer</code>.</span></div>
+<pre>// Problem alanından isimler:
+class InsurancePolicy { ... }
+class ClaimAdjustment { ... }
+public void applyDiscount(Voucher voucher) { ... }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İyi bir tasarımcı, çözüm alanı (teknik) ve problem alanı (iş) kavramlarını nerede ayıracağını bilir. Kullanıcı arayüzüne ve iş kurallarına yakın kodlar problem alanı isimlerini kullanmalıdır.</span><span class="en-text" style="display:none;">A good designer knows where to separate solution domain (technical) and problem domain (business) concepts. Code close to the UI and business rules should use problem domain names.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-context">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Anlamlı Bağlam (Meaningful Context)</span><span class="en-text" style="display:none;">Meaningful Context</span></h3>
+            <button class="modal-close" onclick="closeModal('context')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Değişken isimleri tek başlarına yetersiz kalabilir. Örneğin <code>state</code> değişkeni bir adresin eyaletini mi, yoksa bir nesnenin durumunu mu temsil ediyor? İsmi bir sınıfın veya fonksiyonun içine yerleştirerek ona bir bağlam kazandırın.</span><span class="en-text" style="display:none;">Variable names alone can be insufficient. For example, does the <code>state</code> variable represent an address's state or an object's status? Give it context by placing the name inside a class or function.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Bağlamdan kopuk değişkenler</span><span class="en-text" style="display:none;">BAD — Variables disconnected from context</span></span>
+<pre>public void process(String firstName, String lastName, String state) {
+    // 'state' burada ne anlama geliyor? 
+    // Sipariş durumu mu? Eyalet mi?
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Sınıf ile sağlanan bağlam</span><span class="en-text" style="display:none;">GOOD — Context provided by class</span></span>
+<pre>public class Address {
+    private String firstName;
+    private String lastName;
+    private String state; // Artık eyalet olduğu açık.
+}
+
+public void process(Address address) { ... }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer değişkenlerin önüne sürekli aynı öneki (örn: <code>addrState</code>, <code>addrZip</code>) ekleme ihtiyacı duyuyorsanız, bu değişkenleri kendi sınıflarına taşımanın zamanı gelmiş demektir.</span><span class="en-text" style="display:none;">If you feel the need to constantly add the same prefix to variables (e.g., <code>addrState</code>, <code>addrZip</code>), it's time to move these variables into their own class.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert("Sayfa " + num + " henüz çevrilmedi. '/cevir " + num + "' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 27;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

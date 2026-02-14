@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 24 | Bölüm 2: Anlamlı İsimler — Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="24" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Java programcılarının tip kodlamasına (type encoding) ihtiyacı yoktur. Nesneler güçlü tiplidir (strongly typed) ve düzenleme ortamları, siz daha derleme yapmadan çok önce bir tip hatasını tespit edebilecek kadar gelişmiştir! Bu yüzden günümüzde Macar Notasyonu (Hungarian Notation) ve diğer tip kodlama biçimleri sadece birer engeldir. Bir değişkenin, fonksiyonun veya sınıfın adını ya da tipini değiştirmeyi zorlaştırırlar. Kodun okunmasını zorlaştırırlar. Ve kodlama sisteminin okuyucuyu yanıltma olasılığını yaratırlar.</span>
+        <span class="en-text" style="display:none;">Java programmers don’t need type encoding. Objects are strongly typed, and editing environments have advanced such that they detect a type error long before you can run a compile! So today HN and other forms of type encoding are merely impediments. They make it harder to change the name or type of a variable, function, or class. They make it harder to read the code. And they create the possibility of the encoding system misleading the reader.</span>
+    </div>
+
+<pre class="code-block">PhoneNumber phoneString; 
+// tip değiştiğinde ad değişmedi! / name didn't change when type changed!</pre>
+
+    <div class="section-title">
+        <span class="tr-text">Üye Önekleri / Member Prefixes</span>
+        <span class="en-text" style="display:none;">Member Prefixes</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Artık üye değişkenlerin önüne <code class="inline">m_</code> öneki koymanıza da gerek yok. Sınıflarınız ve fonksiyonlarınız bunları gerektirmeyecek kadar küçük olmalıdır. Ayrıca, üyeleri belirgin hale getirmek için onları vurgulayan veya renklendiren bir düzenleme ortamı (editing environment) kullanıyor olmalısınız.</span>
+        <span class="en-text" style="display:none;">You also don’t need to prefix member variables with <code class="inline">m_</code> anymore. Your classes and functions should be small enough that you don’t need them. And you should be using an editing environment that highlights or colorizes members to make them distinct.</span>
+    </div>
+
+<pre class="code-block">public class Part { 
+  private String m_dsc; // Metinsel açıklama / Textual description
+  void setName(String name) {
+    m_dsc = name;
+  }
+}
+_________________________________________________
+public class Part { 
+  String description;
+  void setDescription(String description) { 
+    this.description = description;
+  }
+}</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Üstelik insanlar, ismin anlamlı kısmını görmek için öneki (veya son eki) görmezden gelmeyi çabucak öğrenirler. Kodu ne kadar çok okursak, önekleri o kadar az görürüz. Sonunda önekler görünmeyen bir karmaşaya (unseen clutter) ve eski kodun bir işaretine dönüşür.</span>
+        <span class="en-text" style="display:none;">Besides, people quickly learn to ignore the prefix (or suffix) to see the meaningful part of the name. The more we read the code, the less we see the prefixes. Eventually the prefixes become unseen clutter and a marker of older code.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Arayüzler ve Uygulamalar / Interfaces and Implementations</span>
+        <span class="en-text" style="display:none;">Interfaces and Implementations</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bunlar bazen kodlamalar için özel bir durum teşkil eder. Örneğin, şekillerin oluşturulması için bir Soyut Fabrika (Abstract Factory) inşa ettiğinizi varsayalım. Bu fabrika bir arayüz (interface) olacak ve somut bir sınıf (concrete class) tarafından uygulanacaktır. Bunları nasıl isimlendirmelisiniz? <code class="inline">IShapeFactory</code> ve <code class="inline">ShapeFactory</code> mi? Ben arayüzleri süslemesiz bırakmayı tercih ederim. Günümüzün eski kod yığınlarında (legacy) çok yaygın olan o baştaki "I", en iyi ihtimalle dikkat dağıtıcıdır, en kötü ihtimalle ise çok fazla bilgidir. Kullanıcılarımın onlara bir arayüz verdiğimi bilmelerini istemem. Sadece bunun bir <code class="inline">ShapeFactory</code> olduğunu bilmelerini isterim. Eğer arayüzü veya uygulamayı kodlamam gerekiyorsa, uygulamayı (implementation) seçerim. Onu <code class="inline">ShapeFactoryImp</code> veya hatta iğrenç olan <code class="inline">CShapeFactory</code> olarak adlandırmak, arayüzü kodlamaya (I-önekine) tercih edilir.</span>
+        <span class="en-text" style="display:none;">These are sometimes a special case for encodings. For example, say you are building an ABSTRACT FACTORY for the creation of shapes. This factory will be an interface and will be implemented by a concrete class. What should you name them? <code class="inline">IShapeFactory</code> and <code class="inline">ShapeFactory</code>? I prefer to leave interfaces unadorned. The preceding I, so common in today’s legacy, is at best a distraction and at worst too much information. I don’t want my users knowing that I’m handing them an interface. I just want them to know that it’s a ShapeFactory. So if I must encode either the interface or the implementation, I choose the implementation. Calling it ShapeFactoryImp or even the hideous CShapeFactory is preferable to encoding the interface.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('avoid-encoding')">
+                <span class="tr-text">Tip Kodlamasından Kaçınma</span>
+                <span class="en-text" style="display:none;">Avoid Type Encoding</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('member-prefixes')">
+                <span class="tr-text">Üye Öneklerini Bırakma</span>
+                <span class="en-text" style="display:none;">No Member Prefixes</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('interface-naming')">
+                <span class="tr-text">Arayüz İsimlendirme</span>
+                <span class="en-text" style="display:none;">Interface Naming</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-23.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 23 — Macar Notasyonu (Hungarian Notation)</span><span class="en-text" style="display:none;">Page 23 — Hungarian Notation</span></div>
+    </a>
+    <a href="page-25.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 25)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 25 — Zihinsel Haritalamadan Kaçının</span><span class="en-text" style="display:none;">Page 25 — Avoid Mental Mapping</span></div>
+    </a>
+</div>
+
+<!-- Modal: Tip Kodlamasından Kaçınma -->
+<div class="modal-overlay" id="modal-avoid-encoding">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tip Kodlamasından Kaçınma (Avoid Type Encoding)</span><span class="en-text" style="display:none;">Avoid Type Encoding</span></h3>
+            <button class="modal-close" onclick="closeModal('avoid-encoding')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Modern programlama dillerinde ve IDE'lerde, değişken isimlerine tip bilgisi eklemek (örneğin <code>nameString</code>, <code>ageInt</code>) gereksizdir. Bu uygulama, tip değiştiğinde ismin güncellenmemesi riskini taşır ve kodu okurken görsel bir gürültü yaratır. Derleyici ve IDE zaten tipi bildiği için, isim sadece "niyeti" (intent) belirtmelidir.</span><span class="en-text" style="display:none;">In modern programming languages and IDEs, adding type information to variable names (e.g., <code>nameString</code>, <code>ageInt</code>) is unnecessary. This practice risks the name not being updated when the type changes and creates visual noise. Since the compiler and IDE already know the type, the name should only specify the "intent."</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tip bilgisi isimde kodlanmış</span><span class="en-text" style="display:none;">BAD — Type information encoded in the name</span></span>
+<pre>public class UserProfile {
+    private String nameStr;
+    private int ageInt;
+    private List&lt;String&gt; addressList;
+
+    public void updateAge(int newAgeInt) {
+        this.ageInt = newAgeInt;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text"><code>Str</code>, <code>Int</code>, <code>List</code> gibi ekler okumayı zorlaştırır. Eğer <code>ageInt</code> tipini <code>long</code> yaparsak, ismi de <code>ageLong</code> olarak değiştirmemiz gerekir ki bu da her yerde refactoring gerektirir.</span><span class="en-text" style="display:none;">Suffixes like <code>Str</code>, <code>Int</code>, <code>List</code> make reading harder. If we change <code>ageInt</code> to <code>long</code>, we must also rename it to <code>ageLong</code>, requiring refactoring everywhere.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Sadece niyet belirten temiz isimler</span><span class="en-text" style="display:none;">GOOD — Clean names revealing only intent</span></span>
+<pre>public class UserProfile {
+    private String name;
+    private int age;
+    private List&lt;String&gt; addresses;
+
+    public void updateAge(int age) {
+        this.age = age;
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Değişken ismini seçerken "Bu nedir?" yerine "Bu ne işe yarar?" diye düşünün. Tipi zaten IDE'de üzerine gelerek görebilirsiniz. Koleksiyonlar için <code>addressList</code> yerine <code>addresses</code> (çoğul isim) kullanmak çok daha doğal bir okunabilirlik sağlar.</span><span class="en-text" style="display:none;">When choosing a variable name, think "What does this do?" instead of "What is this?". You can already see the type by hovering in the IDE. For collections, using <code>addresses</code> (plural) instead of <code>addressList</code> provides much more natural readability.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Üye Öneklerini Bırakma -->
+<div class="modal-overlay" id="modal-member-prefixes">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Üye Öneklerini Bırakma (No Member Prefixes)</span><span class="en-text" style="display:none;">No Member Prefixes</span></h3>
+            <button class="modal-close" onclick="closeModal('member-prefixes')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Eski kodlarda üye değişkenleri (fields) yerel değişkenlerden ayırmak için <code>m_</code> veya sadece <code>_</code> gibi önekler kullanılırdı. Ancak modern temiz kod anlayışında sınıflar küçülmüştür ve IDE'ler üye değişkenleri farklı renklerle vurgulayabilmektedir. Bu önekler, ismin asıl anlamını gölgeleyen birer "görünmeyen karmaşa" (unseen clutter) haline gelir.</span><span class="en-text" style="display:none;">In older code, prefixes like <code>m_</code> or just <code>_</code> were used to distinguish member variables (fields) from local variables. However, in modern clean code, classes have become smaller and IDEs can highlight member variables with different colors. These prefixes become "unseen clutter" that obscures the actual meaning of the name.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — m_ önekiyle kirletilmiş isimler</span><span class="en-text" style="display:none;">BAD — Names polluted with m_ prefix</span></span>
+<pre>public class Employee {
+    private String m_name;
+    private double m_salary;
+
+    public Employee(String name, double salary) {
+        m_name = name;
+        m_salary = salary;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Okurken sürekli <code>m_</code> kısmını atlayıp <code>name</code> ve <code>salary</code> kelimelerine odaklanmaya çalışırsınız. Beyniniz bu gürültüyü filtrelemek için fazladan enerji harcar.</span><span class="en-text" style="display:none;">While reading, you constantly try to skip the <code>m_</code> part and focus on the words <code>name</code> and <code>salary</code>. Your brain spends extra energy to filter this noise.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Sade ve doğrudan isimler</span><span class="en-text" style="display:none;">GOOD — Simple and direct names</span></span>
+<pre>public class Employee {
+    private String name;
+    private double salary;
+
+    public Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer üye değişkenle yerel değişkeni karıştırıyorsanız, bu genellikle metodunuzun veya sınıfınızın çok büyük olduğunun işaretidir. Önek eklemek yerine, kodu daha küçük parçalara bölün. Çakışma durumunda Java/C#'taki <code>this.</code> anahtar kelimesi zaten yeterli ayrımı sağlar.</span><span class="en-text" style="display:none;">If you are confusing member variables with local variables, it's often a sign that your method or class is too large. Instead of adding prefixes, break the code into smaller pieces. In case of a conflict, the <code>this.</code> keyword in Java/C# already provides sufficient distinction.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Arayüz İsimlendirme -->
+<div class="modal-overlay" id="modal-interface-naming">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Arayüz İsimlendirme (Interface Naming)</span><span class="en-text" style="display:none;">Interface Naming</span></h3>
+            <button class="modal-close" onclick="closeModal('interface-naming')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Arayüzlerin başına "I" koymak (örn: <code>IShape</code>), kullanıcıya gereksiz bir uygulama detayı verir. Temiz kod felsefesinde, kullanıcı bir arayüzle mi yoksa somut bir sınıfla mı çalıştığını bilmek zorunda kalmamalıdır. Eğer bir ayrım yapılması gerekiyorsa, arayüzü sade bırakıp uygulamaya (implementation) bir son ek eklemek daha doğrudur.</span><span class="en-text" style="display:none;">Prefixing interfaces with "I" (e.g., <code>IShape</code>) provides an unnecessary implementation detail to the user. In clean code philosophy, the user shouldn't have to know whether they are working with an interface or a concrete class. If a distinction must be made, it's better to leave the interface unadorned and add a suffix to the implementation.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — I-önekli arayüzler</span><span class="en-text" style="display:none;">BAD — I-prefixed interfaces</span></span>
+<pre>interface ILogger {
+    void log(String message);
+}
+
+class ConsoleLogger implements ILogger {
+    public void log(String message) { ... }
+}</pre>
+            <div class="explanation"><span class="tr-text">"I" öneki sadece bir kodlama detayıdır. Müşteri kodu <code>ILogger</code> yerine sadece bir <code>Logger</code> istediğini bilmelidir.</span><span class="en-text" style="display:none;">The "I" prefix is just a coding detail. Client code should only know that it wants a <code>Logger</code>, not an <code>ILogger</code>.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Sade arayüz, açıklayıcı uygulama</span><span class="en-text" style="display:none;">GOOD — Unadorned interface, descriptive implementation</span></span>
+<pre>interface Logger {
+    void log(String message);
+}
+
+class ConsoleLogger implements Logger {
+    public void log(String message) { ... }
+}
+
+// Veya genel bir uygulama için:
+class LoggerImpl implements Logger { ... }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kullanıcılarınızın "Ben bir arayüz kullanıyorum" diye düşünmesini istemezsiniz. Onlara sadece ne sunduğunuzu (soyutlamayı) gösterin. Eğer isimlendirme çakışıyorsa, arayüzü değil, somut sınıfı süsleyin (<code>ShapeFactory</code> vs <code>ShapeFactoryImpl</code>).</span><span class="en-text" style="display:none;">You don't want your users thinking "I'm using an interface." Just show them what you offer (the abstraction). If naming conflicts, adorn the concrete class, not the interface (<code>ShapeFactory</code> vs <code>ShapeFactoryImpl</code>).</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert("Sayfa " + num + " henüz çevrilmedi. '/cevir " + num + "' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 24;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 15 | Bölüm 1: Temiz Kod — Öncül ve İlkeler, Sonuç &amp; Kaynakça</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .bibliography-section { margin-top: 24px; }
+        .bib-entry { background: #fff; border-left: 4px solid #6c757d; padding: 12px 20px; margin-bottom: 12px; border-radius: 0 8px 8px 0; }
+        .bib-key { font-weight: 700; color: #1a1a2e; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; }
+        .bib-text { color: #495057; margin-top: 4px; }
+        .bib-text em { font-style: italic; }
+        .chapter-end-marker { text-align: center; margin: 40px 0 20px; color: #adb5bd; font-size: 14px; letter-spacing: 4px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; Prequel and Principles / Conclusion / Bibliography</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="15" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">Öncül ve İlkeler / Prequel and Principles</span>
+        <span class="en-text" style="display:none;">Prequel and Principles</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Birçok açıdan bu kitap, 2002 yılında yazdığım <em>Agile Software Development: Principles, Patterns, and Practices</em> (PPP) başlıklı kitabın bir "öncülü"dür. PPP kitabı, nesne yönelimli tasarım ilkeleri (object-oriented design principles) ve profesyonel geliştiricilerin kullandığı birçok pratikle ilgilenir. Eğer PPP'yi okumadıysanız, bu kitabın anlattığı hikâyeyi devam ettirdiğini görebilirsiniz. Eğer zaten okuduysanız, o kitabın duygu ve düşüncelerinin birçoğunun burada kod düzeyinde yankılandığını fark edeceksiniz.</span>
+        <span class="en-text" style="display:none;">In many ways this book is a "prequel" to a book I wrote in 2002 entitled <em>Agile Software Development: Principles, Patterns, and Practices</em> (PPP). The PPP book concerns itself with the principles of object-oriented design, and many of the practices used by professional developers. If you have not read PPP, then you may find that it continues the story told by this book. If you have already read it, then you'll find many of the sentiments of that book echoed in this one at the level of code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kitapta çeşitli tasarım ilkelerine (design principles) ara ara atıflar bulacaksınız. Bunlar arasında Tek Sorumluluk İlkesi (Single Responsibility Principle — SRP), Açık Kapalı İlkesi (Open Closed Principle — OCP) ve Bağımlılık Tersine Çevirme İlkesi (Dependency Inversion Principle — DIP) gibi ilkeler yer almaktadır. Bu ilkeler PPP'de derinlemesine anlatılmıştır.</span>
+        <span class="en-text" style="display:none;">In this book you will find sporadic references to various principles of design. These include the Single Responsibility Principle (SRP), the Open Closed Principle (OCP), and the Dependency Inversion Principle (DIP) among others. These principles are described in depth in PPP.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Sonuç / Conclusion</span>
+        <span class="en-text" style="display:none;">Conclusion</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Sanat üzerine yazılmış kitaplar sizi sanatçı yapmayı vaat etmez. Yapabilecekleri tek şey, diğer sanatçıların kullandığı araçları, teknikleri ve düşünce süreçlerini size sunmaktır. Bu kitap da size iyi bir programcı olmayı vaat edemez. Size "kod duygusu" (code-sense) kazandırmayı vaat edemez. Yapabileceği tek şey, iyi programcıların düşünce süreçlerini ve kullandıkları hileleri, teknikleri ve araçları göstermektir.</span>
+        <span class="en-text" style="display:none;">Books on art don't promise to make you an artist. All they can do is give you some of the tools, techniques, and thought processes that other artists have used. So too this book cannot promise to make you a good programmer. It cannot promise to give you "code-sense." All it can do is show you the thought processes of good programmers and the tricks, techniques, and tools that they use.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tıpkı bir sanat kitabı gibi, bu kitap da ayrıntılarla dolu olacaktır. Çok sayıda kod göreceksiniz. İyi kod göreceksiniz ve kötü kod göreceksiniz. Kötü kodun iyi koda dönüştürüldüğünü göreceksiniz. Sezgisel kurallar (heuristics), disiplinler ve teknikler listeleri göreceksiniz. Örnek üstüne örnek göreceksiniz. Bundan sonrası size kalmış.</span>
+        <span class="en-text" style="display:none;">Just like a book on art, this book will be full of details. There will be lots of code. You'll see good code and you'll see bad code. You'll see bad code transformed into good code. You'll see lists of heuristics, disciplines, and techniques. You'll see example after example. After that, it's up to you.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir performansına giderken yolunu kaybeden konser kemancısıyla ilgili eski şakayı hatırlayın. Köşedeki yaşlı bir adama durdu ve Carnegie Hall'a nasıl gideceğini sordu. Yaşlı adam kemancıya ve kolunun altına sıkıştırdığı kemana baktı ve dedi ki: "Pratik, evlat. Pratik!"</span>
+        <span class="en-text" style="display:none;">Remember the old joke about the concert violinist who got lost on his way to a performance? He stopped an old man on the corner and asked him how to get to Carnegie Hall. The old man looked at the violinist and the violin tucked under his arm, and said: "Practice, son. Practice!"</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Kaynakça / Bibliography</span>
+        <span class="en-text" style="display:none;">Bibliography</span>
+    </div>
+
+    <div class="bibliography-section">
+        <div class="bib-entry">
+            <div class="bib-key">[Beck07]</div>
+            <div class="bib-text"><em>Implementation Patterns</em>, Kent Beck, Addison-Wesley, 2007.</div>
+        </div>
+        <div class="bib-entry">
+            <div class="bib-key">[Knuth92]</div>
+            <div class="bib-text"><em>Literate Programming</em>, Donald E. Knuth, Center for the Study of Language and Information, Leland Stanford Junior University, 1992.</div>
+        </div>
+    </div>
+
+    <div class="chapter-end-marker">— — — Bölüm 1 Sonu / End of Chapter 1 — — —</div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('design-principles')">
+                <span class="tr-text">Tasarım İlkeleri (SOLID)</span>
+                <span class="en-text" style="display:none;">Design Principles (SOLID)</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('practice')">
+                <span class="tr-text">Pratik ve Zanaat</span>
+                <span class="en-text" style="display:none;">Practice &amp; Craftsmanship</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('code-sense')">
+                <span class="tr-text">Kod Duygusu</span>
+                <span class="en-text" style="display:none;">Code-Sense</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-14.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 14 — Okuma vs Yazma &amp; İzci Kuralı</span><span class="en-text" style="display:none;">Page 14 — Reading vs Writing &amp; The Boy Scout Rule</span></div>
+    </a>
+    <a href="page-17.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 17 — Bölüm 2: Anlamlı İsimler (Giriş)</span><span class="en-text" style="display:none;">Page 17 — Chapter 2: Meaningful Names (Introduction)</span></div>
+    </a>
+</div>
+
+<!-- Modal: Tasarım İlkeleri (SOLID) -->
+<div class="modal-overlay" id="modal-design-principles">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tasarım İlkeleri — SOLID (Design Principles)</span><span class="en-text" style="display:none;">Design Principles — SOLID</span></h3>
+            <button class="modal-close" onclick="closeModal('design-principles')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">SOLID, nesne yönelimli tasarımın beş temel ilkesinin kısaltmasıdır. Bu sayfada üçüne atıfta bulunulur: <strong>SRP</strong> (Tek Sorumluluk İlkesi) — her sınıf yalnızca bir nedenden dolayı değişmelidir; <strong>OCP</strong> (Açık Kapalı İlkesi) — sınıflar genişlemeye açık, değişikliğe kapalı olmalıdır; <strong>DIP</strong> (Bağımlılık Tersine Çevirme İlkesi) — üst seviye modüller alt seviye modüllere değil, soyutlamalara bağımlı olmalıdır.</span><span class="en-text" style="display:none;">SOLID is an acronym for five fundamental principles of object-oriented design. Three are referenced on this page: <strong>SRP</strong> (Single Responsibility Principle) — a class should have only one reason to change; <strong>OCP</strong> (Open Closed Principle) — classes should be open for extension, closed for modification; <strong>DIP</strong> (Dependency Inversion Principle) — high-level modules should depend on abstractions, not low-level modules.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before) — SRP İhlali</span><span class="en-text" style="display:none;">Bad Example (Before) — SRP Violation</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Sınıf birden fazla sorumluluk taşıyor</span><span class="en-text" style="display:none;">BAD — Class has multiple responsibilities</span></span>
+<pre>class UserService:
+    def authenticate(self, username, password):
+        # Kullanıcı doğrulama
+        user = db.query(f"SELECT * FROM users WHERE name='{username}'")
+        return check_password(user, password)
+
+    def generate_monthly_report(self, user_id):
+        # Aylık rapor oluşturma
+        data = db.query(f"SELECT * FROM orders WHERE user={user_id}")
+        return create_pdf(data)
+
+    def send_welcome_email(self, email):
+        # E-posta gönderme
+        smtp = connect_smtp()
+        smtp.send(email, "Welcome!", "...")</pre>
+            <div class="explanation"><span class="tr-text">Bu sınıf üç farklı sorumluluk taşıyor: kimlik doğrulama, rapor oluşturma ve e-posta gönderme. Herhangi birindeki değişiklik tüm sınıfı etkiler.</span><span class="en-text" style="display:none;">This class carries three different responsibilities: authentication, report generation, and email sending. A change in any one affects the entire class.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After) — SRP Uygulanmış</span><span class="en-text" style="display:none;">Good Example (After) — SRP Applied</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her sınıf tek bir sorumluluk taşıyor</span><span class="en-text" style="display:none;">GOOD — Each class has a single responsibility</span></span>
+<pre>class AuthenticationService:
+    def authenticate(self, username, password):
+        user = self.user_repo.find_by_name(username)
+        return self.password_checker.verify(user, password)
+
+class ReportService:
+    def generate_monthly_report(self, user_id):
+        data = self.order_repo.find_by_user(user_id)
+        return self.pdf_generator.create(data)
+
+class NotificationService:
+    def send_welcome_email(self, email):
+        self.mailer.send(email, "Welcome!", "...")</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir sınıfın ne yaptığını tek cümleyle anlatamıyorsanız, muhtemelen birden fazla sorumluluğu vardır. "Bu sınıf X yapar VE Y yapar" diyorsanız, o "VE" kelimesi bir SRP ihlali sinyalidir.</span><span class="en-text" style="display:none;">If you can't describe what a class does in a single sentence, it probably has more than one responsibility. If you say "This class does X AND Y," that "AND" is a signal of an SRP violation.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Pratik ve Zanaat -->
+<div class="modal-overlay" id="modal-practice">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Pratik ve Zanaat (Practice &amp; Craftsmanship)</span><span class="en-text" style="display:none;">Practice &amp; Craftsmanship</span></h3>
+            <button class="modal-close" onclick="closeModal('practice')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kitap okumak, iyi bir programcı olmak için yeterli değildir — tıpkı sanat kitaplarının sizi sanatçı yapmadığı gibi. Carnegie Hall fıkrasının mesajı açıktır: ustalık ancak pratikle gelir. "Kod duygusu" (code-sense), yani temiz kodu kirli koddan ayırt etme ve onu düzeltme yetisi, ancak yoğun pratikle kazanılır. Okumak araçları verir, pratik ise beceriyi geliştirir.</span><span class="en-text" style="display:none;">Reading a book is not enough to become a good programmer — just as art books don't make you an artist. The message of the Carnegie Hall joke is clear: mastery comes only through practice. "Code-sense" — the ability to distinguish clean code from dirty code and fix it — is acquired only through intense practice. Reading gives you the tools; practice develops the skill.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Okudum, biliyorum" yaklaşımı</span><span class="en-text" style="display:none;">BAD — "I read it, so I know it" approach</span></span>
+<pre>// "Clean Code okudum, artık temiz kod yazarım"
+// Sonuç: Kitaptaki örnekleri ezberlemek ama pratiğe dökmemek
+
+function processData(d) {
+    let r = [];
+    for (let i = 0; i < d.length; i++) {
+        if (d[i].s === 'A') {
+            r.push({ n: d[i].n, v: d[i].p * 1.18 });
+        }
+    }
+    return r;
+}</pre>
+            <div class="explanation"><span class="tr-text">Kitabı okumuş olsa bile, geliştirici hâlâ tek harfli değişkenler, belirsiz koşullar ve sihirli sayılar kullanıyor. Bilgi pratiğe dönüşmemiş.</span><span class="en-text" style="display:none;">Even though the developer may have read the book, they still use single-letter variables, unclear conditions, and magic numbers. Knowledge hasn't been converted to practice.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Pratik yaparak içselleştirilmiş temiz kod</span><span class="en-text" style="display:none;">GOOD — Clean code internalized through practice</span></span>
+<pre>const TAX_RATE = 0.18;
+
+function calculatePricesWithTax(products) {
+    return products
+        .filter(product => product.status === 'Active')
+        .map(product => ({
+            name: product.name,
+            priceWithTax: product.price * (1 + TAX_RATE)
+        }));
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her gün küçük bir "kata" (kod egzersizi) yapın. Eski kodunuzu açıp bir fonksiyonu yeniden düzenleyin. Pratik, mükemmelliğe giden tek yoldur — Carnegie Hall'a giden yol gibi.</span><span class="en-text" style="display:none;">Do a small "kata" (code exercise) every day. Open your old code and refactor one function. Practice is the only path to mastery — just like the road to Carnegie Hall.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Kod Duygusu -->
+<div class="modal-overlay" id="modal-code-sense">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kod Duygusu (Code-Sense)</span><span class="en-text" style="display:none;">Code-Sense</span></h3>
+            <button class="modal-close" onclick="closeModal('code-sense')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod duygusu, bir geliştiricinin koda bakarak onun temiz mi kirli mi olduğunu sezgisel olarak anlayabilmesi ve kirli kodu temize dönüştürmek için stratejiler üretebilmesi yetisidir. Bölüm 1'in başından beri bu kavram işlenmiştir: bazı insanlar doğuştan bu sezgiye sahipken, çoğumuz bunu pratik ve deneyimle kazanırız. Bu kitap o sürece rehberlik etmeyi amaçlar.</span><span class="en-text" style="display:none;">Code-sense is a developer's ability to intuitively recognize whether code is clean or dirty, and to devise strategies for transforming dirty code into clean code. This concept has been discussed since the beginning of Chapter 1: while some people have this intuition naturally, most of us acquire it through practice and experience. This book aims to guide that process.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Kod duygusu gelişmemiş: "Çalışıyorsa dokunma"</span><span class="en-text" style="display:none;">BAD — Undeveloped code-sense: "If it works, don't touch it"</span></span>
+<pre>public class Util {
+    public static Object proc(Object x, int m) {
+        if (m == 1) {
+            return ((String) x).toUpperCase();
+        } else if (m == 2) {
+            return ((String) x).length();
+        } else if (m == 3) {
+            return ((List) x).size() > 0;
+        }
+        return null;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu kodu gören biri "çalışıyorsa sorun yok" diyebilir. Ancak kod duygusu gelişmiş bir geliştirici hemen birçok sorun tespit eder: belirsiz isimler, sihirli sayılar, tür güvenliği eksikliği, tek sorumluluk ihlali.</span><span class="en-text" style="display:none;">Someone seeing this code might say "if it works, no problem." But a developer with code-sense immediately spots multiple issues: unclear names, magic numbers, lack of type safety, single responsibility violation.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kod duygusu ile yeniden düzenlenmiş</span><span class="en-text" style="display:none;">GOOD — Refactored with code-sense</span></span>
+<pre>public class StringFormatter {
+    public String toUpperCase(String text) {
+        return text.toUpperCase();
+    }
+
+    public int lengthOf(String text) {
+        return text.length();
+    }
+}
+
+public class CollectionValidator {
+    public boolean isNonEmpty(List&lt;?&gt; items) {
+        return items != null && !items.isEmpty();
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kod duygunuzu geliştirmek için kod incelemeleri (code review) yapın — hem başkalarının kodunu inceleyin, hem de kendi eski kodunuza geri dönün. "Bu kodu 6 ay sonra anlayabilir miyim?" sorusu, kod duygunuzun en iyi litmus testidir.</span><span class="en-text" style="display:none;">To develop your code-sense, do code reviews — both review others' code and revisit your own old code. "Can I understand this code 6 months from now?" is the best litmus test for your code-sense.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 15;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 9 | Bölüm 1: Temiz Kod Nedir? — Keskin Soyutlama & "Big" Dave Thomas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .author-intro em { font-style: italic; font-weight: 400; }
+        .footnote { font-size: 13px; color: #6c757d; margin-top: 8px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; What Is Clean Code?</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="9" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 8'den devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 8 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">— okuyucuya, sorunlar ve gerilimler apaçık bir çözümün ortaya çıkmasıyla çözüldüğünde "Aaa! Tabii ki!" dedirten o anı yaşatmalıdır.</span>
+        <span class="en-text" style="display:none;">the reader that "Aha! Of course!" as the issues and tensions are resolved in the revelation of an obvious solution.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Grady'nin "keskin soyutlama" (crisp abstraction) ifadesini kullanmasını büyüleyici bir oksimoron (oxymoron) olarak görüyorum! Sonuçta "keskin" (crisp) kelimesi neredeyse "somut" (concrete) kelimesinin eş anlamlısıdır. MacBook'umdaki sözlük "crisp" için şu tanımı veriyor: <em>canlı biçimde kararlı ve pragmatik, tereddüt veya gereksiz detay içermeyen.</em> Bu görünürdeki anlam karşıtlığına rağmen, kelimeler güçlü bir mesaj taşır. Kodumuz spekülatif değil, olgusal (matter-of-fact) olmalıdır. Yalnızca gerekli olanı içermelidir. Okuyucularımız bizi kararlı (decisive) olarak algılamalıdır.</span>
+        <span class="en-text" style="display:none;">I find Grady's use of the phrase "crisp abstraction" to be a fascinating oxymoron! After all the word "crisp" is nearly a synonym for "concrete." My MacBook's dictionary holds the following definition of "crisp": <em>briskly decisive and matter-of-fact, without hesitation or unnecessary detail.</em> Despite this seeming juxtaposition of meaning, the words carry a powerful message. Our code should be matter-of-fact as opposed to speculative. It should contain only what is necessary. Our readers should perceive us to have been decisive.</span>
+    </div>
+
+    <div class="author-intro">
+        <span class="tr-text">"Big" Dave Thomas, OTI'nin kurucusu, Eclipse stratejisinin babası</span>
+        <span class="en-text" style="display:none;">"Big" Dave Thomas, founder of OTI, godfather of the Eclipse strategy</span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Temiz kod, orijinal yazarı dışındaki bir geliştirici tarafından okunabilir ve geliştirilebilir. Birim testleri (unit tests) ve kabul testleri (acceptance tests) vardır. Anlamlı isimleri (meaningful names) vardır. Bir şeyi yapmanın birçok yolu yerine tek bir yolunu sunar. Minimum düzeyde bağımlılıkları (dependencies) vardır — bunlar açıkça tanımlanmıştır — ve net, minimal bir API (Application Programming Interface) sunar. Kod, dile bağlı olarak gerekli tüm bilgi yalnızca kodda açıkça ifade edilemeyeceğinden, okuryazar (literate) olmalıdır.</span>
+        <span class="en-text" style="display:none;">Clean code can be read, and enhanced by a developer other than its original author. It has unit and acceptance tests. It has meaningful names. It provides one way rather than many ways for doing one thing. It has minimal dependencies, which are explicitly defined, and provides a clear and minimal API. Code should be literate since depending on the language, not all necessary information can be expressed clearly in code alone.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">"Big" Dave, Grady'nin okunabilirlik (readability) arzusunu paylaşır, ancak önemli bir farkla. Dave, temiz kodun <em>başka</em> insanların onu geliştirmesini (enhance) kolaylaştırdığını iddia eder. Bu açık görünebilir, ancak fazla vurgulanamaz. Sonuçta, okunması kolay kod ile değiştirilmesi kolay kod arasında bir fark vardır.</span>
+        <span class="en-text" style="display:none;">Big Dave shares Grady's desire for readability, but with an important twist. Dave asserts that clean code makes it easy for <em>other</em> people to enhance it. This may seem obvious, but it cannot be overemphasized. There is, after all, a difference between code that is easy to read and code that is easy to change.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dave temizliği testlere bağlıyor! On yıl önce bu pek çok kaşın kalkmasına neden olurdu. Ancak Test Güdümlü Geliştirme (Test Driven Development) disiplini endüstrimiz üzerinde derin bir etki yaratmış ve en temel disiplinlerimizden biri haline gelmiştir. Dave haklı. Testleri olmayan kod temiz değildir. Ne kadar zarif (elegant) olursa olsun, ne kadar okunabilir ve erişilebilir olursa olsun, eğer testleri yoksa, kirlidir (unclean).</span>
+        <span class="en-text" style="display:none;">Dave ties cleanliness to tests! Ten years ago this would have raised a lot of eyebrows. But the discipline of Test Driven Development has made a profound impact upon our industry and has become one of our most fundamental disciplines. Dave is right. Code, without tests, is not clean. No matter how elegant it is, no matter how readable and accessible, if it hath not tests, it be unclean.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dave <em>minimal</em> kelimesini iki kez kullanıyor. Görünüşe göre büyük kod yerine küçük kodu değerli buluyor. Gerçekten de bu, yazılım literatürünün başlangıcından beri tekrarlanan bir tema olmuştur. Küçük olan daha iyidir.</span>
+        <span class="en-text" style="display:none;">Dave uses the word <em>minimal</em> twice. Apparently he values code that is small, rather than code that is large. Indeed, this has been a common refrain throughout software literature since its inception. Smaller is better.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dave ayrıca kodun <em>okuryazar</em> (literate) olması gerektiğini söylüyor. Bu, Knuth'un <em>okuryazar programlama</em> (literate programming) kavramına dolaylı bir referanstır.<sup>4</sup> Sonuç olarak, kod insanlar tarafından okunabilecek bir biçimde yazılmalıdır.</span>
+        <span class="en-text" style="display:none;">Dave also says that code should be <em>literate</em>. This is a soft reference to Knuth's <em>literate programming</em>.<sup>4</sup> The upshot is that the code should be composed in such a form as to make it readable by humans.</span>
+    </div>
+
+    <div class="footnote">
+        <span class="tr-text"><sup>4</sup> [Knuth92].</span>
+        <span class="en-text" style="display:none;"><sup>4</sup> [Knuth92].</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('crispabstraction')">
+                <span class="tr-text">Keskin Soyutlama</span>
+                <span class="en-text" style="display:none;">Crisp Abstraction</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('testsclean')">
+                <span class="tr-text">Testsiz Kod Kirlidir</span>
+                <span class="en-text" style="display:none;">Code Without Tests Is Unclean</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('literate')">
+                <span class="tr-text">Okuryazar Programlama</span>
+                <span class="en-text" style="display:none;">Literate Programming</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-8.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 8 — Kırık Pencereler & Grady Booch</span><span class="en-text" style="display:none;">Page 8 — Broken Windows & Grady Booch</span></div>
+    </a>
+    <a href="page-10.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 10 — Michael Feathers & Ron Jeffries</span><span class="en-text" style="display:none;">Page 10 — Michael Feathers & Ron Jeffries</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-crispabstraction">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Keskin Soyutlama (Crisp Abstraction)</span><span class="en-text" style="display:none;">Crisp Abstraction</span></h3>
+            <button class="modal-close" onclick="closeModal('crispabstraction')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Grady Booch'un "keskin soyutlama" (crisp abstraction) ifadesi büyüleyici bir oksimorondur: "keskin" (crisp) somutluğu çağrıştırırken, "soyutlama" (abstraction) tam tersini ifade eder. Martin'e göre bu ifade güçlü bir mesaj taşır: kodumuz <em>olgusal</em> (matter-of-fact) olmalı, spekülatif değil. Yalnızca gerekli olanı içermeli. Kararlı (decisive) olmalı — tereddüt ve gereksiz detay barındırmamalı. İyi bir soyutlama, somut bir biçimde sunulmalıdır.</span><span class="en-text" style="display:none;">Grady Booch's phrase "crisp abstraction" is a fascinating oxymoron: "crisp" evokes concreteness, while "abstraction" means the opposite. According to Martin, this carries a powerful message: our code should be <em>matter-of-fact</em>, not speculative. It should contain only what's necessary. It should be decisive — no hesitation, no unnecessary detail. A good abstraction should be presented in a concrete, clear manner.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Bulanık soyutlama: spekülatif, tereddütlü, gereksiz detayla dolu</span><span class="en-text" style="display:none;">BAD — Fuzzy abstraction: speculative, hesitant, full of unnecessary detail</span></span>
+            <pre>class AbstractDataProcessorStrategyFactoryBase:
+    """
+    Bu sınıf gelecekte farklı veri işleme stratejileri
+    için kullanılabilecek bir temel fabrika sağlar.
+    Şimdilik sadece CSV destekleniyor ama JSON, XML,
+    YAML ve belki Parquet de eklenebilir.
+    """
+    def maybe_process(self, data, options=None, context=None,
+                      retry_count=3, fallback=None, 
+                      enable_logging=True, dry_run=False):
+        if data is not None:
+            if options is not None:
+                if context is not None:
+                    if not dry_run:
+                        return self._do_process_internal(data)
+                    else:
+                        return self._simulate(data)
+                else:
+                    return self._do_process_internal(data)
+            else:
+                return self._do_process_internal(data)
+        return fallback</pre>
+            <div class="explanation"><span class="tr-text">Burada her şey spekülatif ve tereddütlü. Sınıf adı ("maybe_process", "AbstractDataProcessorStrategyFactoryBase") soyutlamayı bulanıklaştırıyor. Kullanılmayan parametreler (<code>retry_count</code>, <code>enable_logging</code>) "belki lazım olur" zihniyetiyle eklenmiş. İç içe <code>if</code>'ler kararsızlığı yansıtıyor.</span><span class="en-text" style="display:none;">Everything here is speculative and hesitant. The class name ("maybe_process", "AbstractDataProcessorStrategyFactoryBase") makes the abstraction fuzzy. Unused parameters (<code>retry_count</code>, <code>enable_logging</code>) were added with a "might need it" mentality. Nested <code>if</code>s reflect indecisiveness.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Keskin soyutlama: kararlı, olgusal, yalnızca gerekli olanı içerir</span><span class="en-text" style="display:none;">GOOD — Crisp abstraction: decisive, matter-of-fact, contains only what's necessary</span></span>
+            <pre>class CsvParser:
+    def parse(self, content: str) -> list[dict]:
+        rows = content.strip().splitlines()
+        headers = rows[0].split(',')
+        return [
+            dict(zip(headers, row.split(',')))
+            for row in rows[1:]
+        ]
+
+class JsonParser:
+    def parse(self, content: str) -> list[dict]:
+        return json.loads(content)</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Keskin" soyutlama testi: sınıfınızın veya fonksiyonunuzun adını söylediğinizde, ne yaptığı hemen anlaşılmalıdır. "CsvParser.parse(content)" → "CSV içeriğini ayrıştır." Eğer ismi açıklamak için iki cümle gerekiyorsa, soyutlamanız yeterince keskin değildir. "Maybe", "Abstract", "Base", "Manager", "Helper" gibi bulanık kelimelerden kaçının.</span><span class="en-text" style="display:none;">"Crisp" abstraction test: when you say your class or function name, what it does should be immediately clear. "CsvParser.parse(content)" → "Parse CSV content." If you need two sentences to explain the name, your abstraction isn't crisp enough. Avoid fuzzy words like "Maybe", "Abstract", "Base", "Manager", "Helper".</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-testsclean">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Testsiz Kod Kirlidir (Code Without Tests Is Unclean)</span><span class="en-text" style="display:none;">Code Without Tests Is Unclean</span></h3>
+            <button class="modal-close" onclick="closeModal('testsclean')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">"Big" Dave Thomas temizliği doğrudan testlere bağlar: "Testleri olmayan kod temiz değildir." Martin bunu güçlendirir: "Ne kadar zarif olursa olsun, ne kadar okunabilir olursa olsun, eğer testleri yoksa, kirlidir." Test Güdümlü Geliştirme (TDD) disiplini endüstriyi dönüştürmüştür. Testler yalnızca hataları bulmak için değil, kodun <em>değiştirilebilir</em> olmasını garanti altına almak için vardır — çünkü okunması kolay ama değiştirilmesi riskli kod, gerçekten temiz değildir.</span><span class="en-text" style="display:none;">"Big" Dave Thomas ties cleanliness directly to tests: "Code without tests is not clean." Martin reinforces this: "No matter how elegant, no matter how readable, if it hath not tests, it be unclean." The discipline of Test Driven Development (TDD) has transformed the industry. Tests exist not just to find bugs, but to guarantee that code is <em>changeable</em> — because code that's easy to read but risky to change isn't truly clean.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Zarif" ama testsiz: değiştirmeye cesaret edilemez</span><span class="en-text" style="display:none;">BAD — "Elegant" but untested: nobody dares to change it</span></span>
+            <pre>class ShippingCalculator {
+    calculateCost(weight, destination, isExpress) {
+        const baseRate = destination.startsWith('EU') ? 5.0 : 12.0;
+        const weightFactor = Math.ceil(weight / 0.5) * 1.5;
+        const expressSurcharge = isExpress ? baseRate * 0.75 : 0;
+        
+        return baseRate + weightFactor + expressSurcharge;
+    }
+}
+
+// Güzel görünüyor ama...
+// - Bu formül doğru mu? Kim doğrulayacak?
+// - "EU" kontrolü yeterli mi? İngiltere ne olacak?
+// - 0.5 ve 1.5 nereden geliyor? Değişirse?
+// - İş kuralları değiştiğinde kim fark edecek?</pre>
+            <div class="explanation"><span class="tr-text">Kod kısa ve okunabilir görünüyor — ama testleri yok. Formülün doğruluğunu hiçbir şey garanti etmiyor. İş kuralları değiştiğinde, kimse mevcut hesaplamanın bozulup bozulmadığını bilemez. "Zarif ama testsiz" = "kirli."</span><span class="en-text" style="display:none;">The code looks short and readable — but has no tests. Nothing guarantees the formula is correct. When business rules change, nobody can tell if existing calculations break. "Elegant but untested" = "unclean."</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Testlerle korunan kod: güvenle değiştirilebilir</span><span class="en-text" style="display:none;">GOOD — Code protected by tests: can be changed with confidence</span></span>
+            <pre>describe('ShippingCalculator', () => {
+    it('applies EU base rate for European destinations', () => {
+        expect(calculator.calculateCost(1.0, 'EU-DE', false))
+            .toBe(5.0 + 3.0);
+    });
+
+    it('applies international rate for non-EU destinations', () => {
+        expect(calculator.calculateCost(1.0, 'US-NY', false))
+            .toBe(12.0 + 3.0);
+    });
+
+    it('adds 75% express surcharge on base rate', () => {
+        expect(calculator.calculateCost(1.0, 'EU-FR', true))
+            .toBe(5.0 + 3.0 + 3.75);
+    });
+
+    it('rounds weight up to nearest 0.5kg increment', () => {
+        expect(calculator.calculateCost(0.3, 'EU-DE', false))
+            .toBe(5.0 + 1.5);
+        expect(calculator.calculateCost(0.7, 'EU-DE', false))
+            .toBe(5.0 + 3.0);
+    });
+});</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">TDD döngüsünü uygulayın: (1) Başarısız bir test yaz (Red), (2) Testi geçirecek minimum kodu yaz (Green), (3) Kodu temizle (Refactor). Bu döngü sayesinde kodunuz her zaman test kapsamındadır. Dave Thomas'ın dediği gibi: testleri olmayan kod, ne kadar güzel olursa olsun, temiz değildir.</span><span class="en-text" style="display:none;">Apply the TDD cycle: (1) Write a failing test (Red), (2) Write minimal code to pass (Green), (3) Clean up (Refactor). With this cycle, your code always has test coverage. As Dave Thomas says: code without tests, no matter how beautiful, is not clean.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-literate">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Okuryazar Programlama (Literate Programming)</span><span class="en-text" style="display:none;">Literate Programming</span></h3>
+            <button class="modal-close" onclick="closeModal('literate')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">"Big" Dave Thomas, kodun "okuryazar" (literate) olması gerektiğini söyler — bu, Donald Knuth'un "okuryazar programlama" (literate programming) kavramına bir referanstır. Knuth'a göre programlar önce insanlar için, sonra bilgisayarlar için yazılmalıdır. Dave, dile bağlı olarak tüm gerekli bilginin yalnızca kodda açıkça ifade edilemeyeceğini vurgular. Kod, insanlar tarafından <em>okunabilecek</em> bir biçimde yazılmalıdır — bir makineye talimat vermekten öte, bir insana hikâye anlatmalıdır.</span><span class="en-text" style="display:none;">"Big" Dave Thomas says code should be "literate" — a reference to Donald Knuth's "literate programming" concept. According to Knuth, programs should be written primarily for humans, then for computers. Dave emphasizes that depending on the language, not all necessary information can be expressed clearly in code alone. Code should be composed in a form that makes it <em>readable by humans</em> — beyond giving instructions to a machine, it should tell a story to a person.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Makine için yazılmış: insan için okunamaz</span><span class="en-text" style="display:none;">BAD — Written for machines: unreadable for humans</span></span>
+            <pre>public List&lt;int[]&gt; getThem() {
+    List&lt;int[]&gt; list1 = new ArrayList&lt;&gt;();
+    for (int[] x : theList) {
+        if (x[0] == 4)
+            list1.add(x);
+    }
+    return list1;
+}</pre>
+            <div class="explanation"><span class="tr-text">Bu kod derlenebilir ve çalışır — ama ne yaptığını anlamak imkânsızdır. <code>theList</code> ne? <code>x[0]</code> ne anlama geliyor? <code>4</code> ne demek? Kod makineye talimat veriyor ama insana hiçbir şey anlatmıyor. "Okuryazar" değil.</span><span class="en-text" style="display:none;">This code compiles and runs — but understanding what it does is impossible. What's <code>theList</code>? What does <code>x[0]</code> mean? What does <code>4</code> represent? The code instructs the machine but tells the human nothing. Not "literate."</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — İnsan için yazılmış: kod kendi hikâyesini anlatır</span><span class="en-text" style="display:none;">GOOD — Written for humans: code tells its own story</span></span>
+            <pre>public List&lt;Cell&gt; getFlaggedCells() {
+    List&lt;Cell&gt; flaggedCells = new ArrayList&lt;&gt;();
+    for (Cell cell : gameBoard) {
+        if (cell.isFlagged())
+            flaggedCells.add(cell);
+    }
+    return flaggedCells;
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzu okuryazar yapmak için şu kuralı uygulayın: her değişken, fonksiyon ve sınıf adı bir <em>niyet</em> ifade etmelidir. "theList" yerine "gameBoard", "x[0] == 4" yerine "cell.isFlagged()" yazın. Dave Thomas'ın dediği gibi: tüm gerekli bilgi kodda açıkça ifade edilemeyebilir, ama ifade edebildiğiniz kadarını mümkün olduğunca net ifade edin.</span><span class="en-text" style="display:none;">To make code literate, apply this rule: every variable, function, and class name should express an <em>intent</em>. Write "gameBoard" instead of "theList", "cell.isFlagged()" instead of "x[0] == 4". As Dave Thomas says: not all necessary information can be expressed in code alone, but express what you can as clearly as possible.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 10' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 9;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

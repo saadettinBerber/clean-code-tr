@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 25 | Bölüm 2: Anlamlı İsimler — Zihinsel Eşleştirmeden Kaçınmak, Sınıf İsimleri, Metot İsimleri</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Avoid Mental Mapping / Class Names / Method Names</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="25" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">Zihinsel Eşleştirmeden Kaçınmak / Avoid Mental Mapping</span>
+        <span class="en-text" style="display:none;">Avoid Mental Mapping</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Okuyucular, isimlerinizi halihazırda bildikleri başka isimlere zihinsel olarak tercüme etmek zorunda kalmamalıdır. Bu sorun genellikle, ne problem alanı (problem domain) terimlerini ne de çözüm alanı (solution domain) terimlerini kullanmamayı tercih etmekten kaynaklanır.</span>
+        <span class="en-text" style="display:none;">Readers shouldn’t have to mentally translate your names into other names they already know. This problem generally arises from a choice to use neither problem domain terms nor solution domain terms.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu, tek harfli değişken isimleriyle (single-letter variable names) ilgili bir sorundur. Elbette, kapsamı (scope) çok darsa ve başka hiçbir isimle çakışmıyorsa, bir döngü sayacı (loop counter) <code class="inline">i</code>, <code class="inline">j</code> veya <code class="inline">k</code> olarak adlandırılabilir (asla <code class="inline">l</code> değil!). Bunun nedeni, döngü sayaçları için bu tek harfli isimlerin geleneksel olmasıdır. Ancak, diğer çoğu bağlamda tek harfli bir isim kötü bir seçimdir; bu sadece okuyucunun gerçek kavramla zihinsel olarak eşleştirmesi gereken bir yer tutucudur (placeholder). Bir ismi <code class="inline">c</code> olarak kullanmak için, <code class="inline">a</code> ve <code class="inline">b</code> zaten alınmış olmasından daha kötü bir neden olamaz.</span>
+        <span class="en-text" style="display:none;">This is a problem with single-letter variable names. Certainly a loop counter may be named <code class="inline">i</code> or <code class="inline">j</code> or <code class="inline">k</code> (though never <code class="inline">l</code>!) if its scope is very small and no other names can conflict with it. This is because those single-letter names for loop counters are traditional. However, in most other contexts a single-letter name is a poor choice; it’s just a placeholder that the reader must mentally map to the actual concept. There can be no worse reason for using the name <code class="inline">c</code> than because <code class="inline">a</code> and <code class="inline">b</code> were already taken.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Genelde programcılar oldukça zeki insanlardır. Zeki insanlar bazen zihinsel hokkabazlık (mental juggling) yeteneklerini sergileyerek zekalarıyla hava atmayı severler. Sonuçta, <code class="inline">r</code> harfinin URL'nin host ve şema (scheme) kısımları çıkarılmış küçük harfli hali olduğunu güvenilir bir şekilde hatırlayabiliyorsanız, açıkça çok zeki olmalısınız.</span>
+        <span class="en-text" style="display:none;">In general programmers are pretty smart people. Smart people sometimes like to show off their smarts by demonstrating their mental juggling abilities. After all, if you can reliably remember that <code class="inline">r</code> is the lower-cased version of the url with the host and scheme removed, then you must clearly be very smart.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Zeki bir programcı ile profesyonel bir programcı arasındaki farklardan biri, profesyonelin <em>açıklığın kral (clarity is king)</em> olduğunu anlamasıdır. Profesyoneller yeteneklerini iyilik için kullanırlar ve başkalarının anlayabileceği kodlar yazarlar.</span>
+        <span class="en-text" style="display:none;">One difference between a smart programmer and a professional programmer is that the professional understands that <em>clarity is king</em>. Professionals use their powers for good and write code that others can understand.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Sınıf İsimleri / Class Names</span>
+        <span class="en-text" style="display:none;">Class Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Sınıflar ve nesneler; <code class="inline">Customer</code>, <code class="inline">WikiPage</code>, <code class="inline">Account</code> ve <code class="inline">AddressParser</code> gibi isim (noun) veya isim tamlaması şeklinde adlara sahip olmalıdır. Bir sınıfın adında <code class="inline">Manager</code>, <code class="inline">Processor</code>, <code class="inline">Data</code> veya <code class="inline">Info</code> gibi kelimelerden kaçının. Bir sınıf adı fiil (verb) olmamalıdır.</span>
+        <span class="en-text" style="display:none;">Classes and objects should have noun or noun phrase names like <code class="inline">Customer</code>, <code class="inline">WikiPage</code>, <code class="inline">Account</code>, and <code class="inline">AddressParser</code>. Avoid words like <code class="inline">Manager</code>, <code class="inline">Processor</code>, <code class="inline">Data</code>, or <code class="inline">Info</code> in the name of a class. A class name should not be a verb.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Metot İsimleri / Method Names</span>
+        <span class="en-text" style="display:none;">Method Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Metotlar; <code class="inline">postPayment</code>, <code class="inline">deletePage</code> veya <code class="inline">save</code> gibi fiil (verb) veya fiil tamlaması şeklinde adlara sahip olmalıdır. Erişimciler (accessors), değiştiriciler (mutators) ve yüklemler (predicates); değerlerine göre adlandırılmalı ve JavaBean standartlarına uygun olarak <code class="inline">get</code>, <code class="inline">set</code> ve <code class="inline">is</code> önekleriyle başlatılmalıdır.</span>
+        <span class="en-text" style="display:none;">Methods should have verb or verb phrase names like <code class="inline">postPayment</code>, <code class="inline">deletePage</code>, or <code class="inline">save</code>. Accessors, mutators, and predicates should be named for their value and prefixed with <code class="inline">get</code>, <code class="inline">set</code>, and <code class="inline">is</code> according to the javabean standard.</span>
+    </div>
+
+<pre class="code-block">string name = employee.getName();
+customer.setName("mike");
+if (paycheck.isPosted())...</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yapıcılar (constructors) aşırı yüklendiğinde (overloaded), argümanları betimleyen isimlere sahip statik fabrika metotlarını (static factory methods) kullanın. Örneğin:</span>
+        <span class="en-text" style="display:none;">When constructors are overloaded, use static factory methods with names that describe the arguments. For example,</span>
+    </div>
+
+<pre class="code-block">Complex fulcrumPoint = Complex.FromRealNumber(23.0);</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">şu kullanımdan genellikle daha iyidir:</span>
+        <span class="en-text" style="display:none;">is generally better than</span>
+    </div>
+
+<pre class="code-block">Complex fulcrumPoint = new Complex(23.0);</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Karşılık gelen yapıcıları (constructors) private yaparak bu metotların kullanımını zorunlu kılmayı düşünebilirsiniz.</span>
+        <span class="en-text" style="display:none;">Consider enforcing their use by making the corresponding constructors private.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('mental-mapping')">
+                <span class="tr-text">Zihinsel Eşleştirme</span>
+                <span class="en-text" style="display:none;">Mental Mapping</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('class-naming')">
+                <span class="tr-text">Sınıf İsimlendirme</span>
+                <span class="en-text" style="display:none;">Class Naming</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('method-naming')">
+                <span class="tr-text">Metot İsimlendirme</span>
+                <span class="en-text" style="display:none;">Method Naming</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('static-factory')">
+                <span class="tr-text">Statik Fabrika Metotları</span>
+                <span class="en-text" style="display:none;">Static Factory Methods</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-24.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 24 — Üye Önekleri, Arayüzler ve Uygulamalar</span><span class="en-text" style="display:none;">Page 24 — Member Prefixes, Interfaces and Implementations</span></div>
+    </a>
+    <a href="page-26.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 26 — Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin</span><span class="en-text" style="display:none;">Page 26 — Don't Be Cute, Pick One Word per Concept</span></div>
+    </a>
+</div>
+
+<!-- Modal: Zihinsel Eşleştirme -->
+<div class="modal-overlay" id="modal-mental-mapping">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Zihinsel Eşleştirme (Mental Mapping)</span><span class="en-text" style="display:none;">Mental Mapping</span></h3>
+            <button class="modal-close" onclick="closeModal('mental-mapping')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod okuyucusu, gördüğü bir ismi zihninde asıl anlamına dönüştürmek için çaba sarf etmemelidir. Tek harfli isimler (döngü sayaçları hariç) veya sadece yazarın bildiği kısaltmalar zihinsel yük yaratır. Profesyonel bir programcı, zekasını karmaşık eşleştirmeleri hatırlamak için değil, herkesin anlayabileceği netlikte kod yazmak için kullanır.</span><span class="en-text" style="display:none;">A code reader should not have to spend effort mentally converting a name into its actual meaning. Single-letter names (except for loop counters) or abbreviations known only to the author create mental burden. A professional programmer uses their intelligence not to remember complex mappings, but to write code clear enough for everyone to understand.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Zihinsel eşleştirme gerektiren isimler</span><span class="en-text" style="display:none;">BAD — Names requiring mental mapping</span></span>
+<pre>for (int i = 0; i < n; i++) {
+    var r = getR(u[i]);
+    // r neydi? u neydi? r -> result, u -> urls?
+}</pre>
+            <div class="explanation"><span class="tr-text">Burada okuyucu sürekli <code>r</code>'nin "sonuç" ve <code>u</code>'nun "URL listesi" olduğunu hatırlamak zorundadır. Bu bir "zihinsel hokkabazlık"tır.</span><span class="en-text" style="display:none;">Here, the reader must constantly remember that <code>r</code> is "result" and <code>u</code> is "URL list." This is "mental juggling."</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Açık ve net isimler</span><span class="en-text" style="display:none;">GOOD — Clear and explicit names</span></span>
+<pre>for (String url : urlList) {
+    String pageContent = fetchPageContent(url);
+    // sayfa içeriği doğrudan anlaşılıyor
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Sadece sizin bildiğiniz "kısayol" isimlerden kaçının. Kodunuzu, projeye bugün katılan birinin sözlüğe bakmadan anlayabileceği şekilde yazın. "Clarity is King" (Açıklık Kraldır).</span><span class="en-text" style="display:none;">Avoid "shortcut" names known only to you. Write your code so that someone joining the project today can understand it without looking at a glossary. "Clarity is King."</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Sınıf İsimlendirme -->
+<div class="modal-overlay" id="modal-class-naming">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Sınıf İsimlendirme (Class Naming)</span><span class="en-text" style="display:none;">Class Naming</span></h3>
+            <button class="modal-close" onclick="closeModal('class-naming')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Sınıf isimleri nesneleri temsil ettiği için isim (noun) veya isim tamlaması olmalıdır. Sınıf isimlerinde fiil kullanılmamalıdır. Ayrıca <code>Data</code>, <code>Info</code>, <code>Manager</code> gibi çok genel ve belirsiz kelimelerden kaçınılmalıdır, çünkü bu kelimeler sınıfın sorumluluğunu netleştirmez.</span><span class="en-text" style="display:none;">Since class names represent objects, they should be nouns or noun phrases. Verbs should not be used in class names. Additionally, very general and vague words like <code>Data</code>, <code>Info</code>, <code>Manager</code> should be avoided because they don't clarify the class's responsibility.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Belirsiz veya hatalı sınıf isimleri</span><span class="en-text" style="display:none;">BAD — Vague or incorrect class names</span></span>
+<pre>class CleanData { } // Fiil gibi duruyor (Verbal)
+class UserInfo { }  // Info gürültü kelimesidir
+class Processor { } // Çok genel, neyi işliyor?</pre>
+            <div class="explanation"><span class="tr-text"><code>UserInfo</code> yerine sadece <code>User</code> demek çoğu zaman yeterlidir. <code>Processor</code> gibi isimler sınıfın "her şeyi yapan" dev bir yapıya dönüşmesine neden olabilir.</span><span class="en-text" style="display:none;">Saying just <code>User</code> instead of <code>UserInfo</code> is often sufficient. Names like <code>Processor</code> can lead to the class becoming a "do-it-all" giant structure.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Net isim tamlamaları</span><span class="en-text" style="display:none;">GOOD — Clear noun phrases</span></span>
+<pre>class User { }
+class AddressParser { }
+class PaymentAccount { }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer bir sınıfı isimlendirmekte zorlanıyorsanız, muhtemelen o sınıf birden fazla iş yapıyordur. Sınıfı küçülttüğünüzde daha spesifik ve anlamlı bir isim bulmak kolaylaşacaktır.</span><span class="en-text" style="display:none;">If you're having trouble naming a class, it probably does more than one thing. When you make the class smaller, finding a specific and meaningful name will become easier.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Metot İsimlendirme -->
+<div class="modal-overlay" id="modal-method-naming">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Metot İsimlendirme (Method Naming)</span><span class="en-text" style="display:none;">Method Naming</span></h3>
+            <button class="modal-close" onclick="closeModal('method-naming')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Metotlar eylemleri temsil eder, bu yüzden fiil (verb) veya fiil tamlaması olmalıdırlar. Erişimciler için <code>get</code>, değiştiriciler için <code>set</code> ve mantıksal (boolean) kontroller için <code>is</code> standartlarına uyulmalıdır.</span><span class="en-text" style="display:none;">Methods represent actions, so they should be verbs or verb phrases. Standards like <code>get</code> for accessors, <code>set</code> for mutators, and <code>is</code> for logical (boolean) checks should be followed.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Eylem belirtmeyen isimler</span><span class="en-text" style="display:none;">BAD — Names not indicating action</span></span>
+<pre>user.name();      // Ne yapıyor? Get mi set mi?
+account.status(); // Durumu mu dönüyor yoksa güncelliyor mu?
+if(order.posted)  // Boolean mı metot mu?</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Fiil odaklı isimler</span><span class="en-text" style="display:none;">GOOD — Verb-oriented names</span></span>
+<pre>user.getName();
+account.updateStatus(newStatus);
+if(order.isPosted())</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir metot ismini okuduğunuzda bir soru sormuş gibi (<code>isReady?</code>) veya bir emir vermiş gibi (<code>saveUser!</code>) hissetmelisiniz. Eğer metot isminde "and", "or" gibi bağlaçlar geçiyorsa, metot muhtemelen birden fazla iş yapıyordur.</span><span class="en-text" style="display:none;">When you read a method name, it should feel like asking a question (<code>isReady?</code>) or giving a command (<code>saveUser!</code>). If connectors like "and" or "or" appear in the method name, the method is likely doing more than one thing.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Statik Fabrika Metotları -->
+<div class="modal-overlay" id="modal-static-factory">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Statik Fabrika Metotları (Static Factory Methods)</span><span class="en-text" style="display:none;">Static Factory Methods</span></h3>
+            <button class="modal-close" onclick="closeModal('static-factory')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Yapıcılar (constructors) aşırı yüklendiğinde (farklı parametrelerle birden fazla yapıcı), hangisinin ne amaçla kullanıldığını anlamak zorlaşabilir. Statik fabrika metotları, niyet belirten isimleri sayesinde nesne oluşturma sürecini çok daha açık hale getirir.</span><span class="en-text" style="display:none;">When constructors are overloaded (multiple constructors with different parameters), it can be difficult to understand which one is used for what purpose. Static factory methods make the object creation process much clearer thanks to their intention-revealing names.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Kafa karıştırıcı overloaded yapıcılar</span><span class="en-text" style="display:none;">BAD — Confusing overloaded constructors</span></span>
+<pre>Duration d1 = new Duration(60);   // Saniye mi? Dakika mı?
+Duration d2 = new Duration(1, 30); // Saat-dakika mı? Dakika-saniye mi?</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kendini açıklayan fabrika metotları</span><span class="en-text" style="display:none;">GOOD — Self-explaining factory methods</span></span>
+<pre>Duration d1 = Duration.fromSeconds(60);
+Duration d2 = Duration.fromMinutesAndSeconds(1, 30);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Nesne oluştururken sadece <code>new</code> kullanmak yerine, eğer varsa sınıfın sunduğu statik fabrika metotlarını arayın. Bu metotlar genellikle <code>from...</code>, <code>of...</code>, <code>valueOf...</code> veya <code>newInstance...</code> gibi öneklerle başlar.</span><span class="en-text" style="display:none;">Instead of just using <code>new</code> when creating objects, look for static factory methods offered by the class if available. These methods usually start with prefixes like <code>from...</code>, <code>of...</code>, <code>valueOf...</code>, or <code>newInstance...</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert("Sayfa " + num + " henüz çevrilmedi. '/cevir " + num + "' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 25;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

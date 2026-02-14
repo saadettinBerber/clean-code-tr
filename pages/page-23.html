@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 23 | Bölüm 2: Anlamlı İsimler — Kodlamalardan Kaçının &amp; Macar Notasyonu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Searchable Names (cont.) / Avoid Encodings / Hungarian Notation</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="23" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Sezgisel (Heuristic) [N5]. Eğer bir değişken veya sabit, bir kod gövdesinin birden fazla yerinde görülüyor veya kullanılıyorsa, ona arama dostu bir isim (search-friendly name) vermek zorunludur. Bir kez daha şunları karşılaştırın:</span>
+        <span class="en-text" style="display:none;">Heuristic [N5]. If a variable or constant might be seen or used in multiple places in a body of code, it is imperative to give it a search-friendly name. Once again compare</span>
+    </div>
+
+<pre class="code-block">for (int j=0; j&lt;34; j++) {
+  s += (t[j]*4)/5;
+}</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">ve şunları:</span>
+        <span class="en-text" style="display:none;">to</span>
+    </div>
+
+<pre class="code-block">int realDaysPerIdealDay = 4;
+const int WORK_DAYS_PER_WEEK = 5;
+int sum = 0;
+for (int j=0; j &lt; NUMBER_OF_TASKS; j++) {
+  int realTaskDays = taskEstimate[j] * realDaysPerIdealDay;
+  int realTaskWeeks = (realdays / WORK_DAYS_PER_WEEK);
+  sum += realTaskWeeks;
+}</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yukarıdaki <code class="inline">sum</code> isminin pek kullanışlı bir isim olmadığını, ancak en azından aranabilir (searchable) olduğunu unutmayın. Niyet belirtilerek isimlendirilmiş kod daha uzun bir fonksiyon oluşturur, ancak <code class="inline">WORK_DAYS_PER_WEEK</code> ismini bulmanın, 5 sayısının kullanıldığı tüm yerleri bulup listeyi sadece hedeflenen anlamdaki örneklerle sınırlamaktan ne kadar daha kolay olacağını düşünün.</span>
+        <span class="en-text" style="display:none;">Note that <code class="inline">sum</code>, above, is not a particularly useful name but at least is searchable. The intentionally named code makes for a longer function, but consider how much easier it will be to find <code class="inline">WORK_DAYS_PER_WEEK</code> than to find all the places where 5 was used and filter the list down to just the instances with the intended meaning.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Kodlamalardan Kaçının / Avoid Encodings</span>
+        <span class="en-text" style="display:none;">Avoid Encodings</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yükümüze yenilerini eklemeden, uğraşmamız gereken yeterince kodlamamız (encoding) zaten var. İsimlerin içine tür (type) veya kapsam (scope) bilgisini kodlamak, deşifre etmek (deciphering) için ekstra bir yük ekler. Her yeni çalışanın, içinde çalışacağı (genellikle hatırı sayılır büyüklükteki) kod gövdesini öğrenmesine ek olarak bir de başka bir kodlama "dilini" öğrenmesini istemek pek makul görünmemektedir. Bir problemi çözmeye çalışırken bu, gereksiz bir zihinsel yüktür (mental burden). Kodlanmış isimler nadiren telaffuz edilebilir (pronounceable) ve yanlış yazılmaları (mis-type) kolaydır.</span>
+        <span class="en-text" style="display:none;">We have enough encodings to deal with without adding more to our burden. Encoding type or scope information into names simply adds an extra burden of deciphering. It hardly seems reasonable to require each new employee to learn yet another encoding “language” in addition to learning the (usually considerable) body of code that they’ll be working in. It is an unnecessary mental burden when trying to solve a problem. Encoded names are seldom pronounceable and are easy to mis-type.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Macar Notasyonu / Hungarian Notation</span>
+        <span class="en-text" style="display:none;">Hungarian Notation</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Eskiden, isim uzunluğu kısıtlı dillerle çalıştığımızda, bu kuralı zorunluluktan ve pişmanlıkla ihlal ederdik. Fortran, ilk harfi tür (type) için bir kod yaparak kodlamaları zorunlu kılıyordu. BASIC'in ilk sürümleri sadece bir harf artı bir rakama izin veriyordu. Macar Notasyonu (Hungarian Notation - HN), bunu bambaşka bir seviyeye taşıdı.</span>
+        <span class="en-text" style="display:none;">In days of old, when we worked in name-length-challenged languages, we violated this rule out of necessity, and with regret. Fortran forced encodings by making the first letter a code for the type. Early versions of BASIC allowed only a letter plus one digit. Hungarian Notation (HN) took this to a whole new level.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Windows C API döneminde, her şey bir tamsayı tanıtıcısı (integer handle), uzun bir işaretçi (long pointer) veya boş bir işaretçi (void pointer) ya da "metin dizisinin" (string) (farklı kullanımları ve öznitelikleri olan) birkaç uygulamasından (implementation) biri olduğunda, HN oldukça önemli kabul edilirdi. O günlerde derleyici (compiler) türleri kontrol etmezdi, bu yüzden programcıların türleri hatırlamalarına yardımcı olacak bir dayanağa ihtiyaçları vardı.</span>
+        <span class="en-text" style="display:none;">HN was considered to be pretty important back in the Windows C API, when everything was an integer handle or a long pointer or a void pointer, or one of several implementations of “string” (with different uses and attributes). The compiler did not check types in those days, so the programmers needed a crutch to help them remember the types.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Modern dillerde çok daha zengin tür sistemlerine (type systems) sahibiz ve derleyiciler türleri hatırlar ve zorunlu kılar (enforce). Dahası, küçük sınıflara (class) ve kısa fonksiyonlara (function) doğru bir eğilim var; böylece insanlar kullandıkları her değişkenin tanımlandığı noktayı (point of declaration) genellikle görebiliyorlar.</span>
+        <span class="en-text" style="display:none;">In modern languages we have much richer type systems, and the compilers remember and enforce the types. What’s more, there is a trend toward smaller classes and shorter functions so that people can usually see the point of declaration of each variable they’re using.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('searchable-names')">
+                <span class="tr-text">Aranabilir İsimler</span>
+                <span class="en-text" style="display:none;">Searchable Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('avoid-encodings')">
+                <span class="tr-text">Kodlamalardan Kaçınmak</span>
+                <span class="en-text" style="display:none;">Avoid Encodings</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('mental-burden')">
+                <span class="tr-text">Zihinsel Yük</span>
+                <span class="en-text" style="display:none;">Mental Burden</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('hungarian-notation')">
+                <span class="tr-text">Macar Notasyonu</span>
+                <span class="en-text" style="display:none;">Hungarian Notation</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-22.html" class="nav-btn not-translated" onclick="return handleUntranslated(event, 22)">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 22 — Telaffuz Edilebilir İsimler (devam) &amp; Aranabilir İsimler Kullanın</span><span class="en-text" style="display:none;">Page 22 — Use Pronounceable Names (cont.) &amp; Use Searchable Names</span></div>
+    </a>
+    <a href="page-24.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 24)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 24 — Macar Notasyonu (devam) &amp; Üye Önekleri</span><span class="en-text" style="display:none;">Page 24 — Hungarian Notation (cont.) &amp; Member Prefixes</span></div>
+    </a>
+</div>
+
+<!-- Modal: Aranabilir İsimler -->
+<div class="modal-overlay" id="modal-searchable-names">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Aranabilir İsimler (Searchable Names)</span><span class="en-text" style="display:none;">Searchable Names</span></h3>
+            <button class="modal-close" onclick="closeModal('searchable-names')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod içerisinde kullanılan \"sihirli sayılar\" (magic numbers) veya tek harfli değişkenler aramayı imkansız hale getirir. Örneğin \"5\" sayısını arattığınızda karşınıza yüzlerce sonuç çıkar ama <code>WORK_DAYS_PER_WEEK</code> arattığınızda doğrudan ilgili yerlere ulaşırsınız. İsmin uzunluğu, o ismin kod içerisindeki kapsamının (scope) büyüklüğüyle orantılı olmalıdır.</span><span class="en-text" style="display:none;">\"Magic numbers\" or single-letter variables used in code make searching impossible. For example, searching for \"5\" yields hundreds of results, but searching for <code>WORK_DAYS_PER_WEEK</code> leads you directly to the relevant places. The length of a name should be proportional to its scope in the code.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Sihirli sayılar ve aranması zor isimler</span><span class="en-text" style="display:none;">BAD — Magic numbers and hard-to-search names</span></span>
+<pre>if (user.status == 4) {
+    // 4 ne anlama geliyor?
+    applyDiscount(0.15);
+}</pre>
+            <div class="explanation"><span class="tr-text">\"4\" veya \"0.15\" değerlerini kod tabanında arattığınızda birçok ilgisiz yerle karşılaşırsınız. Bu değerlerin anlamı kod okuyucusu için gizlidir.</span><span class="en-text" style="display:none;">Searching for \"4\" or \"0.15\" in the codebase results in many irrelevant hits. The meaning of these values is hidden from the reader.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Anlamlı ve aranabilir sabitler</span><span class="en-text" style="display:none;">GOOD — Meaningful and searchable constants</span></span>
+<pre>const STATUS_GOLD_MEMBER = 4;
+const GOLD_LOYALTY_DISCOUNT = 0.15;
+
+if (user.status == STATUS_GOLD_MEMBER) {
+    applyDiscount(GOLD_LOYALTY_DISCOUNT);
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir sayı veya karakter kod içerisinde birden fazla kez kullanılıyorsa veya gelecekte aranma ihtimali varsa, onu mutlaka isimlendirilmiş bir sabite dönüştürün.</span><span class="en-text" style="display:none;">If a number or character is used more than once in the code or is likely to be searched for in the future, always turn it into a named constant.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Kodlamalardan Kaçınmak -->
+<div class="modal-overlay" id="modal-avoid-encodings">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kodlamalardan Kaçınmak (Avoid Encodings)</span><span class="en-text" style="display:none;">Avoid Encodings</span></h3>
+            <button class="modal-close" onclick="closeModal('avoid-encodings')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Değişken isimlerine tür (type) veya kapsam (scope) bilgisini dahil etmek, okuyucunun ismi anlamak için zihinsel bir deşifre işlemi yapmasını gerektirir. Modern IDE'ler zaten tür bilgisini anlık olarak gösterdiği için bu tür ek bilgiler sadece \"gürültü\" (noise) yaratır ve kodun değiştirilmesini zorlaştırır.</span><span class="en-text" style="display:none;">Including type or scope information in variable names requires the reader to perform a mental decoding task. Since modern IDEs already show type information instantly, such extra info only creates \"noise\" and makes it harder to change the code.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — İsimde tür kodlaması</span><span class="en-text" style="display:none;">BAD — Type encoding in name</span></span>
+<pre>let strCustomerName = \"Alice\";
+let iUserAge = 25;
+let listActiveOrders = [];</pre>
+            <div class="explanation"><span class="tr-text"><code>str</code>, <code>i</code> veya <code>list</code> gibi önekler (prefixes) değişkene anlam katmaz, sadece türünü söyler. Değişkenin türü değişirse ismi de her yerde güncellemeniz gerekir.</span><span class="en-text" style="display:none;">Prefixes like <code>str</code>, <code>i</code>, or <code>list</code> don't add meaning; they only state the type. If the variable's type changes, you have to update the name everywhere.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Saf ve niyet belirten isimler</span><span class="en-text" style="display:none;">GOOD — Pure and intent-revealing names</span></span>
+<pre>let customerName = \"Alice\";
+let age = 25;
+let activeOrders = [];</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İsim seçerken \"Bu ne?\" sorusundan ziyade \"Bu ne için?\" sorusuna odaklanın. Tür bilgisini derleyiciye ve IDE'ye bırakın.</span><span class="en-text" style="display:none;">Focus on the question \"What is this for?\" rather than \"What is this?\" when choosing names. Leave the type information to the compiler and the IDE.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Zihinsel Yük -->
+<div class="modal-overlay" id="modal-mental-burden">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Zihinsel Yük (Mental Burden)</span><span class="en-text" style="display:none;">Mental Burden</span></h3>
+            <button class="modal-close" onclick="closeModal('mental-burden')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kötü isimlendirilmiş bir kodu okurken, beynimiz sürekli olarak isimleri gerçek anlamlarına tercüme etmek zorunda kalır. Örneğin <code>r</code> isminin \"URL\" anlamına geldiğini hatırlamak bir zihinsel yüktür. Temiz kodda isimler o kadar açıktır ki, okuyucunun hafızasına güvenmesine gerek kalmaz.</span><span class="en-text" style="display:none;">When reading poorly named code, our brain constantly has to translate names into their real meanings. For instance, remembering that <code>r</code> means \"URL\" is a mental burden. In clean code, names are so clear that the reader doesn't need to rely on their memory.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Hafızaya dayalı isimlendirme</span><span class="en-text" style="display:none;">BAD — Memory-based naming</span></span>
+<pre>for (let i = 0; i < u.length; i++) {
+    send(u[i], m);
+}</pre>
+            <div class="explanation"><span class="tr-text"><code>u</code> ne? <code>m</code> ne? Okuyucu bu değişkenlerin anlamını kodun üst kısımlarından bulup aklında tutmak zorundadır.</span><span class="en-text" style="display:none;">What is <code>u</code>? What is <code>m</code>? The reader has to find the meaning of these variables from the top and keep them in mind.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kendi kendini açıklayan kod</span><span class="en-text" style="display:none;">GOOD — Self-explanatory code</span></span>
+<pre>for (const recipient of recipients) {
+    sendMessage(recipient, welcomeTemplate);
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir değişkenin adını koyarken, o ismi daha önce hiç görmemiş birinin ne anlayacağını düşünün. Eğer bir \"çeviri sözlüğüne\" ihtiyaç duyuluyorsa, isim kötüdür.</span><span class="en-text" style="display:none;">When naming a variable, think about what someone who has never seen that name before would understand. If a \"translation dictionary\" is needed, the name is bad.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Macar Notasyonu -->
+<div class="modal-overlay" id="modal-hungarian-notation">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Macar Notasyonu (Hungarian Notation)</span><span class="en-text" style="display:none;">Hungarian Notation</span></h3>
+            <button class="modal-close" onclick="closeModal('hungarian-notation')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Macar Notasyonu, değişken isimlerinin başına veri türünü belirten kısaltmalar ekleme geleneğidir. 1980'lerde, derleyicilerin tür kontrolü yapmadığı ve IDE'lerin yetersiz olduğu dönemlerde Windows programcıları için hayati önem taşıyordu. Ancak günümüzde modern dillerin güçlü tür sistemleri ve akıllı IDE'leri bu notasyonu tamamen gereksiz ve okunabilirliği bozan bir yük haline getirmiştir.</span><span class="en-text" style="display:none;">Hungarian Notation is the convention of adding abbreviations indicating the data type to the beginning of variable names. In the 1980s, when compilers didn't check types and IDEs were inadequate, it was vital for Windows programmers. Today, however, strong type systems and smart IDEs of modern languages have made this notation completely redundant and a burden that hampers readability.</span></p>
+
+            <h4><span class="tr-text">Tarihsel Örnek (C++)</span><span class="en-text" style="display:none;">Historical Example (C++)</span></h4>
+            <span class="label-bad"><span class="tr-text">ESKİ TARZ — Macar Notasyonu</span><span class="en-text" style="display:none;">OLD STYLE — Hungarian Notation</span></span>
+<pre>char* lpszName; // Long Pointer to String Zero-terminated
+int iCount;     // Integer
+bool bIsEnabled; // Boolean</pre>
+            <div class="explanation"><span class="tr-text">Bu isimler o zamanlar türü hatırlamak için bir \"koltuk değneği\" görevi görüyordu. Günümüzde ise sadece kafa karıştırır.</span><span class="en-text" style="display:none;">Back then, these names served as a \"crutch\" to remember the type. Today, they only cause confusion.</span></div>
+
+            <h4><span class="tr-text">Modern Yaklaşım</span><span class="en-text" style="display:none;">Modern Approach</span></h4>
+            <span class="label-good"><span class="tr-text">MODERN — Temiz ve Türden Bağımsız</span><span class="en-text" style="display:none;">MODERN — Clean and Type-Independent</span></span>
+<pre>String name;
+int count;
+boolean isEnabled;</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer kodunuzda bir değişkenin türünü isminden okumaya ihtiyaç duyuyorsanız, ya fonksiyonunuz çok uzundur ya da sınıfınız çok karmaşıktır. İsimleri türden değil, niyetten türetin.</span><span class="en-text" style="display:none;">If you need to read the type of a variable from its name, either your function is too long or your class is too complex. Derive names from intent, not from type.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert(\"Sayfa \" + num + \" henüz çevrilmedi. '/cevir \" + num + \"' komutuyla çevirebilirsiniz.\");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 23;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

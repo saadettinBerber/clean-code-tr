@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 14 | Bölüm 1: Temiz Kod Nedir? — Okuma vs Yazma & İzci Kuralı</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; We Are Authors / The Boy Scout Rule</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="14" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 13'den devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 13 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Hata, az önce yazdığını siliyor!</em></span>
+        <span class="en-text" style="display:none;">*Ooops, he’s erasing what he typed!*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Onu tekrar yazıyor.</em></span>
+        <span class="en-text" style="display:none;">*He types it again.*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Onu tekrar siliyor!</em></span>
+        <span class="en-text" style="display:none;">*He erases it again!*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Başka bir şeyin yarısını yazıyor ama sonra onu da siliyor!</em></span>
+        <span class="en-text" style="display:none;">*He types half of something else but then erases that!*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Değiştirdiği fonksiyonu çağıran başka bir fonksiyona, nasıl çağrıldığını görmek için aşağı kaydırıyor.</em></span>
+        <span class="en-text" style="display:none;">*He scrolls down to another function that calls the function he’s changing to see how it is called.*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Tekrar yukarı kaydırıyor ve az önce sildiği kodu tekrar yazıyor.</em></span>
+        <span class="en-text" style="display:none;">*He scrolls back up and types the same code he just erased.*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Duraksıyor.</em></span>
+        <span class="en-text" style="display:none;">*He pauses.*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>O kodu tekrar siliyor!</em></span>
+        <span class="en-text" style="display:none;">*He erases that code again!*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><em>Başka bir pencere açıyor ve bir alt sınıfa bakıyor. Bu fonksiyon geçersiz kılındı mı (overridden)?</em></span>
+        <span class="en-text" style="display:none;">*He pops up another window and looks at a subclass. Is that function overridden?*</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">. . .</span>
+        <span class="en-text" style="display:none;">. . .</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Mesajı aldınız. Gerçekten de, okumaya harcanan zamanın yazmaya harcanan zamana oranı 10:1'in üzerindedir. Yeni kod yazma çabasının bir parçası olarak <em>sürekli</em> eski kodları okuyoruz.</span>
+        <span class="en-text" style="display:none;">You get the drift. Indeed, the ratio of time spent reading vs. writing is well over 10:1. We are constantly reading old code as part of the effort to write new code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu oran çok yüksek olduğu için, yazmayı zorlaştırsa bile kodun okunmasını kolaylaştırmak isteriz. Elbette kodu okumadan yazmanın bir yolu yoktur, bu nedenle <em>okunmasını kolaylaştırmak aslında yazılmasını da kolaylaştırır.</em></span>
+        <span class="en-text" style="display:none;">Because this ratio is so high, we want the reading of code to be easy, even if it makes the writing harder. Of course there’s no way to write code without reading it, so making it easy to read actually makes it easier to write.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu mantıktan kaçış yok. Etraftaki kodu okuyamıyorsanız kod yazamazsınız. Bugün yazmaya çalıştığınız kodun yazılmasının zor veya kolay olması, etraftaki kodun okunmasının ne kadar zor veya kolay olduğuna bağlıdır. Yani hızlı gitmek istiyorsanız, işinizi çabuk bitirmek istiyorsanız, kodunuzun yazılmasının kolay olmasını istiyorsanız, okunmasını kolaylaştırın.</span>
+        <span class="en-text" style="display:none;">There is no escape from this logic. You cannot write code if you cannot read the surrounding code. The code you are trying to write today will be hard or easy to write depending on how hard or easy the surrounding code is to read. So if you want to go fast, if you want to get done quickly, if you want your code to be easy to write, make it easy to read.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">İzci Kuralı / The Boy Scout Rule</span>
+        <span class="en-text" style="display:none;">The Boy Scout Rule</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodu iyi yazmak yeterli değildir. Kodun zaman içinde <em>temiz tutulması</em> gerekir. Hepimiz zaman geçtikçe kodun çürüdüğünü ve bozulduğunu gördük. Bu yüzden bu bozulmayı önlemede aktif bir rol almalıyız.</span>
+        <span class="en-text" style="display:none;">It’s not enough to write the code well. The code has to be kept clean over time. We’ve all seen code rot and degrade as time passes. So we must take an active role in preventing this degradation.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Amerika İzci Birliği'nin (Boy Scouts of America) mesleğimize uygulayabileceğimiz basit bir kuralı vardır.</span>
+        <span class="en-text" style="display:none;">The Boy Scouts of America have a simple rule that we can apply to our profession.</span>
+    </div>
+
+    <blockquote>
+        <span class="tr-text">Kamp alanını bulduğunuzdan daha temiz bırakın.</span>
+        <span class="en-text" style="display:none;">Leave the campground cleaner than you found it.</span>
+    </blockquote>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Hepimiz kodumuzu teslim ederken (check-in), aldığımızdan (check-out) biraz daha temiz bıraksaydık, kod asla çürümezdi. Temizlik büyük bir şey olmak zorunda değildir. Bir değişken ismini daha iyi hale getirin, biraz fazla büyük olan bir fonksiyonu bölün, küçük bir tekrarı (duplication) ortadan kaldırın, karmaşık bir <code>if</code> ifadesini temizleyin.</span>
+        <span class="en-text" style="display:none;">If we all checked-in our code a little cleaner than when we checked it out, the code simply could not rot. The cleanup doesn’t have to be something big. Change one variable name for the better, break up one function that’s a little too large, eliminate one small bit of duplication, clean up one composite if statement.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Zaman geçtikçe kodun <em>basitçe daha iyiye gittiği</em> bir proje üzerinde çalıştığınızı hayal edebiliyor musunuz? Başka bir seçeneğin profesyonel olduğuna inanıyor musunuz? Gerçekten de, sürekli iyileştirme (continuous improvement) profesyonelliğin ayrılmaz bir parçası değil mi?</span>
+        <span class="en-text" style="display:none;">Can you imagine working on a project where the code simply got better as time passed? Do you believe that any other option is professional? Indeed, isn’t continuous improvement an intrinsic part of professionalism?</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('reading-ratio')">
+                <span class="tr-text">10:1 Okuma Oranı</span>
+                <span class="en-text" style="display:none;">10:1 Reading Ratio</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('boy-scout-rule')">
+                <span class="tr-text">İzci Kuralı</span>
+                <span class="en-text" style="display:none;">Boy Scout Rule</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('continuous-improvement')">
+                <span class="tr-text">Sürekli İyileştirme</span>
+                <span class="en-text" style="display:none;">Continuous Improvement</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-13.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 13 — Düşünce Okulları (devam) & Biz Yazarlarız</span><span class="en-text" style="display:none;">Page 13 — Schools of Thought (cont.) & We Are Authors</span></div>
+    </a>
+    <a href="page-15.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 15 — Öncül ve İlkeler, Sonuç &amp; Kaynakça</span><span class="en-text" style="display:none;">Page 15 — Prequel and Principles, Conclusion &amp; Bibliography</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-reading-ratio">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">10:1 Okuma Oranı (10:1 Reading Ratio)</span><span class="en-text" style="display:none;">10:1 Reading Ratio</span></h3>
+            <button class="modal-close" onclick="closeModal('reading-ratio')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Yazılımcılar olarak vaktimizin büyük çoğunluğunu (oransal olarak 10'a 1) kod okuyarak geçiririz. Yeni bir kod eklemeden önce etrafındaki kodu anlamak zorundayız. Bu yüzden, kodun okunabilirliğini artırmak, aslında yazma hızımızı da artırır. Okunması zor kod, geliştirme sürecini yavaşlatır çünkü her değişiklik öncesi "burada ne yapılmış?" sorusuna harcanan zaman artar.</span><span class="en-text" style="display:none;">As developers, we spend the vast majority of our time (at a ratio of 10 to 1) reading code. Before adding new code, we must understand the code around it. Therefore, increasing the readability of code actually increases our writing speed. Hard-to-read code slows down the development process because the time spent on "what was done here?" before each change increases.</span></p>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kod yazarken harcadığınız ekstra 5 dakika (daha iyi bir isim bulmak, fonksiyonu bölmek), gelecekte o kodu okuyacak kişilere (ve size) saatler kazandırabilir. 10:1 kuralını unutmayın!</span><span class="en-text" style="display:none;">The extra 5 minutes you spend while writing code (finding a better name, splitting a function) can save hours for those who will read that code in the future (and you). Don't forget the 10:1 rule!</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-boy-scout-rule">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İzci Kuralı (The Boy Scout Rule)</span><span class="en-text" style="display:none;">The Boy Scout Rule</span></h3>
+            <button class="modal-close" onclick="closeModal('boy-scout-rule')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">"Kamp alanını bulduğundan daha temiz bırak." Bu basit kural, kod tabanının zamanla çürümesini (code rot) engellemenin en etkili yoludur. Her geliştirici, üzerinde çalıştığı dosyada küçük bir iyileştirme yaparsa (bir isimlendirmeyi düzeltmek, gereksiz bir yorumu silmek, bir metodu bölmek), kod tabanı giderek daha sağlıklı hale gelir.</span><span class="en-text" style="display:none;">"Leave the campground cleaner than you found it." This simple rule is the most effective way to prevent code rot over time. If every developer makes a small improvement in the file they are working on (fixing a naming, deleting an unnecessary comment, splitting a method), the codebase becomes increasingly healthy.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Dokunma, bozulmasın" veya "Benim işim değil"</span><span class="en-text" style="display:none;">BAD — "Don't touch, it might break" or "It's not my job"</span></span>
+            <pre>// Mevcut kirli kod
+function update(d) {
+    // ... iş mantığı
+}
+
+// Yeni özellik eklenmiş hali (hala kirli)
+function update(d) {
+    // ... eski kirli iş mantığı
+    if (d.flag) {
+        // Yeni eklenen ama eski kirliliği koruyan kod
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Geliştirici sadece kendi işini yapmış ama etraftaki kirliliğe dokunmamıştır. Bu yaklaşım kodun zamanla çürümesine neden olur.</span><span class="en-text" style="display:none;">The developer only did their own job but didn't touch the surrounding mess. This approach causes code to rot over time.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — İzci kuralı uygulanmış hali</span><span class="en-text" style="display:none;">GOOD — Applying the Boy Scout rule</span></span>
+            <pre>// İzci kuralı: İsmi düzelttim ve yeni özelliği ekledim
+function updateUserData(userData) {
+    // ... iyileştirilmiş iş mantığı
+    if (userData.isPremium) {
+        applyPremiumFeatures(userData);
+    }
+}
+
+function applyPremiumFeatures(userData) { ... }</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her commit'te şu soruyu sorun: "Bu dosyayı aldığım halinden daha mı iyi bıraktım?" Cevap evet ise, profesyonel bir yazılımcı gibi davranıyorsunuz demektir. İyileştirmenin büyük olmasına gerek yok, bir değişken adını düzeltmek bile yeterlidir.</span><span class="en-text" style="display:none;">Ask this question in every commit: "Did I leave this file better than I found it?" If the answer is yes, you are acting like a professional developer. The improvement doesn't have to be big; even fixing a variable name is enough.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-continuous-improvement">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Sürekli İyileştirme (Continuous Improvement)</span><span class="en-text" style="display:none;">Continuous Improvement</span></h3>
+            <button class="modal-close" onclick="closeModal('continuous-improvement')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Sürekli iyileştirme, profesyonelliğin temel bir parçasıdır. Kodun "bir kere yazılıp biten" bir şey değil, sürekli evrilen ve gelişen bir canlı organizma olduğu bilincidir. Kalitenin korunması değil, her adımda artırılması hedeflenir.</span><span class="en-text" style="display:none;">Continuous improvement is a fundamental part of professionalism. It's the awareness that code is not something "written once and done," but a constantly evolving and developing living organism. The goal is not just to maintain quality, but to increase it at every step.</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 14;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+</script>
+
+</body>
+</html>

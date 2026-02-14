@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 13 | Bölüm 1: Temiz Kod Nedir? — Düşünce Okulları & Biz Yazarlarız</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .author-intro { font-weight: 700; color: #1a1a2e; margin-bottom: 8px; font-size: 16px; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; Schools of Thought / We Are Authors</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="13" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 12'den devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 12 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu yaklaşımların öğrencileri kendilerini kurucunun öğretilerine adarlar. Genellikle diğer usta öğretilerini dışlayarak, kendilerini o ustanın öğrettiği şeyi öğrenmeye adarlar. Daha sonra, öğrenciler sanatlarında geliştikçe, bilgi ve uygulamalarını genişletmek için farklı bir ustanın öğrencisi olabilirler. Bazıları sonunda becerilerini geliştirmeye devam eder, yeni teknikler keşfeder ve kendi okullarını kurarlar.</span>
+        <span class="en-text" style="display:none;">Students of these approaches immerse themselves in the teachings of the founder. They dedicate themselves to learn what that particular master teaches, often to the exclusion of any other master’s teaching. Later, as the students grow in their art, they may become the student of a different master so they can broaden their knowledge and practice. Some eventually go on to refine their skills, discovering new techniques and founding their own schools.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu farklı okulların hiçbiri mutlak olarak <em>doğru</em> değildir. Yine de belirli bir okul içinde, öğretiler ve teknikler <em>doğruymuş</em> gibi davranırız. Sonuçta Hakkoryu Jiu Jitsu veya Jeet Kune Do pratiği yapmanın doğru bir yolu vardır. Ancak bir okul içindeki bu doğruluk, farklı bir okulun öğretilerini geçersiz kılmaz.</span>
+        <span class="en-text" style="display:none;">None of these different schools is absolutely right. Yet within a particular school we act as though the teachings and techniques are right. After all, there is a right way to practice Hakkoryu Jiu Jitsu, or Jeet Kune Do. But this rightness within a school does not invalidate the teachings of a different school.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kitabı <em>Object Mentor Temiz Kod Okulu</em>'nun bir açıklaması olarak düşünün. İçindeki teknikler ve öğretiler, <em>bizim</em> sanatımızı uygulama şeklimizdir. Eğer bu öğretileri takip ederseniz, bizim yararlandığımız faydalardan yararlanacağınızı ve temiz ve profesyonel kod yazmayı öğreneceğinizi iddia etmeye hazırız. Ancak bizim bir şekilde mutlak anlamda "haklı" olduğumuzu düşünme hatasına düşmeyin. Profesyonellik konusunda bizim kadar hak iddia eden başka okullar ve başka ustalar da var. Onlardan da bir şeyler öğrenmek sizin yararınıza olacaktır.</span>
+        <span class="en-text" style="display:none;">Consider this book a description of the Object Mentor School of Clean Code. The techniques and teachings within are the way that we practice our art. We are willing to claim that if you follow these teachings, you will enjoy the benefits that we have enjoyed, and you will learn to write code that is clean and professional. But don’t make the mistake of thinking that we are somehow “right” in any absolute sense. There are other schools and other masters that have just as much claim to professionalism as we. It would behoove you to learn from them as well.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Gerçekten de, bu kitaptaki önerilerin çoğu tartışmalıdır. Muhtemelen hepsine katılmayacaksınız. Bazılarına şiddetle karşı çıkabilirsiniz. Bu sorun değil. Nihai otorite olduğumuzu iddia edemeyiz. Öte yandan, bu kitaptaki öneriler üzerinde uzun uzun ve derinlemesine düşündüğümüz şeylerdir. Onları on yılların deneyimi ve tekrarlanan deneme yanılma yoluyla öğrendik. Bu yüzden katılsanız da katılmasanız da, bizim bakış açımızı görmemeniz ve saygı duymamanız yazık olurdu.</span>
+        <span class="en-text" style="display:none;">Indeed, many of the recommendations in this book are controversial. You will probably not agree with all of them. You might violently disagree with some of them. That’s fine. We can’t claim final authority. On the other hand, the recommendations in this book are things that we have thought long and hard about. We have learned them through decades of experience and repeated trial and error. So whether you agree or disagree, it would be a shame if you did not see, and respect, our point of view.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Biz Yazarlarız / We Are Authors</span>
+        <span class="en-text" style="display:none;">We Are Authors</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir Javadoc'un <code>@author</code> alanı bize kim olduğumuzu söyler. Biz yazarlarız (authors). Ve yazarlar hakkında bir şey varsa o da okuyucularının (readers) olmasıdır. Gerçekten de yazarlar, okuyucularıyla iyi iletişim kurmaktan <em>sorumludur</em>. Bir dahaki sefere bir satır kod yazdığınızda, çabanızı yargılayacak okuyucular için yazan bir yazar olduğunuzu hatırlayın.</span>
+        <span class="en-text" style="display:none;">The @author field of a Javadoc tells us who we are. We are authors. And one thing about authors is that they have readers. Indeed, authors are responsible for communicating well with their readers. The next time you write a line of code, remember you are an author, writing for readers who will judge your effort.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Şunu sorabilirsiniz: Kod gerçekten ne kadar okunuyor? Çabanın çoğu onu yazmaya gitmiyor mu?</span>
+        <span class="en-text" style="display:none;">You might ask: How much is code really read? Doesn’t most of the effort go into writing it?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Hiç bir düzenleme oturumunu (edit session) tekrar oynattınız mı? 80'lerde ve 90'larda her tuş vuruşunu takip eden Emacs gibi editörlerimiz vardı. Bir saat boyunca çalışabilir ve sonra tüm düzenleme oturumunuzu yüksek hızlı bir film gibi tekrar oynatabilirdiniz. Bunu yaptığımda sonuçlar büyüleyiciydi.</span>
+        <span class="en-text" style="display:none;">Have you ever played back an edit session? In the 80s and 90s we had editors like Emacs that kept track of every keystroke. You could work for an hour and then play back your whole edit session like a high-speed movie. When I did this, the results were fascinating.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tekrar oynatmanın büyük çoğunluğu kaydırma (scrolling) ve diğer modüllere gitmekti (navigating)!</span>
+        <span class="en-text" style="display:none;">The vast majority of the playback was scrolling and navigating to other modules!</span>
+    </div>
+
+    <blockquote style="font-family: monospace; font-style: normal; font-size: 15px;">
+        <span class="tr-text">
+            * Bob modüle girer.<br>
+            * Değişiklik gerektiren fonksiyona aşağı kaydırır.<br>
+            * Durur, seçeneklerini değerlendirir.<br>
+            * Ah, bir değişkenin ilklendirmesini (initialization) kontrol etmek için modülün en üstüne yukarı kaydırıyor.<br>
+            * Şimdi tekrar aşağı kaydırıyor ve yazmaya başlıyor.
+        </span>
+        <span class="en-text" style="display:none;">
+            * Bob enters the module.<br>
+            * He scrolls down to the function needing change.<br>
+            * He pauses, considering his options.<br>
+            * Oh, he’s scrolling up to the top of the module to check the initialization of a variable.<br>
+            * Now he scrolls back down and begins to type.
+        </span>
+    </blockquote>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('object-mentor')">
+                <span class="tr-text">Object Mentor Okulu</span>
+                <span class="en-text" style="display:none;">Object Mentor School</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('we-are-authors')">
+                <span class="tr-text">Biz Yazarlarız</span>
+                <span class="en-text" style="display:none;">We Are Authors</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('navigating-code')">
+                <span class="tr-text">Kodda Navigasyon</span>
+                <span class="en-text" style="display:none;">Navigating Code</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-12.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 12 — Ward Cunningham (devam) & Düşünce Okulları</span><span class="en-text" style="display:none;">Page 12 — Ward Cunningham (cont.) & Schools of Thought</span></div>
+    </a>
+    <a href="page-14.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 14 — Okuma vs Yazma & İzci Kuralı</span><span class="en-text" style="display:none;">Page 14 — Reading vs Writing & Boy Scout Rule</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-object-mentor">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Object Mentor Okulu (Object Mentor School)</span><span class="en-text" style="display:none;">Object Mentor School</span></h3>
+            <button class="modal-close" onclick="closeModal('object-mentor')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Object Mentor, Robert C. Martin'in de içinde bulunduğu, temiz kod ve çevik süreçler konusunda uzmanlaşmış bir eğitim ve danışmanlık ekolüdür. Bu kitap, bu okulun on yıllara dayanan tecrübesini yansıtır. Yazarlar, kendi yaklaşımlarının tek doğru olmadığını kabul etmekle birlikte, bu disiplinin profesyonellik getirdiğini savunurlar.</span><span class="en-text" style="display:none;">Object Mentor is a school of education and consulting specializing in clean code and agile processes, including Robert C. Martin. This book reflects the decades of experience of this school. While the authors acknowledge their approach isn't the only right one, they argue that this discipline brings professionalism.</span></p>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir disiplini (Object Mentor okulu gibi) tam olarak öğrenene kadar onun kurallarına sıkı sıkıya bağlı kalın. Sanatınızda geliştikçe diğer ustaları da okuyun ve kendi "okulunuzu" veya tarzınızı oluşturun.</span><span class="en-text" style="display:none;">Stick strictly to the rules of a discipline (like the Object Mentor school) until you learn it fully. As you grow in your art, read other masters and form your own "school" or style.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-we-are-authors">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Biz Yazarlarız (We Are Authors)</span><span class="en-text" style="display:none;">We Are Authors</span></h3>
+            <button class="modal-close" onclick="closeModal('we-are-authors')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod yazmak aslında bir "yazarlık" eylemidir. Bir yazarın en büyük sorumluluğu, okuyucusuyla etkili iletişim kurmaktır. Kodun derleyici (compiler) tarafından anlaşılması teknik bir gerekliliktir, ancak insanlar tarafından anlaşılması profesyonel bir sorumluluktur. Her kod satırı, gelecekte onu okuyacak olan bir meslektaşınız (veya gelecekteki siz) için yazılmış bir mesajdır.</span><span class="en-text" style="display:none;">Writing code is actually an act of "authorship." An author's greatest responsibility is to communicate effectively with their reader. Having code understood by the compiler is a technical requirement, but having it understood by humans is a professional responsibility. Every line of code is a message written for a colleague (or future you) who will read it later.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Sadece derleyiciyi düşünen yazar</span><span class="en-text" style="display:none;">BAD — Author thinking only about the compiler</span></span>
+            <pre>// Bu kod çalışıyor ama kimse nedenini bilmiyor
+const d = (p) => {
+    return p.map(x => x.v * 0.1).filter(y => y > 5).reduce((a, b) => a + b, 0);
+};</pre>
+            <div class="explanation"><span class="tr-text">Bu yazar okuyucusunu önemsememiştir. Değişken isimleri (d, p, x, v, y, a, b) hiçbir anlam ifade etmez. Bir "bilmece" yazmıştır, bir "prose" (düzyazı) değil.</span><span class="en-text" style="display:none;">This author did not care about their reader. Variable names (d, p, x, v, y, a, b) convey no meaning. They wrote a "riddle," not "prose."</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Okuyucusuyla iletişim kuran yazar</span><span class="en-text" style="display:none;">GOOD — Author communicating with their reader</span></span>
+            <pre>/**
+ * Hesaptaki yüksek değerli vergi miktarlarının toplamını döner.
+ */
+const sumHighValueTaxAmounts = (transactions: Transaction[]) => {
+    const TAX_RATE = 0.1;
+    const HIGH_VALUE_THRESHOLD = 5;
+
+    return transactions
+        .map(transaction => transaction.value * TAX_RATE)
+        .filter(taxAmount => taxAmount > HIGH_VALUE_THRESHOLD)
+        .reduce((total, taxAmount) => total + taxAmount, 0);
+};</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kod yazarken şu zihniyete geçin: "Şu an bir hikaye anlatıyorum." Fonksiyonlarınız paragraflar, sınıflarınız bölümler gibi olmalı. Eğer bir başkası kodunuzu okurken bir "hikaye" okuyormuş gibi hissediyorsa, iyi bir yazarsınız demektir.</span><span class="en-text" style="display:none;">Switch to this mindset while coding: "I am telling a story right now." Your functions should be like paragraphs, your classes like chapters. If someone else feels like they're reading a "story" while looking at your code, you're a good author.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-navigating-code">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kodda Navigasyon (Navigating Code)</span><span class="en-text" style="display:none;">Navigating Code</span></h3>
+            <button class="modal-close" onclick="closeModal('navigating-code')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Uncle Bob'un "edit session" analizi, bir yazılımcının vaktinin %90'ından fazlasını kod yazmakla değil, kod okumakla, kaydırmakla ve farklı dosyalar arasında gezinmekle geçirdiğini gösterir. Bu, kodun "okunabilirliğinin" neden "yazılabilirliğinden" çok daha önemli olduğunu kanıtlar. Zamanımızın çoğunu kodu anlamaya çalışarak harcıyorsak, kodun kendisi bu anlamayı kolaylaştırmalıdır.</span><span class="en-text" style="display:none;">Uncle Bob's "edit session" analysis shows that a developer spends more than 90% of their time not writing code, but reading code, scrolling, and navigating between different files. This proves why "readability" is much more important than "writability." If we spend most of our time trying to understand code, the code itself should facilitate this understanding.</span></p>
+            <div class="explanation"><span class="tr-text">Kaydırma (Scrolling) ve Navigasyon miktarını azaltmak için kodunuzu küçük, odaklanmış ve iyi isimlendirilmiş parçalara bölün. Bir fonksiyonu anlamak için 500 satır yukarı kaydırmak gerekiyorsa, o kod kirli demektir.</span><span class="en-text" style="display:none;">To reduce the amount of Scrolling and Navigation, break your code into small, focused, and well-named pieces. If you need to scroll up 500 lines to understand a function, that code is dirty.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 14' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 13;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

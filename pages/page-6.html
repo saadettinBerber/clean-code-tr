@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 6 | Bölüm 1: Temel İkilem & Temiz Kod Sanatı</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+        .page-continuation { color: #6c757d; font-style: italic; font-size: 14px; margin-bottom: 12px; }
+        blockquote { border-left: 4px solid #e8d44d; padding: 12px 20px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; font-style: italic; color: #495057; }
+        .footnote { font-size: 14px; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 16px; margin-top: 32px; line-height: 1.6; }
+        .footnote sup { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; Attitude, The Primal Conundrum, The Art of Clean Code?</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="6" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 5'ten devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 5 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">proje planlamasında derin bir şekilde suç ortağıyızdır ve başarısızlıkların büyük bir kısmının sorumluluğunu paylaşırız; özellikle de bu başarısızlıklar kötü kod (bad code) ile ilgiliyse!</span>
+        <span class="en-text" style="display:none;">are deeply complicit in the planning of the project and share a great deal of the responsibility for any failures; especially if those failures have to do with bad code!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">"Ama bir dakika!" diyorsunuz. "Eğer yöneticimin (manager) dediğini yapmazsam, kovulurum." Muhtemelen hayır. Çoğu yönetici, öyle davranmasalar da gerçeği ister. Çoğu yönetici, takvime (schedule) takıntılı olsalar da iyi kod ister. Takvimi ve gereksinimleri (requirements) tutkuyla savunabilirler; ama bu onların işidir. <em>Kodu aynı tutkuyla savunmak sizin işinizdir.</em></span>
+        <span class="en-text" style="display:none;">"But wait!" you say. "If I don't do what my manager says, I'll be fired." Probably not. Most managers want the truth, even when they don't act like it. Most managers want good code, even when they are obsessing about the schedule. They may defend the schedule and requirements with passion; but that's their job. It's <em>your</em> job to defend the code with equal passion.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu noktayı pekiştirmek için şunu düşünün: Bir doktor olsaydınız ve hastanız ameliyat hazırlığındaki el yıkama işlemini durdumanızı isteseydi — çünkü çok fazla zaman alıyormuş<sup>2</sup> — ne yapardınız? Açıkça hasta patrondur; ama doktor kesinlikle bu isteğe uymamalıdır. Neden? Çünkü doktor, hasta hakkında hastalık ve enfeksiyon riskleri konusunda hastadan daha fazla şey bilir. Doktorun hastanın isteğine uyması profesyonel olmayan (unprofessional) bir davranış olurdu (cezai sorumluluğu bir yana).</span>
+        <span class="en-text" style="display:none;">To drive this point home, what if you were a doctor and had a patient who demanded that you stop all the silly hand-washing in preparation for surgery because it was taking too much time?<sup>2</sup> Clearly the patient is the boss; and yet the doctor should absolutely refuse to comply. Why? Because the doctor knows more than the patient about the risks of disease and infection. It would be unprofessional (never mind criminal) for the doctor to comply with the patient.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Aynı şekilde, karmaşa (mess) yaratmanın risklerini anlamayan yöneticilerin (managers) iradesine boyun eğmek programcılar için de profesyonel olmayan bir davranıştır.</span>
+        <span class="en-text" style="display:none;">So too it is unprofessional for programmers to bend to the will of managers who don't understand the risks of making messes.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Temel İkilem <span class="section-title-sub">/ The Primal Conundrum</span></span>
+        <span class="en-text" style="display:none;">The Primal Conundrum</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Programcılar temel değerlerle ilgili bir ikilemle (conundrum) karşı karşıyadır. Birkaç yıldan fazla deneyime sahip tüm geliştiriciler, önceki karmaşaların (messes) kendilerini yavaşlattığını bilir. Ancak tüm geliştiriciler, son teslim tarihlerini (deadlines) karşılamak için karmaşa yaratma baskısını hisseder. Kısacası, <em>hızlı gitmek için zaman ayırmazlar!</em></span>
+        <span class="en-text" style="display:none;">Programmers face a conundrum of basic values. All developers with more than a few years experience know that previous messes slow them down. And yet all developers feel the pressure to make messes in order to meet deadlines. In short, they don't take the time to go fast!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Gerçek profesyoneller (professionals), ikilemin ikinci kısmının yanlış olduğunu bilir. Karmaşa yaparak son teslim tarihine yetişemezsiniz. Aslında karmaşa sizi anında yavaşlatır ve son teslim tarihini kaçırmanıza neden olur. Son teslim tarihine yetişmenin tek yolu — <em>hızlı gitmenin tek yolu</em> — kodu her zaman mümkün olduğunca temiz tutmaktır.</span>
+        <span class="en-text" style="display:none;">True professionals know that the second part of the conundrum is wrong. You will not make the deadline by making the mess. Indeed, the mess will slow you down instantly, and will force you to miss the deadline. The only way to make the deadline—the only way to go fast—is to keep the code as clean as possible at all times.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Temiz Kod Sanatı mı? <span class="section-title-sub">/ The Art of Clean Code?</span></span>
+        <span class="en-text" style="display:none;">The Art of Clean Code?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Diyelim ki dağınık kodun (messy code) önemli bir engel olduğuna inandınız. Diyelim ki hızlı gitmenin tek yolunun kodunuzu temiz tutmak olduğunu kabul ettiniz. O zaman kendinize şunu sormalısınız: "Temiz kodu nasıl yazarım?" Eğer kodun temiz olmasının ne demek olduğunu bilmiyorsanız, temiz kod yazmaya çalışmanın bir anlamı yoktur!</span>
+        <span class="en-text" style="display:none;">Let's say you believe that messy code is a significant impediment. Let's say that you accept that the only way to go fast is to keep your code clean. Then you must ask yourself: "How do I write clean code?" It's no good trying to write clean code if you don't know what it means for code to be clean!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kötü haber şu ki, temiz kod yazmak bir resim yapmaya çok benzer. Çoğumuz bir resmin iyi mi kötü mü yapıldığını biliriz. Ancak iyi sanatı kötüden ayırabilmek, resim yapmayı bildiğimiz anlamına gelmez. Aynı şekilde temiz kodu kirli koddan (dirty code) ayırabilmek, temiz kod <em>yazmayı</em> bildiğimiz anlamına gelmez!</span>
+        <span class="en-text" style="display:none;">The bad news is that writing clean code is a lot like painting a picture. Most of us know when a picture is painted well or badly. But being able to recognize good art from bad does not mean that we know how to paint. So too being able to recognize clean code from dirty code does not mean that we know how to write clean code!</span>
+    </div>
+
+    <div class="page-continuation" style="margin-top: 32px;">
+        <span class="tr-text">[ Sayfa 7'ye devam edilecek ]</span>
+        <span class="en-text" style="display:none;">[ Continued on page 7 ]</span>
+    </div>
+
+    <div class="footnote">
+        <span class="tr-text"><sup>2</sup> El yıkama ilk olarak 1847'de Ignaz Semmelweis tarafından doktorlara önerildiğinde, doktorların çok meşgul olduğu ve hasta ziyaretleri arasında ellerini yıkamaya vakit bulamayacakları gerekçesiyle reddedilmişti.</span>
+        <span class="en-text" style="display:none;"><sup>2</sup> When hand-washing was first recommended to physicians by Ignaz Semmelweis in 1847, it was rejected on the basis that doctors were too busy and wouldn't have time to wash their hands between patient visits.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('doctor')">
+                <span class="tr-text">Doktor Benzetmesi</span>
+                <span class="en-text" style="display:none;">Doctor Analogy</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('conundrum')">
+                <span class="tr-text">Temel İkilem</span>
+                <span class="en-text" style="display:none;">The Primal Conundrum</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('art')">
+                <span class="tr-text">Temiz Kod Sanatı</span>
+                <span class="en-text" style="display:none;">The Art of Clean Code</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-5.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 5 — Tutum</span><span class="en-text" style="display:none;">Page 5 — Attitude</span></div>
+    </a>
+    <a href="page-7.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 7 — Temiz Kod Nedir?</span><span class="en-text" style="display:none;">Page 7 — What Is Clean Code?</span></div>
+    </a>
+</div>
+
+<!-- Modal: Doktor Benzetmesi -->
+<div class="modal-overlay" id="modal-doctor">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Doktor Benzetmesi (Doctor Analogy)</span><span class="en-text" style="display:none;">Doctor Analogy</span></h3>
+            <button class="modal-close" onclick="closeModal('doctor')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Martin, programcıların kodu savunma sorumluluğunu bir doktorun el yıkamayı savunmasına benzetir. Hasta (yönetici/müşteri) "zaman kaybı" diye şikâyet etse bile, doktor hijyen kurallarından ödün vermez — çünkü riskleri bilir. Aynı şekilde programcılar da "hızlı teslim et" baskısına rağmen kod kalitesinden ödün vermemelidir.</span><span class="en-text" style="display:none;">Martin compares programmers' responsibility to defend code quality with a doctor defending hand-washing. Even when the patient (manager/client) complains about "wasting time," the doctor doesn't compromise on hygiene — because they know the risks. Similarly, programmers shouldn't compromise code quality despite "deliver fast" pressure.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Baskıya boyun eğmek</span><span class="en-text" style="display:none;">BAD — Bending to pressure</span></span>
+            <pre>// Yönetici: "Bu özellik yarına hazır olmalı!"
+// Geliştirici: "Tamam, hemen yaparım..."
+
+function calculateDiscount(cart) {
+    // TODO: Validation eklenecek (sonra...)
+    // TODO: Edge case'ler handle edilecek (sonra...)
+    // TODO: Test yazılacak (sonra...)
+    let d = 0;
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].q > 5) d += cart[i].p * 0.1;
+        if (cart[i].q > 10) d += cart[i].p * 0.05;
+        if (cart[i].vip) d += cart[i].p * 0.15;
+    }
+    return d;
+}
+// 6 ay sonra: 47 bug raporu, kimse koda dokunamıyor</pre>
+            <div class="explanation"><span class="tr-text">Geliştirici baskıya boyun eğip validasyon, test ve anlamlı isimlendirme gibi temel pratikleri atlamış. "Sonra yaparız" dediği her şey teknik borca (technical debt) dönüşmüş.</span><span class="en-text" style="display:none;">The developer bent to pressure and skipped validation, tests, and meaningful naming. Every "we'll do it later" turned into technical debt.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Profesyonel duruş</span><span class="en-text" style="display:none;">GOOD — Professional stance</span></span>
+            <pre>// Yönetici: "Bu özellik yarına hazır olmalı!"
+// Geliştirici: "İndirim hesaplama kritik bir iş kuralı.
+//   Hatalı hesaplama gelir kaybına yol açar.
+//   2 günde testleriyle birlikte teslim edebilirim."
+
+function calculateDiscount(cart: CartItem[]): Money {
+    this.validateCart(cart);
+
+    const discountRules = [
+        new BulkDiscountRule(threshold: 5, rate: 0.10),
+        new VolumeBonusRule(threshold: 10, rate: 0.05),
+        new VipDiscountRule(rate: 0.15),
+    ];
+
+    return discountRules
+        .filter(rule => rule.appliesTo(cart))
+        .reduce((total, rule) => total.add(rule.calculate(cart)),
+                Money.zero());
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Yöneticinize "Hayır" demek değil, "Evet, ama..." demek önemlidir. "Bunu 1 günde yapabilirim ama 3 kritik riski var. 2 günde risksiz yapabilirim. Hangisini tercih edersiniz?" Bu yaklaşım hem profesyonelliğinizi hem de çözüm odaklılığınızı gösterir.</span><span class="en-text" style="display:none;">It's not about saying "No" but "Yes, but..." to your manager. "I can do this in 1 day but with 3 critical risks. In 2 days I can do it risk-free. Which do you prefer?" This shows both professionalism and solution-oriented thinking.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Temel İkilem -->
+<div class="modal-overlay" id="modal-conundrum">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Temel İkilem (The Primal Conundrum)</span><span class="en-text" style="display:none;">The Primal Conundrum</span></h3>
+            <button class="modal-close" onclick="closeModal('conundrum')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Programcıların temel ikilemi şudur: Karmaşanın (mess) bizi yavaşlattığını <em>biliyoruz</em>, ama son teslim tarihlerine (deadlines) yetişmek için karmaşa yaratma baskısı hissediyoruz. Martin bu ikilemin çözümünü açıkça belirtir: Hızlı gitmenin tek yolu kodu temiz tutmaktır. Karmaşa yapmak sizi hızlandırmaz — anında yavaşlatır.</span><span class="en-text" style="display:none;">The fundamental conundrum: we <em>know</em> messes slow us down, yet we feel pressure to make messes to meet deadlines. Martin states the resolution clearly: the only way to go fast is to keep the code clean. Making a mess doesn't speed you up — it slows you down instantly.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Hızlıca halledelim" zihniyeti</span><span class="en-text" style="display:none;">BAD — "Let's just get it done" mentality</span></span>
+            <pre># Sprint 1: "Hızlıca halledelim"
+def send_notification(user_id, msg, type, urgent, channel):
+    if type == "email":
+        if urgent:
+            # acil email gönder
+            smtp = smtplib.SMTP('smtp.company.com')
+            smtp.sendmail('no-reply@co.com', get_email(user_id), msg)
+        else:
+            # normal email
+            smtp = smtplib.SMTP('smtp.company.com')
+            smtp.sendmail('no-reply@co.com', get_email(user_id), msg)
+    elif type == "sms":
+        if urgent:
+            # acil sms
+            requests.post('https://sms-api.com/send',
+                json={'to': get_phone(user_id), 'msg': msg, 'priority': 'high'})
+        else:
+            requests.post('https://sms-api.com/send',
+                json={'to': get_phone(user_id), 'msg': msg})
+    elif type == "push":
+        # ... 50 satır daha
+        pass
+
+# Sprint 3: "Slack bildirimi de ekleyelim" → 200 satırlık if/elif
+# Sprint 5: "Neden bu kadar yavaş ilerliyoruz?!"</pre>
+            <div class="explanation"><span class="tr-text">Her sprint'te "hızlıca ekleyelim" diyerek büyüyen fonksiyon, birkaç sprint sonra değiştirilmesi imkânsız bir canavara dönüşür. Hız kazanmak için yapılan kestirmeler, çok geçmeden sizi yavaşlatan zincirlere dönüşür.</span><span class="en-text" style="display:none;">The function growing with "let's add it quickly" each sprint becomes an unmaintainable monster. Shortcuts taken to gain speed quickly turn into chains that slow you down.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Temiz yapı = sürdürülebilir hız</span><span class="en-text" style="display:none;">GOOD — Clean structure = sustainable speed</span></span>
+            <pre># Sprint 1: Biraz daha zaman alır ama sürdürülebilir
+class NotificationService:
+    def __init__(self):
+        self._channels = {}
+
+    def register(self, channel_type, handler):
+        self._channels[channel_type] = handler
+
+    def send(self, user_id, message, channel_type, urgent=False):
+        handler = self._channels.get(channel_type)
+        if not handler:
+            raise UnsupportedChannel(channel_type)
+        handler.send(user_id, message, urgent)
+
+class EmailChannel:
+    def send(self, user_id, message, urgent):
+        priority = Priority.HIGH if urgent else Priority.NORMAL
+        self.mailer.send(
+            to=self.user_repo.get_email(user_id),
+            body=message,
+            priority=priority
+        )
+
+# Sprint 3: "Slack ekleyelim" → sadece SlackChannel sınıfı yaz, register et. Bitti.
+# Sprint 5: "Harika ilerliyoruz!"</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir görevi "hızlıca halledelim" diye başlamadan önce kendinize sorun: "Bu kodu 3 ay sonra değiştirmem gerekirse, bugünkü 'hızlı' çözüm o zaman bana kaç saat kaybettirecek?" Genellikle bugün 30 dakika fazla harcamak, gelecekte 3 gün kazandırır.</span><span class="en-text" style="display:none;">Before starting a task with "let's just get it done," ask yourself: "If I need to change this code in 3 months, how many hours will today's 'quick' solution cost me then?" Usually spending 30 extra minutes today saves 3 days in the future.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Temiz Kod Sanatı -->
+<div class="modal-overlay" id="modal-art">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Temiz Kod Sanatı (The Art of Clean Code)</span><span class="en-text" style="display:none;">The Art of Clean Code</span></h3>
+            <button class="modal-close" onclick="closeModal('art')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Martin, temiz kod yazmayı resim yapmaya benzetir: İyi bir resmi kötüsünden ayırt edebilmek, resim yapmayı bildiğiniz anlamına gelmez. Aynı şekilde temiz kodu kirli koddan ayırt edebilmek, temiz kod <em>yazabildiğiniz</em> anlamına gelmez. Temiz kod yazmak bir zanaat (craftsmanship) becerisidir — öğrenilmesi zaman, pratik ve disiplin gerektirir.</span><span class="en-text" style="display:none;">Martin compares writing clean code to painting: being able to tell good art from bad doesn't mean you can paint. Similarly, recognizing clean code from dirty code doesn't mean you can <em>write</em> clean code. Writing clean code is a craftsmanship skill — it requires time, practice, and discipline to learn.</span></p>
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Kötü olduğunu biliyorum ama nasıl düzelteceğimi bilmiyorum"</span><span class="en-text" style="display:none;">BAD — "I know it's bad but I don't know how to fix it"</span></span>
+            <pre>// Geliştirici biliyor ki bu kod kötü... ama alternatifi ne?
+public class DataProcessor {
+    public Object process(Object data, int mode, boolean flag1,
+                          boolean flag2, String format, int retry) {
+        Object result = null;
+        if (mode == 1) {
+            if (flag1) {
+                if (format.equals("json")) {
+                    // 30 satır iç içe mantık
+                    result = doSomething(data);
+                } else if (format.equals("xml")) {
+                    result = doSomethingElse(data);
+                }
+            } else if (flag2) {
+                // 20 satır daha...
+                result = doAnotherThing(data);
+            }
+        } else if (mode == 2) {
+            // mode 1'in kopyası, küçük farkla...
+        }
+        return result;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">Geliştirici bu kodun kötü olduğunu hissedebilir ama "kod duygusu" (code-sense) gelişmediği için nasıl düzelteceğini bilemez. Sorunları tanımak ilk adımdır, ama yeterli değildir.</span><span class="en-text" style="display:none;">The developer can feel this code is bad but without developed "code-sense," they don't know how to fix it. Recognizing problems is the first step, but it's not enough.</span></div>
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kod duygusu ile yeniden yapılandırılmış</span><span class="en-text" style="display:none;">GOOD — Restructured with code-sense</span></span>
+            <pre>// Strateji deseni (Strategy Pattern) + açık arayüz
+public interface DataFormatter {
+    FormattedData format(RawData data);
+}
+
+public class JsonFormatter implements DataFormatter {
+    public FormattedData format(RawData data) {
+        return new FormattedData(toJson(data));
+    }
+}
+
+public class DataPipeline {
+    private final DataFormatter formatter;
+    private final RetryPolicy retryPolicy;
+
+    public DataPipeline(DataFormatter formatter, RetryPolicy retryPolicy) {
+        this.formatter = formatter;
+        this.retryPolicy = retryPolicy;
+    }
+
+    public ProcessedData process(RawData data) {
+        RawData validated = validate(data);
+        FormattedData formatted = formatter.format(validated);
+        return retryPolicy.execute(() -> save(formatted));
+    }
+}</pre>
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Kod duygusu" geliştirmek için: Her gün 15 dakika açık kaynak kodlarını okuyun. Özellikle iyi bilinen projelerin (Spring, React, Django) çekirdek modüllerini inceleyin. "Bu neden böyle yazılmış?" diye sorun. Zamanla kalıpları tanımaya ve uygulamaya başlarsınız.</span><span class="en-text" style="display:none;">To develop "code-sense": spend 15 minutes daily reading open source code. Study core modules of well-known projects (Spring, React, Django). Ask "Why is this written this way?" Over time, you'll start recognizing and applying patterns.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 7' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 6;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

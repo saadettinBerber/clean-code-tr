@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 4 | Bölüm 1: Karmaşanın Toplam Maliyeti</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .home-link:hover { opacity: 1; }
+
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8d44d;
+        }
+        .section-title:first-child { margin-top: 0; }
+        .section-title-sub { font-size: 16px; color: #6c757d; font-weight: 400; }
+
+        .page-continuation {
+            color: #6c757d;
+            font-style: italic;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        blockquote {
+            border-left: 4px solid #e8d44d;
+            padding: 12px 20px;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #495057;
+        }
+
+        .figure-container {
+            text-align: center;
+            margin: 32px 0;
+            padding: 24px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .figure-chart {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .figure-chart svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .figure-caption {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 12px;
+        }
+
+        .figure-caption strong {
+            color: #1a1a2e;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26,26,46,0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+
+        .modal-body .explanation {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #495057;
+        }
+
+        /* Nav */
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+
+        .not-translated {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Üst Bar -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; The Total Cost of Owning a Mess / Karmaşanın Toplam Maliyeti</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="4" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Ana İçerik -->
+<div class="content-wrapper">
+
+    <!-- Önceki sayfadan devam -->
+    <div class="page-continuation">
+        <span class="tr-text">[ Sayfa 3'ten devam ]</span>
+        <span class="en-text" style="display:none;">[ Continued from page 3 ]</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">çalışan bir karmaşanın hiç yoktan iyi olduğuna karar verdik. Hepimiz geri dönüp sonra temizleyeceğimizi söyledik. Tabii o günlerde LeBlanc Yasası'nı bilmiyorduk: <em>Sonra asla demektir.</em></span>
+        <span class="en-text" style="display:none;">working mess is better than nothing. We've all said we'd go back and clean it up later. Of course, in those days we didn't know LeBlanc's law: <em>Later equals never.</em></span>
+    </div>
+
+    <!-- The Total Cost of Owning a Mess -->
+    <div class="section-title">
+        <span class="tr-text">Karmaşanın Toplam Maliyeti <span class="section-title-sub">/ The Total Cost of Owning a Mess</span></span>
+        <span class="en-text" style="display:none;">The Total Cost of Owning a Mess</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Eğer iki veya üç yıldan fazla süredir programcıysanız, muhtemelen bir başkasının dağınık kodu (messy code) yüzünden ciddi şekilde yavaşladınız. Eğer üç yıldan uzun süredir programcıysanız, muhtemelen dağınık kod yüzünden kendi kendinizi bile yavaşlattınız. Yavaşlamanın derecesi önemli olabilir. Bir ya da iki yıllık bir süre içinde, projenin başında çok hızlı ilerleyen ekipler kendilerini salyangoz hızında (snail's pace) ilerlerken bulabilirler. Yaptıkları her değişiklik kodun iki veya üç başka yerini bozar. Hiçbir değişiklik önemsiz değildir. Sisteme yapılan her ekleme veya değişiklik, mevcut dolanıklıkların (tangles), bükülmelerin (twists) ve düğümlerin (knots) anlaşılmasını gerektirir — ki böylece daha fazla dolanıklık, bükülme ve düğüm eklenebilsin. Zaman geçtikçe karmaşa o kadar büyür, o kadar derinleşir ve o kadar yükselir ki temizleyemezler. Hiçbir çare yoktur.</span>
+        <span class="en-text" style="display:none;">If you have been a programmer for more than two or three years, you have probably been significantly slowed down by someone else's messy code. If you have been a programmer for longer than two or three years, you have probably been slowed down by messy code. The degree of the slowdown can be significant. Over the span of a year or two, teams that were moving very fast at the beginning of a project can find themselves moving at a snail's pace. Every change they make to the code breaks two or three other parts of the code. No change is trivial. Every addition or modification to the system requires that the tangles, twists, and knots be "understood" so that more tangles, twists, and knots can be added. Over time the mess becomes so big and so deep and so tall, they can not clean it up. There is no way at all.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Karmaşa büyüdükçe, ekibin verimliliği (productivity) düşmeye devam eder ve asimptotik olarak sıfıra yaklaşır. Verimlilik düştükçe, yönetim (management) yapabileceği tek şeyi yapar: verimliliği artırma umuduyla projeye daha fazla personel ekler. Ancak yeni personel sistemin tasarımına hakim değildir. Tasarım amacına uygun bir değişiklik ile tasarım amacını bozan bir değişiklik arasındaki farkı bilmezler. Dahası, onlar da ekipteki herkes gibi verimliliği artırmak için korkunç bir baskı altındadırlar. Böylece hepsi daha fazla karmaşa yaratır ve verimliliği sıfıra doğru daha da aşağı çeker. (Bakınız Şekil 1-1.)</span>
+        <span class="en-text" style="display:none;">As the mess builds, the productivity of the team continues to decrease, asymptotically approaching zero. As productivity decreases, management does the only thing they can; they add more staff to the project in hopes of increasing productivity. But that new staff is not versed in the design of the system. They don't know the difference between a change that matches the design intent and a change that thwarts the design intent. Furthermore, they, and everyone else on the team, are under horrific pressure to increase productivity. So they all make more and more messes, driving the productivity ever further toward zero. (See Figure 1-1.)</span>
+    </div>
+
+    <!-- Şekil 1-1: Verimlilik vs. Zaman -->
+    <div class="figure-container">
+        <div class="figure-chart">
+            <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+                <!-- Arka plan ızgara -->
+                <defs>
+                    <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#e8d44d;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#dc3545;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="areaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#e8d44d;stop-opacity:0.15" />
+                        <stop offset="100%" style="stop-color:#dc3545;stop-opacity:0.08" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Izgaralar -->
+                <line x1="60" y1="40" x2="60" y2="260" stroke="#dee2e6" stroke-width="1"/>
+                <line x1="60" y1="260" x2="440" y2="260" stroke="#dee2e6" stroke-width="1"/>
+                <line x1="60" y1="84" x2="440" y2="84" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="60" y1="128" x2="440" y2="128" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="60" y1="172" x2="440" y2="172" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="60" y1="216" x2="440" y2="216" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,4"/>
+
+                <!-- Y ekseni etiketleri -->
+                <text x="50" y="48" text-anchor="end" font-size="12" fill="#6c757d">100</text>
+                <text x="50" y="92" text-anchor="end" font-size="12" fill="#6c757d">80</text>
+                <text x="50" y="136" text-anchor="end" font-size="12" fill="#6c757d">60</text>
+                <text x="50" y="180" text-anchor="end" font-size="12" fill="#6c757d">40</text>
+                <text x="50" y="224" text-anchor="end" font-size="12" fill="#6c757d">20</text>
+                <text x="50" y="266" text-anchor="end" font-size="12" fill="#6c757d">0</text>
+
+                <!-- Eksen başlıkları -->
+                <text x="12" y="155" text-anchor="middle" font-size="13" fill="#1a1a2e" font-weight="600" transform="rotate(-90,12,155)">
+                    <tspan class="tr-text">Verimlilik</tspan>
+                    <tspan class="en-text" style="display:none;">Productivity</tspan>
+                </text>
+                <text x="250" y="290" text-anchor="middle" font-size="13" fill="#1a1a2e" font-weight="600">
+                    <tspan class="tr-text">Zaman</tspan>
+                    <tspan class="en-text" style="display:none;">Time</tspan>
+                </text>
+
+                <!-- Alan dolgusu -->
+                <path d="M60,48 C100,50 140,60 180,100 C220,145 270,200 320,230 C370,248 410,254 440,257 L440,260 L60,260 Z" fill="url(#areaGrad)"/>
+
+                <!-- Verimlilik eğrisi -->
+                <path d="M60,48 C100,50 140,60 180,100 C220,145 270,200 320,230 C370,248 410,254 440,257" fill="none" stroke="url(#curveGrad)" stroke-width="3" stroke-linecap="round"/>
+
+                <!-- Başlangıç noktası -->
+                <circle cx="60" cy="48" r="5" fill="#e8d44d" stroke="#1a1a2e" stroke-width="2"/>
+            </svg>
+        </div>
+        <div class="figure-caption">
+            <strong>
+                <span class="tr-text">Şekil 1-1</span>
+                <span class="en-text" style="display:none;">Figure 1-1</span>
+            </strong>
+            <br>
+            <span class="tr-text">Verimlilik ve zaman ilişkisi</span>
+            <span class="en-text" style="display:none;">Productivity vs. time</span>
+        </div>
+    </div>
+
+    <!-- Kavram Butonları -->
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('leblanc')">
+                <span class="tr-text">LeBlanc Yasası</span>
+                <span class="en-text" style="display:none;">LeBlanc's Law</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('messcost')">
+                <span class="tr-text">Karmaşanın Maliyeti</span>
+                <span class="en-text" style="display:none;">Cost of a Mess</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('productivity')">
+                <span class="tr-text">Verimlilik Tuzağı</span>
+                <span class="en-text" style="display:none;">Productivity Trap</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sayfa Navigasyonu -->
+<div class="page-nav">
+    <a href="page-3.html" class="nav-btn">
+        <div class="nav-btn-label">
+            <span class="tr-text">Önceki Sayfa</span>
+            <span class="en-text" style="display:none;">Previous Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 3 — Kötü Kod</span>
+            <span class="en-text" style="display:none;">Page 3 — Bad Code</span>
+        </div>
+    </a>
+    <a href="page-5.html" class="nav-btn next">
+        <div class="nav-btn-label">
+            <span class="tr-text">Sonraki Sayfa</span>
+            <span class="en-text" style="display:none;">Next Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 5 — Gökyüzündeki Büyük Yeniden Tasarım</span>
+            <span class="en-text" style="display:none;">Page 5 — The Grand Redesign in the Sky</span>
+        </div>
+    </a>
+</div>
+
+<!-- Modal: LeBlanc Yasası -->
+<div class="modal-overlay" id="modal-leblanc">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">LeBlanc Yasası (LeBlanc's Law)</span>
+                <span class="en-text" style="display:none;">LeBlanc's Law</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('leblanc')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">LeBlanc Yasası basit ama acı bir gerçeği ifade eder: <em>"Sonra asla demektir"</em> (Later equals never). Bir kodu "sonra düzeltirim", "sonra temizlerim" dediğinizde, o "sonra" neredeyse hiçbir zaman gelmez. Yeni özellikler, yeni öncelikler, yeni projeler hep araya girer. Bu yüzden kodu ilk seferinde doğru ve temiz yazmak kritik önem taşır.</span>
+                <span class="en-text" style="display:none;">LeBlanc's Law states a simple but painful truth: <em>"Later equals never."</em> When you say "I'll fix this later" or "I'll clean it up later," that "later" almost never comes. New features, new priorities, new projects always intervene. That's why writing code correctly and cleanly the first time is critically important.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ — "Sonra düzeltirim" zihniyeti</span>
+                <span class="en-text" style="display:none;">BAD — "I'll fix it later" mentality</span>
+            </span>
+<pre>
+// TODO: refactor this entire function later
+// TODO: add proper error handling
+// TODO: this query is slow, optimize later
+// TODO: remove hardcoded values
+// FIXME: sometimes returns null, investigate later
+function getReport(id) {
+    let data = db.query("SELECT * FROM reports WHERE id=" + id);
+    let result = {};
+    result.t = data[0];
+    result.d = data.slice(1);
+    // HACK: quick fix for the demo
+    if (!result.t) result.t = "N/A";
+    return result;
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Beş adet TODO/FIXME/HACK yorumu var — hepsi "sonra" yapılacak. SQL enjeksiyonu (injection) riski var, değişken adları anlamsız, hata yönetimi yok. Bu "sonra"lar asla gelmeyecek ve bu fonksiyon bir gün üretimde (production) patladığında herkes şaşıracak.</span>
+                <span class="en-text" style="display:none;">Five TODO/FIXME/HACK comments — all deferred to "later." There's a SQL injection risk, meaningless variable names, no error handling. These "laters" will never come, and when this function blows up in production, everyone will be surprised.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ — İlk seferinde doğru yap</span>
+                <span class="en-text" style="display:none;">GOOD — Do it right the first time</span>
+            </span>
+<pre>
+function getReport(reportId) {
+    const query = "SELECT * FROM reports WHERE id = ?";
+    const rows = db.query(query, [reportId]);
+
+    if (rows.length === 0) {
+        throw new ReportNotFoundError(reportId);
+    }
+
+    return {
+        title: rows[0].title,
+        details: rows.slice(1)
+    };
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Parametreli sorgu ile SQL enjeksiyonu önlenmiş. Boş sonuç durumunda anlamlı bir hata fırlatılıyor. Değişken adları ne olduklarını açıkça söylüyor. Hiçbir TODO veya HACK yok — çünkü "sonraya" bırakılacak bir şey yok.</span>
+                <span class="en-text" style="display:none;">Parameterized query prevents SQL injection. Empty result throws a meaningful error. Variable names clearly state what they are. No TODOs or HACKs — because there's nothing to leave for "later."</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Kendinizi bir TODO yorumu yazarken yakalarsanız, durup düşünün: "Bunu şimdi düzeltmem 5 dakika sürer mi?" Eğer cevap evet ise, şimdi yapın. LeBlanc Yasası'nı hatırlayın: o TODO'ya bir daha asla dönmeyeceksiniz.</span>
+                <span class="en-text" style="display:none;">When you catch yourself writing a TODO comment, pause and ask: "Would fixing this now take 5 minutes?" If the answer is yes, do it now. Remember LeBlanc's Law: you'll never come back to that TODO.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Karmaşanın Maliyeti -->
+<div class="modal-overlay" id="modal-messcost">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Karmaşanın Maliyeti (Cost of a Mess)</span>
+                <span class="en-text" style="display:none;">Cost of a Mess</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('messcost')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Martin bu bölümde karmaşanın (mess) maliyetini somut bir şekilde anlatır: Projenin başında hızla ilerleyen ekipler, kod kalitesini ihmal ettiklerinde zamanla salyangoz hızına düşerler. Her değişiklik kodun başka yerlerini bozar, hiçbir değişiklik önemsiz değildir. Dolanıklıklar (tangles), bükülmeler (twists) ve düğümler (knots) büyür — ta ki temizlenemez hale gelene kadar.</span>
+                <span class="en-text" style="display:none;">Martin vividly describes the cost of a mess in this section: teams that move fast at the beginning of a project slow to a crawl when they neglect code quality. Every change breaks other parts, no change is trivial. Tangles, twists, and knots grow — until they become impossible to clean up.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ — Dolanmış, düğümlenmiş kod</span>
+                <span class="en-text" style="display:none;">BAD — Tangled, knotted code</span>
+            </span>
+<pre>
+class NotificationService {
+    send(user, type, data) {
+        if (type === 'email') {
+            // copied from UserService.notify()
+            let subj = data.s || 'No Subject';
+            if (user.prefs && user.prefs.lang === 'tr') {
+                subj = translate(subj); // sometimes crashes
+            }
+            mailer.send(user.email, subj, data.body);
+            db.log('email', user.id, subj);
+            // HACK: also send SMS if urgent
+            if (data.urgent) {
+                this.send(user, 'sms', data);
+            }
+        } else if (type === 'sms') {
+            if (!user.phone) return; // silent fail
+            smsApi.send(user.phone, data.body.substring(0, 160));
+            db.log('sms', user.id, data.body);
+        } else if (type === 'push') {
+            // TODO: implement push notifications
+            console.log('push not implemented');
+        }
+    }
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Her şey tek bir fonksiyona (Function) sıkıştırılmış. E-posta gönderimi SMS gönderimini tetikliyor (gizli bağımlılık). Sessiz başarısızlıklar var (<code>return</code> ile hata yutulmuş). Çeviri bazen çöküyor ama kimse düzeltmemiş. Yeni bir bildirim tipi eklemek bu fonksiyonu daha da karmaşık yapacak — Martin'in "her değişiklik başka yerleri bozar" dediği tam da bu.</span>
+                <span class="en-text" style="display:none;">Everything crammed into one function. Email sending triggers SMS sending (hidden dependency). Silent failures (errors swallowed with <code>return</code>). Translation sometimes crashes but nobody fixed it. Adding a new notification type will make this function even messier — exactly what Martin means by "every change breaks two or three other parts."</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ — Ayrıştırılmış, genişletilebilir tasarım</span>
+                <span class="en-text" style="display:none;">GOOD — Decoupled, extensible design</span>
+            </span>
+<pre>
+class EmailNotifier {
+    send(user, message) {
+        const subject = this.localizeSubject(message.subject, user);
+        mailer.send(user.email, subject, message.body);
+        this.log(user, subject);
+    }
+
+    localizeSubject(subject, user) {
+        if (user.preferredLanguage === 'tr') {
+            return translator.translate(subject, 'tr');
+        }
+        return subject;
+    }
+
+    log(user, subject) {
+        auditLog.record('email', user.id, subject);
+    }
+}
+
+class SmsNotifier {
+    send(user, message) {
+        if (!user.phone) {
+            throw new MissingPhoneError(user.id);
+        }
+        const truncated = message.body.substring(0, 160);
+        smsApi.send(user.phone, truncated);
+        auditLog.record('sms', user.id, truncated);
+    }
+}
+
+class NotificationService {
+    constructor(notifiers) {
+        this.notifiers = notifiers;
+    }
+
+    send(user, channel, message) {
+        const notifier = this.notifiers[channel];
+        if (!notifier) {
+            throw new UnsupportedChannelError(channel);
+        }
+        notifier.send(user, message);
+    }
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Her bildirim tipi kendi sınıfında (Class). Yeni bir kanal eklemek mevcut kodu bozmaz — sadece yeni bir sınıf yazarsınız. Hatalar sessizce yutulmak yerine anlamlı istisnalar (Exception) fırlatılıyor. Hiçbir gizli bağımlılık yok. Bu tasarımla verimlilik (Productivity) zamanla düşmez, çünkü karmaşa birikmez.</span>
+                <span class="en-text" style="display:none;">Each notification type lives in its own class. Adding a new channel doesn't break existing code — just write a new class. Errors throw meaningful exceptions instead of being silently swallowed. No hidden dependencies. With this design, productivity doesn't decrease over time because mess doesn't accumulate.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Bir fonksiyona yeni bir <code>else if</code> dalı eklemek üzereyseniz, durun. Bu genellikle bir karmaşa birikimi işaretidir. Bunun yerine sorumluluğu ayrı bir sınıfa veya fonksiyona taşımayı düşünün. Bugünkü 10 dakikalık yeniden düzenleme (Refactoring), yarınki 2 saatlik hata ayıklamayı (debug) önler.</span>
+                <span class="en-text" style="display:none;">When you're about to add another <code>else if</code> branch to a function, stop. This is usually a sign of mess accumulation. Consider moving the responsibility to a separate class or function instead. Today's 10-minute refactoring prevents tomorrow's 2-hour debug session.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Verimlilik Tuzağı -->
+<div class="modal-overlay" id="modal-productivity">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Verimlilik Tuzağı (Productivity Trap)</span>
+                <span class="en-text" style="display:none;">Productivity Trap</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('productivity')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Verimlilik tuzağı, Martin'in Şekil 1-1'de gösterdiği kısır döngüdür: Karmaşa verimliliği düşürür → yönetim daha fazla kişi ekler → yeni kişiler sistemi tanımaz → daha fazla karmaşa yaratırlar → verimlilik daha da düşer. Bu döngü kırılmadıkça, verimlilik asimptotik olarak sıfıra yaklaşır. Daha fazla insan eklemek sorunu çözmez, aksine derinleştirir.</span>
+                <span class="en-text" style="display:none;">The productivity trap is the vicious cycle Martin illustrates in Figure 1-1: mess decreases productivity → management adds more people → new people don't know the system → they create more mess → productivity drops further. Unless this cycle is broken, productivity asymptotically approaches zero. Adding more people doesn't solve the problem — it deepens it.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ — Yeni geliştirici, mevcut karmaşa</span>
+                <span class="en-text" style="display:none;">BAD — New developer, existing mess</span>
+            </span>
+<pre>
+# Existing code that "works" but nobody understands
+def calculate_pricing(items, customer, ctx):
+    base = sum([i['p'] * i['q'] for i in items])
+    # Dave added this (don't remove!)
+    if ctx.get('_legacy_mode'):
+        base = base * 1.0  # ??? why is this here
+    # Sarah's hotfix for ticket #4521
+    if customer['type'] == 3:
+        base -= base * 0.15
+        if ctx.get('_override'):
+            base += 50  # manager requested
+    # New developer tries to add feature:
+    # "I have no idea what any of this does,
+    #  so I'll just add my code at the end
+    #  and hope nothing breaks."
+    if customer.get('vip'):
+        base -= base * 0.05  # might conflict with type 3?
+    return base
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Yeni geliştirici mevcut kodu anlamıyor ama değiştirmekten korkuyor. Herkes kodun sonuna kendi parçasını ekliyor, kimse mevcut mantığa dokunmuyor. <code>_legacy_mode</code> ve <code>_override</code> gibi gizemli bayraklar birikmiş. VIP indirimi type 3 indirimiyle çakışabilir ama kimse emin değil. Bu, Martin'in tarif ettiği verimlilik tuzağının mükemmel bir örneği.</span>
+                <span class="en-text" style="display:none;">New developer doesn't understand existing code but is afraid to change it. Everyone appends their piece at the end, nobody touches existing logic. Mysterious flags like <code>_legacy_mode</code> and <code>_override</code> have accumulated. VIP discount might conflict with type 3 discount but nobody's sure. This is a perfect example of Martin's productivity trap.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ — Herkesin anlayabileceği kod</span>
+                <span class="en-text" style="display:none;">GOOD — Code everyone can understand</span>
+            </span>
+<pre>
+class PricingCalculator:
+    def __init__(self, discount_rules):
+        self.discount_rules = discount_rules
+
+    def calculate(self, items, customer):
+        subtotal = self._subtotal(items)
+        discount = self._total_discount(subtotal, customer)
+        return max(subtotal - discount, 0)
+
+    def _subtotal(self, items):
+        return sum(
+            item.price * item.quantity for item in items
+        )
+
+    def _total_discount(self, subtotal, customer):
+        return sum(
+            rule.apply(subtotal, customer)
+            for rule in self.discount_rules
+            if rule.is_applicable(customer)
+        )
+
+# Discount rules are separate, composable classes
+class CorporateDiscount:
+    def is_applicable(self, customer):
+        return customer.type == CustomerType.CORPORATE
+
+    def apply(self, subtotal, customer):
+        return subtotal * 0.15
+
+class VipDiscount:
+    def is_applicable(self, customer):
+        return customer.is_vip
+
+    def apply(self, subtotal, customer):
+        return subtotal * 0.05
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Yeni bir geliştirici bu kodu hemen anlar. İndirim kuralları ayrı sınıflarda (Class), birbirine karışmaz. Yeni bir indirim eklemek için mevcut koda dokunmaya gerek yok — sadece yeni bir kural sınıfı yazılır. Herkes kendi sorumluluğunu bilir. Takıma yeni kişi eklemek verimliliği düşürmez, çünkü kod kendini açıklar.</span>
+                <span class="en-text" style="display:none;">A new developer can understand this code immediately. Discount rules live in separate classes, never interfering with each other. Adding a new discount requires no changes to existing code — just write a new rule class. Everyone knows their responsibility. Adding new people doesn't decrease productivity because the code explains itself.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Ekibinize yeni biri katıldığında, onun ilk deneyimini gözlemleyin. Eğer yeni geliştirici kodu okuyup anlayamıyorsa, sorun yeni geliştiricideki değil, koddadır. Yeni kişinin "ilk haftadaki verimliliği", kodunuzun kalitesinin en iyi ölçüsüdür.</span>
+                <span class="en-text" style="display:none;">When someone new joins your team, observe their first experience. If the new developer can't read and understand the code, the problem isn't with the new developer — it's with the code. A new person's "first-week productivity" is the best measure of your code quality.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 4;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 5' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+</script>
+
+</body>
+</html>

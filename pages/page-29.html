@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 29 | Bölüm 2: Anlamlı İsimler — Gereksiz Bağlam Eklemeyin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .code-caption { font-size: 14px; color: #6c757d; margin-top: -12px; margin-bottom: 20px; font-style: italic; text-align: center; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Don't Add Gratuitous Context</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="29" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <pre class="code-block">public class GuessStatisticsMessage {
+  private String number;
+  private String verb;
+  private String pluralModifier;
+
+  public String make(char candidate, int count) {
+    createPluralDependentMessageParts(count);
+    return String.format(
+      "There %s %s %s%s", 
+      verb, number, candidate, pluralModifier );
+  }
+
+  private void createPluralDependentMessageParts(int count) {
+    if (count == 0) {
+      thereAreNoLetters();
+    } else if (count == 1) {
+      thereIsOneLetter();
+    } else {
+      thereAreManyLetters(count);
+    }
+  }
+
+  private void thereAreManyLetters(int count) {
+    number = Integer.toString(count);
+    verb = "are";
+    pluralModifier = "s";
+  }
+
+  private void thereIsOneLetter() {
+    number = "1";
+    verb = "is";
+    pluralModifier = "";
+  }
+
+  private void thereAreNoLetters() {
+    number = "no";
+    verb = "are";
+    pluralModifier = "s";
+  }
+}</pre>
+    <div class="code-caption">
+        <span class="tr-text">Listing 2-2 - Değişkenlerin bir bağlamı vardır.</span>
+        <span class="en-text" style="display:none;">Listing 2-2 - Variables have a context.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Gereksiz Bağlam Eklemeyin / Don't Add Gratuitous Context</span>
+        <span class="en-text" style="display:none;">Don't Add Gratuitous Context</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">"Gas Station Deluxe" (Lüks Benzin İstasyonu) adlı bir uygulama için her sınıfa <code>GSD</code> öneki eklemek kötü bir fikirdir. Dürüst olmak gerekirse, kendinize karşı çalışıyorsunuz demektir. <code>G</code> yazarsınız ve otomatik tamamlama (autocomplete) size sistemdeki her sınıfın bir listesini verir. Bu yardımsever midir? Neden IDE'nin size yardım etmesini zorlaştırıyorsunuz?</span>
+        <span class="en-text" style="display:none;">In an application called “Gas Station Deluxe,” it is a bad idea to prefix every class with <code>GSD</code>. Honestly, you are working against yourself. You type <code>G</code> and the autocomplete gives you a list of every class in the system. Is that helpful? Why make it hard for the IDE to help you?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Benzer şekilde, <code>GSDAccountAddress</code> sınıfında <code>Address</code> ismini kullandığınızı varsayalım. Bu isim bir posta adresi için iyidir. Ancak müşteri hesapları için bir adres istiyorsanız, buna <code>AccountAddress</code> veya sadece <code>Address</code> diyebilirsiniz. Uygulamanın öneki olan GSD'yi her yere bulaştırmak bağlamı netleştirmez, sadece gürültü yaratır.</span>
+        <span class="en-text" style="display:none;">Similarly, say you used the name <code>Address</code> in the <code>GSDAccountAddress</code> class. That's a fine name for a mailing address. But if you wanted an address for customer accounts, you could call it <code>AccountAddress</code> or just <code>Address</code>. Smearing the application prefix GSD everywhere doesn't clarify context, it just creates noise.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('gratuitous-context')">
+                <span class="tr-text">Gereksiz Bağlam</span>
+                <span class="en-text" style="display:none;">Gratuitous Context</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('guess-stats')">
+                <span class="tr-text">GuessStatisticsMessage</span>
+                <span class="en-text" style="display:none;">GuessStatisticsMessage</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-27.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 27 — Çözüm ve Problem Alanı İsimleri / Anlamlı Bağlam</span><span class="en-text" style="display:none;">Page 27 — Solution and Problem Domain Names / Meaningful Context</span></div>
+    </a>
+    <a href="page-30.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 30 — Bölüm Özeti ve Chapter 3</span><span class="en-text" style="display:none;">Page 30 — Chapter Summary and Chapter 3</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-gratuitous-context">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Gereksiz Bağlam (Gratuitous Context)</span><span class="en-text" style="display:none;">Gratuitous Context</span></h3>
+            <button class="modal-close" onclick="closeModal('gratuitous-context')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bir ismin zaten içinde bulunduğu sınıf veya paket tarafından sağlanan bağlamı isme tekrar eklemek gereksizdir. Bu sadece isimleri uzatır ve okunabilirliği azaltır. Özellikle proje kısaltmalarını her sınıfın başına eklemek, IDE'lerin otomatik kod tamamlama özelliklerini kullanışsız hale getirir.</span><span class="en-text" style="display:none;">It is unnecessary to add context to a name that is already provided by the class or package it resides in. This only lengthens names and reduces readability. Especially adding project abbreviations to the beginning of every class makes the IDE's autocomplete features useless.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Gereksiz önekler</span><span class="en-text" style="display:none;">BAD — Gratuitous prefixes</span></span>
+<pre>// Proje adı: Mail System (MS)
+public class MSUser {
+    private String msUserEmail;
+    private String msUserPassword;
+}</pre>
+            <div class="explanation"><span class="tr-text">Burada hem sınıfın hem de değişkenlerin başındaki <code>MS</code> öneki hiçbir değer katmaz. Zaten Mail System projesinde çalıştığımızı biliyoruz.</span><span class="en-text" style="display:none;">Here, the <code>MS</code> prefix at the beginning of both the class and variables adds no value. We already know we are working on the Mail System project.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kısa ve öz isimler</span><span class="en-text" style="display:none;">GOOD — Concise names</span></span>
+<pre>public class User {
+    private String email;
+    private String password;
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kısa isimler genellikle uzun isimlerden daha iyidir, ancak sadece yeterli bağlam sağlandığında. Gereksiz bağlam eklemek yerine, ismin bulunduğu sınıfın veya modülün bu bağlamı sağlayıp sağlamadığını kontrol edin.</span><span class="en-text" style="display:none;">Shorter names are generally better than longer ones, but only when sufficient context is provided. Instead of adding gratuitous context, check if the class or module containing the name provides that context.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-guess-stats">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">GuessStatisticsMessage Analizi</span><span class="en-text" style="display:none;">GuessStatisticsMessage Analysis</span></h3>
+            <button class="modal-close" onclick="closeModal('guess-stats')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Listing 2-2'deki <code>GuessStatisticsMessage</code> sınıfı, bir mesajın parçalarını (sayı, fiil, ek) nasıl bir araya getireceğini bilir. Değişkenler (number, verb, pluralModifier) sınıf düzeyinde tanımlanarak net bir bağlam kazanmıştır.</span><span class="en-text" style="display:none;">The <code>GuessStatisticsMessage</code> class in Listing 2-2 knows how to put together the parts of a message (number, verb, suffix). The variables (number, verb, pluralModifier) have gained clear context by being defined at the class level.</span></p>
+
+            <div class="explanation"><span class="tr-text">Bu tasarımda, her bir durum (hiç yok, bir tane, çok tane) ayrı metotlara bölünerek kodun okunabilirliği artırılmıştır. Değişkenlerin neyi temsil ettiği, sınıfın adından ve kullanım yerinden açıkça anlaşılmaktadır.</span><span class="en-text" style="display:none;">In this design, readability is improved by splitting each case (none, one, many) into separate methods. What the variables represent is clearly understood from the class name and where they are used.</span></div>
+
+            <div class="tip"><strong><span class="tr-text">Öğrenilen Ders</span><span class="en-text" style="display:none;">Lesson Learned</span></strong><span class="tr-text">Eğer bir grup değişken sürekli birlikte kullanılıyorsa ve bir bağlama ihtiyaç duyuyorsa, bu değişkenleri bir sınıf içinde toplamak (encapsulation) en temiz çözümdür.</span><span class="en-text" style="display:none;">If a group of variables is constantly used together and needs context, gathering them inside a class (encapsulation) is the cleanest solution.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert("Sayfa " + num + " henüz çevrilmedi. '/cevir " + num + "' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 29;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 21 | Bölüm 2: Anlamlı İsimler — Anlamlı Ayrımlar Yapın (devam) &amp; Telaffuz Edilebilir İsimler Kullanın</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .footnote { font-size: 14px; color: #6c757d; border-top: 1px solid #dee2e6; margin-top: 24px; padding-top: 12px; }
+        .footnote sup { color: #1a1a2e; font-weight: 700; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Make Meaningful Distinctions (devam) / Use Pronounceable Names</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="21" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Numara serili isimlendirme (Number-series naming) (<code class="inline">a1</code>, <code class="inline">a2</code>, .. <code class="inline">aN</code>) niyet belirten isimlendirmenin (intentional naming) tam tersidir. Bu tür isimler yanlış bilgilendirici (disinformative) değildir — bilgi vermezler (noninformative); yazarın niyeti hakkında hiçbir ipucu sağlamazlar. Şunu düşünün:</span>
+        <span class="en-text" style="display:none;">Number-series naming (<code class="inline">a1</code>, <code class="inline">a2</code>, .. <code class="inline">aN</code>) is the opposite of intentional naming. Such names are not disinformative—they are noninformative; they provide no clue to the author's intention. Consider:</span>
+    </div>
+
+<pre class="code-block">public static void copyChars(char a1[], char a2[]) {
+  for (int i = 0; i &lt; a1.length; i++) {
+    a2[i] = a1[i];
+  }
+}</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu fonksiyon, argüman isimleri olarak <code class="inline">source</code> ve <code class="inline">destination</code> kullanıldığında çok daha iyi okunur.</span>
+        <span class="en-text" style="display:none;">This function reads much better when <code class="inline">source</code> and <code class="inline">destination</code> are used for the argument names.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Gürültü kelimeleri (Noise words) anlamsız ayrımların bir başka türüdür. Bir <code class="inline">Product</code> sınıfınız olduğunu düşünün. Bir de <code class="inline">ProductInfo</code> veya <code class="inline">ProductData</code> adında bir sınıf oluşturduysanız, isimleri farklı yapmışsınız ama anlamlarını farklılaştırmamışsınızdır. <code class="inline">Info</code> ve <code class="inline">Data</code>, tıpkı <code class="inline">a</code>, <code class="inline">an</code> ve <code class="inline">the</code> gibi, belirsiz gürültü kelimeleridir (noise words).</span>
+        <span class="en-text" style="display:none;">Noise words are another meaningless distinction. Imagine that you have a <code class="inline">Product</code> class. If you have another called <code class="inline">ProductInfo</code> or <code class="inline">ProductData</code>, you have made the names different without making them mean anything different. <code class="inline">Info</code> and <code class="inline">Data</code> are indistinct noise words like <code class="inline">a</code>, <code class="inline">an</code>, and <code class="inline">the</code>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">a</code> ve <code class="inline">the</code> gibi önek kurallarını (prefix conventions) kullanmanın anlamlı bir ayrım yaptığı sürece yanlış bir tarafı olmadığını unutmayın. Örneğin, tüm yerel değişkenler için <code class="inline">a</code>, tüm fonksiyon argümanları için <code class="inline">the</code> kullanabilirsiniz.<sup>3</sup> Sorun, halihazırda <code class="inline">zork</code> adında bir değişkeniniz olduğu için <code class="inline">theZork</code> diye bir değişken oluşturmaya karar verdiğinizde ortaya çıkar.</span>
+        <span class="en-text" style="display:none;">Note that there is nothing wrong with using prefix conventions like <code class="inline">a</code> and <code class="inline">the</code> so long as they make a meaningful distinction. For example you might use <code class="inline">a</code> for all local variables and <code class="inline">the</code> for all function arguments.<sup>3</sup> The problem comes in when you decide to call a variable <code class="inline">theZork</code> because you already have another variable named <code class="inline">zork</code>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Gürültü kelimeleri (Noise words) gereksizdir. <code class="inline">variable</code> kelimesi asla bir değişken adında, <code class="inline">table</code> kelimesi asla bir tablo adında yer almamalıdır. <code class="inline">NameString</code>, <code class="inline">Name</code>'den nasıl daha iyidir? Bir <code class="inline">Name</code> hiç kayan noktalı sayı (floating point number) olabilir mi? Öyleyse, bu daha önceki yanlış bilgi (disinformation) kuralını da ihlal eder. Bir sınıfın <code class="inline">Customer</code>, diğerinin <code class="inline">CustomerObject</code> olarak adlandırıldığını düşünün. Ayrım olarak ne anlıyorsunuz? Hangisi müşterinin ödeme geçmişine giden en iyi yolu temsil eder?</span>
+        <span class="en-text" style="display:none;">Noise words are redundant. The word <code class="inline">variable</code> should never appear in a variable name. The word <code class="inline">table</code> should never appear in a table name. How is <code class="inline">NameString</code> better than <code class="inline">Name</code>? Would a <code class="inline">Name</code> ever be a floating point number? If so, it breaks an earlier rule about disinformation. Imagine finding one class named <code class="inline">Customer</code> and another named <code class="inline">CustomerObject</code>. What should you understand as the distinction? Which one will represent the best path to a customer's payment history?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu durumun yaşandığı bir uygulama biliyoruz. Suçluları korumak için isimleri değiştirdik, ama işte hatanın tam biçimi:</span>
+        <span class="en-text" style="display:none;">There is an application we know of where this is illustrated. We've changed the names to protect the guilty, but here's the exact form of the error:</span>
+    </div>
+
+<pre class="code-block">getActiveAccount();
+getActiveAccounts();
+getActiveAccountInfo();</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu projedeki programcılar, bu fonksiyonlardan hangisini çağırmaları gerektiğini nasıl bilecekler?</span>
+        <span class="en-text" style="display:none;">How are the programmers in this project supposed to know which of these functions to call?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Belirli kurallar olmadığında, <code class="inline">moneyAmount</code> değişkeni <code class="inline">money</code>'den, <code class="inline">customerInfo</code> ise <code class="inline">customer</code>'dan, <code class="inline">accountData</code> ise <code class="inline">account</code>'tan ve <code class="inline">theMessage</code> ise <code class="inline">message</code>'dan ayırt edilemez. İsimleri, okuyucunun farkların ne sunduğunu anlayacağı şekilde farklılaştırın.</span>
+        <span class="en-text" style="display:none;">In the absence of specific conventions, the variable <code class="inline">moneyAmount</code> is indistinguishable from <code class="inline">money</code>, <code class="inline">customerInfo</code> is indistinguishable from <code class="inline">customer</code>, <code class="inline">accountData</code> is indistinguishable from <code class="inline">account</code>, and <code class="inline">theMessage</code> is indistinguishable from <code class="inline">message</code>. Distinguish names in such a way that the reader knows what the differences offer.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Telaffuz Edilebilir İsimler Kullanın / Use Pronounceable Names</span>
+        <span class="en-text" style="display:none;">Use Pronounceable Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İnsanlar kelimelerde iyidir. Beynimizin önemli bir bölümü kelime kavramına adanmıştır. Ve kelimeler, tanım gereği, telaffuz edilebilirdir. Konuşma diliyle başa çıkmak için evrimleşmiş beynimizin o devasa bölümünden yararlanmamak ayıp olur. Bu yüzden isimlerinizi telaffuz edilebilir yapın.</span>
+        <span class="en-text" style="display:none;">Humans are good at words. A significant part of our brains is dedicated to the concept of words. And words are, by definition, pronounceable. It would be a shame not to take advantage of that huge portion of our brains that has evolved to deal with spoken language. So make your names pronounceable.</span>
+    </div>
+
+    <div class="footnote">
+        <sup>3</sup>
+        <span class="tr-text">Uncle Bob bu uygulamayı eskiden C++'da kullanıyordu, ancak modern IDE'lerin bunu gereksiz kılması nedeniyle bu alışkanlıktan vazgeçti.</span>
+        <span class="en-text" style="display:none;">Uncle Bob used to do this in C++ but has given up the practice because modern IDEs make it unnecessary.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('number-series')">
+                <span class="tr-text">Numara Serili İsimlendirme</span>
+                <span class="en-text" style="display:none;">Number-Series Naming</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('noise-words')">
+                <span class="tr-text">Gürültü Kelimeleri</span>
+                <span class="en-text" style="display:none;">Noise Words</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('pronounceable-names')">
+                <span class="tr-text">Telaffuz Edilebilir İsimler</span>
+                <span class="en-text" style="display:none;">Pronounceable Names</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-20.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 20 — Yanlış Bilgi Vermekten Kaçının (devam) &amp; Anlamlı Ayrımlar Yapın</span><span class="en-text" style="display:none;">Page 20 — Avoid Disinformation (cont.) &amp; Make Meaningful Distinctions</span></div>
+    </a>
+    <a href="page-22.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 22 — Telaffuz Edilebilir İsimler (devam) &amp; Aranabilir İsimler Kullanın</span><span class="en-text" style="display:none;">Page 22 — Use Pronounceable Names (cont.) &amp; Use Searchable Names</span></div>
+    </a>
+</div>
+
+<!-- Modal: Numara Serili İsimlendirme -->
+<div class="modal-overlay" id="modal-number-series">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Numara Serili İsimlendirme (Number-Series Naming)</span><span class="en-text" style="display:none;">Number-Series Naming</span></h3>
+            <button class="modal-close" onclick="closeModal('number-series')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Numara serili isimlendirme (Number-series naming), parametrelere veya değişkenlere <code>a1</code>, <code>a2</code>, <code>a3</code> gibi ardışık numaralar eklemektir. Bu isimler yanlış bilgilendirici (disinformative) değildir — daha kötüsü, hiçbir bilgi vermezler (noninformative). Yazarın niyetini tamamen gizlerler. Kaynak ve hedef gibi açık roller varken numara kullanmak, okuyucuyu kodun amacını tahmin etmeye zorlar.</span><span class="en-text" style="display:none;">Number-series naming means appending sequential numbers like <code>a1</code>, <code>a2</code>, <code>a3</code> to parameters or variables. These names are not disinformative—they're worse: they're noninformative. They completely hide the author's intent. Using numbers when clear roles like source and target exist forces the reader to guess what the code does.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Numaralar niyet ifade etmez</span><span class="en-text" style="display:none;">BAD — Numbers express no intent</span></span>
+<pre>def merge_data(d1, d2, d3):
+    r1 = {}
+    for k1 in d1:
+        r1[k1] = d1[k1]
+    for k2 in d2:
+        if k2 not in r1:
+            r1[k2] = d2[k2]
+    for k3 in d3:
+        r1[k3] = d3[k3]
+    return r1</pre>
+            <div class="explanation"><span class="tr-text"><code>d1</code>, <code>d2</code>, <code>d3</code> hangi verileri temsil ediyor? <code>r1</code> ne? Hangi sözlüğün önceliği var? Tüm bunları anlamak için kodun her satırını dikkatle okumak gerekir.</span><span class="en-text" style="display:none;">What data do <code>d1</code>, <code>d2</code>, <code>d3</code> represent? What is <code>r1</code>? Which dictionary has priority? You need to carefully read every line to understand any of this.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her parametre rolünü açıkça belirtir</span><span class="en-text" style="display:none;">GOOD — Each parameter clearly states its role</span></span>
+<pre>def merge_data(defaults, user_preferences, overrides):
+    merged = {}
+    for key in defaults:
+        merged[key] = defaults[key]
+    for key in user_preferences:
+        if key not in merged:
+            merged[key] = user_preferences[key]
+    for key in overrides:
+        merged[key] = overrides[key]
+    return merged</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kendinizi bir fonksiyon parametresine numara eklerken bulduğunuzda durun ve sorun: "Bu parametre ne rolü üstleniyor?" Cevap her zaman numaradan daha iyi bir isim verecektir. <code>str1, str2</code> yerine <code>pattern, replacement</code>; <code>arr1, arr2</code> yerine <code>source, target</code> kullanın.</span><span class="en-text" style="display:none;">When you find yourself adding a number to a parameter, stop and ask: "What role does this parameter play?" The answer will always yield a better name than a number. Use <code>pattern, replacement</code> instead of <code>str1, str2</code>; <code>source, target</code> instead of <code>arr1, arr2</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Gürültü Kelimeleri -->
+<div class="modal-overlay" id="modal-noise-words">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Gürültü Kelimeleri (Noise Words)</span><span class="en-text" style="display:none;">Noise Words</span></h3>
+            <button class="modal-close" onclick="closeModal('noise-words')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Gürültü kelimeleri (Noise words), isimlere anlam katmadan uzunluk ekleyen gereksiz son eklerdir: <code>Info</code>, <code>Data</code>, <code>Object</code>, <code>String</code>, <code>Manager</code>. Bunlar derleyiciyi tatmin eder ama okuyucuya hiçbir şey söylemez. <code>CustomerInfo</code> ile <code>Customer</code> arasında ne fark var? <code>getActiveAccount()</code> ile <code>getActiveAccountInfo()</code> arasında? Bu tür isimler ayrım yapıyormuş gibi görünür, ama aslında yalnızca gürültü üretir.</span><span class="en-text" style="display:none;">Noise words are redundant suffixes that add length but not meaning: <code>Info</code>, <code>Data</code>, <code>Object</code>, <code>String</code>, <code>Manager</code>. They satisfy the compiler but tell the reader nothing. What's the difference between <code>CustomerInfo</code> and <code>Customer</code>? Between <code>getActiveAccount()</code> and <code>getActiveAccountInfo()</code>? Such names appear to make distinctions, but they actually only produce noise.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Gürültü kelimeleri sahte ayrımlar yaratıyor</span><span class="en-text" style="display:none;">BAD — Noise words create fake distinctions</span></span>
+<pre>// Bu sınıflardan hangisini kullanmalıyım?
+class Order { ... }
+class OrderData { ... }
+class OrderInfo { ... }
+class OrderObject { ... }
+
+// Bu fonksiyonlardan hangisini çağırmalıyım?
+function fetchUser(id) { ... }
+function fetchUserData(id) { ... }
+function fetchUserInfo(id) { ... }
+
+// Değişkenlerde de aynı sorun:
+const nameString = "Alice";
+const accountVariable = getAccount();</pre>
+            <div class="explanation"><span class="tr-text">Dört farklı <code>Order</code> sınıfı var ama aralarındaki fark belli değil. <code>nameString</code> bir String olduğu zaten belli — <code>String</code> eklemek gürültüdür. <code>accountVariable</code> bir değişken olduğu aşikâr — <code>Variable</code> kelimesi tamamen gereksiz.</span><span class="en-text" style="display:none;">Four different <code>Order</code> classes exist but the difference is unclear. <code>nameString</code> is obviously a String — adding <code>String</code> is noise. <code>accountVariable</code> is obviously a variable — the word <code>Variable</code> is completely redundant.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her isim gerçek bir sorumluluk farkı taşıyor</span><span class="en-text" style="display:none;">GOOD — Each name carries a real responsibility difference</span></span>
+<pre>// Her sınıfın belirgin bir sorumluluğu var
+class Order { ... }               // Sipariş domain modeli
+class OrderSummary { ... }        // Özet görünüm (listeleme için)
+class OrderShipmentDetails { ... } // Kargo bilgileri
+
+// Fonksiyonlar farklı şeyler döndürür
+function fetchUserProfile(id) { ... }    // İsim, avatar, bio
+function fetchUserPermissions(id) { ... } // Roller ve yetkiler
+
+// Değişkenler açık ve yalın
+const customerName = "Alice";
+const savingsAccount = getAccount();</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir isimden <code>Info</code>, <code>Data</code>, <code>Object</code> veya <code>String</code> son ekini çıkarın. Eğer anlam değişmiyorsa, o son ek gürültüdür ve kaldırılmalıdır. Eğer gerçekten farklı bir şeyi temsil ediyorsa, o zaman "farklılığın ne olduğunu" isimde açıkça belirtin: <code>OrderSummary</code> vs <code>OrderShipmentDetails</code> gibi.</span><span class="en-text" style="display:none;">Remove the <code>Info</code>, <code>Data</code>, <code>Object</code>, or <code>String</code> suffix from a name. If the meaning doesn't change, that suffix is noise and should be removed. If it truly represents something different, then explicitly state "what the difference is" in the name: like <code>OrderSummary</code> vs <code>OrderShipmentDetails</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Telaffuz Edilebilir İsimler -->
+<div class="modal-overlay" id="modal-pronounceable-names">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Telaffuz Edilebilir İsimler Kullanın (Use Pronounceable Names)</span><span class="en-text" style="display:none;">Use Pronounceable Names</span></h3>
+            <button class="modal-close" onclick="closeModal('pronounceable-names')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Programlama sosyal bir aktivitedir. Kod hakkında konuşurken, değişken ve fonksiyon isimlerini sesli olarak söyleyebilmeniz gerekir. Beynimizin büyük bir bölümü konuşma dilini işlemeye adanmıştır — telaffuz edilemeyen isimler kullanmak bu kapasiteyi boşa harcamaktır. <code>genymdhms</code> gibi kısaltmalar ekip içinde iletişimi imkânsız hale getirir.</span><span class="en-text" style="display:none;">Programming is a social activity. When discussing code, you need to be able to say variable and function names out loud. A huge part of our brains is dedicated to processing spoken language — using unpronounceable names wastes that capacity. Abbreviations like <code>genymdhms</code> make team communication impossible.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Telaffuz edilemeyen kısaltmalar</span><span class="en-text" style="display:none;">BAD — Unpronounceable abbreviations</span></span>
+<pre>class MktgCmpgn {
+    private String cmpgnNm;
+    private Date strtDt;
+    private Date endDt;
+    private int tgtAudSz;
+    private double bdgtAmt;
+
+    public double calcROI(double rvn) {
+        return (rvn - bdgtAmt) / bdgtAmt;
+    }
+}</pre>
+            <div class="explanation"><span class="tr-text">"Hey, em-kay-tee-jee-see-em-pee-jee-en'daki see-em-pee-jee-en-en-em'i kontrol eder misin?" — Ekip toplantısında bu isimleri konuşmak imkânsızdır. Her kısaltma bir bulmaca haline gelir.</span><span class="en-text" style="display:none;">"Hey, can you check the see-em-pee-jee-en-en-em in the em-kay-tee-jee-see-em-pee-jee-en?" — It's impossible to discuss these names in a team meeting. Every abbreviation becomes a puzzle.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Doğal dilde konuşulabilir isimler</span><span class="en-text" style="display:none;">GOOD — Names you can say in natural language</span></span>
+<pre>class MarketingCampaign {
+    private String campaignName;
+    private Date startDate;
+    private Date endDate;
+    private int targetAudienceSize;
+    private double budgetAmount;
+
+    public double calculateROI(double revenue) {
+        return (revenue - budgetAmount) / budgetAmount;
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Basit bir test: yazdığınız ismi bir iş arkadaşınıza sesli olarak söylemeyi hayal edin. "Marketing campaign'daki campaign name'i güncelledim" doğal gelir. "Em-kay-tee-jee'deki see-em-pee-jee-en-en-em'i güncelledim" diye kimse konuşmak istemez. Eğer ismi sesli okuyamıyorsanız, yeniden adlandırın.</span><span class="en-text" style="display:none;">Simple test: imagine saying the name out loud to a colleague. "I updated the campaign name in marketing campaign" sounds natural. Nobody wants to say "I updated the see-em-pee-jee-en-en-em in em-kay-tee-jee." If you can't read the name aloud, rename it.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event) {
+        event.preventDefault();
+        alert("Bu sayfa henüz çevrilmedi. '/cevir 22' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 21;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 26 | Bölüm 2: Anlamlı İsimler — Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Don't Be Cute / Pick One Word per Concept / Don't Pun</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="26" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">Şirinlik Yapmayın / Don't Be Cute</span>
+        <span class="en-text" style="display:none;">Don't Be Cute</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Eğer isimler çok zekiceyse, sadece yazarın mizah anlayışını paylaşanlar tarafından ve sadece mizahı hatırladıkları sürece hatırlanacaktır. <code class="inline">HolyHandGrenade</code> (Kutsal El Bombası) isminin bir öğeyi silmek için kullanıldığını kim bilebilir? Belki komiktir, ama belki <code class="inline">DeleteItems</code> daha iyidir. Mizah yerine açıklığı (clarity) tercih edin.</span>
+        <span class="en-text" style="display:none;">If names are too clever, they will be memorable only to people who share the author’s sense of humor, and only as long as these people remember the joke. Will they know that the function named <code class="inline">HolyHandGrenade</code> is supposed to be the one you call to delete items? Funny, maybe, but maybe <code class="inline">DeleteItems</code> is better. Choose clarity over cleverness.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodda şirinlik (cuteness) genellikle argo veya deyim kullanımı şeklinde karşımıza çıkar. Örneğin, <code class="inline">kill()</code> yerine <code class="inline">whack()</code> (tokatlamak/vurmak) veya <code class="inline">abort()</code> yerine <code class="inline">eatMyShorts()</code> (beni ye/boşver) gibi ifadeler kullanmayın. "Ne demek istiyorsanız onu söyleyin. Ne söylüyorsanız onu kast edin." (Say what you mean. Mean what you say.)</span>
+        <span class="en-text" style="display:none;">Cuteness in code often appears in the form of colloquialisms or slang. For example, don’t use <code class="inline">whack()</code> to mean <code class="inline">kill()</code>. Don’t tell little culture-dependent jokes like <code class="inline">eatMyShorts()</code> to mean <code class="inline">abort()</code>. Say what you mean. Mean what you say.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Her Kavram İçin Tek Kelime Seçin / Pick One Word per Concept</span>
+        <span class="en-text" style="display:none;">Pick One Word per Concept</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Soyut bir kavram için tek bir kelime seçin ve ona bağlı kalın. Örneğin, farklı sınıflarda eşdeğer metotlar için <code class="inline">fetch</code>, <code class="inline">retrieve</code> ve <code class="inline">get</code> kelimelerinin bir arada kullanılması kafa karıştırıcıdır. Hangi sınıfta hangi ismin kullanıldığını nasıl hatırlayacaksınız?</span>
+        <span class="en-text" style="display:none;">Pick one word for one abstract concept and stick to it. For instance, it’s confusing to have <code class="inline">fetch</code>, <code class="inline">retrieve</code>, and <code class="inline">get</code> as equivalent methods of different classes. How do you remember which method name goes with which class?</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tutarlı bir sözlük (consistent lexicon), o kodu kullanan programcılar için büyük bir nimettir. <code class="inline">DeviceManager</code>, <code class="inline">ProtocolController</code> ve <code class="inline">Driver</code> gibi isimleri aynı projede karmaşık bir şekilde kullanmak yerine, kavramsal olarak benzer yapılar için aynı kelime grubunu (örneğin hep Controller veya hep Manager) tercih etmelisiniz.</span>
+        <span class="en-text" style="display:none;">A consistent lexicon is a great boon to the programmers who must use your code. You might have a <code class="inline">DeviceManager</code>, a <code class="inline">ProtocolController</code>, and a <code class="inline">Driver</code> in the same project. Why not use the same word (e.g., Controller or Manager) for similar concepts?</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Kelime Oyunlarından Kaçının / Don't Pun</span>
+        <span class="en-text" style="display:none;">Don't Pun</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Aynı kelimeyi iki farklı amaç için kullanmaktan kaçının. Aynı kelimeyi farklı iki fikir için kullanmak, esasen bir kelime oyunudur (pun). Eğer "tek kelime, tek kavram" kuralına uyarsanız, birçok sınıfta örneğin <code class="inline">add</code> metodu olabilir. Bu metotlar tutarlı olduğu sürece sorun yoktur (örneğin hepsi yeni bir değer oluşturmak için iki değeri topluyorsa).</span>
+        <span class="en-text" style="display:none;">Avoid using the same word for two different purposes. Using the same word for two different ideas is essentially a pun. If you follow the "one word per concept" rule, you could end up with many classes that have, for example, an <code class="inline">add</code> method. As long as those methods are consistent (e.g., they all perform math addition), there's no problem.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('dont-be-cute')">
+                <span class="tr-text">Şirinlik Yapmayın</span>
+                <span class="en-text" style="display:none;">Don't Be Cute</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('one-word-per-concept')">
+                <span class="tr-text">Kavram Başına Tek Kelime</span>
+                <span class="en-text" style="display:none;">One Word per Concept</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('dont-pun')">
+                <span class="tr-text">Kelime Oyunlarından Kaçının</span>
+                <span class="en-text" style="display:none;">Don't Pun</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-25.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 25 — Zihinsel Eşleştirmeden Kaçının</span><span class="en-text" style="display:none;">Page 25 — Avoid Mental Mapping</span></div>
+    </a>
+    <a href="page-27.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 27 — Çözüm Alanı İsimleri</span><span class="en-text" style="display:none;">Page 27 — Solution Domain Names</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-dont-be-cute">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Şirinlik Yapmayın (Don't Be Cute)</span><span class="en-text" style="display:none;">Don't Be Cute</span></h3>
+            <button class="modal-close" onclick="closeModal('dont-be-cute')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod yazarken zekice veya mizahi isimler kullanmak cazip gelebilir, ancak bu isimler niyetinizi açıkça belirtmez. Profesyonel kod, yazarın mizah anlayışına bağlı kalmadan herkes tarafından anlaşılabilmelidir. Şirinlik ve zeka gösterisi yerine netlik ve sadeliği tercih edin.</span><span class="en-text" style="display:none;">Using clever or humorous names while coding might be tempting, but these names don't clearly state your intent. Professional code should be understandable by everyone without depending on the author's sense of humor. Choose clarity and simplicity over cuteness and displays of cleverness.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Şirinlik ve argo içeren isimler</span><span class="en-text" style="display:none;">BAD — Names with cuteness and slang</span></span>
+<pre>// Bir işlemi sonlandırmak için şirinlik yapılmış
+public void whack() {
+    // ...
+}
+
+// Bir hata durumunda durdurmak için deyim kullanılmış
+public void eatMyShorts() {
+    System.exit(1);
+}</pre>
+            <div class="explanation"><span class="tr-text"><code>whack</code> veya <code>eatMyShorts</code> gibi isimlerin ne işe yaradığını anlamak için kodun içine girmek veya yazara sormak gerekir. Bu, kodun okunabilirliğini düşürür.</span><span class="en-text" style="display:none;">To understand what names like <code>whack</code> or <code>eatMyShorts</code> do, one would need to dive into the code or ask the author. This reduces code readability.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Doğrudan ve profesyonel isimler</span><span class="en-text" style="display:none;">GOOD — Direct and professional names</span></span>
+<pre>public void kill() {
+    // ...
+}
+
+public void abort() {
+    System.exit(1);
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Say what you mean. Mean what you say." (Ne demek istiyorsan onu söyle. Ne söylüyorsan onu kast et.) İlkesini unutmayın. Kodunuz bir edebiyat eseri veya şaka defteri değil, bir iletişim aracıdır.</span><span class="en-text" style="display:none;">Don't forget the principle: "Say what you mean. Mean what you say." Your code is not a literary work or a joke book; it is a communication tool.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-one-word-per-concept">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Her Kavram İçin Tek Kelime Seçin (Pick One Word per Concept)</span><span class="en-text" style="display:none;">Pick One Word per Concept</span></h3>
+            <button class="modal-close" onclick="closeModal('one-word-per-concept')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Aynı soyut işlem için farklı sınıflarda farklı kelimeler kullanmak (örn: bir yerde <code>fetch</code>, diğerinde <code>get</code>) kafa karıştırıcıdır. Proje genelinde tutarlı bir terminoloji (lexicon) oluşturun. Eğer bir veriyi "getirmek" için <code>get</code> kelimesini seçtiyseniz, her yerde onu kullanın.</span><span class="en-text" style="display:none;">Using different words for the same abstract operation in different classes (e.g., <code>fetch</code> in one place, <code>get</code> in another) is confusing. Create consistent terminology (lexicon) throughout the project. If you chose the word <code>get</code> to "retrieve" data, use it everywhere.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tutarsız isimlendirme</span><span class="en-text" style="display:none;">BAD — Inconsistent naming</span></span>
+<pre>class UserStore {
+    public User fetchUser(int id) { ... }
+}
+
+class ProductRepository {
+    public Product getProduct(int id) { ... }
+}
+
+class OrderService {
+    public Order retrieveOrder(int id) { ... }
+}</pre>
+            <div class="explanation"><span class="tr-text">Kullanıcı bu metotları çağırmak istediğinde, hangi sınıfın <code>fetch</code>, hangisinin <code>retrieve</code> kullandığını ezberlemek zorunda kalır. Bu durum zihinsel yükü artırır.</span><span class="en-text" style="display:none;">When the user wants to call these methods, they have to memorize which class uses <code>fetch</code> and which uses <code>retrieve</code>. This increases the mental burden.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Tutarlı ve tahmin edilebilir isimler</span><span class="en-text" style="display:none;">GOOD — Consistent and predictable names</span></span>
+<pre>class UserStore {
+    public User getById(int id) { ... }
+}
+
+class ProductRepository {
+    public Product getById(int id) { ... }
+}
+
+class OrderService {
+    public Order getById(int id) { ... }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Projenin başında bir terim sözlüğü oluşturmak faydalıdır. "Veri çekmek için 'get' kullanacağız", "Veriyi kaydetmek için 'save' kullanacağız" gibi kararlar, kodun bütününde tahmin edilebilirliği artırır.</span><span class="en-text" style="display:none;">It is helpful to create a glossary at the beginning of the project. Decisions like "We will use 'get' to fetch data" or "We will use 'save' to save data" increase predictability throughout the code.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-dont-pun">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kelime Oyunlarından Kaçının (Don't Pun)</span><span class="en-text" style="display:none;">Don't Pun</span></h3>
+            <button class="modal-close" onclick="closeModal('dont-pun')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Aynı kelimeyi iki farklı kavram için kullanmak bir "kelime oyunu"dur ve okuyucuyu yanıltır. Örneğin, bir listede eleman eklemek için <code>add</code> ismini kullanıyorsanız, ancak başka bir yerde bu kelimeyi "iki sayıyı toplamak" için kullanıyorsanız (anlamsal fark büyükse), bu bir karmaşadır.</span><span class="en-text" style="display:none;">Using the same word for two different concepts is a "pun" and misleads the reader. For example, if you use the name <code>add</code> to insert an element into a list, but elsewhere you use the same word for "mathematical addition" (if the semantic difference is large), it creates confusion.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Aynı kelimenin farklı anlamlarda kullanımı</span><span class="en-text" style="display:none;">BAD — Using the same word with different meanings</span></span>
+<pre>// Senaryo 1: Koleksiyona eleman eklemek
+public void add(Element e) {
+    list.add(e);
+}
+
+// Senaryo 2: İki değeri toplamak (Pun riski)
+public int add(int a, int b) {
+    return a + b;
+}
+
+// Senaryo 3: Ekrana yazı yazdırmak için "eklemek" (Pun)
+public void add(String message) {
+    console.println(message);
+}</pre>
+            <div class="explanation"><span class="tr-text">Burada <code>add</code> kelimesi üç farklı amaçla kullanılmıştır. Senaryo 3'te bir şeyleri "bir yere eklemek" değil, aslında "yazdırmak" kastedilmektedir.</span><span class="en-text" style="display:none;">Here, the word <code>add</code> is used for three different purposes. In Scenario 3, the intent is not to "add something somewhere" but actually to "print" it.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her kavrama özgü net isimler</span><span class="en-text" style="display:none;">GOOD — Specific names for each concept</span></span>
+<pre>public void append(Element e) { ... }
+public int calculateSum(int a, int b) { ... }
+public void displayMessage(String message) { ... }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir ismi seçerken "Bu isim başka bir yerde tamamen farklı bir işlem için kullanılıyor mu?" diye sorun. Eğer okuyucu isme bakıp "Buradaki anlamı hangisi?" diye düşünüyorsa, bir kelime oyunu yapmışsınız demektir.</span><span class="en-text" style="display:none;">When choosing a name, ask "Is this name used elsewhere for a completely different operation?" If the reader looks at the name and wonders "Which meaning is intended here?", you've made a pun.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    function handleUntranslated(event, num) {
+        event.preventDefault();
+        alert("Sayfa " + num + " henüz çevrilmedi. '/cevir " + num + "' komutuyla çevirebilirsiniz.");
+        return false;
+    }
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 26;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code — Türkçe İnteraktif Çeviri</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+            min-height: 100vh;
+        }
+
+        /* Üst Bar */
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 16px 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .book-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #e8d44d;
+            margin-bottom: 4px;
+        }
+
+        .book-subtitle {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        /* Ana İçerik */
+        .main {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #495057;
+            font-size: 16px;
+        }
+
+        /* Sayfa Giriş Kutusu */
+        .page-input-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .page-input-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .page-input-form {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .page-input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .page-input:focus {
+            border-color: #e8d44d;
+        }
+
+        .page-input.error {
+            border-color: #dc3545;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .page-go-btn {
+            padding: 14px 28px;
+            background: #1a1a2e;
+            color: #e8d44d;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .page-go-btn:hover {
+            background: #2a2a4e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26,26,46,0.3);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            min-height: 20px;
+            font-weight: 500;
+        }
+
+        .input-hint {
+            color: #6c757d;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Çevrilen Sayfalar Listesi */
+        .pages-section {
+            margin-bottom: 40px;
+        }
+
+        .pages-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pages-title .badge {
+            background: #e8d44d;
+            color: #1a1a2e;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .page-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+
+        .page-card:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .page-card-number {
+            background: #1a1a2e;
+            color: #e8d44d;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .page-card-info {
+            flex: 1;
+        }
+
+        .page-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .page-card-chapter {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
+        .page-card-arrow {
+            color: #adb5bd;
+            font-size: 20px;
+            margin-left: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: #adb5bd;
+            font-size: 13px;
+            border-top: 1px solid #dee2e6;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .main {
+                padding: 24px 16px;
+            }
+            .page-input-section {
+                padding: 24px 20px;
+            }
+            .page-input-form {
+                flex-direction: column;
+            }
+            .book-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="book-title">Clean Code — Robert C. Martin</div>
+    <div class="book-subtitle">A Handbook of Agile Software Craftsmanship — Türkçe İnteraktif Çeviri</div>
+</div>
+
+<div class="main">
+
+    <div class="welcome-text">
+        Kitabın çevrilmiş sayfalarına aşağıdan erişebilir veya sayfa numarası girerek doğrudan bir sayfaya gidebilirsiniz.
+    </div>
+
+    <!-- Sayfa Giriş Kutusu -->
+    <div class="page-input-section">
+        <div class="page-input-title">Sayfaya Git</div>
+        <div class="page-input-form">
+            <input
+                type="text"
+                class="page-input"
+                id="pageInput"
+                placeholder="Sayfa numarası girin..."
+                maxlength="4"
+                autocomplete="off"
+                onkeydown="if(event.key==='Enter') goToPage()"
+            >
+            <button class="page-go-btn" onclick="goToPage()">Git</button>
+        </div>
+        <div class="error-message" id="errorMsg"></div>
+        <div class="input-hint">Çevrilen sayfalar: 1 — 30 &nbsp;|&nbsp; Kitap toplam: ~464 sayfa</div>
+    </div>
+
+    <!-- Çevrilen Sayfalar -->
+    <div class="pages-section">
+        <div class="pages-title">
+            Çevrilen Sayfalar
+            <span class="badge">30</span>
+        </div>
+
+        <a href="pages/page-1.html" class="page-card">
+            <div class="page-card-number">1</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Temiz Kod / Clean Code</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — Giriş</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-2.html" class="page-card">
+            <div class="page-card-number">2</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Kod Her Zaman Var Olacak / There Will Be Code</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — There Will Be Code</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-3.html" class="page-card">
+            <div class="page-card-number">3</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Kötü Kod / Bad Code</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — Bad Code</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-4.html" class="page-card">
+            <div class="page-card-number">4</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Karmaşanın Toplam Maliyeti / The Total Cost of Owning a Mess</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — The Total Cost of Owning a Mess</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-5.html" class="page-card">
+            <div class="page-card-number">5</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Gökyüzündeki Büyük Yeniden Tasarım / The Grand Redesign in the Sky</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — The Grand Redesign in the Sky</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-6.html" class="page-card">
+            <div class="page-card-number">6</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Temel İkilem & Temiz Kod Sanatı / The Primal Conundrum & The Art of Clean Code?</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — The Primal Conundrum, The Art of Clean Code?</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-7.html" class="page-card">
+            <div class="page-card-number">7</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Temiz Kod Nedir? — Bjarne Stroustrup / What Is Clean Code?</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — What Is Clean Code?</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-8.html" class="page-card">
+            <div class="page-card-number">8</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Kırık Pencereler &amp; Grady Booch / Broken Windows &amp; Grady Booch</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — What Is Clean Code?</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-9.html" class="page-card">
+            <div class="page-card-number">9</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Keskin Soyutlama &amp; "Big" Dave Thomas / Crisp Abstraction &amp; Dave Thomas</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — What Is Clean Code?</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-10.html" class="page-card">
+            <div class="page-card-number">10</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Michael Feathers &amp; Ron Jeffries — Beck'in Basit Kod Kuralları</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — What Is Clean Code?</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-11.html" class="page-card">
+            <div class="page-card-number">11</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Ron Jeffries (devam) &amp; Ward Cunningham</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — What Is Clean Code?</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-12.html" class="page-card">
+            <div class="page-card-number">12</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Ward Cunningham (devam) &amp; Düşünce Okulları</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — What Is Clean Code? / Schools of Thought</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-13.html" class="page-card">
+            <div class="page-card-number">13</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Düşünce Okulları (devam) &amp; Biz Yazarlarız</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — Schools of Thought / We Are Authors</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-14.html" class="page-card">
+            <div class="page-card-number">14</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Okuma vs Yazma &amp; İzci Kuralı</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — We Are Authors / The Boy Scout Rule</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-15.html" class="page-card">
+            <div class="page-card-number">15</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Öncül ve İlkeler, Sonuç &amp; Kaynakça</div>
+                <div class="page-card-chapter">Chapter 1: Clean Code — Prequel and Principles / Conclusion / Bibliography</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-17.html" class="page-card">
+            <div class="page-card-number">17</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Anlamlı İsimler — Giriş / Meaningful Names — Introduction</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Introduction</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-18.html" class="page-card">
+            <div class="page-card-number">18</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Niyet Belirten İsimler Kullanın / Use Intention-Revealing Names</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Use Intention-Revealing Names</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-19.html" class="page-card">
+            <div class="page-card-number">19</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Niyet Belirten İsimler (devam) &amp; Yanlış Bilgi Vermekten Kaçının</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Use Intention-Revealing Names / Avoid Disinformation</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-20.html" class="page-card">
+            <div class="page-card-number">20</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Yanlış Bilgi Vermekten Kaçının (devam) &amp; Anlamlı Ayrımlar Yapın</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Avoid Disinformation / Make Meaningful Distinctions</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-21.html" class="page-card">
+            <div class="page-card-number">21</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Anlamlı Ayrımlar (devam) &amp; Telaffuz Edilebilir İsimler Kullanın</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Make Meaningful Distinctions / Use Pronounceable Names</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-22.html" class="page-card">
+            <div class="page-card-number">22</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Telaffuz Edilebilir İsimler (devam) &amp; Aranabilir İsimler Kullanın</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Use Pronounceable Names / Use Searchable Names</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-23.html" class="page-card">
+            <div class="page-card-number">23</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Aranabilir İsimler (devam), Kodlamalardan Kaçının &amp; Macar Notasyonu</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Use Searchable Names / Avoid Encodings / Hungarian Notation</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-24.html" class="page-card">
+            <div class="page-card-number">24</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Avoid Encodings / Member Prefixes / Interfaces and Implementations</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-25.html" class="page-card">
+            <div class="page-card-number">25</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Avoid Mental Mapping / Class Names / Method Names</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-26.html" class="page-card">
+            <div class="page-card-number">26</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Don't Be Cute / Pick One Word per Concept / Don't Pun</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-27.html" class="page-card">
+            <div class="page-card-number">27</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Solution and Problem Domain Names / Meaningful Context</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-28.html" class="page-card">
+            <div class="page-card-number">28</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Anlamlı Bağlam Ekleme (devam) / Add Meaningful Context</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Meaningful Context</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-29.html" class="page-card">
+            <div class="page-card-number">29</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Gereksiz Bağlam Eklemeyin / Don't Add Gratuitous Context</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Don't Add Gratuitous Context</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+        <a href="pages/page-30.html" class="page-card">
+            <div class="page-card-number">30</div>
+            <div class="page-card-info">
+                <div class="page-card-title">Son Sözler / Final Words</div>
+                <div class="page-card-chapter">Chapter 2: Meaningful Names — Final Words</div>
+            </div>
+            <div class="page-card-arrow">&rsaquo;</div>
+        </a>
+
+    </div>
+
+</div>
+
+<div class="footer">
+    Clean Code — Robert C. Martin &bull; Türkçe İnteraktif Çeviri Projesi &bull; Eğitim Amaçlıdır
+</div>
+
+<script>
+    // Çevrilen sayfaların kayıt defteri
+    // Her yeni çeviri yapıldığında bu listeye eklenir
+    const TRANSLATED_PAGES = {
+        1: { file: 'pages/page-1.html', title: 'Temiz Kod / Clean Code', chapter: 'Chapter 1: Clean Code' },
+        2: { file: 'pages/page-2.html', title: 'Kod Her Zaman Var Olacak / There Will Be Code', chapter: 'Chapter 1: Clean Code' },
+        3: { file: 'pages/page-3.html', title: 'Kötü Kod / Bad Code', chapter: 'Chapter 1: Clean Code' },
+        4: { file: 'pages/page-4.html', title: 'Karmaşanın Toplam Maliyeti / The Total Cost of Owning a Mess', chapter: 'Chapter 1: Clean Code' },
+        5: { file: 'pages/page-5.html', title: 'Gökyüzündeki Büyük Yeniden Tasarım / The Grand Redesign in the Sky', chapter: 'Chapter 1: Clean Code' },
+        6: { file: 'pages/page-6.html', title: 'Temel İkilem & Temiz Kod Sanatı / The Primal Conundrum & The Art of Clean Code?', chapter: 'Chapter 1: Clean Code' },
+        7: { file: 'pages/page-7.html', title: 'Temiz Kod Nedir? — Bjarne Stroustrup / What Is Clean Code?', chapter: 'Chapter 1: Clean Code' },
+        8: { file: 'pages/page-8.html', title: 'Kırık Pencereler & Grady Booch / Broken Windows & Grady Booch', chapter: 'Chapter 1: Clean Code' },
+        9: { file: 'pages/page-9.html', title: 'Keskin Soyutlama & "Big" Dave Thomas / Crisp Abstraction & Dave Thomas', chapter: 'Chapter 1: Clean Code' },
+        10: { file: 'pages/page-10.html', title: 'Michael Feathers & Ron Jeffries — Beck\'in Basit Kod Kuralları', chapter: 'Chapter 1: Clean Code' },
+        11: { file: 'pages/page-11.html', title: 'Ron Jeffries (devam) & Ward Cunningham', chapter: 'Chapter 1: Clean Code' },
+        12: { file: 'pages/page-12.html', title: 'Ward Cunningham (devam) & Düşünce Okulları', chapter: 'Chapter 1: Clean Code' },
+        13: { file: 'pages/page-13.html', title: 'Düşünce Okulları (devam) & Biz Yazarlarız', chapter: 'Chapter 1: Clean Code' },
+        14: { file: 'pages/page-14.html', title: 'Okuma vs Yazma & İzci Kuralı', chapter: 'Chapter 1: Clean Code' },
+        15: { file: 'pages/page-15.html', title: 'Öncül ve İlkeler, Sonuç & Kaynakça', chapter: 'Chapter 1: Clean Code' },
+        17: { file: 'pages/page-17.html', title: 'Anlamlı İsimler — Giriş / Meaningful Names — Introduction', chapter: 'Chapter 2: Meaningful Names' },
+        18: { file: 'pages/page-18.html', title: 'Niyet Belirten İsimler Kullanın / Use Intention-Revealing Names', chapter: 'Chapter 2: Meaningful Names' },
+        19: { file: 'pages/page-19.html', title: 'Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının', chapter: 'Chapter 2: Meaningful Names' },
+        20: { file: 'pages/page-20.html', title: 'Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın', chapter: 'Chapter 2: Meaningful Names' },
+        21: { file: 'pages/page-21.html', title: 'Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın', chapter: 'Chapter 2: Meaningful Names' },
+        22: { file: 'pages/page-22.html', title: 'Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın', chapter: 'Chapter 2: Meaningful Names' },
+        23: { file: 'pages/page-23.html', title: 'Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu', chapter: 'Chapter 2: Meaningful Names' },
+        24: { file: 'pages/page-24.html', title: 'Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar', chapter: 'Chapter 2: Meaningful Names' },
+        25: { file: 'pages/page-25.html', title: 'Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme', chapter: 'Chapter 2: Meaningful Names' },
+        26: { file: 'pages/page-26.html', title: 'Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının', chapter: 'Chapter 2: Meaningful Names' },
+        27: { file: 'pages/page-27.html', title: 'Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme', chapter: 'Chapter 2: Meaningful Names' },
+        28: { file: 'pages/page-28.html', title: 'Anlamlı Bağlam Ekleme (devam)', chapter: 'Chapter 2: Meaningful Names' },
+        29: { file: 'pages/page-29.html', title: 'Gereksiz Bağlam Eklemeyin / Don\'t Add Gratuitous Context', chapter: 'Chapter 2: Meaningful Names' },
+        30: { file: 'pages/page-30.html', title: 'Son Sözler / Final Words', chapter: 'Chapter 2: Meaningful Names' },
+    };
+
+    const MAX_BOOK_PAGE = 464;
+    const MIN_BOOK_PAGE = 1;
+
+    function goToPage() {
+        const input = document.getElementById('pageInput');
+        const errorMsg = document.getElementById('errorMsg');
+        const rawValue = input.value.trim();
+
+        // Boş giriş kontrolü
+        if (rawValue === '') {
+            showError('Lütfen bir sayfa numarası girin.');
+            input.classList.add('error');
+            setTimeout(() => input.classList.remove('error'), 500);
+            return;
+        }
+
+        // Sayı kontrolü
+        const pageNum = parseInt(rawValue, 10);
+
+        if (isNaN(pageNum) || rawValue !== String(pageNum)) {
+            showError('Lütfen geçerli bir sayı girin. Örnek: 1, 2, 3...');
+            input.classList.add('error');
+            setTimeout(() => input.classList.remove('error'), 500);
+            return;
+        }
+
+        // Negatif veya sıfır kontrolü
+        if (pageNum < MIN_BOOK_PAGE) {
+            showError('Sayfa numarası ' + MIN_BOOK_PAGE + ' veya daha büyük olmalıdır.');
+            input.classList.add('error');
+            setTimeout(() => input.classList.remove('error'), 500);
+            return;
+        }
+
+        // Maksimum sayfa kontrolü
+        if (pageNum > MAX_BOOK_PAGE) {
+            showError('Kitap en fazla ' + MAX_BOOK_PAGE + ' sayfadır. Lütfen geçerli bir sayfa girin.');
+            input.classList.add('error');
+            setTimeout(() => input.classList.remove('error'), 500);
+            return;
+        }
+
+        // Çevrilmiş mi kontrolü
+        if (TRANSLATED_PAGES[pageNum]) {
+            window.location.href = TRANSLATED_PAGES[pageNum].file;
+        } else {
+            // En yakın çevrilmiş sayfaları bul
+            const translatedNums = Object.keys(TRANSLATED_PAGES).map(Number).sort((a, b) => a - b);
+            const lastTranslated = translatedNums[translatedNums.length - 1];
+
+            let hint = '';
+            if (pageNum > lastTranslated) {
+                hint = ' Son çevrilen sayfa: ' + lastTranslated + '.';
+            }
+
+            showError('Sayfa ' + pageNum + ' henüz çevrilmedi.' + hint + ' Claude Code\'da \'/cevir ' + pageNum + '\' komutuyla çevirebilirsiniz.');
+            input.classList.add('error');
+            setTimeout(() => input.classList.remove('error'), 500);
+        }
+    }
+
+    function showError(msg) {
+        const errorMsg = document.getElementById('errorMsg');
+        errorMsg.textContent = msg;
+        setTimeout(() => {
+            errorMsg.textContent = '';
+        }, 5000);
+    }
+
+    // Sayfa yüklendiğinde input'a fokus
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sadece sayı girişine izin ver
+        document.getElementById('pageInput').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+</script>
+
+</body>
+</html>

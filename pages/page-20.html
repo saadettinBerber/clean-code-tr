@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 20 | Bölüm 2: Anlamlı İsimler — Yanlış Bilgi Vermekten Kaçının (devam) &amp; Anlamlı Ayrımlar Yapın</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .content-paragraph em { font-style: italic; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        pre.code-block { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .footnote { font-size: 14px; color: #6c757d; border-top: 1px solid #dee2e6; margin-top: 24px; padding-top: 12px; }
+        .footnote sup { color: #1a1a2e; font-weight: 700; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .not-translated:hover { border-color: #6c757d; box-shadow: none; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .book-title { font-size: 14px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 2: Meaningful Names / Anlamlı İsimler &rsaquo; Avoid Disinformation (devam) / Make Meaningful Distinctions</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="20" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Küçük farklarla değişen isimler kullanmaktan sakının. Bir modüldeki <code class="inline">XYZControllerForEfficientHandlingOfStrings</code> ile biraz daha uzaktaki <code class="inline">XYZControllerForEfficientStorageOfStrings</code> arasındaki ince farkı fark etmek ne kadar sürer? Bu kelimeler korkutucu derecede benzer şekillere sahiptir.</span>
+        <span class="en-text" style="display:none;">Beware of using names which vary in small ways. How long does it take to spot the subtle difference between a <code class="inline">XYZControllerForEfficientHandlingOfStrings</code> in one module and, somewhere a little more distant, <code class="inline">XYZControllerForEfficientStorageOfStrings</code>? The words have frightfully similar shapes.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Benzer kavramları benzer şekilde yazmak <em>bilgi</em>dir (information). Tutarsız yazımlar kullanmak ise <em>yanlış bilgidir</em> (disinformation). Modern Java ortamlarında otomatik kod tamamlama (automatic code completion) özelliğinin keyfini çıkarırız. Bir ismin birkaç karakterini yazıp bir kısayol tuşuna basarız ve o isim için olası tamamlamalar listesiyle ödüllendiriliriz. İsimlerin alfabetik olarak bir arada sıralanması ve farkların çok belirgin olması çok faydalıdır, çünkü geliştirici muhtemelen ayrıntılı yorumlarınızı ve hatta o sınıfın sunduğu metot listesini görmeden bir nesneyi ismiyle seçecektir.</span>
+        <span class="en-text" style="display:none;">Spelling similar concepts similarly is <em>information</em>. Using inconsistent spellings is <em>disinformation</em>. With modern Java environments we enjoy automatic code completion. We write a few characters of a name and press some hotkey combination (if that) and are rewarded with a list of possible completions for that name. It is very helpful if names for very similar things sort together alphabetically and if the differences are very obvious, because the developer is likely to pick an object by name without seeing your copious comments or even the list of methods supplied by that class.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Gerçekten korkunç bir yanlış bilgilendirme örneği, özellikle birlikte kullanıldığında küçük harf <code class="inline">l</code> veya büyük harf <code class="inline">O</code>'nun değişken adı olarak kullanılması olurdu. Sorun, elbette, bunların neredeyse tamamen <code class="inline">1</code> (bir) ve <code class="inline">0</code> (sıfır) sabitleriymiş gibi görünmesidir.</span>
+        <span class="en-text" style="display:none;">A truly awful example of disinformative names would be the use of lower-case <code class="inline">l</code> or uppercase <code class="inline">O</code> as variable names, especially in combination. The problem, of course, is that they look almost entirely like the constants one and zero, respectively.</span>
+    </div>
+
+<pre class="code-block">int a = l;
+if ( O == l )
+  a = O1;
+else
+  l = 01;</pre>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Okuyucu bunun uydurma olduğunu düşünebilir, ama bu tür şeylerin bol miktarda bulunduğu kodları inceledik. Bir vakada kodun yazarı farklı bir yazı tipi (font) kullanarak farkların daha belirgin olmasını önermiştir — gelecekteki tüm geliştiricilere sözlü gelenek veya yazılı belge olarak aktarılması gereken bir çözüm. Sorun, basit bir yeniden adlandırma (renaming) ile kesinlikle ve yeni iş ürünleri oluşturmaya gerek kalmadan çözülür.</span>
+        <span class="en-text" style="display:none;">The reader may think this a contrivance, but we have examined code where such things were abundant. In one case the author of the code suggested using a different font so that the differences were more obvious, a solution that would have to be passed down to all future developers as oral tradition or in a written document. The problem is conquered with finality and without creating new work products by a simple renaming.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Anlamlı Ayrımlar Yapın / Make Meaningful Distinctions</span>
+        <span class="en-text" style="display:none;">Make Meaningful Distinctions</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Programcılar, yalnızca bir derleyiciyi (compiler) veya yorumlayıcıyı (interpreter) tatmin etmek için kod yazdıklarında kendi kendilerine sorun yaratırlar. Örneğin, aynı kapsamda (scope) iki farklı şeye aynı ismi veremeyeceğiniz için, bir ismi rastgele değiştirmek isteyebilirsiniz. Bazen bu, birini yanlış yazarak (misspelling) yapılır ve bu da yazım hatalarını düzeltmenin derleme hatasına yol açtığı şaşırtıcı duruma neden olur.<sup>2</sup></span>
+        <span class="en-text" style="display:none;">Programmers create problems for themselves when they write code solely to satisfy a compiler or interpreter. For example, because you can't use the same name to refer to two different things in the same scope, you might be tempted to change one name in an arbitrary way. Sometimes this is done by misspelling one, leading to the surprising situation where correcting spelling errors leads to an inability to compile.<sup>2</sup></span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Derleyici tatmin olsa bile, numara serileri (number-series) veya gürültü kelimeleri (noise words) eklemek yeterli değildir. Eğer isimlerin farklı olması gerekiyorsa, farklı bir anlam da taşımalıdırlar.</span>
+        <span class="en-text" style="display:none;">It is not sufficient to add number series or noise words, even though the compiler is satisfied. If names must be different, then they should also mean something different.</span>
+    </div>
+
+    <div class="footnote">
+        <sup>2</sup>
+        <span class="tr-text">Örneğin, sırf <code class="inline">class</code> ismi başka bir şey için kullanıldığı için <code class="inline">klass</code> adında bir değişken oluşturmanın gerçekten iğrenç bir uygulama olduğunu düşünün.</span>
+        <span class="en-text" style="display:none;">Consider, for example, the truly hideous practice of creating a variable named <code class="inline">klass</code> just because the name <code class="inline">class</code> was used for something else.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('similar-names')">
+                <span class="tr-text">Benzer İsimlerden Kaçınma</span>
+                <span class="en-text" style="display:none;">Avoiding Similar Names</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('meaningful-distinctions')">
+                <span class="tr-text">Anlamlı Ayrımlar</span>
+                <span class="en-text" style="display:none;">Meaningful Distinctions</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-19.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 19 — Niyet Belirten İsimler (devam) &amp; Yanlış Bilgi Vermekten Kaçının</span><span class="en-text" style="display:none;">Page 19 — Intention-Revealing Names (cont.) &amp; Avoid Disinformation</span></div>
+    </a>
+    <a href="page-21.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 21 — Anlamlı Ayrımlar (devam) &amp; Telaffuz Edilebilir İsimler Kullanın</span><span class="en-text" style="display:none;">Page 21 — Make Meaningful Distinctions (cont.) &amp; Use Pronounceable Names</span></div>
+    </a>
+</div>
+
+<!-- Modal: Benzer İsimlerden Kaçınma -->
+<div class="modal-overlay" id="modal-similar-names">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Benzer İsimlerden Kaçınma (Avoiding Similar Names)</span><span class="en-text" style="display:none;">Avoiding Similar Names</span></h3>
+            <button class="modal-close" onclick="closeModal('similar-names')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Çok benzer isimlere sahip değişkenler, fonksiyonlar veya sınıflar okuyucunun dikkatini dağıtır ve hatalara zemin hazırlar. Özellikle IDE'lerin otomatik tamamlama (autocomplete) özelliğiyle çalışırken, yanlış ismi seçmek çok kolaydır. İsimler arasındaki fark açık ve belirgin olmalıdır. Ayrıca <code>l</code> (küçük L) ve <code>O</code> (büyük O) gibi <code>1</code> ve <code>0</code> ile karıştırılabilecek tek karakterli isimlerden mutlaka kaçınılmalıdır.</span><span class="en-text" style="display:none;">Variables, functions, or classes with very similar names distract the reader and create opportunities for bugs. Especially when working with IDE autocomplete, it's very easy to pick the wrong name. The difference between names should be clear and obvious. Also, single-character names like <code>l</code> (lowercase L) and <code>O</code> (uppercase O) that can be confused with <code>1</code> and <code>0</code> must always be avoided.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — İsimler korkutucu derecede benzer</span><span class="en-text" style="display:none;">BAD — Names are frighteningly similar</span></span>
+<pre>class UserAuthenticationManager { ... }
+class UserAuthorizationManager { ... }
+class UserAccountManager { ... }
+
+// Hangisini çağırmalıyım?
+const mgr1 = new UserAuthenticationManager();
+const mgr2 = new UserAuthorizationManager();
+const mgr3 = new UserAccountManager();
+
+// Bir de şu var:
+let l = 1;   // l mi 1 mi?
+let O = 0;   // O mu 0 mı?</pre>
+            <div class="explanation"><span class="tr-text">Üç sınıf adı da "User...Manager" ile başlayıp bitiyor. Otomatik tamamlama açılır menüsünde bunları ayırt etmek çok zor. <code>l</code> ve <code>O</code> değişkenleri ise <code>1</code> ve <code>0</code> ile neredeyse özdeş görünür.</span><span class="en-text" style="display:none;">All three class names start and end with "User...Manager". Distinguishing them in an autocomplete dropdown is very hard. The <code>l</code> and <code>O</code> variables look nearly identical to <code>1</code> and <code>0</code>.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Farklar belirgin ve anlamlı</span><span class="en-text" style="display:none;">GOOD — Differences are obvious and meaningful</span></span>
+<pre>class PasswordVerifier { ... }
+class RoleBasedAccessControl { ... }
+class AccountProfileService { ... }
+
+const passwordVerifier = new PasswordVerifier();
+const accessControl = new RoleBasedAccessControl();
+const profileService = new AccountProfileService();
+
+// Değişkenler açık:
+let lineCount = 1;
+let outputBuffer = 0;</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">IDE'nizin otomatik tamamlama listesinde sınıflarınızı arayın. Eğer ilk 3-4 harf aynıysa ve fark yalnızca ortadaki bir kelimede ise, isimlerinizi yeniden yapılandırın. İdeal olan: her isim farklı bir harfle başlar veya en azından ilk kelime belirgin şekilde farklıdır.</span><span class="en-text" style="display:none;">Search for your classes in your IDE's autocomplete list. If the first 3-4 letters are the same and the difference is only in a middle word, restructure your names. Ideally, each name starts with a different letter or at least the first word is distinctly different.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Anlamlı Ayrımlar -->
+<div class="modal-overlay" id="modal-meaningful-distinctions">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Anlamlı Ayrımlar Yapın (Make Meaningful Distinctions)</span><span class="en-text" style="display:none;">Make Meaningful Distinctions</span></h3>
+            <button class="modal-close" onclick="closeModal('meaningful-distinctions')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Anlamlı ayrımlar (Meaningful Distinctions), isimlerin sadece derleyiciyi tatmin etmek için değil, gerçekten farklı bir anlam ifade etmek için farklılaştırılmasını gerektirir. Numara serileri (<code>a1</code>, <code>a2</code>), gürültü kelimeleri (<code>Info</code>, <code>Data</code>, <code>the</code>) veya kasıtlı yazım hataları (<code>klass</code>) gibi yaklaşımlar, isimlerin hiçbir şey ifade etmeden farklılaşmasına neden olur.</span><span class="en-text" style="display:none;">Meaningful Distinctions requires that names be differentiated not just to satisfy the compiler, but to actually convey different meanings. Approaches like number series (<code>a1</code>, <code>a2</code>), noise words (<code>Info</code>, <code>Data</code>, <code>the</code>), or intentional misspellings (<code>klass</code>) cause names to differ without meaning anything.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Numara serileri ve gürültü kelimeleri</span><span class="en-text" style="display:none;">BAD — Number series and noise words</span></span>
+<pre>// Numara serileri: a1, a2 hiçbir şey söylemez
+function copyArray(a1, a2) {
+    for (let i = 0; i &lt; a1.length; i++) {
+        a2[i] = a1[i];
+    }
+}
+
+// Gürültü kelimeleri: Info, Data anlamsız ayrımlar
+class ProductInfo { ... }
+class ProductData { ... }
+
+// Kasıtlı yazım hatası
+const klass = "Math101";  // "class" ayrılmış kelime diye</pre>
+            <div class="explanation"><span class="tr-text"><code>a1</code> ve <code>a2</code> hiçbir niyet ifade etmez. <code>ProductInfo</code> ve <code>ProductData</code> arasındaki fark nedir? <code>klass</code> ise <code>class</code> ayrılmış kelimesinden kaçınmak için yapılan çirkin bir hile.</span><span class="en-text" style="display:none;"><code>a1</code> and <code>a2</code> express no intent. What's the difference between <code>ProductInfo</code> and <code>ProductData</code>? <code>klass</code> is an ugly hack to avoid the reserved keyword <code>class</code>.</span></div>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her isim farklı bir anlam taşıyor</span><span class="en-text" style="display:none;">GOOD — Each name carries a different meaning</span></span>
+<pre>// Kaynak ve hedef açıkça belirtilmiş
+function copyArray(source, destination) {
+    for (let i = 0; i &lt; source.length; i++) {
+        destination[i] = source[i];
+    }
+}
+
+// Anlamlı ayrımlar: farklı sorumluluklar
+class ProductCatalog { ... }   // Ürün listesi ve arama
+class ProductPricing { ... }   // Fiyatlandırma kuralları
+
+// Ayrılmış kelimeden anlamlı şekilde kaçınma
+const courseName = "Math101";</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İki ismin arasındaki farkı tek bir cümleyle açıklayamıyorsanız, isimler anlamlı şekilde farklılaşmamıştır. "ProductInfo ürün bilgilerini tutar, ProductData ürün verilerini tutar" diye açıklıyorsanız — aslında hiçbir şey açıklamamışsınızdır. <code>Info</code>, <code>Data</code>, <code>Object</code>, <code>Manager</code>, <code>Handler</code> gibi gürültü sonekleri tehlike işaretidir.</span><span class="en-text" style="display:none;">If you can't explain the difference between two names in a single sentence, the names aren't meaningfully different. If you explain "ProductInfo holds product info, ProductData holds product data" — you've actually explained nothing. Noise suffixes like <code>Info</code>, <code>Data</code>, <code>Object</code>, <code>Manager</code>, <code>Handler</code> are danger signs.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 20;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
+
+</body>
+</html>

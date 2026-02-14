@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 2 | Bölüm 1: Temiz Kod</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        /* Üst Bar */
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            margin-right: 12px;
+            transition: opacity 0.2s ease;
+        }
+
+        .home-link:hover {
+            opacity: 0.75;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+
+        /* Dil Toggle */
+        .lang-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Ana İçerik */
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .content-paragraph em, .content-paragraph i {
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8d44d;
+        }
+
+        .section-title-sub {
+            font-size: 16px;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        /* Kavram Butonları */
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26,26,46,0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .modal-body .explanation {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #495057;
+        }
+
+        /* Sayfa Navigasyonu */
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+        }
+
+        .nav-btn.not-translated {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+
+        .nav-btn.not-translated:hover {
+            border-color: #6c757d;
+            box-shadow: none;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+            .book-title {
+                font-size: 14px;
+            }
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+            .section-title {
+                font-size: 22px;
+            }
+            .page-nav {
+                flex-direction: column;
+            }
+            .nav-btn.next {
+                text-align: left;
+            }
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Üst Bar -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 1: Clean Code / Temiz Kod &rsaquo; There Will Be Code / Kod Her Zaman Var Olacak</div>
+    </div>
+    <div class="top-bar-right">
+<div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="2" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Ana İçerik -->
+<div class="content-wrapper">
+
+    <!-- Giriş Paragrafı (sayfa 1'den devam) -->
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kitap iyi programlama hakkındadır. Baştan sona kodla doludur. Koda her yönden bakacağız. Yukarıdan aşağıya, aşağıdan yukarıya ve içinden dışına doğru inceleyeceğiz. İşimiz bittiğinde, kod hakkında pek çok şey biliyor olacağız. Dahası, iyi kod ile kötü kod arasındaki farkı anlayabilecek durumda olacağız. İyi kod yazmayı bileceğiz. Ve kötü kodu iyi koda nasıl dönüştüreceğimizi de bileceğiz.</span>
+        <span class="en-text" style="display:none;">This is a book about good programming. It is filled with code. We are going to look at code from every different direction. We'll look down at it from the top, up at it from the bottom, and through it from the inside out. By the time we are done, we're going to know a lot about code. What's more, we'll be able to tell the difference between good code and bad code. We'll know how to write good code. And we'll know how to transform bad code into good code.</span>
+    </div>
+
+    <!-- There Will Be Code -->
+    <div class="section-title">
+        <span class="tr-text">Kod Her Zaman Var Olacak <span class="section-title-sub">/ There Will Be Code</span></span>
+        <span class="en-text" style="display:none;">There Will Be Code</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kod hakkında bir kitabın çağın gerisinde kaldığını savunanlar olabilir — kodun artık sorun olmadığını, modeller (models) ve gereksinimlerle (requirements) ilgilenmemiz gerektiğini söyleyenler. Hatta bazıları kodun sonunun yaklaştığını ileri sürdü. Yakında tüm kodun yazılmak yerine üretileceğini (generated) söylediler. Programcılara artık ihtiyaç kalmayacağını, çünkü iş dünyasının programları doğrudan spesifikasyonlardan (specifications) oluşturacağını iddia ettiler.</span>
+        <span class="en-text" style="display:none;">One might argue that a book about code is somehow behind the times—that code is no longer the issue; that we should be concerned about models and requirements instead. Indeed some have suggested that we are close to the end of code. That soon all code will be generated instead of written. That programmers simply won't be needed because business people will generate programs from specifications.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Saçmalık! Koddan asla kurtulamayacağız, çünkü kod gereksinimlerin ayrıntılarını temsil eder. Bir noktada bu ayrıntılar görmezden gelinemez veya soyutlanamaz (abstracted); belirtilmek zorundadırlar. Ve gereksinimleri bir makinenin çalıştırabileceği kadar ayrıntılı bir şekilde belirtmek <em>programlamadır</em>. Böyle bir spesifikasyon (specification) <em>koddur</em>.</span>
+        <span class="en-text" style="display:none;">Nonsense! We will never be rid of code, because code represents the details of the requirements. At some level those details cannot be ignored or abstracted; they have to be specified. And specifying requirements in such detail that a machine can execute them <em>is programming</em>. Such a specification <em>is code</em>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dillerimizin soyutlama (Abstraction) seviyesinin artmaya devam edeceğini bekliyorum. Alana özgü dillerin (domain-specific languages) sayısının da artmaya devam edeceğini öngörüyorum. Bu iyi bir şey olacak. Ama kodu ortadan kaldırmayacak. Gerçekten de, bu üst düzey ve alana özgü dillerde yazılan tüm spesifikasyonlar kod <em>olacak</em>! Yine de titiz, doğru, öyle biçimsel ve ayrıntılı olmak zorunda olacak ki bir makine onu anlayıp çalıştırabilsin.</span>
+        <span class="en-text" style="display:none;">I expect that the level of abstraction of our languages will continue to increase. I also expect that the number of domain-specific languages will continue to grow. This will be a good thing. But it will not eliminate code. Indeed, all the specifications written in these higher level and domain-specific language will <em>be</em> code! It will still need to be rigorous, accurate, and so formal and detailed that a machine can understand and execute it.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodun bir gün yok olacağını düşünenler, biçimsel (formal) olmak zorunda olmayan bir matematik keşfetmeyi uman matematikçilere benzerler. Ne söylediğimizden ziyade ne istediğimizi yapabilecek makineler yaratmanın bir yolunu bulacağımızı umuyorlar. Bu makineler bizi o kadar iyi anlayabilmeli ki, belirsizce ifade edilmiş ihtiyaçlarımızı, bu ihtiyaçları tam olarak karşılayan mükemmel çalışan programlara dönüştürebilsinler.</span>
+        <span class="en-text" style="display:none;">The folks who think that code will one day disappear are like mathematicians who hope one day to discover a mathematics that does not have to be formal. They are hoping that one day we will discover a way to create machines that can do what we want rather than what we say. These machines will have to be able to understand us so well that they can translate vaguely specified needs into perfectly executing programs that precisely meet those needs.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu asla gerçekleşmeyecek. Tüm sezgileri ve yaratıcılıklarıyla birlikte insanlar bile, müşterilerinin belirsiz duygularından başarılı sistemler oluşturmayı başaramamıştır. Gerçekten de, gereksinim spesifikasyonu (requirements specification) disiplini bize bir şey öğrettiyse, o da iyi tanımlanmış gereksinimlerin kod kadar biçimsel olduğu ve o kodun çalıştırılabilir testleri (executable tests) olarak işlev görebildiğidir!</span>
+        <span class="en-text" style="display:none;">This will never happen. Not even humans, with all their intuition and creativity, have been able to create successful systems from the vague feelings of their customers. Indeed, if the discipline of requirements specification has taught us anything, it is that well-specified requirements are as formal as code and can act as executable tests of that code!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Unutmayın ki kod, gereksinimleri nihai olarak ifade ettiğimiz dildir. Gereksinimlere daha yakın diller oluşturabiliriz. Bu gereksinimleri biçimsel yapılara ayrıştırmamıza (parse) ve birleştirmemize yardımcı araçlar geliştirebiliriz. Ancak gerekli hassasiyeti (precision) asla ortadan kaldıramayız — bu nedenle her zaman kod olacaktır.</span>
+        <span class="en-text" style="display:none;">Remember that code is really the language in which we ultimately express the requirements. We may create languages that are closer to the requirements. We may create tools that help us parse and assemble those requirements into formal structures. But we will never eliminate necessary precision—so there will always be code.</span>
+    </div>
+
+    <!-- Kavram Butonları -->
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('abstraction')">
+                <span class="tr-text">Soyutlama (Abstraction)</span>
+                <span class="en-text" style="display:none;">Abstraction</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('specification')">
+                <span class="tr-text">Spesifikasyon (Specification)</span>
+                <span class="en-text" style="display:none;">Specification</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('goodvsbad')">
+                <span class="tr-text">İyi Kod vs. Kötü Kod</span>
+                <span class="en-text" style="display:none;">Good Code vs. Bad Code</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sayfa Navigasyonu -->
+<div class="page-nav">
+    <a href="page-1.html" class="nav-btn">
+        <div class="nav-btn-label">
+            <span class="tr-text">Önceki Sayfa</span>
+            <span class="en-text" style="display:none;">Previous Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 1 — Bölüm 1: Temiz Kod</span>
+            <span class="en-text" style="display:none;">Page 1 — Chapter 1: Clean Code</span>
+        </div>
+    </a>
+    <a href="page-3.html" class="nav-btn next">
+        <div class="nav-btn-label">
+            <span class="tr-text">Sonraki Sayfa</span>
+            <span class="en-text" style="display:none;">Next Page</span>
+        </div>
+        <div class="nav-btn-page">
+            <span class="tr-text">Sayfa 3 — Kötü Kod (Bad Code)</span>
+            <span class="en-text" style="display:none;">Page 3 — Bad Code</span>
+        </div>
+    </a>
+</div>
+
+<!-- Modal: Abstraction -->
+<div class="modal-overlay" id="modal-abstraction">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Soyutlama (Abstraction)</span>
+                <span class="en-text" style="display:none;">Abstraction</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('abstraction')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Soyutlama (Abstraction), karmaşık detayları gizleyerek daha yüksek seviyede, daha anlaşılır bir arayüz sunma sürecidir. Kitapta belirtildiği gibi, programlama dillerinin soyutlama seviyesi artsa da kodun kendisi asla ortadan kalkmayacaktır — çünkü bir noktada detaylar kesin olarak belirtilmek zorundadır.</span>
+                <span class="en-text" style="display:none;">Abstraction is the process of hiding complex details to present a higher-level, more understandable interface. As stated in the book, even though the abstraction level of programming languages will increase, code itself will never disappear — because at some point details must be precisely specified.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ</span>
+                <span class="en-text" style="display:none;">BAD</span>
+            </span>
+<pre>
+class ReportGenerator:
+    def generate(self, data, format_type):
+        if format_type == "pdf":
+            # 50 satır PDF oluşturma kodu...
+            doc = PDFDocument()
+            doc.set_font("Arial", 12)
+            doc.add_page()
+            for row in data:
+                doc.add_row(row[0], row[1], row[2])
+            doc.save("/tmp/report.pdf")
+            smtp = smtplib.SMTP("mail.server.com")
+            smtp.send("/tmp/report.pdf", "boss@company.com")
+        elif format_type == "csv":
+            # 30 satır CSV oluşturma kodu...
+            with open("/tmp/report.csv", "w") as f:
+                for row in data:
+                    f.write(",".join(row))
+            smtp = smtplib.SMTP("mail.server.com")
+            smtp.send("/tmp/report.csv", "boss@company.com")
+        elif format_type == "html":
+            # 40 satır HTML oluşturma kodu...
+            pass
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Tüm detaylar tek bir metotta karışık biçimde sunuluyor. Rapor oluşturma, dosya kaydetme ve e-posta gönderme hepsi iç içe geçmiş. Soyutlama (Abstraction) yok, her şey en düşük seviyede açık. Yeni bir format eklemek tüm metodu değiştirmeyi gerektiriyor.</span>
+                <span class="en-text" style="display:none;">All details are mixed in a single method. Report generation, file saving, and email sending are all tangled together. There's no abstraction, everything is exposed at the lowest level. Adding a new format requires modifying the entire method.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ</span>
+                <span class="en-text" style="display:none;">GOOD</span>
+            </span>
+<pre>
+class ReportGenerator:
+    def __init__(self, formatter, sender):
+        self.formatter = formatter
+        self.sender = sender
+
+    def generate_and_send(self, data, recipient):
+        report = self.formatter.format(data)
+        self.sender.send(report, recipient)
+
+
+class PdfFormatter:
+    def format(self, data):
+        # PDF'e özgü detaylar burada soyutlanmış
+        ...
+
+class CsvFormatter:
+    def format(self, data):
+        # CSV'ye özgü detaylar burada soyutlanmış
+        ...
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Her sorumluluk kendi sınıfına (Class) soyutlanmış. <code>ReportGenerator</code> sadece "formatla ve gönder" gibi üst seviye kavramlarla çalışıyor. Detaylar alt sınıflarda gizli. Yeni bir format eklemek için mevcut koda dokunmaya gerek yok — sadece yeni bir <code>Formatter</code> sınıfı oluşturulur.</span>
+                <span class="en-text" style="display:none;">Each responsibility is abstracted into its own class. <code>ReportGenerator</code> works only with high-level concepts like "format and send." Details are hidden in subclasses. Adding a new format doesn't require touching existing code — just create a new <code>Formatter</code> class.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Bir fonksiyon veya sınıf yazarken kendinize sorun: "Bu kodu okuyan biri, iç detayları bilmeden ne yaptığını anlayabilir mi?" Eğer anlayamıyorsa, doğru soyutlama seviyesini yakalayamamışsınız demektir.</span>
+                <span class="en-text" style="display:none;">When writing a function or class, ask yourself: "Can someone reading this code understand what it does without knowing the internal details?" If not, you haven't found the right level of abstraction.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Specification -->
+<div class="modal-overlay" id="modal-specification">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">Spesifikasyon / Kod Olarak Gereksinim</span>
+                <span class="en-text" style="display:none;">Specification as Code</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('specification')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Martin'in bu bölümdeki temel argümanı şudur: Gereksinimler ne kadar detaylandırılırsa, koda o kadar yaklaşır. İyi tanımlanmış bir spesifikasyon (specification), özünde koddur. Bu nedenle "kod artık gerekli olmayacak" iddiası geçersizdir — çünkü hassasiyet (precision) her zaman gereklidir.</span>
+                <span class="en-text" style="display:none;">Martin's core argument in this section is: The more detailed requirements become, the closer they get to code. A well-specified specification is essentially code. Therefore the claim "code will no longer be needed" is invalid — because precision is always required.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ — Belirsiz Gereksinim</span>
+                <span class="en-text" style="display:none;">BAD — Vague Requirement</span>
+            </span>
+<pre>
+// Gereksinim: "Kullanıcı indirim alsın"
+
+function applyDiscount(user) {
+    // hangi kullanıcı? ne kadar indirim?
+    // hangi ürünlerde? ne zaman geçerli?
+    return price * 0.9; // ???
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Belirsiz bir gereksinim, belirsiz bir koda dönüşmüş. "Kullanıcı indirim alsın" gibi muğlak bir ifade, sihirli sayılar (magic numbers) ve cevaplanmamış sorularla dolu bir uygulamaya yol açıyor. Spesifikasyon (specification) yetersiz olunca kod da yetersiz kalıyor.</span>
+                <span class="en-text" style="display:none;">A vague requirement turned into vague code. An ambiguous statement like "user should get discount" leads to implementation full of magic numbers and unanswered questions. When specification is insufficient, code is insufficient too.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ — Kesin Spesifikasyon = Kesin Kod</span>
+                <span class="en-text" style="display:none;">GOOD — Precise Specification = Precise Code</span>
+            </span>
+<pre>
+PREMIUM_DISCOUNT_RATE = 0.15
+STANDARD_DISCOUNT_RATE = 0.05
+MIN_ORDER_FOR_DISCOUNT = 100.00
+
+def apply_discount(order_total, membership_tier):
+    if order_total < MIN_ORDER_FOR_DISCOUNT:
+        return order_total
+
+    if membership_tier == "premium":
+        return order_total * (1 - PREMIUM_DISCOUNT_RATE)
+    elif membership_tier == "standard":
+        return order_total * (1 - STANDARD_DISCOUNT_RATE)
+
+    return order_total
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Kesin gereksinimler, kesin koda dönüşmüş. Her iş kuralı açık: minimum sipariş tutarı, üyelik seviyesine göre indirim oranları, tüm sabitler anlamlı isimlerle tanımlı. Bu kod aynı zamanda bir spesifikasyon gibi de okunabiliyor — çünkü Martin'in dediği gibi, iyi kod <em>zaten</em> spesifikasyondur.</span>
+                <span class="en-text" style="display:none;">Precise requirements turned into precise code. Every business rule is explicit: minimum order amount, discount rates by membership tier, all constants with meaningful names. This code also reads like a specification — because as Martin says, good code <em>is</em> specification.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Bir gereksinimi kodlamaya başlamadan önce onu yeterince kesin biçimde ifade edebiliyor musunuz kontrol edin. Eğer gereksinimi bir cümleyle net şekilde yazamıyorsanız, kodu da net yazamazsınız. "Belirsiz gereksinim = belirsiz kod" formülünü unutmayın.</span>
+                <span class="en-text" style="display:none;">Before starting to code a requirement, check if you can express it precisely enough. If you can't write the requirement clearly in a sentence, you can't write the code clearly either. Remember the formula: "vague requirement = vague code."</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Good vs Bad Code -->
+<div class="modal-overlay" id="modal-goodvsbad">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                <span class="tr-text">İyi Kod vs. Kötü Kod</span>
+                <span class="en-text" style="display:none;">Good Code vs. Bad Code</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('goodvsbad')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                <span class="tr-text">Kavram Açıklaması</span>
+                <span class="en-text" style="display:none;">Concept Explanation</span>
+            </h4>
+            <p>
+                <span class="tr-text">Martin bu bölümün girişinde kitabın temel vaadini ortaya koyuyor: Bu kitabı okuduktan sonra iyi kod ile kötü kod arasındaki farkı anlayacaksınız, iyi kod yazmayı bileceksiniz ve kötü kodu iyi koda dönüştürebileceksiniz. Bu farkındalık, Temiz Kod (Clean Code) yolculuğunun ilk adımıdır.</span>
+                <span class="en-text" style="display:none;">Martin lays out the book's core promise at the beginning of this chapter: after reading this book, you'll understand the difference between good and bad code, know how to write good code, and be able to transform bad code into good code. This awareness is the first step in the Clean Code journey.</span>
+            </p>
+
+            <h4>
+                <span class="tr-text">Kötü Örnek (Before)</span>
+                <span class="en-text" style="display:none;">Bad Example (Before)</span>
+            </h4>
+            <span class="label-bad">
+                <span class="tr-text">KÖTÜ</span>
+                <span class="en-text" style="display:none;">BAD</span>
+            </span>
+<pre>
+public class U {
+    public static List&lt;int[]&gt; g(List&lt;int[]&gt; l) {
+        List&lt;int[]&gt; r = new ArrayList&lt;&gt;();
+        for (int[] x : l)
+            if (x[0] == 4)
+                r.add(x);
+        return r;
+    }
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Sınıf adı (<code>U</code>), metot adı (<code>g</code>), değişken adları (<code>l</code>, <code>r</code>, <code>x</code>) tamamen anlamsız. <code>4</code> sihirli sayısı (magic number) neyi temsil ediyor? <code>x[0]</code> ne anlama geliyor? Bu kodu yazan kişi dışında hiç kimse anlayamaz.</span>
+                <span class="en-text" style="display:none;">Class name (<code>U</code>), method name (<code>g</code>), variable names (<code>l</code>, <code>r</code>, <code>x</code>) are completely meaningless. What does the magic number <code>4</code> represent? What does <code>x[0]</code> mean? Nobody except the author can understand this code.</span>
+            </div>
+
+            <h4>
+                <span class="tr-text">İyi Örnek (After)</span>
+                <span class="en-text" style="display:none;">Good Example (After)</span>
+            </h4>
+            <span class="label-good">
+                <span class="tr-text">İYİ</span>
+                <span class="en-text" style="display:none;">GOOD</span>
+            </span>
+<pre>
+public class GameBoard {
+    private static final int FLAGGED = 4;
+    private static final int STATUS_INDEX = 0;
+
+    public List&lt;Cell&gt; getFlaggedCells(List&lt;Cell&gt; cells) {
+        List&lt;Cell&gt; flaggedCells = new ArrayList&lt;&gt;();
+        for (Cell cell : cells) {
+            if (cell.isFlagged()) {
+                flaggedCells.add(cell);
+            }
+        }
+        return flaggedCells;
+    }
+}
+</pre>
+            <div class="explanation">
+                <span class="tr-text">Aynı iş mantığı, ama artık okunabilir (Readable Code). Sınıf adı (<code>GameBoard</code>) bağlamı veriyor. Metot adı (<code>getFlaggedCells</code>) ne yaptığını söylüyor. Sihirli sayı yerine anlamlı sabit (<code>FLAGGED</code>) kullanılıyor. <code>Cell</code> nesnesi (Object) <code>int[]</code> dizisinin yerini almış. Kodu ilk kez okuyan biri bile ne yaptığını anlayabiliyor.</span>
+                <span class="en-text" style="display:none;">Same business logic, but now readable. Class name (<code>GameBoard</code>) provides context. Method name (<code>getFlaggedCells</code>) tells what it does. Meaningful constants (<code>FLAGGED</code>) replace magic numbers. A <code>Cell</code> object replaces <code>int[]</code>. Even a first-time reader can understand what this code does.</span>
+            </div>
+
+            <div class="tip">
+                <strong>
+                    <span class="tr-text">Pratik İpucu</span>
+                    <span class="en-text" style="display:none;">Practical Tip</span>
+                </strong>
+                <span class="tr-text">Kodunuzu bir iş arkadaşınıza 30 saniyede açıklayamıyorsanız, muhtemelen kötü koddur. İyi kod kendini açıklar — okuyucuyu düşünmeye değil, anlamaya yönlendirir. Her sihirli sayıya bir isim verin, her <code>int[]</code>'i bir nesneye (Object) dönüştürmeyi düşünün.</span>
+                <span class="en-text" style="display:none;">If you can't explain your code to a colleague in 30 seconds, it's probably bad code. Good code explains itself — it guides the reader toward understanding, not puzzlement. Name every magic number, consider turning every <code>int[]</code> into an object.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dil yönetimi
+    function setLang(lang) {
+        localStorage.setItem('cleancode-lang', lang);
+        applyLang(lang);
+    }
+
+    function applyLang(lang) {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.tr-text').forEach(el => {
+            el.style.display = lang === 'tr' ? '' : 'none';
+        });
+        document.querySelectorAll('.en-text').forEach(el => {
+            el.style.display = lang === 'en' ? '' : 'none';
+        });
+    }
+
+    (function() {
+        const savedLang = localStorage.getItem('cleancode-lang') || 'tr';
+        applyLang(savedLang);
+    })();
+
+    // Modal yönetimi
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    const PAGES_MAP = {1:'page-1.html',2:'page-2.html',3:'page-3.html',4:'page-4.html',5:'page-5.html',6:'page-6.html',7:'page-7.html',8:'page-8.html',9:'page-9.html',10:'page-10.html',11:'page-11.html',12:'page-12.html',13:'page-13.html',14:'page-14.html',15:'page-15.html',17:'page-17.html',18:'page-18.html',19:'page-19.html',20:'page-20.html',21:'page-21.html',22:'page-22.html',23:'page-23.html',24:'page-24.html',25:'page-25.html',26:'page-26.html',27:'page-27.html',28:'page-28.html',29:'page-29.html',30:'page-30.html'};
+    const CURRENT_PAGE = 2;
+    function goToPageNum() {
+        const input = document.getElementById('pageNumInput');
+        const num = parseInt(input.value.trim(), 10);
+        if (isNaN(num) || num < 1) { shakeInput(); return; }
+        if (num === CURRENT_PAGE) { input.blur(); return; }
+        if (PAGES_MAP[num]) { window.location.href = PAGES_MAP[num]; }
+        else { showNavTooltip('Sayfa ' + num + ' henüz çevrilmedi.'); shakeInput(); }
+    }
+    function shakeInput() {
+        const input = document.getElementById('pageNumInput');
+        input.classList.add('error');
+        setTimeout(() => input.classList.remove('error'), 500);
+    }
+    function showNavTooltip(msg) {
+        const tip = document.getElementById('pageNavTooltip');
+        tip.textContent = msg;
+        tip.classList.add('visible');
+        setTimeout(() => tip.classList.remove('visible'), 2500);
+    }
+    function resetPageInput() {
+        document.getElementById('pageNumInput').value = CURRENT_PAGE;
+        document.getElementById('pageNavTooltip').classList.remove('visible');
+    }
+    document.getElementById('pageNumInput').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+</script>
+
+</body>
+</html>
