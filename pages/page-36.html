@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 36 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Fonksiyon Başına Bir Soyutlama Seviyesi</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="36" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">daha da kötüsü, kırık pencereler (broken windows) gibi, kötü kod da kötü kodu çeker [KP]. İnsanlar bir fonksiyona gereksinim duyduklarında, fonksiyonun mevcut algoritmasından ziyade kendi düşüncelerini ifade eden ifadeler eklemeye eğilimlidirler. Sonunda bu, fonksiyonun orijinal amacını izlemeyi zorlaştıran ve fonksiyonu çoğu zaman kontrolsüz hâle getiren bir karışıklık yığınına yol açar.</span>
+        <span class="en-text" style="display:none;">worse, like broken windows, bad code attracts more bad code [KP]. When people see a function in need, they tend to add their own statements to it rather than adding to the existing algorithm. Eventually this leads to a pile of confusion that makes it hard to follow what the function is doing and often leads to the function spinning out of control.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Yukarıdan Aşağıya Kod Okumak: Basamak Kuralı / Reading Code from Top to Bottom: The Stepdown Rule</span>
+        <span class="en-text" style="display:none;">Reading Code from Top to Bottom: The Stepdown Rule</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">34. sayfadaki <code class="inline">getHtml</code> fonksiyonunu tekrar inceleyin. Dikkat edin, soyutlama seviyesi bir kerede iki seviye düşüyor. Bu, okurken zihinsel bir sıçrama gerektirir. Bunu okurken önce bir seviye aşağı, sonra bir düşük seviye detay gördükten sonra tekrar yukarı çıkmamız gerekir. Bu zihinsel sıçrama zorlayıcıdır.</span>
+        <span class="en-text" style="display:none;">Look again at the <code class="inline">getHtml</code> function on page 34. Notice that the abstraction level drops by two levels at once. This requires a mental leap when reading it. As we read it, we have to drop down one level, then after seeing some low-level detail, jump back up again. This mental jumping is hard.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodumuzun üstten alta doğru bir anlatı gibi okunmasını istiyoruz [KP]. Her fonksiyonun, bir sonraki soyutlama seviyesindeki fonksiyonları takip etmesini istiyoruz, böylece programı okurken bir fonksiyon seviyesinden diğerine düşeriz. Bunu <em>Basamak Kuralı</em> (Stepdown Rule) olarak adlandırıyoruz.</span>
+        <span class="en-text" style="display:none;">We want the code to read like a top-down narrative [KP]. We want every function to be followed by those at the next level of abstraction so that we can read the program, dropping one level of abstraction at a time as we read down the list of functions. I call this <em>The Stepdown Rule</em>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Başka bir deyişle, aynı seviyede bir sonraki adımı gerçekleştirmek için ihtiyacımız olan detayları anlamak istiyoruz. Bu, bir makaleyi okumak gibidir. Gazeteyi alırsınız ve bir makaleyi okumaya başlarsınız. İlk cümle genel konunun bir özeti verir, bu sizi bir sonraki paragrafa götürür ve bu paragraf biraz daha fazla detay verir. Okudukça detaylar açıklanır.</span>
+        <span class="en-text" style="display:none;">To say this differently, we want to be able to read the program as though it were a set of TO paragraphs, each of which is describing the current level of abstraction and referencing subsequent TO paragraphs at the next level down. It turns out to be very difficult for humans to hold more than about three levels of nesting in working memory. Thus, each function should lead into the next by doing one thing at the current level of abstraction.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu, fonksiyonlarımızı oluştururken, bir sonraki soyutlama seviyesindeki fonksiyonları çağırdığımızdan emin olmak anlamına gelir. Böylece kodu okurken, bir fonksiyonu okurken gözümüzü bir sonraki fonksiyona kaydırırız ve bu fonksiyon bir sonraki seviyedir. Kodumuzu bu şekilde yazarsak, Basamak Kuralı'nı takip ederiz.</span>
+        <span class="en-text" style="display:none;">This means that as we compose our functions, the functions that are called should be at the next level of abstraction. Thus, as we read down the list of functions in a module, we see the abstraction level decreasing step by step. We want to avoid the jarring alternation of high and low levels that makes the code hard to read.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tabii ki bu kuralı takip etmek zordur. İnsanlar bir seferde yaklaşık üç seviyelik iç içe geçmeyi çalışma belleğinde (working memory) tutmakta zorlanırlar. Bu nedenle, her fonksiyon mevcut soyutlama seviyesinde tek bir şey yaparak bir sonrakine yol göstermelidir.</span>
+        <span class="en-text" style="display:none;">Of course this is hard. People can typically hold only about three levels of nesting in working memory. Therefore, each function should lead into the next by doing one thing at the current level of abstraction.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Switch İfadeleri / Switch Statements</span>
+        <span class="en-text" style="display:none;">Switch Statements</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">switch</code> ifadeleriyle ilgili sorun, yapılacak <em>N</em> şeyin olduğunu belirtmek zorunda olmalarıdır. Ne yazık ki, N şey yapmak için kullanılan switch ifadelerini tamamen önleyemeyiz, ancak her switch ifadesinin düşük seviyeli bir sınıfta görünmesini ve asla tekrarlanmamasını sağlayabiliriz. Bunu bir çok biçimli (polymorphic) nesne oluşturmak için kullanırız.</span>
+        <span class="en-text" style="display:none;">It's hard to make a small <code class="inline">switch</code> statement. Even a switch statement with only two cases is larger than I'd like a single block or function to be. It's also hard to make a switch statement that does one thing. By their nature, switch statements always do <em>N</em> things. Unfortunately we can't always avoid switch statements, but we can make sure that each switch statement is buried in a low-level class and is never repeated. We do this, of course, with polymorphism.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-4'te gösterildiği gibi, switch ifadesi bir abstract factory'nin (soyut fabrika) bodrum katına gömülebilir ve hiçbir zaman görünmez. Factory, switch ifadesini kullanarak uygun somut türevleri (concrete derivatives) <code class="inline">Employee</code> arayüzünün (interface) arkasına yerleştirir.</span>
+        <span class="en-text" style="display:none;">Consider Listing 3-4. It shows a switch statement that can be buried in the basement of an abstract factory and never seen. The factory uses the switch statement to create appropriate instances of the derivatives of <code class="inline">Employee</code> based on the <code class="inline">EmployeeType</code> code.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('stepdown-rule')">
+                <span class="tr-text">Basamak Kuralı</span>
+                <span class="en-text" style="display:none;">Stepdown Rule</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('switch-polymorphism')">
+                <span class="tr-text">Switch ve Çok Biçimlilik</span>
+                <span class="en-text" style="display:none;">Switch and Polymorphism</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('broken-windows')">
+                <span class="tr-text">Kırık Pencereler</span>
+                <span class="en-text" style="display:none;">Broken Windows</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-35.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 35 — Fonksiyon Bölümleri</span><span class="en-text" style="display:none;">Page 35 — Function Sections</span></div>
+    </a>
+    <a href="page-37.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 37)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 37 — Switch İfadeleri</span><span class="en-text" style="display:none;">Page 37 — Switch Statements</span></div>
+    </a>
+</div>
+
+<!-- Modal: Basamak Kuralı -->
+<div class="modal-overlay" id="modal-stepdown-rule">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Basamak Kuralı (Stepdown Rule)</span><span class="en-text" style="display:none;">Stepdown Rule</span></h3>
+            <button class="modal-close" onclick="closeModal('stepdown-rule')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod, yüksek seviyeden düşük seviyeye doğru "aşağı doğru" okunmalıdır. Her fonksiyon, bir sonraki soyutlama seviyesindeki fonksiyonları çağırmalıdır. Bu, gazete makalesi okuma düzenine benzer - önce özet, sonra detaylar.</span><span class="en-text" style="display:none;">Code should be read "top down" from high level to low level. Each function should call functions at the next level of abstraction. This is similar to reading a newspaper article - first the summary, then the details.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Seviyeler karışık</span><span class="en-text" style="display:none;">BAD — Levels mixed</span></span>
+<pre><span class="kw">def</span> <span class="method">processOrder</span>(order):
+    <span class="comment"># Yüksek seviye</span>
+    <span class="method">validateOrder</span>(order)
+    
+    <span class="comment"># Düşük seviye - KARMAŞIK!</span>
+    <span class="kw">for</span> item <span class="kw">in</span> order.items:
+        <span class="type">db</span>.<span class="method">execute</span>(<span class="str">"INSERT..."</span>, item.id)
+    
+    <span class="comment"># Tekrar yüksek seviye</span>
+    <span class="method">sendConfirmation</span>(order)</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Aşamalı seviye düşüşü</span><span class="en-text" style="display:none;">GOOD — Step-by-step level drop</span></span>
+<pre><span class="kw">def</span> <span class="method">processOrder</span>(order):  <span class="comment"># Seviye 1: İş akışı</span>
+    <span class="method">validateOrder</span>(order)
+    <span class="method">saveToDatabase</span>(order)
+    <span class="method">sendConfirmation</span>(order)
+
+<span class="kw">def</span> <span class="method">saveToDatabase</span>(order):  <span class="comment"># Seviye 2: Veritabanı</span>
+    <span class="kw">for</span> item <span class="kw">in</span> order.items:
+        <span class="method">insertItem</span>(item)
+
+<span class="kw">def</span> <span class="method">insertItem</span>(item):  <span class="comment"># Seviye 3: SQL</span>
+    <span class="type">db</span>.<span class="method">execute</span>(<span class="str">"INSERT..."</span>, item.id)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzu bir gazete makalesi gibi organize edin: en üstte özet (yüksek seviye fonksiyon), aşağıya doğru detaylar (yardımcı fonksiyonlar).</span><span class="en-text" style="display:none;">Organize your code like a newspaper article: summary at the top (high-level function), details below (helper functions).</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Switch ve Çok Biçimlilik -->
+<div class="modal-overlay" id="modal-switch-polymorphism">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Switch ve Çok Biçimlilik (Switch and Polymorphism)</span><span class="en-text" style="display:none;">Switch and Polymorphism</span></h3>
+            <button class="modal-close" onclick="closeModal('switch-polymorphism')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Switch ifadeleri N şey yapar. Ancak abstract factory'nin bodrum katına gömülerek gizlenebilir. Factory, çok biçimlilik (polymorphism) kullanarak switch mantığını soyutlar ve her tür için uygun somut sınıfı oluşturur.</span><span class="en-text" style="display:none;">Switch statements do N things. But they can be buried in the basement of an abstract factory. The factory uses polymorphism to abstract away the switch logic and creates appropriate concrete classes for each type.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Her yerde switch</span><span class="en-text" style="display:none;">BAD — Switch everywhere</span></span>
+<pre><span class="kw">def</span> <span class="method">calculatePay</span>(employee):
+    <span class="kw">switch</span> employee.type:
+        <span class="kw">case</span> HOURLY:
+            <span class="kw">return</span> employee.hours * employee.rate
+        <span class="kw">case</span> SALARIED:
+            <span class="kw">return</span> employee.salary / 12
+        <span class="kw">case</span> COMMISSION:
+            <span class="kw">return</span> employee.base + employee.sales * 0.1
+
+<span class="kw">def</span> <span class="method">calculateBonus</span>(employee):
+    <span class="kw">switch</span> employee.type:  <span class="comment"># Tekrar!</span>
+        <span class="kw">case</span> HOURLY: ...</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Factory + Polymorphism</span><span class="en-text" style="display:none;">GOOD — Factory + Polymorphism</span></span>
+<pre><span class="kw">abstract class</span> <span class="type">Employee</span>:
+    <span class="kw">abstract def</span> <span class="method">calculatePay</span>()
+    <span class="kw">abstract def</span> <span class="method">calculateBonus</span>()
+
+<span class="kw">class</span> <span class="type">HourlyEmployee</span>(<span class="type">Employee</span>):
+    <span class="kw">def</span> <span class="method">calculatePay</span>(self): ...
+
+<span class="comment"># Factory - switch sadece burada</span>
+<span class="kw">def</span> <span class="method">createEmployee</span>(type):
+    <span class="kw">switch</span> type:
+        <span class="kw">case</span> HOURLY: <span class="kw">return</span> <span class="kw">new</span> <span class="type">HourlyEmployee</span>()</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Switch ifadesini abstract factory'de gizleyin. İş mantığını her tür için ayrı sınıflara dağıtın. "Open/Closed Principle" - yeni tür eklemek için sadece yeni sınıf ekleyin, mevcut kodu değiştirmeyin.</span><span class="en-text" style="display:none;">Hide the switch statement in an abstract factory. Distribute business logic into separate classes for each type. "Open/Closed Principle" - add new types by adding new classes, don't change existing code.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Kırık Pencereler -->
+<div class="modal-overlay" id="modal-broken-windows">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kırık Pencereler (Broken Windows)</span><span class="en-text" style="display:none;">Broken Windows</span></h3>
+            <button class="modal-close" onclick="closeModal('broken-windows')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">"Kırık Pencereler" teorisi, Pragmatik Programcılar kitabından gelir: bir binada bir pencere kırık bırakılırsa, diğer pencereler de kırılır. Kötü kod da öyledir - bir kez başladı mı, daha fazla kötü kod çeker. Her zaman temiz tutun!</span><span class="en-text" style="display:none;">The "Broken Windows" theory comes from The Pragmatic Programmer: if one window in a building is left broken, others will be broken too. Bad code is the same - once it starts, it attracts more bad code. Always keep it clean!</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — "Sonra düzeltirim"</span><span class="en-text" style="display:none;">BAD — "I'll fix it later"</span></span>
+<pre><span class="kw">def</span> <span class="method">processData</span>(data):
+    <span class="comment"># FIXME: Geçici çözüm, sonra düzelt</span>
+    <span class="kw">if</span> data <span class="kw">is</span> <span class="kw">None</span>:
+        data = {}  <span class="comment"># Kırık pencere!</span>
+    
+    <span class="comment"># TODO: Refactor needed</span>
+    result = []
+    <span class="kw">for</span> d <span class="kw">in</span> data:  <span class="comment"># Karmaşık iç içe döngüler</span>
+        <span class="kw">for</span> x <span class="kw">in</span> d:
+            <span class="kw">for</span> y <span class="kw">in</span> x:
+                result.<span class="method">append</span>(y)
+    <span class="kw">return</span> result</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Hemen düzelt</span><span class="en-text" style="display:none;">GOOD — Fix immediately</span></span>
+<pre><span class="kw">def</span> <span class="method">processData</span>(data):
+    <span class="kw">if</span> <span class="kw">not</span> data:
+        <span class="kw">raise</span> <span class="type">ValueError</span>(<span class="str">"Data required"</span>)
+    
+    <span class="kw">return</span> [<span class="method">extractValues</span>(item) <span class="kw">for</span> item <span class="kw">in</span> data]
+
+<span class="kw">def</span> <span class="method">extractValues</span>(item):
+    <span class="comment"># Her seviye için ayrı fonksiyon</span>
+    <span class="kw">return</span> [y <span class="kw">for</span> x <span class="kw">in</span> item <span class="kw">for</span> y <span class="kw">in</span> x]</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"İzci Kuralı"nı (Boy Scout Rule) uygulayın: kodu bulduğunuzdan daha temiz bırakın. Küçük düzeltmeler bile birikerek büyük fark yaratır.</span><span class="en-text" style="display:none;">Apply the "Boy Scout Rule": leave the code cleaner than you found it. Even small fixes accumulate to make a big difference.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 36;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 39 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Fonksiyon Argümanları</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="39" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Sık Görülen Tekli Formlar / Common Monadic Forms</span>
+        <span class="en-text" style="display:none;">Common Monadic Forms</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir argümanı bir fonksiyona geçirmek için iki çok yaygın neden vardır. Argüman hakkında bir soru soruyor olabilirsiniz, örneğin: <code class="inline">boolean fileExists(String fileName)</code>. Ya da argüman üzerinde bir işlem yapıyor, onu başka bir şeye dönüştürüp geri döndürüyor olabilirsiniz, örneğin: <code class="inline">InputStream fileOpen(String fileName)</code>.</span>
+        <span class="en-text" style="display:none;">There are two very common reasons to pass a single argument into a function. You may be asking a question about that argument, as in <code class="inline">boolean fileExists(String fileName)</code>. Or you may be operating on that argument, transforming it into something else and returning it, as in <code class="inline">InputStream fileOpen(String fileName)</code>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu iki kullanım dışında, tek argümanlı bir fonksiyon kullanmaya çalışmak dikkatli düşünmeyi gerektirir. Örneğin, bir <code class="inline">void</code> dönen ve tek argüman alan bir fonksiyon, o argüman üzerinde yan etki (side effect) yaratıyor olabilir. Bu durumda fonksiyon ismi bu yan etkiyi açıkça belirtmelidir.</span>
+        <span class="en-text" style="display:none;">Now try to use a single-argument function outside of these two cases and you should think carefully. For example, a function that returns void and takes a single argument might be creating a side effect on that argument. In this case, the function name should clearly indicate this side effect.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Bayrak Argümanları / Flag Arguments</span>
+        <span class="en-text" style="display:none;">Flag Arguments</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bayrak argümanları (flag arguments) çirkindir. Bir fonksiyona boolean değer geçirmek, fonksiyonun birden fazla şey yaptığını yüksek sesle ilan eder. Doğruysa bir şey yapar, yanlışsa başka bir şey yapar!</span>
+        <span class="en-text" style="display:none;">Flag arguments are ugly. Passing a boolean into a function loudly proclaims that this function does more than one thing. It does one thing if the flag is true and another if the flag is false!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-7'deki <code class="inline">render(boolean isSuite)</code> fonksiyonunu ele alalım. Bu fonksiyon, <code class="inline">isSuite</code> değeri true olduğunda farklı, false olduğunda farklı bir şey yapar. Bu fonksiyon iki fonksiyona bölünmelidir: <code class="inline">renderForSuite()</code> ve <code class="inline">renderForSingleTest()</code>.</span>
+        <span class="en-text" style="display:none;">Consider the <code class="inline">render(boolean isSuite)</code> function in Listing 3-7. This function does different things depending on whether the <code class="inline">isSuite</code> value is true or false. This function should be split into two functions: <code class="inline">renderForSuite()</code> and <code class="inline">renderForSingleTest()</code>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Evet, bu iki fonksiyonun bazı kodları tekrar etmesi gerekebilir. Ancak bu tekrar, daha iyi okunabilirlik ve daha temiz bir API'nin bedelidir. Bayrak argümanlarından kaçının!</span>
+        <span class="en-text" style="display:none;">Yes, these two functions might duplicate some code. But this duplication is the price of better readability and a cleaner API. Avoid flag arguments!</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">İkililer / Dyadic Functions</span>
+        <span class="en-text" style="display:none;">Dyadic Functions</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İki argümanlı bir fonksiyon, tek argümanlı bir fonksiyondan daha zor anlaşılır. İki girdiyi anlamak için kısa bir duraksama vardır. Örneğin: <code class="inline">InputStream fileOpen(String fileName, String mode)</code> vs <code class="inline">InputStream fileOpen(String fileName)</code>.</span>
+        <span class="en-text" style="display:none;">A function with two arguments is harder to understand than a monadic function. There is a short pause in understanding the two inputs. For example: <code class="inline">InputStream fileOpen(String fileName, String mode)</code> vs <code class="inline">InputStream fileOpen(String fileName)</code>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İkililer kullanmak kötü bir uygulama değildir, ancak maliyetinin farkında olmalı ve bunları ikiliye dönüştürmenin bir yolu olup olmadığını sormalısınız. Örneğin, <code class="inline">writeField(String name, String value)</code> metodu, <code class="inline">writeField(Field field)</code> şeklinde yazılarak tekli hale getirilebilir.</span>
+        <span class="en-text" style="display:none;">Using dyads is not an evil practice, but you should be aware of the cost and ask whether there is a way to convert them into monads. For example, the <code class="inline">writeField(String name, String value)</code> method can be made monadic by writing it as <code class="inline">writeField(Field field)</code>.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('monadic-forms')">
+                <span class="tr-text">Tekli Formlar</span>
+                <span class="en-text" style="display:none;">Monadic Forms</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('flag-arguments')">
+                <span class="tr-text">Bayrak Argümanları</span>
+                <span class="en-text" style="display:none;">Flag Arguments</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('dyadic-functions')">
+                <span class="tr-text">İkili Fonksiyonlar</span>
+                <span class="en-text" style="display:none;">Dyadic Functions</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-38.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 38 — Fonksiyon Argümanları</span><span class="en-text" style="display:none;">Page 38 — Function Arguments</span></div>
+    </a>
+    <a href="page-40.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 40)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 40 — Üçlüler ve Argüman Listeleri</span><span class="en-text" style="display:none;">Page 40 — Triads and Argument Lists</span></div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="modal-monadic-forms">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tekli Formlar (Monadic Forms)</span><span class="en-text" style="display:none;">Monadic Forms</span></h3>
+            <button class="modal-close" onclick="closeModal('monadic-forms')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Tek argümanlı fonksiyonların iki yaygın formu vardır: (1) Argüman hakkında soru soran (boolean fileExists), (2) Argümanı dönüştürüp yeni değer döndüren (InputStream fileOpen).</span><span class="en-text" style="display:none;">Single-argument functions have two common forms: (1) Asking a question about the argument (boolean fileExists), (2) Transforming the argument and returning a new value (InputStream fileOpen).</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Void + tek argüman (yan etki)</span><span class="en-text" style="display:none;">BAD — Void + single argument (side effect)</span></span>
+<pre><span class="kw">void</span> <span class="method">process</span>(String data) {
+    <span class="comment">// Ne yapıyor? Belirsiz!</span>
+    saveToFile(data);
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Açık isim veya soru</span><span class="en-text" style="display:none;">GOOD — Clear name or question</span></span>
+<pre><span class="kw">boolean</span> <span class="method">isValidEmail</span>(String email);
+<span class="type">Report</span> <span class="method">generateReportFrom</span>(Data data);
+<span class="kw">void</span> <span class="method">saveToDatabase</span>(User user); <span class="comment">// Void ise yan etki açık</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Tek argümanlı void fonksiyonlardan kaçının. Ya bir değer döndürün (dönüşüm) ya da isim yan etkiyi açıkça belirtsin.</span><span class="en-text" style="display:none;">Avoid single-argument void functions. Either return a value (transformation) or make the name clearly indicate the side effect.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-flag-arguments">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Bayrak Argümanları (Flag Arguments)</span><span class="en-text" style="display:none;">Flag Arguments</span></h3>
+            <button class="modal-close" onclick="closeModal('flag-arguments')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Boolean argümanlar fonksiyonun birden fazla şey yaptığını gösterir. Doğruysa bir şey, yanlışsa başka bir şey yapar. Bu iki ayrı fonksiyon olmalıdır.</span><span class="en-text" style="display:none;">Boolean arguments indicate a function does more than one thing. Does one thing if true, another if false. These should be two separate functions.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Bayrak argümanı</span><span class="en-text" style="display:none;">BAD — Flag argument</span></span>
+<pre><span class="kw">def</span> <span class="method">render</span>(data, isSuite):
+    <span class="kw">if</span> isSuite:
+        <span class="method">renderSuite</span>(data)
+    <span class="kw">else</span>:
+        <span class="method">renderSingle</span>(data)
+
+<span class="comment"># Kullanım:</span>
+render(data, <span class="kw">True</span>)  <span class="comment"># True ne anlama geliyor?</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Ayrı fonksiyonlar</span><span class="en-text" style="display:none;">GOOD — Separate functions</span></span>
+<pre><span class="kw">def</span> <span class="method">renderForSuite</span>(data):
+    <span class="method">renderSuite</span>(data)
+
+<span class="kw">def</span> <span class="method">renderForSingleTest</span>(data):
+    <span class="method">renderSingle</span>(data)
+
+<span class="comment"># Kullanım:</span>
+renderForSuite(data)      <span class="comment"># Açık!</span>
+renderForSingleTest(data) <span class="comment"># Açık!</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Boolean parametre gördüğünüzde alarm çalması gerekir. "Bu fonksiyon iki şey mi yapıyor?" diye sorun. Eğer öyleyse, ikiye bölün.</span><span class="en-text" style="display:none;">When you see a boolean parameter, alarm bells should ring. Ask: "Is this function doing two things?" If yes, split it in two.</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-dyadic-functions">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İkili Fonksiyonlar (Dyadic Functions)</span><span class="en-text" style="display:none;">Dyadic Functions</span></h3>
+            <button class="modal-close" onclick="closeModal('dyadic-functions')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">İki argümanlı fonksiyonlar tekliye göre daha zor anlaşılır. Argüman sırası hatırlanmalıdır. Mümkünse ikilileri tekliye dönüştürün.</span><span class="en-text" style="display:none;">Two-argument functions are harder to understand than monads. Argument order must be remembered. Convert dyads to monads when possible.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Ayrı argümanlar</span><span class="en-text" style="display:none;">BAD — Separate arguments</span></span>
+<pre><span class="kw">def</span> <span class="method">writeField</span>(name, value):
+    <span class="comment"># Hangisi önce? Hangisi sonra?</span>
+    ...
+
+writeField(<span class="str">"email"</span>, <span class="str">"user@test.com"</span>)
+writeField(<span class="str">"user@test.com"</span>, <span class="str">"email"</span>)  <span class="comment"># Hata!</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Nesne olarak gruplama</span><span class="en-text" style="display:none;">GOOD — Grouped as object</span></span>
+<pre><span class="kw">class</span> <span class="type">Field</span>:
+    <span class="kw">def</span> <span class="method">__init__</span>(self, name, value):
+        self.name = name
+        self.value = value
+
+<span class="kw">def</span> <span class="method">writeField</span>(field):
+    <span class="comment"># Tek argüman - nesne</span>
+    ...
+
+writeField(Field(<span class="str">"email"</span>, <span class="str">"user@test.com"</span>))</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Argümanlar birlikte geziyorsa (her zaman birlikte kullanılıyorsa), bir nesne yapın. "Bu iki argüman birbirine ait mi?" sorusunu sorun.</span><span class="en-text" style="display:none;">When arguments travel together (always used together), make them an object. Ask: "Do these two arguments belong together?"</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 39;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

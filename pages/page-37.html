@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 37 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Switch İfadeleri</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="37" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-4'teki <code class="inline">Employee</code> arayüzü, farklı çalışan türlerinin ortak özelliklerini tanımlar. <code class="inline">Money</code> soyut bir sınıftır ve <code class="inline">calculatePay</code>, <code class="inline">calculateDeductions</code> ve <code class="inline">calculateBonus</code> gibi metotları içerir.</span>
+        <span class="en-text" style="display:none;">The <code class="inline">Employee</code> interface in Listing 3-4 defines the common properties for different employee types. <code class="inline">Money</code> is an abstract class and includes methods such as <code class="inline">calculatePay</code>, <code class="inline">calculateDeductions</code>, and <code class="inline">calculateBonus</code>.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Employee.java</span>
+            <span class="listing-label">Listing 3-4</span>
+        </div>
+<pre><span class="kw">public abstract class</span> <span class="type">Employee</span> {
+    <span class="kw">public abstract boolean</span> <span class="method">isPayday</span>();
+    <span class="kw">public abstract</span> <span class="type">Money</span> <span class="method">calculatePay</span>();
+    <span class="kw">public abstract void</span> <span class="method">deliverPay</span>(<span class="type">Money</span> pay);
+}
+
+<span class="kw">public interface</span> <span class="type">EmployeeFactory</span> {
+    <span class="kw">public</span> <span class="type">Employee</span> <span class="method">makeEmployee</span>(<span class="type">EmployeeRecord</span> r) <span class="kw">throws</span> <span class="type">InvalidEmployeeType</span>;
+}
+
+<span class="kw">public class</span> <span class="type">EmployeeFactoryImpl</span> <span class="kw">implements</span> <span class="type">EmployeeFactory</span> {
+    <span class="kw">public</span> <span class="type">Employee</span> <span class="method">makeEmployee</span>(<span class="type">EmployeeRecord</span> r) <span class="kw">throws</span> <span class="type">InvalidEmployeeType</span> {
+        <span class="kw">switch</span> (r.type) {
+            <span class="kw">case</span> COMMISSIONED:
+                <span class="kw">return new</span> <span class="type">CommissionedEmployee</span>(r);
+            <span class="kw">case</span> HOURLY:
+                <span class="kw">return new</span> <span class="type">HourlyEmployee</span>(r);
+            <span class="kw">case</span> SALARIED:
+                <span class="kw">return new</span> <span class="type">SalariedEmployee</span>(r);
+            <span class="kw">default</span>:
+                <span class="kw">throw new</span> <span class="type">InvalidEmployeeType</span>(r.type);
+        }
+    }
+}</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-4'ün önemli noktası, <code class="inline">makeEmployee</code> fonksiyonunun bir switch ifadesi içermesi ve bu switch ifadesinin yalnızca somut <code class="inline">Employee</code> türevlerinin (HourlyEmployee, SalariedEmployee vb.) oluşturulmasından sorumlu olmasıdır. Bu durumda switch ifadesinin birden fazla şey yapmasını önlemek mümkündür çünkü her <code class="kw">case</code> bloğu basitçe bir nesne oluşturur ve hepsi aynı soyutlama seviyesindedir.</span>
+        <span class="en-text" style="display:none;">The important point about Listing 3-4 is that the <code class="inline">makeEmployee</code> function contains a switch statement, and this switch statement is only responsible for creating concrete <code class="inline">Employee</code> derivatives (HourlyEmployee, SalariedEmployee, etc.). In this case, it's possible to prevent the switch statement from doing more than one thing because each <code class="kw">case</code> block simply creates an object and they are all at the same level of abstraction.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Switch ifadeleri doğası gereği N şey yapar. Ne yazık ki, switch ifadelerini tamamen önleyemeyiz, ancak her switch ifadesinin düşük seviyeli bir sınıfta görünmesini ve asla tekrarlanmamasını sağlayabiliriz. Bunu bir polymorphic nesne oluşturmak için kullanırız. Özellikle switch ifadelerinin birden fazla yerde tekrarlanmasına izin vermemeliyiz. Aksi takdirde, yeni bir tür eklediğimizde her yerdeki switch'i değiştirmemiz gerekir.</span>
+        <span class="en-text" style="display:none;">Switch statements naturally do N things. Unfortunately, we can't always avoid switch statements, but we can make sure that each switch statement appears in a low-level class and is never repeated. We use it to create a polymorphic object. We must especially not allow switch statements to be repeated in multiple places. Otherwise, when we add a new type, we would need to change every switch statement everywhere.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ne yazık ki switch ifadeleri Java'nın bir parçası olduğundan, tamamen kaçınılamazlar. Ancak her switch ifadesinin bir abstract factory'nin bodrum katında görünmesini sağlayabiliriz ve kullanıcıların bunu görmesine gerek kalmaz. Factory, switch ifadesini kullanarak uygun somut türevleri <code class="inline">Employee</code> arayüzünün arkasına yerleştirir.</span>
+        <span class="en-text" style="display:none;">Unfortunately switch statements are part of Java, so they can't be completely avoided. But we can make sure that each switch statement appears in the basement of an abstract factory, and users never need to see it. The factory uses the switch statement to create appropriate concrete derivatives and places them behind the <code class="inline">Employee</code> interface.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu teknik, switch ifadesinin oluşturulmasından kaynaklanan bağımlılıkları kullanıcı kodundan gizler. Ayrıca, yeni bir çalışan türü eklememiz gerektiğinde, değiştirmemiz gereken tek yer <code class="inline">EmployeeFactoryImpl</code> sınıfı olur. Bu, <em>Açık/Kapalı İlkesi</em>'nin (Open/Closed Principle) harika bir örneğidir: yeni türler eklemek için kodu açarız, ancak mevcut kodu değiştirmeyiz.</span>
+        <span class="en-text" style="display:none;">This technique hides the dependencies caused by the creation of the switch statement from the client code. Also, when we need to add a new employee type, the only place we need to change is the <code class="inline">EmployeeFactoryImpl</code> class. This is a great example of the <em>Open/Closed Principle</em>: we open the code for new types but don't change existing code.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Açıklayıcı İsimler Kullanın / Use Descriptive Names</span>
+        <span class="en-text" style="display:none;">Use Descriptive Names</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonun ne yaptığı konusunda net olmaktan korkmayın. Eğer fonksiyonunuz tek bir şey yapıyorsa, bunu açıklayan bir isim seçmek kolaydır. İsim uzunsa uzun olsun. Uzun, açıklayıcı bir isim, kısa, gizemli bir isimden çok daha iyidir. Uzun, açıklayıcı bir isim, uzun, açıklayıcı bir yorumdan çok daha iyidir. Bir isim seçmekten korkmayın. Bunun yerine, farklı isimler deneyin ve her birini yerinde okuyun. Entegre geliştirme ortamlarındaki (IDE) modern kod tamamlama özellikleri sayesinde, uzun isimler yazmak artık bir sorun değil.</span>
+        <span class="en-text" style="display:none;">Don't be afraid to make a function name long. If a function does one thing, it's easy to choose a name that describes it. A long descriptive name is better than a short enigmatic name. A long descriptive name is better than a long descriptive comment. Don't be afraid to spend time choosing a name. Instead, try several different names and read the code with each in place. Thanks to modern code completion features in integrated development environments (IDEs), long names are no longer a problem.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İsim seçme kuralları, değişkenler ve sınıflar için de geçerlidir. İsimlerin uzunluğu konusunda aynı kural geçerlidir - ne kadar uzun olursa olsun, açıklayıcı bir isim her zaman kısa, belirsiz bir isimden veya uzun bir yorumdan iyidir.</span>
+        <span class="en-text" style="display:none;">Naming conventions for variables and classes also apply to functions. The same rule about length applies - a descriptive name, no matter how long, is always better than a short, ambiguous name or a long comment.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('abstract-factory')">
+                <span class="tr-text">Abstract Factory</span>
+                <span class="en-text" style="display:none;">Abstract Factory</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('open-closed')">
+                <span class="tr-text">Açık/Kapalı İlkesi</span>
+                <span class="en-text" style="display:none;">Open/Closed Principle</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('descriptive-names')">
+                <span class="tr-text">Açıklayıcı İsimler</span>
+                <span class="en-text" style="display:none;">Descriptive Names</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-36.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 36 — Basamak Kuralı</span><span class="en-text" style="display:none;">Page 36 — Stepdown Rule</span></div>
+    </a>
+    <a href="page-38.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 38)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 38 — Açıklayıcı İsimler</span><span class="en-text" style="display:none;">Page 38 — Descriptive Names</span></div>
+    </a>
+</div>
+
+<!-- Modal: Abstract Factory -->
+<div class="modal-overlay" id="modal-abstract-factory">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Abstract Factory (Soyut Fabrika)</span><span class="en-text" style="display:none;">Abstract Factory</span></h3>
+            <button class="modal-close" onclick="closeModal('abstract-factory')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Abstract Factory tasarım deseni, ilgili nesne ailelerini oluşturmak için bir arayüz sağlar. Switch ifadelerini gizlemek için mükemmel bir yoldur - switch mantığı sadece factory'nin içinde kalır ve kullanıcılar sadece arayüzü görür.</span><span class="en-text" style="display:none;">The Abstract Factory design pattern provides an interface for creating families of related objects. It's a perfect way to hide switch statements - the switch logic stays only inside the factory, and users see only the interface.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Her yerde switch</span><span class="en-text" style="display:none;">BAD — Switch everywhere</span></span>
+<pre><span class="kw">def</span> <span class="method">sendNotification</span>(user, type):
+    <span class="kw">if</span> type == <span class="str">"email"</span>:
+        <span class="method">sendEmail</span>(user)
+    <span class="kw">elif</span> type == <span class="str">"sms"</span>:
+        <span class="method">sendSMS</span>(user)
+
+<span class="kw">def</span> <span class="method">formatMessage</span>(type):
+    <span class="kw">if</span> type == <span class="str">"email"</span>:  <span class="comment"># Tekrar!</span>
+        <span class="kw">return</span> <span class="str">"HTML"</span>
+    <span class="kw">elif</span> type == <span class="str">"sms"</span>:
+        <span class="kw">return</span> <span class="str">"Text"</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Factory Pattern</span><span class="en-text" style="display:none;">GOOD — Factory Pattern</span></span>
+<pre><span class="kw">interface</span> <span class="type">NotificationChannel</span> {
+    <span class="kw">void</span> <span class="method">send</span>(User user);
+    <span class="type">String</span> <span class="method">format</span>();
+}
+
+<span class="kw">class</span> <span class="type">ChannelFactory</span> {
+    <span class="kw">static</span> <span class="type">NotificationChannel</span> <span class="method">create</span>(String type) {
+        <span class="kw">switch</span> (type) {  <span class="comment">// Switch sadece burada!</span>
+            <span class="kw">case</span> <span class="str">"email"</span>: <span class="kw">return new</span> <span class="type">EmailChannel</span>();
+            <span class="kw">case</span> <span class="str">"sms"</span>: <span class="kw">return new</span> <span class="type">SMSChannel</span>();
+        }
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Switch ifadelerini her zaman bir factory'nin içine gizleyin. Yeni tür eklemek gerektiğinde sadece bir yerde değişiklik yapın.</span><span class="en-text" style="display:none;">Always hide switch statements inside a factory. When you need to add a new type, change only one place.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Açık/Kapalı İlkesi -->
+<div class="modal-overlay" id="modal-open-closed">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Açık/Kapalı İlkesi (Open/Closed Principle)</span><span class="en-text" style="display:none;">Open/Closed Principle</span></h3>
+            <button class="modal-close" onclick="closeModal('open-closed')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">SOLID prensiplerinden OCP: "Yazılım varlıkları (sınıflar, modüller, fonksiyonlar vb.) genişletmeye açık, değişikliğe kapalı olmalıdır." Yeni davranış eklemek için mevcut kodu değiştirmek yerine yeni kod yazın.</span><span class="en-text" style="display:none;">OCP from SOLID principles: "Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification." Add new behavior by writing new code rather than changing existing code.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Her yeni türde değişiklik</span><span class="en-text" style="display:none;">BAD — Changes for every new type</span></span>
+<pre><span class="kw">class</span> <span class="type">ReportGenerator</span> {
+    <span class="kw">def</span> <span class="method">generate</span>(type):
+        <span class="kw">if</span> type == <span class="str">"pdf"</span>:
+            <span class="kw">return</span> <span class="method">generatePDF</span>()
+        <span class="kw">elif</span> type == <span class="str">"excel"</span>:
+            <span class="kw">return</span> <span class="method">generateExcel</span>()
+        <span class="comment"># Yeni tür eklenince BURAYI değiştirmek zorundayız!</span>
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Genişletmeye açık</span><span class="en-text" style="display:none;">GOOD — Open for extension</span></span>
+<pre><span class="kw">interface</span> <span class="type">ReportGenerator</span> {
+    <span class="type">Report</span> <span class="method">generate</span>();
+}
+
+<span class="kw">class</span> <span class="type">PDFGenerator</span> <span class="kw">implements</span> <span class="type">ReportGenerator</span> { ... }
+<span class="kw">class</span> <span class="type">ExcelGenerator</span> <span class="kw">implements</span> <span class="type">ReportGenerator</span> { ... }
+
+<span class="comment"># Yeni tür: SADECE yeni sınıf ekle, mevcut kodu değiştirme</span>
+<span class="kw">class</span> <span class="type">CSVGenerator</span> <span class="kw">implements</span> <span class="type">ReportGenerator</span> { ... }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"if/else zinciri" gördüğünüzde, bu OCP ihlalinin işaretidir. Polymorphism kullanarak her durumu ayrı sınıfa taşıyın.</span><span class="en-text" style="display:none;">When you see an "if/else chain", it's a sign of OCP violation. Use polymorphism to move each case into a separate class.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Açıklayıcı İsimler -->
+<div class="modal-overlay" id="modal-descriptive-names">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Açıklayıcı İsimler (Descriptive Names)</span><span class="en-text" style="display:none;">Descriptive Names</span></h3>
+            <button class="modal-close" onclick="closeModal('descriptive-names')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyon isimleri ne yaptıklarını açıkça anlatmalıdır. Uzun ama açıklayıcı bir isim, kısa ama belirsiz bir isimden her zaman iyidir. Modern IDE'ler uzun isimleri tamamladığı için isim uzunluğu artık bir sorun değil.</span><span class="en-text" style="display:none;">Function names should clearly describe what they do. A long but descriptive name is always better than a short but ambiguous name. Modern IDEs autocomplete long names, so name length is no longer an issue.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Kısa ve belirsiz</span><span class="en-text" style="display:none;">BAD — Short and ambiguous</span></span>
+<pre><span class="kw">def</span> <span class="method">proc</span>(d):  <span class="comment"># Ne işlemiyor? ne verisi?</span>
+    <span class="kw">return</span> <span class="method">calc</span>(d)  <span class="comment"># Ne hesaplıyor?</span>
+
+<span class="kw">def</span> <span class="method">doIt</span>():  <span class="comment"># Ne yapıyor?</span>
+    <span class="method">x</span>()</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Açıklayıcı ve uzun</span><span class="en-text" style="display:none;">GOOD — Descriptive and long</span></span>
+<pre><span class="kw">def</span> <span class="method">calculateMonthlySalaryForEmployee</span>(employee):
+    <span class="kw">return</span> <span class="method">computeBasePay</span>(employee) + <span class="method">computeOvertimePay</span>(employee)
+
+<span class="kw">def</span> <span class="method">generateQuarterlyReportForDepartment</span>(department):
+    <span class="method">collectSalesData</span>(department)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Fonksiyon ismi bir yorum gibi okunabilmeli. "Bu fonksiyon ne yapıyor?" sorusunun cevabı ismin içinde olmalı. İsim seçmeye zaman ayırın - birkaç farklı isim deneyin.</span><span class="en-text" style="display:none;">A function name should read like a comment. The answer to "What does this function do?" should be in the name. Take time choosing names - try several different options.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 37;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>
