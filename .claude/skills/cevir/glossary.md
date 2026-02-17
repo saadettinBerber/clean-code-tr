@@ -66,13 +66,16 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | False Clue | Yanlış İpucu (False Clue) | Kodun anlamını bulanıklaştıran yanıltıcı isimler |
 | Feature | Özellik (Feature) | |
 | FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
+| Flag | Bayrak (Flag) | Boolean kontrol parametresi |
 | Focused | Odaklanmış (Focused) | Temiz kodun tek amaca yönelik olması |
 | Function | Fonksiyon (Function) | |
+| Function Sections | Fonksiyon Bölümleri (Function Sections) | Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.) |
 | Gratuitous Context | Gereksiz Bağlam (Gratuitous Context) | Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek |
 | Green-field Project | Yeşil Alan Projesi (Green-field Project) | Sıfırdan başlanan proje |
 | Heuristic | Sezgisel Kural (Heuristic) | |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
 | Inheritance | Kalıtım (Inheritance) | |
+| Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
 | Integer Handle | Tamsayı Tanıtıcısı (Integer Handle) | |
 | Intention-Revealing Names | Niyet Belirten İsimler (Intention-Revealing Names) | Amacı açıkça ortaya koyan isimler |
 | Interface | Arayüz (Interface) | |
@@ -80,6 +83,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | JobQueue | İş Kuyruğu (JobQueue) | |
 | Language Bigot | Dil Bağnazı (Language Bigot) | |
 | LeBlanc's Law | LeBlanc Yasası (LeBlanc's Law) | "Sonra asla demektir" (Later equals never) |
+| Level of Abstraction | Soyutlama Seviyesi (Level of Abstraction) | Kodun genelden özele doğru soyutluk derecesi |
 | Lexicon | Sözlük (Lexicon) | Bir projedeki tutarlı terimler bütünü |
 | Literate Programming | Okuryazar Programlama (Literate Programming) | Knuth'un kavramı: kod önce insanlar için yazılmalı |
 | Magic Number | Sihirli Sayı (Magic Number) | Kodda açıklamasız kullanılan sabit değer |
@@ -139,6 +143,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Searchable Names | Aranabilir İsimler (Searchable Names) | |
 | Side Effect | Yan Etki (Side Effect) | |
 | Simple Code | Basit Kod (Simple Code) | Beck'in kuralları: testler çalışır, tekrar yok, ifade gücü yüksek, varlıklar minimize |
+| Sieve | Eleme (Sieve) | Asal sayıları bulmak için kullanılan algoritma (Eratosthenes Kalburu) |
 | Single Responsibility | Tek Sorumluluk (Single Responsibility) | |
 | Snail's Pace | Salyangoz Hızı (Snail's Pace) | Çok yavaş ilerleme metaforu |
 | Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship) | |
@@ -146,6 +151,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Source File | Kaynak Dosyası (Source File) | Programın kaynak kodunu içeren dosya |
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
+| Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
 | StringBuffer | StringBuffer | Java'da değiştirilebilir dizgi nesnesi |
 | Subroutine | Alt Rutin (Subroutine) | Programlamanın ilk günlerindeki alt program yapısı |
 | Subprogram | Alt Program (Subprogram) | Fortran/PL1 döneminde kullanılan program parçası |

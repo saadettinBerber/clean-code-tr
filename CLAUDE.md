@@ -18,7 +18,7 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ## Son Çevrilen Sayfa Takibi
 
 - **KRİTİK KURAL**: Her çeviri tamamlandığında, bu dosyadaki `last_translated_page` değerini güncelle.
-- **last_translated_page**: 31
+- **last_translated_page**: 35
 - Kullanıcı "sıradaki sayfa", "sonraki sayfa", "next", "devam" gibi ifadeler kullandığında veya `/cevir next` yazdığında, `last_translated_page + 1` sayfasını çevir.
 - Eğer `last_translated_page` değeri 0 ise ve kullanıcı "sıradaki" derse, sayfa 1'den başla.
 
@@ -138,6 +138,13 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 - Kullanıcı sayfa sayfa ilerler, kendi hızında okur.
 - Her sohbette CLAUDE.md otomatik okunacağı için, kullanıcının uzun açıklamalar yapmasına gerek yoktur.
 - Kullanıcı sadece `/cevir 5` veya "sıradaki sayfa" demesi yeterlidir.
+
+## Git Commit Kuralı
+
+- **KRİTİK KURAL**: Commit mesajlarında `Co-Authored-By` veya yapay zekaya ait herhangi bir imza/referans OLMAYACAKTIR.
+- Commit mesajları sade ve açıklayıcı olmalıdır.
+- Format: `Sayfa X çevirisi eklendi — Bölüm/Section bilgisi`
+- Örnek: `Sayfa 32 çevirisi eklendi — Chapter 3: Functions`
 
 ## Türkçe Karakter Kuralı
 
