@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 35 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Tek Şey Yapmalı</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="35" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Peki hangisi doğru? Fonksiyon bir şey mi yoksa üç şey mi yapıyor? Fonksiyonun üç adımının, fonksiyonun belirtilen isminden bir seviye aşağıda olduğuna dikkat edin. Fonksiyonu kısa bir TO<sup>4</sup> paragrafıyla tanımlayarak açıklayabiliriz:</span>
+        <span class="en-text" style="display:none;">So which is it? Is the function doing one thing or three things? Notice that the three steps of the function are one level of abstraction below the stated name of the function. We can describe the function by describing it as a brief TO<sup>4</sup> paragraph:</span>
+    </div>
+
+    <div class="content-paragraph" style="background: #e9ecef; padding: 16px; border-radius: 8px; font-style: italic; margin: 20px 0;">
+        <span class="tr-text"><em>Setup ve Teardown'larla SayfayıOluştur (RenderPageWithSetupsAndTeardowns) için, sayfanın test sayfası olup olmadığını kontrol ederiz ve öyleyse, setup ve teardown'ları ekleriz. Her iki durumda da sayfayı HTML olarak oluştururuz.</em></span>
+        <span class="en-text" style="display:none;"><em>TO RenderPageWithSetupsAndTeardowns, we check to see whether the page is a test page and if so, we include the setups and teardowns. In either case we render the page in HTML.</em></span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon, yalnızca fonksiyonun belirtilen isminin bir alt seviyesindeki adımları gerçekleştiriyorsa, bir şey yapıyordur. Sonuçta, fonksiyonlar yazmamızın nedeni, daha büyük bir kavramı (başka bir deyişle, fonksiyonun ismini) bir sonraki soyutlama seviyesindeki adımlar kümesine ayrıştırmaktır.</span>
+        <span class="en-text" style="display:none;">If a function does only those steps that are one level below the stated name of the function, then the function is doing one thing. After all, the reason we write functions is to decompose a larger concept (in other words, the name of the function) into a set of steps at the next level of abstraction.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Listing 3-1'in birçok farklı seviyede soyutlama içeren adımlar içerdiği çok açık olmalıdır. Dolayısıyla, açıkça birden fazla şey yapıyor. Hatta Listing 3-2'nin bile küçültülebildiğimizde kanıtladığımız gibi iki seviye soyutlaması vardır. Ancak Listing 3-3'ü anlamlı bir şekilde küçültmek çok zor olurdu. <code class="inline">if</code> ifadesini <code class="inline">includeSetupsAndTeardownsIfTestPage</code> isimli bir fonksiyona çıkarabilirdik, ancak bu sadece kodu yeniden ifade etmekten başka bir şey yapmaz, soyutlama seviyesini değiştirmez.</span>
+        <span class="en-text" style="display:none;">It should be very clear that Listing 3-1 contains steps at many different levels of abstraction. So it is clearly doing more than one thing. Even Listing 3-2 has two levels of abstraction, as proved by our ability to shrink it down. But it would be very hard to meaningfully shrink Listing 3-3. We could extract the <code class="inline">if</code> statement into a function named <code class="inline">includeSetupsAndTeardownsIfTestPage</code>, but that simply restates the code without changing the level of abstraction.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonun "bir şey"den fazla yaptığını bilmenin bir diğer yolu, ondan ismi sadece implementasyonunun yeniden ifadesi olmayan başka bir fonksiyon çıkarıp çıkaramayacağınızı görmektir [G34].</span>
+        <span class="en-text" style="display:none;">So, another way to know that a function is doing more than "one thing" is if you can extract another function from it with a name that is not merely a restatement of its implementation [G34].</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Fonksiyonlar İçinde Bölümler / Sections within Functions</span>
+        <span class="en-text" style="display:none;">Sections within Functions</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Sayfa 71'deki Listing 4-7'e bakın. <code class="inline">generatePrimes</code> fonksiyonunun <em>bildirimler</em> (declarations), <em>başlatmalar</em> (initializations) ve <em>eleme</em> (sieve) gibi bölümlere ayrıldığına dikkat edin. Bu, birden fazla şey yapmanın açık bir belirtisidir. Tek şey yapan fonksiyonlar makul bir şekilde bölümlere ayrılamaz.</span>
+        <span class="en-text" style="display:none;">Look at Listing 4-7 on page 71. Notice that the <code class="inline">generatePrimes</code> function is divided into sections such as <em>declarations</em>, <em>initializations</em>, and <em>sieve</em>. This is an obvious symptom of doing more than one thing. Functions that do one thing cannot be reasonably divided into sections.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Fonksiyon Başına Bir Soyutlama Seviyesi / One Level of Abstraction per Function</span>
+        <span class="en-text" style="display:none;">One Level of Abstraction per Function</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonlarımızın "bir şey" yaptığından emin olmak için, fonksiyonumuzdaki ifadelerin hepsinin aynı seviyede soyutlama (abstraction) olduğundan emin olmamız gerekir. Listing 3-1'in bu kuralı ihlal ettiğini görmek kolaydır. İçinde çok yüksek seviyede soyutlama kavramları var, örneğin <code class="inline">getHtml()</code>; ortada seviyede soyutlama kavramları, örneğin: <code class="inline">String pagePathName = PathParser.render(pagePath);</code>; ve oldukça düşük seviyede kavramlar, örneğin: <code class="inline">.append("\n")</code>.</span>
+        <span class="en-text" style="display:none;">In order to make sure our functions are doing "one thing," we need to make sure that the statements within our function are all at the same level of abstraction. It is easy to see how Listing 3-1 violates this rule. There are concepts in there that are at a very high level of abstraction, such as <code class="inline">getHtml()</code>; others that are at an intermediate level of abstraction, such as: <code class="inline">String pagePathName = PathParser.render(pagePath);</code> and still others that are remarkably low level, such as: <code class="inline">.append("\n")</code>.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon içinde farklı soyutlama seviyelerini karıştırmak her zaman kafa karıştırıcıdır. Okuyucular belirli bir ifadenin temel bir kavram mı yoksa bir detay mı olduğunu söyleyemeyebilir. Daha da kötüsü,</span>
+        <span class="en-text" style="display:none;">Mixing levels of abstraction within a function is always confusing. Readers may not be able to tell whether a particular expression is an essential concept or a detail. Worse,</span>
+    </div>
+
+    <div class="footnote">
+        <span class="footnote-number">4.</span>
+        <span class="tr-text"> LOGO dili Ruby ve Python'un "def" kullandığı şekilde "TO" anahtar kelimesini kullanırdı. Bu nedenle her fonksiyon "TO" kelimesiyle başlardı. Bu, fonksiyonların tasarlanma şekli üzerinde ilginç bir etkiye sahipti.</span>
+        <span class="en-text" style="display:none;"> The LOGO language used the keyword "TO" in the same way that Ruby and Python use "def." So every function began with the word "TO." This had an interesting effect on the way functions were designed.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('abstraction-level')">
+                <span class="tr-text">Soyutlama Seviyesi</span>
+                <span class="en-text" style="display:none;">Abstraction Level</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('function-sections')">
+                <span class="tr-text">Fonksiyon Bölümleri</span>
+                <span class="en-text" style="display:none;">Function Sections</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('stepdown-rule')">
+                <span class="tr-text">Basamak Kuralı</span>
+                <span class="en-text" style="display:none;">Stepdown Rule</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-34.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 34 — Tek Şey Yapmalı</span><span class="en-text" style="display:none;">Page 34 — Do One Thing</span></div>
+    </a>
+    <a href="page-36.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 36)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 36 — Soyutlama Seviyesi</span><span class="en-text" style="display:none;">Page 36 — Abstraction Level</span></div>
+    </a>
+</div>
+
+<!-- Modal: Soyutlama Seviyesi -->
+<div class="modal-overlay" id="modal-abstraction-level">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Soyutlama Seviyesi (Abstraction Level)</span><span class="en-text" style="display:none;">Abstraction Level</span></h3>
+            <button class="modal-close" onclick="closeModal('abstraction-level')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bir fonksiyondaki tüm ifadeler aynı soyutlama seviyesinde olmalıdır. Yüksek seviye kavramlar (ne yapılacağı), orta seviye kavramlar (nasıl yapılacağı) ve düşük seviye detaylar (implementasyon detayları) karıştırılmamalıdır.</span><span class="en-text" style="display:none;">All statements in a function should be at the same level of abstraction. High-level concepts (what to do), mid-level concepts (how to do it), and low-level details (implementation details) should not be mixed.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Karışık soyutlama seviyeleri</span><span class="en-text" style="display:none;">BAD — Mixed abstraction levels</span></span>
+<pre><span class="kw">def</span> <span class="method">sendWelcomeEmail</span>(user):
+    <span class="comment"># Yüksek seviye</span>
+    <span class="type">email</span> = <span class="method">createEmail</span>(user.name)
+    
+    <span class="comment"># Düşük seviye - KARMAŞIK!</span>
+    <span class="type">smtp</span> = <span class="type">SMTP</span>(<span class="str">'smtp.example.com'</span>)
+    smtp.<span class="method">connect</span>()
+    smtp.<span class="method">send</span>(email)
+    smtp.<span class="method">quit</span>()</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Tek seviye soyutlama</span><span class="en-text" style="display:none;">GOOD — Single abstraction level</span></span>
+<pre><span class="kw">def</span> <span class="method">sendWelcomeEmail</span>(user):
+    <span class="type">email</span> = <span class="method">createEmail</span>(user.name)
+    <span class="method">smtpClient</span>.<span class="method">send</span>(email)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Sayfa sayfası okur gibi kod oku" kuralını uygulayın. Her satır aynı düzeyde olmalı - ya hepsi "ne yapılacak" ya da hepsi "nasıl yapılacak".</span><span class="en-text" style="display:none;">Apply the "read code like a page" rule. Each line should be at the same level - either all "what to do" or all "how to do it".</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Fonksiyon Bölümleri -->
+<div class="modal-overlay" id="modal-function-sections">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Fonksiyon Bölümleri (Function Sections)</span><span class="en-text" style="display:none;">Function Sections</span></h3>
+            <button class="modal-close" onclick="closeModal('function-sections')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bir fonksiyon içinde ayrı bölümler (bildirimler, başlatmalar, işlemler vb.) görmek, fonksiyonun birden fazla şey yaptığının işaretidir. Tek sorumluluklu fonksiyonlar bölümlere ayrılamaz - tek bir akış veya eylem temsil ederler.</span><span class="en-text" style="display:none;">Seeing separate sections within a function (declarations, initializations, operations, etc.) is a sign the function does multiple things. Single-responsibility functions cannot be divided into sections - they represent a single flow or action.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Ayrı bölümler var</span><span class="en-text" style="display:none;">BAD — Separate sections exist</span></span>
+<pre><span class="kw">def</span> <span class="method">processOrder</span>(order):
+    <span class="comment"># Bölüm 1: Bildirimler</span>
+    total = 0
+    items = []
+    
+    <span class="comment"># Bölüm 2: Başlatmalar</span>
+    <span class="kw">for</span> item <span class="kw">in</span> order.items:
+        items.<span class="method">append</span>(item.name)
+        total += item.price
+    
+    <span class="comment"># Bölüm 3: İşlemler</span>
+    <span class="method">saveToDatabase</span>(items)
+    <span class="method">sendConfirmation</span>(total)</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Ayrı fonksiyonlar</span><span class="en-text" style="display:none;">GOOD — Separate functions</span></span>
+<pre><span class="kw">def</span> <span class="method">processOrder</span>(order):
+    <span class="method">calculateTotal</span>(order)
+    <span class="method">saveToDatabase</span>(order)
+    <span class="method">sendConfirmation</span>(order)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Fonksiyonunuzda yorumlarla ayrılmış bölümler görüyorsanız, bunları ayrı fonksiyonlara bölme zamanı gelmiştir.</span><span class="en-text" style="display:none;">If you see sections separated by comments in your function, it's time to split them into separate functions.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Basamak Kuralı -->
+<div class="modal-overlay" id="modal-stepdown-rule">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Basamak Kuralı (Stepdown Rule)</span><span class="en-text" style="display:none;">Stepdown Rule</span></h3>
+            <button class="modal-close" onclick="closeModal('stepdown-rule')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kod, yüksek seviyeden düşük seviyeye doğru "aşağı doğru" okunmalıdır. Her fonksiyon, bir sonraki soyutlama seviyesindeki fonksiyonları çağırmalıdır. Bu, gazete makalesi okuma düzenine benzer - önce özet, sonra detaylar.</span><span class="en-text" style="display:none;">Code should be read "top down" from high level to low level. Each function should call functions at the next level of abstraction. This is similar to reading a newspaper article - first the summary, then the details.</span></p>
+
+            <pre><span class="kw">def</span> <span class="method">main</span>():
+    <span class="comment"># Yüksek seviye - NE yapılacağı</span>
+    <span class="method">processUserRegistration</span>(data)
+
+<span class="kw">def</span> <span class="method">processUserRegistration</span>(data):
+    <span class="comment"># Orta seviye - ADIMLAR</span>
+    <span class="method">validate</span>(data)
+    <span class="method">save</span>(data)
+    <span class="method">notify</span>(data)
+
+<span class="kw">def</span> <span class="method">validate</span>(data):
+    <span class="comment"># Düşük seviye - DETAYLAR</span>
+    <span class="comment"># Form validation kodu</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her fonksiyon, ismini okuyucunun anlayabileceği bir hikaye oluşturacak şekilde yazın. Kod bir şiir gibi akmalıdır.</span><span class="en-text" style="display:none;">Write each function so that its name creates a story the reader can understand. Code should flow like a poem.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 35;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

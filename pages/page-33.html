@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 33 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Küçük Olmalı!</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="33" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonlarınız ne kadar kısa olmalıdır? Genellikle Listing 3-2'den daha kısa olmalıdır! Gerçekten de, Listing 3-2 gerçekten Listing 3-3'e kısaltılmalıdır.</span>
+        <span class="en-text" style="display:none;">How short should your functions be? They should usually be shorter than Listing 3-2! Indeed, Listing 3-2 should really be shortened to Listing 3-3.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>HtmlUtil.java (re-refactored)</span>
+            <span class="listing-label">Listing 3-3</span>
+        </div>
+<pre><span class="kw">public static</span> <span class="type">String</span> <span class="method">renderPageWithSetupsAndTeardowns</span>(
+    <span class="type">PageData</span> pageData, <span class="kw">boolean</span> isSuite) <span class="kw">throws</span> <span class="type">Exception</span> {
+  <span class="kw">if</span> (<span class="method">isTestPage</span>(pageData))
+    <span class="method">includeSetupAndTeardownPages</span>(pageData, isSuite);
+  <span class="kw">return</span> pageData.<span class="method">getHtml</span>();
+}</pre>
+    </div>
+
+    <div class="section-title" style="font-size: 22px;">
+        <span class="tr-text">Bloklar ve Girinti / Blocks and Indenting</span>
+        <span class="en-text" style="display:none;">Blocks and Indenting</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu, <code class="inline">if</code> ifadeleri, <code class="inline">else</code> ifadeleri, <code class="inline">while</code> ifadeleri ve benzerleri içindeki blokların bir satır uzunluğunda olması gerektiği anlamına gelir. Muhtemelen bu satır bir fonksiyon çağrısı olmalıdır. Bu, sadece fonksiyonu küçük tutmakla kalmaz, ayrıca blok içinde çağrılan fonksiyonun güzel bir açıklayıcı isme sahip olması nedeniyle belgesel değer de katar.</span>
+        <span class="en-text" style="display:none;">This implies that the blocks within <code class="inline">if</code> statements, <code class="inline">else</code> statements, <code class="inline">while</code> statements, and so on should be one line long. Probably that line should be a function call. Not only does this keep the enclosing function small, but it also adds documentary value because the function called within the block can have a nicely descriptive name.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu aynı zamanda fonksiyonların iç içe yapıları (nested structures) tutacak kadar büyük olmaması gerektiği anlamına da gelir. Bu nedenle, bir fonksiyonun girinti seviyesi (indent level) bir veya ikiyi geçmemelidir. Bu, elbette fonksiyonların okunmasını ve anlaşılmasını kolaylaştırır.</span>
+        <span class="en-text" style="display:none;">This also implies that functions should not be large enough to hold nested structures. Therefore, the indent level of a function should not be greater than one or two. This, of course, makes the functions easier to read and understand.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('blocks-indenting')">
+                <span class="tr-text">Bloklar ve Girinti</span>
+                <span class="en-text" style="display:none;">Blocks and Indenting</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('nested-structures')">
+                <span class="tr-text">İç İçe Yapılar</span>
+                <span class="en-text" style="display:none;">Nested Structures</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-32.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 32 — Küçük Olmalı!</span><span class="en-text" style="display:none;">Page 32 — Small!</span></div>
+    </a>
+    <a href="page-34.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 34)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 34 — Bloklar ve Girinti</span><span class="en-text" style="display:none;">Page 34 — Blocks and Indenting</span></div>
+    </a>
+</div>
+
+<!-- Modal: Bloklar ve Girinti -->
+<div class="modal-overlay" id="modal-blocks-indenting">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Bloklar ve Girinti (Blocks and Indenting)</span><span class="en-text" style="display:none;">Blocks and Indenting</span></h3>
+            <button class="modal-close" onclick="closeModal('blocks-indenting')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text"><code class="inline">if</code>, <code class="inline">while</code>, <code class="inline">for</code> gibi bloklar bir satır olmalıdır - bu satır genellikle bir fonksiyon çağrısıdır. Bu kural, fonksiyonların küçük kalmasını sağlar ve okunabilirliği artırır. Ayrıca fonksiyonun girinti seviyesi 1-2'yi geçmemelidir.</span><span class="en-text" style="display:none;"><code class="inline">if</code>, <code class="inline">while</code>, <code class="inline">for</code> blocks should be one line - usually a function call. This rule keeps functions small and improves readability. Also, function indent level should not exceed 1-2.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Çok satırlı bloklar</span><span class="en-text" style="display:none;">BAD — Multi-line blocks</span></span>
+<pre><span class="kw">if</span> (user.isActive()) {
+    <span class="type">List</span> permissions = <span class="type">ArrayList</span>();
+    <span class="kw">for</span> (<span class="type">Role</span> role : user.getRoles()) {
+        <span class="kw">if</span> (role.hasPermission(<span class="str">"READ"</span>)) {
+            permissions.add(role.getName());
+        }
+    }
+    <span class="kw">return</span> permissions;
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Tek satırlı bloklar</span><span class="en-text" style="display:none;">GOOD — Single-line blocks</span></span>
+<pre><span class="kw">if</span> (user.isActive())
+    <span class="kw">return</span> extractReadPermissions(user.getRoles());
+
+<span class="kw">private</span> <span class="type">List</span> <span class="method">extractReadPermissions</span>(<span class="type">List</span>&lt;<span class="type">Role</span>&gt; roles) {
+    <span class="kw">return</span> roles.stream()
+        .filter(<span class="str">r</span> -&gt; r.hasPermission(<span class="str">"READ"</span>))
+        .map(<span class="str">r</span> -&gt; r.getName())
+        .collect(<span class="method">toList</span>());
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Blok içinde birden fazla satır varsa, o kodu hemen bir fonksiyona çıkarın. İsimlendirmesi de önemlidir - ne yaptığını anlatan açıklayıcı bir isim seçin.</span><span class="en-text" style="display:none;">If a block has multiple lines, extract that code into a function immediately. Naming is also important - choose a descriptive name that explains what it does.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: İç İçe Yapılar -->
+<div class="modal-overlay" id="modal-nested-structures">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İç İçe Yapılar (Nested Structures)</span><span class="en-text" style="display:none;">Nested Structures</span></h3>
+            <button class="modal-close" onclick="closeModal('nested-structures')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyonlardaki aşırı iç içe geçme (over-nesting), kodun okunmasını ve anlaşılmasını zorlaştırır. Her seviye girinti, okuyucunun zihinsel yükünü artırır. Martin, fonksiyon girinti seviyesinin 1-2'yi geçmemesi gerektiğini söyler. Daha derin iç içe geçmeler, fonksiyonun bölünmesi gerektiğinin işaretidir.</span><span class="en-text" style="display:none;">Excessive nesting in functions makes code hard to read and understand. Each indent level increases the reader's mental load. Martin says function indent level should not exceed 1-2. Deeper nesting is a sign the function should be split.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — 4 seviye iç içe geçme</span><span class="en-text" style="display:none;">BAD — 4 levels deep</span></span>
+<pre><span class="kw">function</span> processData(data) {
+    <span class="kw">if</span> (data) {
+        <span class="kw">if</span> (data.items) {
+            <span class="kw">for</span> (<span class="kw">let</span> item <span class="kw">of</span> data.items) {
+                <span class="kw">if</span> (item.isValid) {
+                    <span class="method">save</span>(item);
+                }
+            }
+        }
+    }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Düz, okunabilir yapı</span><span class="en-text" style="display:none;">GOOD — Flat, readable structure</span></span>
+<pre><span class="kw">function</span> processData(data) {
+    <span class="kw">if</span> (!data?.items) <span class="kw">return</span>;
+    
+    <span class="kw">const</span> validItems = <span class="method">filterValidItems</span>(data.items);
+    validItems.forEach(<span class="method">save</span>);
+}
+
+<span class="kw">function</span> filterValidItems(items) {
+    <span class="kw">return</span> items.<span class="method">filter</span>(<span class="str">i</span> =&gt; i.isValid);
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Ok koridoru" (corridor of doom) oluşmaya başladığında - yani sürekli sağa kaydığınızda - bu, fonksiyonları bölme zamanı gelmiştir.</span><span class="en-text" style="display:none;">When you start creating a "corridor of doom" - constantly shifting right - it's time to split the functions.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 33;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>
