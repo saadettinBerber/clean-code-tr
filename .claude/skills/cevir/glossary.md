@@ -114,7 +114,17 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Oxymoron | Oksimoron (Oxymoron) | Birbirine zıt kavramların birleşimi (ör. "keskin soyutlama") |
 | Package | Paket (Package) | Kod organizasyon birimi |
 | Point of Declaration | Tanımlama Noktası (Point of Declaration) | Değişkenin tanımlandığı yer |
+| Abstract Factory | Soyut Fabrika (Abstract Factory) | Nesne oluşturma mantığını gizleyen tasarım deseni |
+| Consistent Lexicon | Tutarlı Kelime Haznesi (Consistent Lexicon) | Kod tabanında tutarlı terimler kullanma prensibi |
+| Dyadic | İkili (Dyadic) | İki argümanlı fonksiyon |
+| Flag Argument | Bayrak Argümanı (Flag Argument) | Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir |
+| Monadic | Tekli (Monadic) | Bir argümanlı fonksiyon |
+| Niladic | Sıfırlı (Niladic) | Argümansız fonksiyon |
+| Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
+| Output Argument | Çıkış Argümanı (Output Argument) | Değer döndürmek için kullanılan argüman |
 | Polymorphism | Çok Biçimlilik (Polymorphism) | |
+| Polyadic | Çoklu (Polyadic) | Üç veya daha fazla argümanlı fonksiyon |
+| Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
 | Precision | Hassasiyet (Precision) | Gereksinimlerdeki kesinlik |
 | Predicate | Yüklem (Predicate) | JavaBean standardında boolean dönen is metotları |
 | Prefix Convention | Önek Kuralı (Prefix Convention) | Yerel değişkenler için a, argümanlar için the gibi önek kuralları |

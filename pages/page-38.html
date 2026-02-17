@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 38 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Açıklayıcı İsimler</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="38" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ward Cunningham'ın bana öğrettiği şeylerden biri şuydu: İsim verdiğinizde kodu anlamış olursunuz. Tersi de doğrudur: İsim verdiğinizde kodun ne yapması gerektiğini anlarsınız. İyi bir isim seçmek zordur çünkü iyi bir isim seçmek için kodun yapısını iyi anlamanız gerekir ve bu da kodun iyi yapılandırılmasını gerektirir. Eğer isim vermekte zorlanıyorsanız, kodun yapısını daha iyi hale getirmenin zamanı gelmiştir.</span>
+        <span class="en-text" style="display:none;">One of the things that Ward Cunningham taught me was that when you name something, you understand it. The reverse is also true: When you name something, you understand what it should do. Choosing good names is hard because choosing good names requires you to understand the structure of the code well, and that requires the code to be well structured. If you're having trouble naming something, it's time to improve the structure of the code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kuralın istisnası test kodudur. Test kodu için açıklayıcı isimlerden vazgeçmeyin. Test fonksiyonlarının isimleri, test edilen kuralın ve koşulların açıklaması olmalıdır. Test fonksiyonu isimleri çok uzun olabilir. Örneğin: <code class="inline">testUserCanAddItemToCartWhenLoggedInAndCartIsEmpty</code> gibi bir isim tamamen kabul edilebilirdir. Testlerde okunabilirlik her şeyden önemlidir.</span>
+        <span class="en-text" style="display:none;">The exception to this rule is test code. Don't skimp on descriptive names for test code. Test function names should be descriptions of the rule and conditions being tested. Test function names can be very long. For example: <code class="inline">testUserCanAddItemToCartWhenLoggedInAndCartIsEmpty</code> is perfectly acceptable. Readability is paramount in tests.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İsimlendirme kuralları Bölüm 2'de ele alındığı için burada tekrar etmeyeceğim. Ancak şunu vurgulamak istiyorum: Tutarlı bir kelime haznesi (consistent lexicon) kullanın. Fonksiyonlarınızda tutarlı bir kelime haznesi kullanın. Aynı şeyi yapmak için farklı kelimeler kullanmayın. Örneğin, <code class="inline">fetch</code>, <code class="inline">retrieve</code> ve <code class="inline">get</code> kelimelerini rastgele karıştırmayın. Aynı şekilde <code class="inline">controller</code>, <code class="inline">manager</code> ve <code class="inline">driver</code> kelimelerini de karıştırmayın. Tutarlılık hayati önem taşır.</span>
+        <span class="en-text" style="display:none;">Since naming conventions were covered in Chapter 2, I won't repeat them here. But I want to emphasize: Use a consistent lexicon. Use a consistent vocabulary in your functions. Don't use different words for the same thing. For example, don't randomly mix <code class="inline">fetch</code>, <code class="inline">retrieve</code>, and <code class="inline">get</code>. Similarly, don't mix <code class="inline">controller</code>, <code class="inline">manager</code>, and <code class="inline">driver</code>. Consistency is vital.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Aynı isimleri farklı amaçlar için kullanmayın. Örneğin, bir yerde <code class="inline">add</code> kelimesini birbiriyle bağlama (concatenation) anlamında kullanırsanız, başka bir yerde matematiksel toplama anlamında kullanamazsınız. Çünkü bu durumda <code class="inline">add</code> kelimesi farklı şeyler ifade eder ve okuyucular kafası karışır. Bu bir kelime oyunu (pun) örneğidir ve kaçınılması gerekir.</span>
+        <span class="en-text" style="display:none;">Don't use the same names for different purposes. For example, if you use the word <code class="inline">add</code> to mean concatenation in one place, you can't use it to mean mathematical addition somewhere else. Because in that case, the word <code class="inline">add</code> means different things and readers get confused. This is an example of a pun and should be avoided.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Fonksiyon Argümanları / Function Arguments</span>
+        <span class="en-text" style="display:none;">Function Arguments</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon için ideal argüman sayısı sıfırdır (niladic). Sonra bir (monadic) gelir, ardından iki (dyadic). Üç argüman (triadic) mümkünse kaçınılmalıdır. Üçten fazla argüman (polyadic) çok özel bir gerekçe gerektirir - ve yine de kullanılmamalıdır.</span>
+        <span class="en-text" style="display:none;">The ideal number of arguments for a function is zero (niladic). Next comes one (monadic), followed by two (dyadic). Three arguments (triadic) should be avoided where possible. More than three arguments (polyadic) requires very special justification - and then shouldn't be used anyway.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Argümanlar, test edilebilirlik açısından da zordur. Argümanların tüm olası kombinasyonlarının doğru çalıştığından emin olmak için test senaryoları yazmanın zorluğunu hayal edin. Argüman sayısı arttıkça, test kombinasyonları üstel olarak artar.</span>
+        <span class="en-text" style="display:none;">Arguments are hard from a testing point of view as well. Imagine the difficulty of writing test cases to ensure that all various combinations of arguments work properly. As the number of arguments increases, test combinations grow exponentially.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Çıkış argümanları (output arguments), giriş argümanlarından (input arguments) daha zor anlaşılır. Bir fonksiyonu okurken, bilginin argümanlar aracılığıyla fonksiyona girdiğini ve dönüş değeri aracılığıyla çıktığını varsayarız. Genellikle bilginin argümanlar aracılığıyla çıktığını beklemeyiz.</span>
+        <span class="en-text" style="display:none;">Output arguments are harder to understand than input arguments. When we read a function, we assume information goes into the function through arguments and out through the return value. We don't usually expect information to be going out through the arguments.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonlarınızda sıfır argüman kullanmak her zaman mümkün olmayabilir, ancak bunu hedeflemelisiniz. Çok argümanlı fonksiyonlar genellikle çok fazla şey yapmaya çalışıyor demektir. Bir fonksiyonun çok sayıda argümana ihtiyaç duyması, fonksiyonun tek bir şey yapmadığının işaretidir.</span>
+        <span class="en-text" style="display:none;">It may not always be possible to use zero arguments in your functions, but you should aim for it. Functions with many arguments usually mean they're trying to do too much. If a function needs many arguments, it's a sign that the function is not doing one thing.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Argüman sayısını azaltmanın bir yolu, argümanları bir nesne içinde gruplamaktır. Örneğin, <code class="inline">Circle makeCircle(int x, int y, int radius)</code> yerine <code class="inline">Circle makeCircle(Point center, int radius)</code> yazabilirsiniz. Bu, argüman sayısını üçten ikiye düşürür ve aynı zamanda kavramsal bütünlüğü artırır.</span>
+        <span class="en-text" style="display:none;">One way to reduce the number of arguments is to group arguments into an object. For example, instead of <code class="inline">Circle makeCircle(int x, int y, int radius)</code> you can write <code class="inline">Circle makeCircle(Point center, int radius)</code>. This reduces the argument count from three to two and also improves conceptual integrity.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('consistent-lexicon')">
+                <span class="tr-text">Tutarlı Kelime Haznesi</span>
+                <span class="en-text" style="display:none;">Consistent Lexicon</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('argument-count')">
+                <span class="tr-text">Argüman Sayısı</span>
+                <span class="en-text" style="display:none;">Argument Count</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('argument-objects')">
+                <span class="tr-text">Argüman Nesneleri</span>
+                <span class="en-text" style="display:none;">Argument Objects</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-37.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 37 — Açıklayıcı İsimler</span><span class="en-text" style="display:none;">Page 37 — Descriptive Names</span></div>
+    </a>
+    <a href="page-39.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 39)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 39 — Fonksiyon Argümanları</span><span class="en-text" style="display:none;">Page 39 — Function Arguments</span></div>
+    </a>
+</div>
+
+<!-- Modal: Tutarlı Kelime Haznesi -->
+<div class="modal-overlay" id="modal-consistent-lexicon">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tutarlı Kelime Haznesi (Consistent Lexicon)</span><span class="en-text" style="display:none;">Consistent Lexicon</span></h3>
+            <button class="modal-close" onclick="closeModal('consistent-lexicon')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Aynı şeyi yapmak için farklı kelimeler kullanmayın. Kod tabanınızda tutarlı bir dil (lexicon) oluşturun. fetch, retrieve, get kelimelerini rastgele karıştırmayın. Controller, manager, driver kelimelerini tutarlı kullanın.</span><span class="en-text" style="display:none;">Don't use different words for the same thing. Create a consistent language (lexicon) in your codebase. Don't randomly mix fetch, retrieve, get. Use controller, manager, driver consistently.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tutarsız kelimeler</span><span class="en-text" style="display:none;">BAD — Inconsistent words</span></span>
+<pre><span class="type">UserService</span>.<span class="method">fetchUser</span>(id)      <span class="comment"># fetch</span>
+<span class="type">OrderService</span>.<span class="method">retrieveOrder</span>(id)  <span class="comment"># retrieve</span>
+<span class="type">ProductService</span>.<span class="method">getProduct</span>(id)   <span class="comment"># get - Aynı şey!</span>
+
+<span class="type">UserController</span> <span class="comment"># controller</span>
+<span class="type">OrderManager</span>   <span class="comment"># manager</span>
+<span class="type">ProductDriver</span>  <span class="comment"># driver - Ne farkı var?</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Tutarlı kelime haznesi</span><span class="en-text" style="display:none;">GOOD — Consistent lexicon</span></span>
+<pre><span class="type">UserService</span>.<span class="method">get</span>(id)      <span class="comment"># get - Hepsi get</span>
+<span class="type">OrderService</span>.<span class="method">get</span>(id)     <span class="comment"># get</span>
+<span class="type">ProductService</span>.<span class="method">get</span>(id)   <span class="comment"># get</span>
+
+<span class="type">UserController</span>   <span class="comment"># controller - HTTP istekleri</span>
+<span class="type">OrderController</span>  <span class="comment"># controller</span>
+<span class="type">ProductController</span> <span class="comment"># controller</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Takımınızla bir "sözlük" (lexicon) oluşturun. Her kavram için bir kelime seçin ve hep onu kullanın. Yeni geliştiricilere bu sözlüğü öğretin.</span><span class="en-text" style="display:none;">Create a "lexicon" with your team. Choose one word for each concept and always use it. Teach this lexicon to new developers.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Argüman Sayısı -->
+<div class="modal-overlay" id="modal-argument-count">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Argüman Sayısı (Argument Count)</span><span class="en-text" style="display:none;">Argument Count</span></h3>
+            <button class="modal-close" onclick="closeModal('argument-count')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">İdeal: 0 argüman (niladic). Kabul edilebilir: 1 (monadic) veya 2 (dyadic). Kaçınılması gerekir: 3 (triadic). Kullanılmamalı: 3+ (polyadic). Çok argüman fonksiyonlar test edilmesi zor ve anlaşılması güçtür.</span><span class="en-text" style="display:none;">Ideal: 0 arguments (niladic). Acceptable: 1 (monadic) or 2 (dyadic). Should be avoided: 3 (triadic). Should not be used: 3+ (polyadic). Many-argument functions are hard to test and understand.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Çok fazla argüman</span><span class="en-text" style="display:none;">BAD — Too many arguments</span></span>
+<pre><span class="kw">def</span> <span class="method">createUser</span>(
+    firstName, lastName, email, phone,
+    address, city, country, postalCode,
+    isActive, isVerified, role
+):  <span class="comment"># 11 argüman!</span>
+    ...</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Nesne ile gruplama</span><span class="en-text" style="display:none;">GOOD — Grouped into object</span></span>
+<pre><span class="kw">def</span> <span class="method">createUser</span>(userData):
+    <span class="comment"># Tek argüman - bir nesne</span>
+    ...
+
+<span class="comment"># Veya daha da iyi:</span>
+<span class="kw">def</span> <span class="method">createUser</span>(name, contact, address, status):
+    <span class="comment"># 4 argüman - her biri bir nesne</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">3+ argüman gördüğünüzde, bunları bir nesne içinde gruplayıp gruplayemeyeceğinizi düşünün. "Bu argümanlar birlikte mi kullanılıyor?" sorusunu sorun.</span><span class="en-text" style="display:none;">When you see 3+ arguments, consider if they can be grouped into an object. Ask: "Are these arguments used together?"</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Argüman Nesneleri -->
+<div class="modal-overlay" id="modal-argument-objects">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Argüman Nesneleri (Argument Objects)</span><span class="en-text" style="display:none;">Argument Objects</span></h3>
+            <button class="modal-close" onclick="closeModal('argument-objects')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Birden fazla argüman bir kavramın parçasıysa, onları bir nesne içinde gruplayın. Bu hem argüman sayısını azaltır hem de kodun anlaşılırlığını artırır. Örneğin x, y koordinatları bir Point nesnesi olabilir.</span><span class="en-text" style="display:none;">When multiple arguments are part of a concept, group them into an object. This reduces argument count and improves code clarity. For example, x, y coordinates can be a Point object.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Ayrı koordinatlar</span><span class="en-text" style="display:none;">BAD — Separate coordinates</span></span>
+<pre><span class="kw">def</span> <span class="method">drawCircle</span>(centerX, centerY, radius,
+              colorR, colorG, colorB):
+    <span class="comment"># 6 argüman - karmaşık!</span>
+    ...
+
+<span class="comment"># Kullanım:</span>
+drawCircle(<span class="field">10</span>, <span class="field">20</span>, <span class="field">5</span>, <span class="field">255</span>, <span class="field">0</span>, <span class="field">0</span>)
+<span class="comment"># Hangisi x? Hangisi renk?</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kavramsal nesneler</span><span class="en-text" style="display:none;">GOOD — Conceptual objects</span></span>
+<pre><span class="kw">def</span> <span class="method">drawCircle</span>(center, radius, color):
+    <span class="comment"># 3 argüman - her biri bir nesne</span>
+    ...
+
+<span class="comment"># Kullanım:</span>
+drawCircle(
+    Point(<span class="field">10</span>, <span class="field">20</span>),
+    Radius(<span class="field">5</span>),
+    Color(<span class="field">255</span>, <span class="field">0</span>, <span class="field">0</span>)
+)
+<span class="comment"># Açık ve anlaşılır</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Argümanlar birlikte geziyorsa (her zaman birlikte kullanılıyorsa), bir nesne yapın. Bu aynı zamanda validation mantığını da nesneye taşımanızı sağlar.</span><span class="en-text" style="display:none;">If arguments travel together (always used together), make them an object. This also allows you to move validation logic into the object.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 38;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

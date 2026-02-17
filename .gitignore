@@ -11,3 +11,6 @@ sorted_glossary.txt
 *~
 .DS_Store
 Thumbs.db
+
+# Docs klasörü (plan ve notlar)
+docs/
