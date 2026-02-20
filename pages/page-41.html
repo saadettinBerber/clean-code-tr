@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 41 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code &mdash; Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Çıkış Argümanları, Tekli Formlar &amp; Bayrak Argümanları</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="41" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Fonksiyon Argümanları / Function Arguments (devam)</span>
+        <span class="en-text" style="display:none;">Function Arguments (continued)</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Çıkış argümanları (output arguments), girdi argümanlarından (input arguments) daha zor anlaşılır. Bir fonksiyonu okuduğumuzda, bilginin argümanlar yoluyla fonksiyona <em>girdiğine</em> ve dönüş değeri yoluyla <em>çıktığına</em> alışkınızdır. Bilginin argümanlar yoluyla dışarı çıkmasını genellikle beklemeyiz. Bu yüzden çıkış argümanları sıklıkla bizi iki kez bakmaya zorlar.</span>
+        <span class="en-text" style="display:none;">Output arguments are harder to understand than input arguments. When we read a function, we are used to the idea of information going <em>in</em> to the function through arguments and <em>out</em> through the return value. We don't usually expect information to be going out through the arguments. So output arguments often cause us to do a double-take.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tek bir girdi argümanı, hiç argüman olmamasından sonraki en iyi şeydir. <code class="inline">SetupTeardownIncluder.render(pageData)</code> anlaşılması oldukça kolaydır. Açıkça <code class="inline">pageData</code> nesnesindeki veriyi <em>render</em> edeceğiz.</span>
+        <span class="en-text" style="display:none;">One input argument is the next best thing to no arguments. <code class="inline">SetupTeardownIncluder.render(pageData)</code> is pretty easy to understand. Clearly we are going to <em>render</em> the data in the <code class="inline">pageData</code> object.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Sık Görülen Tekli Formlar / Common Monadic Forms</span>
+        <span class="en-text" style="display:none;">Common Monadic Forms</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tek bir argümanı bir fonksiyona geçirmek için iki çok yaygın neden vardır. Argüman hakkında bir soru soruyor olabilirsiniz, örneğin: <code class="inline">boolean fileExists("MyFile")</code>. Ya da argüman üzerinde bir işlem yapıp onu başka bir şeye dönüştürüp <em>geri döndürüyor</em> olabilirsiniz. Örneğin, <code class="inline">InputStream fileOpen("MyFile")</code>, bir dosya adı olan <code class="inline">String</code>'i bir <code class="inline">InputStream</code>'e dönüştürür. Bu iki kullanım, okuyucuların bir fonksiyon gördüklerinde beklediği şeylerdir. Ayrımı netleştiren isimler seçmeli ve iki formu her zaman tutarlı bir bağlamda kullanmalısınız. (Aşağıdaki Komut Sorgu Ayrımı bölümüne bakın.)</span>
+        <span class="en-text" style="display:none;">There are two very common reasons to pass a single argument into a function. You may be asking a question about that argument, as in <code class="inline">boolean fileExists("MyFile")</code>. Or you may be operating on that argument, transforming it into something else and <em>returning it</em>. For example, <code class="inline">InputStream fileOpen("MyFile")</code> transforms a file name <code class="inline">String</code> into an <code class="inline">InputStream</code> return value. These two uses are what readers expect when they see a function. You should choose names that make the distinction clear, and always use the two forms in a consistent context. (See Command Query Separation below.)</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tek argümanlı bir fonksiyonun biraz daha az yaygın ama yine de çok kullanışlı bir formu daha vardır: olay (event) formu. Bu formda bir girdi argümanı vardır ama çıkış argümanı yoktur. Programın genel amacı, fonksiyon çağrısını bir olay olarak yorumlamak ve argümanı sistemin durumunu değiştirmek için kullanmaktır. Örneğin: <code class="inline">void passwordAttemptFailedNtimes(int attempts)</code>. Bu formu dikkatli kullanın. Okuyucuya bunun bir olay olduğu çok açık olmalıdır. İsimleri ve bağlamları dikkatli seçin.</span>
+        <span class="en-text" style="display:none;">A somewhat less common, but still very useful form for a single argument function, is an <em>event</em>. In this form there is an input argument but no output argument. The overall program is meant to interpret the function call as an event and use the argument to alter the state of the system, for example, <code class="inline">void passwordAttemptFailedNtimes(int attempts)</code>. Use this form with care. It should be very clear to the reader that this is an event. Choose names and contexts carefully.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu formları takip etmeyen tekli (monadic) fonksiyonlardan kaçınmaya çalışın. Örneğin, <code class="inline">void includeSetupPageInto(StringBuffer pageText)</code>. Bir dönüşümün (transformation) dönüş değeri yerine çıkış argümanı (output argument) kullanması kafa karıştırıcıdır. Eğer bir fonksiyon girdi argümanını dönüştürecekse, dönüşüm dönüş değeri olarak görünmelidir. Aslında, <code class="inline">StringBuffer transform(StringBuffer in)</code> ifadesi, <code class="inline">void transform(StringBuffer out)</code> ifadesinden daha iyidir &mdash; uygulama ilk durumda girdi argümanını basitçe döndürse bile. En azından dönüşüm formunu takip eder.</span>
+        <span class="en-text" style="display:none;">Try to avoid any monadic functions that don't follow these forms, for example, <code class="inline">void includeSetupPageInto(StringBuffer pageText)</code>. Using an output argument instead of a return value for a transformation is confusing. If a function is going to transform its input argument, the transformation should appear as the return value. Indeed, <code class="inline">StringBuffer transform(StringBuffer in)</code> is better than <code class="inline">void transform(StringBuffer out)</code>, even if the implementation in the first case simply returns the input argument. At least it still follows the form of a transformation.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Bayrak Argümanları / Flag Arguments</span>
+        <span class="en-text" style="display:none;">Flag Arguments</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bayrak argümanları (flag arguments) çirkindir. Bir fonksiyona boolean değer geçirmek gerçekten korkunç bir pratiktir. Metodun imzasını hemen karmaşıklaştırır ve bu fonksiyonun birden fazla şey yaptığını yüksek sesle ilan eder. Bayrak true ise bir şey yapar, false ise başka bir şey!</span>
+        <span class="en-text" style="display:none;">Flag arguments are ugly. Passing a boolean into a function is a truly terrible practice. It immediately complicates the signature of the method, loudly proclaiming that this function does more than one thing. It does one thing if the flag is true and another if the flag is false!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-7'de çağıranlar zaten bu bayrağı geçiyordu ve ben yeniden düzenlemenin (refactoring) kapsamını fonksiyon ve altıyla sınırlı tutmak istedim, bu yüzden başka seçeneğimiz yoktu. Yine de, <code class="inline">render(true)</code> metot çağrısı sıradan bir okuyucu için son derece kafa karıştırıcıdır. Çağrının üzerine gelip <code class="inline">render(boolean isSuite)</code> ifadesini görmek biraz yardımcı olur, ama çok da fazla değil. Fonksiyonu ikiye bölmeliydik: <code class="inline">renderForSuite()</code> ve <code class="inline">renderForSingleTest()</code>.</span>
+        <span class="en-text" style="display:none;">In Listing 3-7 we had no choice because the callers were already passing that flag in, and I wanted to limit the scope of refactoring to the function and below. Still, the method call <code class="inline">render(true)</code> is just plain confusing to a poor reader. Mousing over the call and seeing <code class="inline">render(boolean isSuite)</code> helps a little, but not that much. We should have split the function into two: <code class="inline">renderForSuite()</code> and <code class="inline">renderForSingleTest()</code>.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('output-arguments')">
+                <span class="tr-text">Çıkış Argümanları</span>
+                <span class="en-text" style="display:none;">Output Arguments</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('event-form')">
+                <span class="tr-text">Olay Formu</span>
+                <span class="en-text" style="display:none;">Event Form</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('transformation-pattern')">
+                <span class="tr-text">Dönüşüm Kalıbı</span>
+                <span class="en-text" style="display:none;">Transformation Pattern</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-40.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 40 &mdash; Betimleyici İsimler &amp; Fonksiyon Argümanları</span><span class="en-text" style="display:none;">Page 40 &mdash; Descriptive Names &amp; Function Arguments</span></div>
+    </a>
+    <a href="page-42.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 42 &mdash; İkili Fonksiyonlar &amp; Üçlüler</span><span class="en-text" style="display:none;">Page 42 &mdash; Dyadic Functions &amp; Triads</span></div>
+    </a>
+</div>
+
+<!-- Modal: Çıkış Argümanları -->
+<div class="modal-overlay" id="modal-output-arguments">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Çıkış Argümanları (Output Arguments)</span><span class="en-text" style="display:none;">Output Arguments</span></h3>
+            <button class="modal-close" onclick="closeModal('output-arguments')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Çıkış argümanları, fonksiyona geçirilen ama fonksiyon tarafından değiştirilen argümanlardır. Okuyucu bilginin argümanlar yoluyla "girmesini" bekler, "çıkmasını" değil. Bu beklenti ihlali kafa karıştırır.</span><span class="en-text" style="display:none;">Output arguments are arguments passed into a function that get modified by the function. Readers expect information to "go in" through arguments, not "come out." Violating this expectation causes confusion.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Çıkış argümanı ile değiştirme</span><span class="en-text" style="display:none;">BAD &mdash; Modifying via output argument</span></span>
+<pre><span class="kw">void</span> <span class="method">populateUserList</span>(<span class="type">List</span>&lt;<span class="type">User</span>&gt; users) {
+    users.<span class="method">add</span>(<span class="kw">new</span> <span class="type">User</span>(<span class="str">"Ali"</span>));
+    users.<span class="method">add</span>(<span class="kw">new</span> <span class="type">User</span>(<span class="str">"Veli"</span>));
+}
+
+<span class="comment">// Çağıran taraf: users listesi gizlice değişiyor</span>
+<span class="type">List</span>&lt;<span class="type">User</span>&gt; users = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+<span class="method">populateUserList</span>(users); <span class="comment">// users dışarıdan değişti!</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Dönüş değeri kullanma</span><span class="en-text" style="display:none;">GOOD &mdash; Using return value</span></span>
+<pre><span class="type">List</span>&lt;<span class="type">User</span>&gt; <span class="method">createDefaultUsers</span>() {
+    <span class="kw">return</span> <span class="type">List</span>.<span class="method">of</span>(
+        <span class="kw">new</span> <span class="type">User</span>(<span class="str">"Ali"</span>),
+        <span class="kw">new</span> <span class="type">User</span>(<span class="str">"Veli"</span>)
+    );
+}
+
+<span class="comment">// Çağıran taraf: açık ve tahmin edilebilir</span>
+<span class="type">List</span>&lt;<span class="type">User</span>&gt; users = <span class="method">createDefaultUsers</span>();</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Eğer bir fonksiyon bir şeyin durumunu değiştirmek zorundaysa, o şeyin kendi metodu olarak yazın. <code class="inline">report.appendFooter()</code> ifadesi <code class="inline">appendFooter(report)</code> ifadesinden çok daha açıktır.</span><span class="en-text" style="display:none;">If a function must change the state of something, make it a method of that something. <code class="inline">report.appendFooter()</code> is much clearer than <code class="inline">appendFooter(report)</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Olay Formu -->
+<div class="modal-overlay" id="modal-event-form">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Olay Formu (Event Form)</span><span class="en-text" style="display:none;">Event Form</span></h3>
+            <button class="modal-close" onclick="closeModal('event-form')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Olay (event) formu, girdi argümanı olan ama çıktı döndürmeyen tekli fonksiyon formudur. Sistem durumunu değiştirmek için kullanılır. Fonksiyon adı, bunun bir olay olduğunu açıkça belirtmelidir.</span><span class="en-text" style="display:none;">The event form is a monadic function form that has an input argument but returns no output. It's used to alter system state. The function name must clearly indicate that this is an event.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Belirsiz olay ismi</span><span class="en-text" style="display:none;">BAD &mdash; Unclear event name</span></span>
+<pre><span class="kw">void</span> <span class="method">handle</span>(<span class="type">int</span> code) {
+    <span class="comment">// Ne olayı? Belirsiz!</span>
+    <span class="kw">if</span> (code &gt; <span class="field">3</span>) {
+        lockAccount();
+    }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Açık olay ismi</span><span class="en-text" style="display:none;">GOOD &mdash; Clear event name</span></span>
+<pre><span class="kw">void</span> <span class="method">onLoginAttemptFailed</span>(<span class="type">int</span> failedAttemptCount) {
+    <span class="kw">if</span> (failedAttemptCount &gt; MAX_ALLOWED_ATTEMPTS) {
+        lockAccount();
+        notifySecurityTeam();
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Olay fonksiyonları için "on" veya "when" ön ekini kullanın: <code class="inline">onPaymentReceived</code>, <code class="inline">whenSessionExpired</code>. Bu, okuyucuya yan etkinin kasıtlı olduğunu bildirir.</span><span class="en-text" style="display:none;">Use "on" or "when" prefixes for event functions: <code class="inline">onPaymentReceived</code>, <code class="inline">whenSessionExpired</code>. This tells the reader the side effect is intentional.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Dönüşüm Kalıbı -->
+<div class="modal-overlay" id="modal-transformation-pattern">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Dönüşüm Kalıbı (Transformation Pattern)</span><span class="en-text" style="display:none;">Transformation Pattern</span></h3>
+            <button class="modal-close" onclick="closeModal('transformation-pattern')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bir fonksiyon girdi argümanını dönüştürüyorsa, dönüştürülmüş değeri dönüş değeri olarak döndürmelidir. Çıkış argümanı yerine dönüş değeri kullanmak, fonksiyonun amacını açıkça belirtir.</span><span class="en-text" style="display:none;">If a function transforms its input argument, it should return the transformed value as its return value. Using a return value instead of an output argument clearly states the function's purpose.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Çıkış argümanı ile dönüşüm</span><span class="en-text" style="display:none;">BAD &mdash; Transformation via output argument</span></span>
+<pre><span class="kw">def</span> <span class="method">normalize</span>(text_buffer):
+    <span class="str">"""text_buffer yerinde değiştiriliyor - void döner"""</span>
+    text_buffer.content = text_buffer.content.strip().lower()
+
+buffer = TextBuffer(<span class="str">"  HELLO WORLD  "</span>)
+<span class="method">normalize</span>(buffer)  <span class="comment"># buffer gizlice değişti</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Dönüş değeri ile dönüşüm</span><span class="en-text" style="display:none;">GOOD &mdash; Transformation via return value</span></span>
+<pre><span class="kw">def</span> <span class="method">normalize</span>(text):
+    <span class="str">"""Girdiyi dönüştürüp yeni değer döndürür"""</span>
+    <span class="kw">return</span> text.strip().lower()
+
+original = <span class="str">"  HELLO WORLD  "</span>
+normalized = <span class="method">normalize</span>(original)  <span class="comment"># Açık dönüşüm</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Basit kural: Fonksiyon bir şeyi dönüştürüyorsa, dönüştürdüğü şeyi döndürsün. <code class="inline">String normalize(String input)</code> her zaman <code class="inline">void normalize(StringBuilder output)</code> ifadesinden daha iyidir.</span><span class="en-text" style="display:none;">Simple rule: If a function transforms something, return the transformed thing. <code class="inline">String normalize(String input)</code> is always better than <code class="inline">void normalize(StringBuilder output)</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 41;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

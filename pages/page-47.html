@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 47 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Hata Yönetimi &amp; Error.java Bağımlılık Mıknatısı</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="47" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">(Sayfa 46'dan devam) Aşağıdaki örnekte <code class="inline">delete</code> fonksiyonu tamamen hata işlemeyle (error processing) ilgilidir. Anlaması kolaydır ve görmezden gelebilirsiniz. <code class="inline">deletePageAndAllReferences</code> fonksiyonu ise tamamen bir sayfayı silme süreçleriyle ilgilidir. Hata yönetimi görmezden gelinebilir. Bu güzel bir ayrım sağlar ve kodun anlaşılmasını ve değiştirilmesini kolaylaştırır.</span>
+        <span class="en-text" style="display:none;">(Continued from page 46) In the above, the <code class="inline">delete</code> function is all about error processing. It is easy to understand and then ignore. The <code class="inline">deletePageAndAllReferences</code> function is all about the processes of fully deleting a page. Error handling can be ignored. This provides a nice separation that makes the code easier to understand and modify.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header"><span class="tr-text">Try/Catch Ayrılmış Yapı</span><span class="en-text" style="display:none;">Extracted Try/Catch Structure</span></div>
+<pre><span class="kw">public void</span> <span class="method">delete</span>(<span class="type">Page</span> page) {
+    <span class="kw">try</span> {
+        <span class="method">deletePageAndAllReferences</span>(page);
+    }
+    <span class="kw">catch</span> (<span class="type">Exception</span> e) {
+        <span class="method">logError</span>(e);
+    }
+}
+
+<span class="kw">private void</span> <span class="method">deletePageAndAllReferences</span>(<span class="type">Page</span> page) <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">deletePage</span>(page);
+    registry.<span class="method">deleteReference</span>(page.name);
+    configKeys.<span class="method">deleteKey</span>(page.name.<span class="method">makeKey</span>());
+}
+
+<span class="kw">private void</span> <span class="method">logError</span>(<span class="type">Exception</span> e) {
+    logger.<span class="method">log</span>(e.<span class="method">getMessage</span>());
+}</pre>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Hata Yönetimi Tek Bir Şeydir / Error Handling Is One Thing</span>
+        <span class="en-text" style="display:none;">Error Handling Is One Thing</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonlar tek bir şey yapmalıdır. Hata yönetimi (error handling) de tek bir şeydir. Bu nedenle, hataları yöneten bir fonksiyon başka bir şey yapmamalıdır. Bu da şu anlama gelir: Eğer <code class="inline">try</code> anahtar kelimesi bir fonksiyonda varsa, fonksiyondaki ilk kelime olmalıdır ve <code class="inline">catch/finally</code> bloklarından sonra hiçbir şey olmamalıdır.</span>
+        <span class="en-text" style="display:none;">Functions should do one thing. Error handing is one thing. Thus, a function that handles errors should do nothing else. This implies that if the keyword <code class="inline">try</code> exists in a function, it should be the very first word in the function and that there should be nothing after the <code class="inline">catch/finally</code> blocks.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Error.java Bağımlılık Mıknatısı / The Error.java Dependency Magnet</span>
+        <span class="en-text" style="display:none;">The Error.java Dependency Magnet</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Hata kodları döndürmek genellikle tüm hata kodlarının tanımlandığı bir sınıf veya enum olduğunu ima eder.</span>
+        <span class="en-text" style="display:none;">Returning error codes usually implies that there is some class or enum in which all the error codes are defined.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">Error Enum</div>
+<pre><span class="kw">public enum</span> <span class="type">Error</span> {
+    OK,
+    INVALID,
+    NO_SUCH,
+    LOCKED,
+    OUT_OF_RESOURCES,
+    WAITING_FOR_EVENT;
+}</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu tür sınıflar bir bağımlılık mıknatısıdır (dependency magnet); birçok başka sınıf bunları import etmek ve kullanmak zorundadır. Dolayısıyla <code class="inline">Error</code> enum'u değiştiğinde, onu kullanan diğer tüm sınıfların yeniden derlenmesi (recompilation) ve yeniden dağıtılması (redeployment) gerekir.<sup>11</sup> Bu durum <code class="inline">Error</code> sınıfı üzerinde olumsuz bir baskı yaratır. Programcılar yeni hatalar eklemek istemezler çünkü bu durumda her şeyi yeniden derleyip dağıtmaları gerekir. Bu yüzden yeni hata kodları eklemek yerine eski kodları yeniden kullanırlar.</span>
+        <span class="en-text" style="display:none;">Classes like this are a <em>dependency magnet</em>; many other classes must import and use them. Thus, when the <code class="inline">Error</code> enum changes, all those other classes need to be recompiled and redeployed.<sup>11</sup> This puts a negative pressure on the <code class="inline">Error</code> class. Programmers don't want to add new errors because then they have to rebuild and redeploy everything. So they reuse old error codes instead of adding new ones.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Hata kodları yerine istisnalar (exceptions) kullandığınızda, yeni istisnalar istisna sınıfının türevleridir (derivatives). Herhangi bir yeniden derleme veya yeniden dağıtım gerektirmeden eklenebilirler.<sup>12</sup></span>
+        <span class="en-text" style="display:none;">When you use exceptions rather than error codes, then new exceptions are <em>derivatives</em> of the exception class. They can be added without forcing any recompilation or redeployment.<sup>12</sup></span>
+    </div>
+
+    <div class="footnote">
+        <p><span class="footnote-number">11.</span> <span class="tr-text">Yeniden derleme ve yeniden dağıtım yapmadan idare edebileceklerini düşünenler bulunmuş — ve cezalandırılmıştır.</span><span class="en-text" style="display:none;">Those who felt that they could get away without recompiling and redeploying have been found — and dealt with.</span></p>
+        <p><span class="footnote-number">12.</span> <span class="tr-text">Bu, Açık/Kapalı İlkesinin (OCP) [PPP02] bir örneğidir.</span><span class="en-text" style="display:none;">This is an example of the Open Closed Principle (OCP) [PPP02].</span></p>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('dependency-magnet')">
+                <span class="tr-text">Bağımlılık Mıknatısı</span>
+                <span class="en-text" style="display:none;">Dependency Magnet</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('error-handling-one-thing')">
+                <span class="tr-text">Hata Yönetimi Tek Bir Şey</span>
+                <span class="en-text" style="display:none;">Error Handling Is One Thing</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('ocp-exceptions')">
+                <span class="tr-text">OCP ve İstisnalar</span>
+                <span class="en-text" style="display:none;">OCP and Exceptions</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-46.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 46 — Hata Kodları Yerine İstisnalar</span><span class="en-text" style="display:none;">Page 46 — Prefer Exceptions to Error Codes</span></div>
+    </a>
+    <a href="page-48.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 48 — Kendini Tekrar Etme (DRY)</span><span class="en-text" style="display:none;">Page 48 — Don't Repeat Yourself (DRY)</span></div>
+    </a>
+</div>
+
+<!-- Modal: Bağımlılık Mıknatısı -->
+<div class="modal-overlay" id="modal-dependency-magnet">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Bağımlılık Mıknatısı (Dependency Magnet)</span><span class="en-text" style="display:none;">Dependency Magnet</span></h3>
+            <button class="modal-close" onclick="closeModal('dependency-magnet')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bağımlılık mıknatısı (dependency magnet), birçok başka sınıfın bağımlı olduğu merkezi bir yapıdır. Bu yapı değiştiğinde, ona bağımlı olan her şey etkilenir. Hata kodu enum'ları buna klasik bir örnektir: değişiklik yaptığınızda tüm bağımlılar yeniden derlenmelidir.</span><span class="en-text" style="display:none;">A dependency magnet is a central structure that many other classes depend on. When this structure changes, everything depending on it is affected. Error code enums are a classic example: when you make a change, all dependents must be recompiled.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Merkezi hata kodu enum'u</span><span class="en-text" style="display:none;">BAD — Central error code enum</span></span>
+<pre><span class="comment">// StatusCode.java — her yerde import edilir</span>
+<span class="kw">public enum</span> <span class="type">StatusCode</span> {
+    SUCCESS, NOT_FOUND, UNAUTHORIZED,
+    TIMEOUT, INTERNAL_ERROR;
+}
+
+<span class="comment">// UserService.java</span>
+<span class="kw">public</span> <span class="type">StatusCode</span> <span class="method">createUser</span>(<span class="type">User</span> user) {
+    <span class="kw">if</span> (user == <span class="kw">null</span>) <span class="kw">return</span> <span class="type">StatusCode</span>.INTERNAL_ERROR;
+    <span class="comment">// ... iş mantığı</span>
+    <span class="kw">return</span> <span class="type">StatusCode</span>.SUCCESS;
+}
+
+<span class="comment">// OrderService.java — aynı enum'a bağımlı</span>
+<span class="kw">public</span> <span class="type">StatusCode</span> <span class="method">placeOrder</span>(<span class="type">Order</span> order) {
+    <span class="comment">// StatusCode değişirse bu da yeniden derlenmeli</span>
+    <span class="kw">return</span> <span class="type">StatusCode</span>.SUCCESS;
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — İstisna hiyerarşisi</span><span class="en-text" style="display:none;">GOOD — Exception hierarchy</span></span>
+<pre><span class="comment">// Her modül kendi istisnasını tanımlar</span>
+<span class="kw">public class</span> <span class="type">UserNotFoundException</span>
+    <span class="kw">extends</span> <span class="type">ServiceException</span> { }
+
+<span class="kw">public class</span> <span class="type">OrderTimeoutException</span>
+    <span class="kw">extends</span> <span class="type">ServiceException</span> { }
+
+<span class="comment">// Yeni istisna eklemek hiçbir mevcut kodu bozmaz</span>
+<span class="kw">public class</span> <span class="type">PaymentDeclinedException</span>
+    <span class="kw">extends</span> <span class="type">ServiceException</span> { }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Projenizdeki merkezi enum veya sabit sınıflarını inceleyin. Eğer bir dosya değiştiğinde düzinelerce dosyanın yeniden derlenmesi gerekiyorsa, bu bir bağımlılık mıknatısıdır. İstisna hiyerarşileri veya polimorfizm (polymorphism) kullanarak bağımlılığı kırın.</span><span class="en-text" style="display:none;">Review central enums or constant classes in your project. If changing one file requires recompilation of dozens of files, it's a dependency magnet. Break the dependency using exception hierarchies or polymorphism.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Hata Yönetimi Tek Bir Şey -->
+<div class="modal-overlay" id="modal-error-handling-one-thing">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Hata Yönetimi Tek Bir Şeydir (Error Handling Is One Thing)</span><span class="en-text" style="display:none;">Error Handling Is One Thing</span></h3>
+            <button class="modal-close" onclick="closeModal('error-handling-one-thing')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyonlar tek bir şey yapmalıdır ve hata yönetimi de tek bir şeydir. Eğer bir fonksiyonda <code class="inline">try</code> anahtar kelimesi varsa, fonksiyonun ilk kelimesi olmalıdır. <code class="inline">catch/finally</code> bloklarından sonra hiçbir şey bulunmamalıdır. Böylece fonksiyon ya iş mantığı yapar, ya da hata yönetimi yapar — ikisini birden değil.</span><span class="en-text" style="display:none;">Functions should do one thing, and error handling is one thing. If a function has a <code class="inline">try</code> keyword, it should be the first word in the function. Nothing should come after the <code class="inline">catch/finally</code> blocks. This way a function either does business logic or handles errors — not both.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — İş mantığı ve hata yönetimi karışık</span><span class="en-text" style="display:none;">BAD — Business logic and error handling mixed</span></span>
+<pre><span class="kw">def</span> <span class="method">send_report</span>(report):
+    validated = <span class="method">validate</span>(report)
+    <span class="kw">try</span>:
+        <span class="method">send_email</span>(report.recipient, validated)
+    <span class="kw">except</span> <span class="type">SMTPError</span> <span class="kw">as</span> e:
+        logger.<span class="method">error</span>(e)
+    <span class="method">archive_report</span>(report)  <span class="comment"># try'dan sonra kod!</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Ayrılmış sorumluluklar</span><span class="en-text" style="display:none;">GOOD — Separated responsibilities</span></span>
+<pre><span class="kw">def</span> <span class="method">send_report</span>(report):
+    <span class="kw">try</span>:
+        <span class="method">process_and_send_report</span>(report)
+    <span class="kw">except</span> <span class="type">ReportError</span> <span class="kw">as</span> e:
+        logger.<span class="method">error</span>(e)
+
+<span class="kw">def</span> <span class="method">process_and_send_report</span>(report):
+    validated = <span class="method">validate</span>(report)
+    <span class="method">send_email</span>(report.recipient, validated)
+    <span class="method">archive_report</span>(report)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Şu kuralı hatırlayın: <code class="inline">try</code> ile başlayan bir fonksiyonda <code class="inline">catch/finally</code> bloklarından sonra hiçbir kod satırı olmamalıdır. Eğer varsa, o fonksiyon birden fazla şey yapıyordur.</span><span class="en-text" style="display:none;">Remember the rule: in a function that starts with <code class="inline">try</code>, there should be no lines of code after the <code class="inline">catch/finally</code> blocks. If there are, that function is doing more than one thing.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: OCP ve İstisnalar -->
+<div class="modal-overlay" id="modal-ocp-exceptions">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">OCP ve İstisnalar (Open/Closed Principle & Exceptions)</span><span class="en-text" style="display:none;">OCP and Exceptions</span></h3>
+            <button class="modal-close" onclick="closeModal('ocp-exceptions')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Açık/Kapalı İlkesi (Open/Closed Principle — OCP), sınıfların genişletmeye açık ama değişikliğe kapalı olması gerektiğini söyler. İstisna hiyerarşileri bu ilkeyi mükemmel şekilde destekler: yeni bir istisna türü eklemek, mevcut kodu değiştirmez; sadece yeni bir türetilmiş sınıf (derived class) eklenir.</span><span class="en-text" style="display:none;">The Open/Closed Principle (OCP) states that classes should be open for extension but closed for modification. Exception hierarchies perfectly support this principle: adding a new exception type doesn't modify existing code; it just adds a new derived class.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Yeni durum eklemek mevcut kodu değiştirir</span><span class="en-text" style="display:none;">BAD — Adding new case modifies existing code</span></span>
+<pre><span class="kw">enum</span> <span class="type">Shape</span> { CIRCLE, SQUARE, TRIANGLE }
+
+<span class="kw">double</span> <span class="method">area</span>(<span class="type">Shape</span> shape, <span class="kw">double</span>... args) {
+    <span class="kw">switch</span> (shape) {
+        <span class="kw">case</span> CIRCLE:  <span class="kw">return</span> Math.PI * args[<span class="field">0</span>] * args[<span class="field">0</span>];
+        <span class="kw">case</span> SQUARE:  <span class="kw">return</span> args[<span class="field">0</span>] * args[<span class="field">0</span>];
+        <span class="comment">// TRIANGLE eklemek = bu dosyayı DEĞİŞTİRMEK</span>
+    }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Yeni tür eklemek mevcut kodu değiştirmez</span><span class="en-text" style="display:none;">GOOD — Adding new type doesn't modify existing code</span></span>
+<pre><span class="kw">interface</span> <span class="type">Shape</span> {
+    <span class="kw">double</span> <span class="method">area</span>();
+}
+
+<span class="kw">class</span> <span class="type">Circle</span> <span class="kw">implements</span> <span class="type">Shape</span> {
+    <span class="kw">double</span> <span class="method">area</span>() { <span class="kw">return</span> Math.PI * radius * radius; }
+}
+
+<span class="comment">// Yeni şekil eklemek = SADECE yeni dosya eklemek</span>
+<span class="kw">class</span> <span class="type">Triangle</span> <span class="kw">implements</span> <span class="type">Shape</span> {
+    <span class="kw">double</span> <span class="method">area</span>() { <span class="kw">return</span> base * height / <span class="field">2</span>; }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir enum'a veya switch/case yapısına sık sık yeni değer eklemeniz gerekiyorsa, bu OCP'nin ihlal edildiğinin bir işaretidir. Polimorfizm (polymorphism) veya kalıtım (inheritance) kullanarak genişletilebilir bir yapıya geçin.</span><span class="en-text" style="display:none;">If you frequently need to add new values to an enum or switch/case, this is a sign that OCP is being violated. Switch to an extensible structure using polymorphism or inheritance.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 47;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

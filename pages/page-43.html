@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 43 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Fonksiyon Argümanları</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="43" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Argüman Nesneleri / Argument Objects</span>
+        <span class="en-text" style="display:none;">Argument Objects</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon iki veya üçten fazla argümana ihtiyaç duyuyorsa, bu argümanların bazılarının kendi sınıflarına sarılması gerektiğinin işaretidir. Örneğin, aşağıdaki iki bildirimi karşılaştırın:</span>
+        <span class="en-text" style="display:none;">When a function seems to need more than two or three arguments, it is likely that some of those arguments ought to be wrapped into a class of their own. Consider, for example, the difference between the two following declarations:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Argüman Nesnesi Karşılaştırması</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="type">Circle</span> <span class="method">makeCircle</span>(<span class="kw">double</span> x, <span class="kw">double</span> y, <span class="kw">double</span> radius);
+<span class="type">Circle</span> <span class="method">makeCircle</span>(<span class="type">Point</span> center, <span class="kw">double</span> radius);</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Nesneler oluşturarak argüman sayısını azaltmak hile gibi görünebilir, ama değildir. Değişken grupları birlikte geçiriliyorsa &mdash;yukarıdaki örnekteki <code class="inline">x</code> ve <code class="inline">y</code> gibi&mdash; büyük olasılıkla kendi adını hak eden bir kavramın parçasıdırlar.</span>
+        <span class="en-text" style="display:none;">Reducing the number of arguments by creating objects out of them may seem like cheating, but it's not. When groups of variables are passed together, the way <code class="inline">x</code> and <code class="inline">y</code> are in the example above, they are likely part of a concept that deserves a name of its own.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Argüman Listeleri / Argument Lists</span>
+        <span class="en-text" style="display:none;">Argument Lists</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bazen bir fonksiyona değişken sayıda argüman geçirmek isteriz. Örneğin, <code class="inline">String.format</code> metodunu ele alalım:</span>
+        <span class="en-text" style="display:none;">Sometimes we want to pass a variable number of arguments into a function. Consider, for example, the <code class="inline">String.format</code> method:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>String.format Örneği</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="type">String</span>.<span class="method">format</span>(<span class="str">"%s worked %.2f hours."</span>, name, hours);</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Eğer değişken argümanlar &mdash;yukarıdaki örnekte olduğu gibi&mdash; hepsi aynı şekilde işleniyorsa, bunlar <code class="inline">List</code> türünde tek bir argümana eşdeğerdir. Bu mantıkla <code class="inline">String.format</code> aslında ikili (dyadic) bir fonksiyondur. Gerçekten de aşağıdaki bildirim açıkça ikiliye işaret eder.</span>
+        <span class="en-text" style="display:none;">If the variable arguments are all treated identically, as they are in the example above, then they are equivalent to a single argument of type <code class="inline">List</code>. By that reasoning, <code class="inline">String.format</code> is actually dyadic. Indeed, the declaration of <code class="inline">String.format</code> as shown below is clearly dyadic.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>String.format Bildirimi</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="kw">public</span> <span class="type">String</span> <span class="method">format</span>(<span class="type">String</span> format, <span class="type">Object</span>... args)</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dolayısıyla aynı kurallar geçerlidir. Değişken argüman alan fonksiyonlar tekli (monadic), ikili (dyadic), hatta üçlü (triadic) olabilir. Ancak bundan daha fazla argüman vermek hata olur.</span>
+        <span class="en-text" style="display:none;">So all the same rules apply. Functions that take variable arguments can be monads, dyads, or even triads. But it would be a mistake to give them more arguments than that.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Değişken Argümanlı Fonksiyon Türleri</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="kw">void</span> <span class="method">monad</span>(<span class="type">Integer</span>... args);
+<span class="kw">void</span> <span class="method">dyad</span>(<span class="type">String</span> name, <span class="type">Integer</span>... args);
+<span class="kw">void</span> <span class="method">triad</span>(<span class="type">String</span> name, <span class="kw">int</span> count, <span class="type">Integer</span>... args);</pre>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Fiiller ve Anahtar Kelimeler / Verbs and Keywords</span>
+        <span class="en-text" style="display:none;">Verbs and Keywords</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon için iyi isimler seçmek, fonksiyonun amacını ve argümanların sırasını ve niyetini açıklamada uzun bir yol kat eder. Tekli (monadic) bir fonksiyonda, fonksiyon ve argüman çok güzel bir fiil/isim çifti oluşturmalıdır. Örneğin, <code class="inline">write(name)</code> oldukça çağrışımlıdır. Bu "isim" neyse, "yazılıyor" denmektedir. Daha da iyi bir isim <code class="inline">writeField(name)</code> olabilir; bu bize "isim" denen şeyin bir "alan" (field) olduğunu söyler.</span>
+        <span class="en-text" style="display:none;">Choosing good names for a function can go a long way toward explaining the intent of the function and the order and intent of the arguments. In the case of a monad, the function and argument should form a very nice verb/noun pair. For example, <code class="inline">write(name)</code> is very evocative. Whatever this "name" thing is, it is being "written." An even better name might be <code class="inline">writeField(name)</code>, which tells us that the "name" thing is a "field."</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu son örnek, fonksiyon isminin <em>anahtar kelime</em> (keyword) formuna bir örnektir. Bu formda argüman isimlerini fonksiyon isminin içine kodlarız. Örneğin, <code class="inline">assertEquals</code> yerine <code class="inline">assertExpectedEqualsActual(expected, actual)</code> yazmak, argüman sırasını hatırlama sorununu büyük ölçüde ortadan kaldırır.</span>
+        <span class="en-text" style="display:none;">This last is an example of the <em>keyword</em> form of a function name. Using this form we encode the names of the arguments into the function name. For example, <code class="inline">assertEquals</code> might be better written as <code class="inline">assertExpectedEqualsActual(expected, actual)</code>. This strongly mitigates the problem of having to remember the ordering of the arguments.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('argument-objects')">
+                <span class="tr-text">Argüman Nesneleri</span>
+                <span class="en-text" style="display:none;">Argument Objects</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('keyword-form')">
+                <span class="tr-text">Anahtar Kelime Formu</span>
+                <span class="en-text" style="display:none;">Keyword Form</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('variable-arguments')">
+                <span class="tr-text">Değişken Argümanlar</span>
+                <span class="en-text" style="display:none;">Variable Arguments</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-42.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 42 — İkili Fonksiyonlar</span><span class="en-text" style="display:none;">Page 42 — Dyadic Functions</span></div>
+    </a>
+    <a href="page-44.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 44 — Yan Etkilere Dikkat</span><span class="en-text" style="display:none;">Page 44 — Have No Side Effects</span></div>
+    </a>
+</div>
+
+<!-- Modal: Argüman Nesneleri -->
+<div class="modal-overlay" id="modal-argument-objects">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Argüman Nesneleri (Argument Objects)</span><span class="en-text" style="display:none;">Argument Objects</span></h3>
+            <button class="modal-close" onclick="closeModal('argument-objects')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Birlikte gezinen argümanlar muhtemelen bir kavramın parçasıdır ve kendi sınıflarına sarılmalıdır. Bu, argüman sayısını azaltır ve kodu daha okunabilir hale getirir.</span><span class="en-text" style="display:none;">Arguments that travel together are likely part of a concept and should be wrapped into their own class. This reduces argument count and makes code more readable.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Çok fazla ilkel argüman</span><span class="en-text" style="display:none;">BAD — Too many primitive arguments</span></span>
+<pre><span class="kw">function</span> <span class="method">createUser</span>(firstName, lastName, email, age, city, country) {
+    <span class="comment">// 6 argüman - hangi sırada?</span>
+    <span class="kw">return</span> { firstName, lastName, email, age, city, country };
+}
+
+<span class="method">createUser</span>(<span class="str">"Ali"</span>, <span class="str">"Yılmaz"</span>, <span class="str">"ali@mail.com"</span>, <span class="field">28</span>, <span class="str">"İstanbul"</span>, <span class="str">"TR"</span>);</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Nesnelerle gruplandırılmış</span><span class="en-text" style="display:none;">GOOD — Grouped with objects</span></span>
+<pre><span class="kw">function</span> <span class="method">createUser</span>(personalInfo, address) {
+    <span class="kw">return</span> { ...personalInfo, ...address };
+}
+
+<span class="kw">const</span> personalInfo = { firstName: <span class="str">"Ali"</span>, lastName: <span class="str">"Yılmaz"</span>, email: <span class="str">"ali@mail.com"</span>, age: <span class="field">28</span> };
+<span class="kw">const</span> address = { city: <span class="str">"İstanbul"</span>, country: <span class="str">"TR"</span> };
+<span class="method">createUser</span>(personalInfo, address);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">3'ten fazla argüman gördüğünüzde kendinize sorun: "Bu argümanlar birlikte bir kavram mı oluşturuyor?" Eğer öyleyse, onları bir nesneye sarın.</span><span class="en-text" style="display:none;">When you see more than 3 arguments, ask yourself: "Do these arguments form a concept together?" If so, wrap them into an object.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Anahtar Kelime Formu -->
+<div class="modal-overlay" id="modal-keyword-form">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Anahtar Kelime Formu (Keyword Form)</span><span class="en-text" style="display:none;">Keyword Form</span></h3>
+            <button class="modal-close" onclick="closeModal('keyword-form')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyon isminin içine argüman isimlerini kodlamak, argüman sırasını hatırlama sorununu ortadan kaldırır. Bu özellikle çok argümanlı fonksiyonlarda faydalıdır.</span><span class="en-text" style="display:none;">Encoding argument names into the function name eliminates the problem of remembering argument order. This is especially useful for multi-argument functions.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Argüman sırası belirsiz</span><span class="en-text" style="display:none;">BAD — Ambiguous argument order</span></span>
+<pre><span class="kw">def</span> <span class="method">copy</span>(source, destination):
+    shutil.<span class="method">copy</span>(source, destination)
+
+<span class="comment"># Hangisi kaynak, hangisi hedef?</span>
+<span class="method">copy</span>(<span class="str">"/tmp/a.txt"</span>, <span class="str">"/home/b.txt"</span>)</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Argümanlar isimde kodlanmış</span><span class="en-text" style="display:none;">GOOD — Arguments encoded in name</span></span>
+<pre><span class="kw">def</span> <span class="method">copySourceToDestination</span>(source, destination):
+    shutil.<span class="method">copy</span>(source, destination)
+
+<span class="comment"># Sıra açık!</span>
+<span class="method">copySourceToDestination</span>(<span class="str">"/tmp/a.txt"</span>, <span class="str">"/home/b.txt"</span>)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Birden fazla argümanlı fonksiyonlarda, argüman sırasının kafa karıştırdığı yerlerde anahtar kelime formunu kullanın. <code class="inline">assertEquals</code> yerine <code class="inline">assertExpectedEqualsActual</code> çok daha açıktır.</span><span class="en-text" style="display:none;">For multi-argument functions where argument order is confusing, use the keyword form. <code class="inline">assertExpectedEqualsActual</code> is much clearer than <code class="inline">assertEquals</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Değişken Argümanlar -->
+<div class="modal-overlay" id="modal-variable-arguments">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Değişken Argümanlar (Variable Arguments)</span><span class="en-text" style="display:none;">Variable Arguments</span></h3>
+            <button class="modal-close" onclick="closeModal('variable-arguments')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Değişken sayıda argüman alan fonksiyonlar, aynı şekilde işlenen argümanlar tek bir liste olarak değerlendirilerek sınıflandırılır. Böylece argüman sayısı kuralları geçerliliğini korur.</span><span class="en-text" style="display:none;">Functions with variable arguments are classified by treating identically-processed arguments as a single list. This way, argument count rules still apply.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Sabit sayıda argüman zorlaması</span><span class="en-text" style="display:none;">BAD — Forcing fixed argument count</span></span>
+<pre><span class="kw">function</span> <span class="method">logMessage</span>(level, msg1, msg2, msg3, msg4) {
+    <span class="comment">// Kullanılmayan argümanlar null geçilir</span>
+    console.<span class="method">log</span>(level, msg1, msg2 || <span class="str">""</span>, msg3 || <span class="str">""</span>, msg4 || <span class="str">""</span>);
+}
+
+<span class="method">logMessage</span>(<span class="str">"ERROR"</span>, <span class="str">"Disk dolu"</span>, <span class="kw">null</span>, <span class="kw">null</span>, <span class="kw">null</span>);</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Rest parametresi ile</span><span class="en-text" style="display:none;">GOOD — Using rest parameter</span></span>
+<pre><span class="kw">function</span> <span class="method">logMessage</span>(level, ...messages) {
+    <span class="comment">// level + messages = ikili (dyadic)</span>
+    console.<span class="method">log</span>(level, messages.<span class="method">join</span>(<span class="str">" "</span>));
+}
+
+<span class="method">logMessage</span>(<span class="str">"ERROR"</span>, <span class="str">"Disk dolu"</span>);
+<span class="method">logMessage</span>(<span class="str">"WARN"</span>, <span class="str">"Bellek"</span>, <span class="str">"azalıyor"</span>, <span class="str">"dikkat!"</span>);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Değişken argümanlar kullanırken bile toplam mantıksal argüman sayısını 3'ün altında tutmaya çalışın. Rest parametresi tek bir liste argümanı olarak sayılır.</span><span class="en-text" style="display:none;">Even when using variable arguments, try to keep the total logical argument count below 3. A rest parameter counts as a single list argument.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 43;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

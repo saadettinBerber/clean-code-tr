@@ -18,7 +18,7 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ## Son Çevrilen Sayfa Takibi
 
 - **KRİTİK KURAL**: Her çeviri tamamlandığında, bu dosyadaki `last_translated_page` değerini güncelle.
-- **last_translated_page**: 39
+- **last_translated_page**: 52
 - Kullanıcı "sıradaki sayfa", "sonraki sayfa", "next", "devam" gibi ifadeler kullandığında veya `/cevir next` yazdığında, `last_translated_page + 1` sayfasını çevir.
 - Eğer `last_translated_page` değeri 0 ise ve kullanıcı "sıradaki" derse, sayfa 1'den başla.
 

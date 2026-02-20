@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 46 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Hata Kodları Yerine İstisnalar &amp; Try/Catch Blokları</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="46" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu sorunu <code class="inline">set</code> fonksiyonunu <code class="inline">setAndCheckIfExists</code> olarak yeniden adlandırarak çözmeye çalışabiliriz, ancak bu <code class="inline">if</code> ifadesinin okunabilirliğine pek yardımcı olmaz. Gerçek çözüm, komutu (command) sorgudan (query) ayırarak belirsizliğin oluşmasını engellemektir.</span>
+        <span class="en-text" style="display:none;">We could try to resolve this by renaming the <code class="inline">set</code> function to <code class="inline">setAndCheckIfExists</code>, but that doesn't much help the readability of the <code class="inline">if</code> statement. The real solution is to separate the command from the query so that the ambiguity cannot occur.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">Komut-Sorgu Ayrımı Çözümü</div>
+<pre><span class="kw">if</span> (<span class="method">attributeExists</span>(<span class="str">"username"</span>)) {
+    <span class="method">setAttribute</span>(<span class="str">"username"</span>, <span class="str">"unclebob"</span>);
+    ...
+}</pre>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Hata Kodları Yerine İstisnaları Tercih Edin / Prefer Exceptions to Returning Error Codes</span>
+        <span class="en-text" style="display:none;">Prefer Exceptions to Returning Error Codes</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Komut fonksiyonlarından hata kodları (error codes) döndürmek, komut-sorgu ayrımının (Command Query Separation) ince bir ihlalidir. Komutların <code class="inline">if</code> ifadelerinin yüklemlerinde (predicates) birer ifade olarak kullanılmasını teşvik eder.</span>
+        <span class="en-text" style="display:none;">Returning error codes from command functions is a subtle violation of command query separation. It promotes commands being used as expressions in the predicates of <code class="inline">if</code> statements.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">Hata Kodu Kontrolü</div>
+<pre><span class="kw">if</span> (<span class="method">deletePage</span>(page) == <span class="field">E_OK</span>)</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu ifade fiil/sıfat karışıklığından mustarip değildir, ancak derinlemesine iç içe geçmiş yapılara (deeply nested structures) yol açar. Bir hata kodu döndürdüğünüzde, çağıranın hatayla hemen ilgilenmesi gereken bir sorun yaratırsınız.</span>
+        <span class="en-text" style="display:none;">This does not suffer from verb/adjective confusion but does lead to deeply nested structures. When you return an error code, you create the problem that the caller must deal with the error immediately.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header"><span class="tr-text">Hata Kodlarıyla İç İçe Geçmiş Yapı</span><span class="en-text" style="display:none;">Deeply Nested Error Code Structure</span></div>
+<pre><span class="kw">if</span> (<span class="method">deletePage</span>(page) == <span class="field">E_OK</span>) {
+    <span class="kw">if</span> (registry.<span class="method">deleteReference</span>(page.name) == <span class="field">E_OK</span>) {
+        <span class="kw">if</span> (configKeys.<span class="method">deleteKey</span>(page.name.<span class="method">makeKey</span>()) == <span class="field">E_OK</span>){
+            logger.<span class="method">log</span>(<span class="str">"page deleted"</span>);
+        } <span class="kw">else</span> {
+            logger.<span class="method">log</span>(<span class="str">"configKey not deleted"</span>);
+        }
+    } <span class="kw">else</span> {
+        logger.<span class="method">log</span>(<span class="str">"deleteReference from registry failed"</span>);
+    }
+} <span class="kw">else</span> {
+    logger.<span class="method">log</span>(<span class="str">"delete failed"</span>);
+    <span class="kw">return</span> <span class="field">E_ERROR</span>;
+}</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Öte yandan, döndürülen hata kodları yerine istisnalar (exceptions) kullanırsanız, hata işleme kodu mutlu yoldan (happy path) ayrılabilir ve sadeleştirilebilir:</span>
+        <span class="en-text" style="display:none;">On the other hand, if you use exceptions instead of returned error codes, then the error processing code can be separated from the happy path code and can be simplified:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header"><span class="tr-text">İstisna Kullanımıyla Sadeleştirilmiş Kod</span><span class="en-text" style="display:none;">Simplified Code Using Exceptions</span></div>
+<pre><span class="kw">try</span> {
+    <span class="method">deletePage</span>(page);
+    registry.<span class="method">deleteReference</span>(page.name);
+    configKeys.<span class="method">deleteKey</span>(page.name.<span class="method">makeKey</span>());
+}
+<span class="kw">catch</span> (<span class="type">Exception</span> e) {
+    logger.<span class="method">log</span>(e.<span class="method">getMessage</span>());
+}</pre>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Try/Catch Bloklarını Ayırın / Extract Try/Catch Blocks</span>
+        <span class="en-text" style="display:none;">Extract Try/Catch Blocks</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">Try/catch</code> blokları kendi başlarına çirkindir. Kodun yapısını karıştırır ve hata işlemeyi normal işleme ile birbirine geçirir. Bu nedenle <code class="inline">try</code> ve <code class="inline">catch</code> bloklarının gövdelerini kendi fonksiyonlarına çıkarmak daha iyidir.</span>
+        <span class="en-text" style="display:none;"><code class="inline">Try/catch</code> blocks are ugly in their own right. They confuse the structure of the code and mix error processing with normal processing. So it is better to extract the bodies of the <code class="inline">try</code> and <code class="inline">catch</code> blocks out into functions of their own.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('error-codes-vs-exceptions')">
+                <span class="tr-text">Hata Kodları vs İstisnalar</span>
+                <span class="en-text" style="display:none;">Error Codes vs Exceptions</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('extract-try-catch')">
+                <span class="tr-text">Try/Catch Ayırma</span>
+                <span class="en-text" style="display:none;">Extract Try/Catch</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('nested-structures')">
+                <span class="tr-text">İç İçe Yapılardan Kaçınma</span>
+                <span class="en-text" style="display:none;">Avoiding Nested Structures</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-45.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 45 — Komut-Sorgu Ayrımı</span><span class="en-text" style="display:none;">Page 45 — Command Query Separation</span></div>
+    </a>
+    <a href="page-47.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 47 — Hata Yönetimi Tek Bir Şeydir</span><span class="en-text" style="display:none;">Page 47 — Error Handling Is One Thing</span></div>
+    </a>
+</div>
+
+<!-- Modal: Hata Kodları vs İstisnalar -->
+<div class="modal-overlay" id="modal-error-codes-vs-exceptions">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Hata Kodları vs İstisnalar (Error Codes vs Exceptions)</span><span class="en-text" style="display:none;">Error Codes vs Exceptions</span></h3>
+            <button class="modal-close" onclick="closeModal('error-codes-vs-exceptions')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Hata kodları döndürmek, çağıranı hatayla hemen ilgilenmeye zorlar ve iç içe geçmiş if-else yapılarına yol açar. İstisnalar kullanmak, mutlu yolu hata yönetiminden ayırır ve kodu çok daha okunabilir kılar.</span><span class="en-text" style="display:none;">Returning error codes forces the caller to deal with the error immediately and leads to nested if-else structures. Using exceptions separates the happy path from error handling and makes the code much more readable.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Hata kodu döndürme</span><span class="en-text" style="display:none;">BAD — Returning error codes</span></span>
+<pre><span class="kw">def</span> <span class="method">process_order</span>(order):
+    result = <span class="method">validate_order</span>(order)
+    <span class="kw">if</span> result == <span class="field">SUCCESS</span>:
+        result = <span class="method">charge_payment</span>(order.payment)
+        <span class="kw">if</span> result == <span class="field">SUCCESS</span>:
+            result = <span class="method">ship_order</span>(order)
+            <span class="kw">if</span> result == <span class="field">SUCCESS</span>:
+                <span class="method">send_confirmation</span>(order)
+            <span class="kw">else</span>:
+                <span class="method">log_error</span>(<span class="str">"Shipping failed"</span>)
+        <span class="kw">else</span>:
+            <span class="method">log_error</span>(<span class="str">"Payment failed"</span>)
+    <span class="kw">else</span>:
+        <span class="method">log_error</span>(<span class="str">"Validation failed"</span>)</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — İstisna kullanımı</span><span class="en-text" style="display:none;">GOOD — Using exceptions</span></span>
+<pre><span class="kw">def</span> <span class="method">process_order</span>(order):
+    <span class="kw">try</span>:
+        <span class="method">validate_order</span>(order)
+        <span class="method">charge_payment</span>(order.payment)
+        <span class="method">ship_order</span>(order)
+        <span class="method">send_confirmation</span>(order)
+    <span class="kw">except</span> <span class="type">OrderError</span> <span class="kw">as</span> e:
+        logger.<span class="method">error</span>(e.message)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her iç içe geçmiş if-else gördüğünüzde kendinize sorun: "Bu hata kodları yerine istisnalar kullansam nasıl görünürdü?" Mutlu yol tek bir akış olarak okunabilmelidir.</span><span class="en-text" style="display:none;">Every time you see nested if-else, ask yourself: "What would this look like with exceptions instead of error codes?" The happy path should read as a single flow.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Try/Catch Ayırma -->
+<div class="modal-overlay" id="modal-extract-try-catch">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Try/Catch Bloklarını Ayırma (Extract Try/Catch)</span><span class="en-text" style="display:none;">Extract Try/Catch Blocks</span></h3>
+            <button class="modal-close" onclick="closeModal('extract-try-catch')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Try/catch blokları hata yönetimini normal iş mantığıyla karıştırır. En iyi uygulama, try bloğunun gövdesini ayrı bir fonksiyona, catch bloğunun gövdesini de ayrı bir fonksiyona çıkarmaktır. Böylece her fonksiyon tek bir şey yapar.</span><span class="en-text" style="display:none;">Try/catch blocks mix error handling with normal business logic. The best practice is to extract the try body into a separate function and the catch body into another. This way each function does one thing.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Karışık hata yönetimi</span><span class="en-text" style="display:none;">BAD — Mixed error handling</span></span>
+<pre><span class="kw">function</span> <span class="method">updateUser</span>(userId, data) {
+    <span class="kw">try</span> {
+        <span class="kw">const</span> user = <span class="kw">await</span> db.<span class="method">findById</span>(userId);
+        user.name = data.name;
+        user.email = data.email;
+        <span class="kw">await</span> user.<span class="method">save</span>();
+        <span class="kw">await</span> cache.<span class="method">invalidate</span>(<span class="str">`user:</span>${userId}<span class="str">`</span>);
+        <span class="kw">await</span> <span class="method">sendNotification</span>(user, <span class="str">"Profile updated"</span>);
+    } <span class="kw">catch</span> (err) {
+        logger.<span class="method">error</span>(<span class="str">"Update failed"</span>, err);
+        metrics.<span class="method">increment</span>(<span class="str">"user.update.failure"</span>);
+        <span class="kw">throw new</span> <span class="type">ServiceError</span>(<span class="str">"Update failed"</span>);
+    }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Ayrılmış sorumluluklar</span><span class="en-text" style="display:none;">GOOD — Separated responsibilities</span></span>
+<pre><span class="kw">function</span> <span class="method">updateUser</span>(userId, data) {
+    <span class="kw">try</span> {
+        <span class="method">performUserUpdate</span>(userId, data);
+    } <span class="kw">catch</span> (err) {
+        <span class="method">handleUpdateFailure</span>(err);
+    }
+}
+
+<span class="kw">async function</span> <span class="method">performUserUpdate</span>(userId, data) {
+    <span class="kw">const</span> user = <span class="kw">await</span> db.<span class="method">findById</span>(userId);
+    user.name = data.name;
+    user.email = data.email;
+    <span class="kw">await</span> user.<span class="method">save</span>();
+    <span class="kw">await</span> cache.<span class="method">invalidate</span>(<span class="str">`user:</span>${userId}<span class="str">`</span>);
+    <span class="kw">await</span> <span class="method">sendNotification</span>(user, <span class="str">"Profile updated"</span>);
+}
+
+<span class="kw">function</span> <span class="method">handleUpdateFailure</span>(err) {
+    logger.<span class="method">error</span>(<span class="str">"Update failed"</span>, err);
+    metrics.<span class="method">increment</span>(<span class="str">"user.update.failure"</span>);
+    <span class="kw">throw new</span> <span class="type">ServiceError</span>(<span class="str">"Update failed"</span>);
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Try/catch gördüğünüzde "Metot Çıkarma (Extract Method)" refactoring tekniğini uygulayın. Try gövdesi ve catch gövdesi ayrı fonksiyonlar olmalıdır. Böylece ana fonksiyon sadece hata akışının koordinasyonunu yapar.</span><span class="en-text" style="display:none;">When you see try/catch, apply the "Extract Method" refactoring technique. The try body and catch body should be separate functions. The main function then only coordinates the error flow.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: İç İçe Yapılardan Kaçınma -->
+<div class="modal-overlay" id="modal-nested-structures">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İç İçe Yapılardan Kaçınma (Avoiding Nested Structures)</span><span class="en-text" style="display:none;">Avoiding Nested Structures</span></h3>
+            <button class="modal-close" onclick="closeModal('nested-structures')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Derinlemesine iç içe geçmiş yapılar (deeply nested structures) kodun okunabilirliğini ciddi şekilde düşürür. Her bir girinti seviyesi, okuyucunun zihninde tutması gereken bir bağlam ekler. "Erken dönüş" (early return) ve "koruma cümleleri" (guard clauses) bu sorunu çözer.</span><span class="en-text" style="display:none;">Deeply nested structures seriously reduce code readability. Each indentation level adds context the reader must keep in mind. "Early return" and "guard clauses" solve this problem.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Derin iç içe geçme</span><span class="en-text" style="display:none;">BAD — Deep nesting</span></span>
+<pre><span class="kw">function</span> <span class="method">processFile</span>(path) {
+    <span class="kw">if</span> (fs.<span class="method">existsSync</span>(path)) {
+        <span class="kw">const</span> content = fs.<span class="method">readFileSync</span>(path);
+        <span class="kw">if</span> (content.length > <span class="field">0</span>) {
+            <span class="kw">const</span> parsed = JSON.<span class="method">parse</span>(content);
+            <span class="kw">if</span> (parsed.data) {
+                <span class="kw">return</span> parsed.data;
+            }
+        }
+    }
+    <span class="kw">return null</span>;
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Erken dönüş ile düz yapı</span><span class="en-text" style="display:none;">GOOD — Flat structure with early return</span></span>
+<pre><span class="kw">function</span> <span class="method">processFile</span>(path) {
+    <span class="kw">if</span> (!fs.<span class="method">existsSync</span>(path)) <span class="kw">return null</span>;
+
+    <span class="kw">const</span> content = fs.<span class="method">readFileSync</span>(path);
+    <span class="kw">if</span> (content.length === <span class="field">0</span>) <span class="kw">return null</span>;
+
+    <span class="kw">const</span> parsed = JSON.<span class="method">parse</span>(content);
+    <span class="kw">return</span> parsed.data ?? <span class="kw">null</span>;
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzda 2'den fazla girinti seviyesi görüyorsanız alarm verin. Koruma cümleleriyle (guard clauses) olumsuz durumları erken eleyerek iç içe geçmeyi azaltın.</span><span class="en-text" style="display:none;">If you see more than 2 indentation levels in your code, raise an alarm. Use guard clauses to eliminate negative cases early and reduce nesting.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 46;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>
