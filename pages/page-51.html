@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 51 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        .bib-list { list-style: none; padding: 0; }
+        .bib-list li { padding: 12px 0; border-bottom: 1px solid #dee2e6; line-height: 1.7; }
+        .bib-list li:last-child { border-bottom: none; }
+        .bib-key { font-weight: 700; color: #1a1a2e; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 14px; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; SetupTeardownIncluder (son) &amp; Kaynakça</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="51" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size:20px;">
+        <span class="tr-text">SetupTeardownIncluder (son) / SetupTeardownIncluder (end)</span>
+        <span class="en-text" style="display:none;">SetupTeardownIncluder (end)</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodun son kısmında, sayfanın içeriğini güncelleme ve kalıtım yoluyla sayfa bulma gibi yardımcı metotlar bulunmaktadır. Her metot birkaç satırdan oluşur ve tek bir sorumluluğa odaklanır.</span>
+        <span class="en-text" style="display:none;">The final part of the code contains helper methods for updating page content and finding pages through inheritance. Each method consists of a few lines and focuses on a single responsibility.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>SetupTeardownIncluder.java (son)</span>
+            <span class="listing-label">Listing 3-7 (son)</span>
+        </div>
+        <pre><span class="kw">private void</span> <span class="method">updatePageContent</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="field">pageData</span>.<span class="method">setContent</span>(<span class="field">newPageContent</span>.<span class="method">toString</span>());
+}
+
+<span class="kw">private void</span> <span class="method">include</span>(<span class="type">String</span> pageName, <span class="type">String</span> arg)
+        <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="type">WikiPage</span> inheritedPage = <span class="method">findInheritedPage</span>(pageName);
+    <span class="kw">if</span> (inheritedPage != <span class="kw">null</span>) {
+        <span class="type">String</span> pagePathName =
+            <span class="method">getPathNameForPage</span>(inheritedPage);
+        <span class="method">buildIncludeDirective</span>(pagePathName, arg);
+    }
+}
+
+<span class="kw">private</span> <span class="type">WikiPage</span> <span class="method">findInheritedPage</span>(<span class="type">String</span> pageName)
+        <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="kw">return</span> <span class="type">PageCrawlerImpl</span>.<span class="method">getInheritedPage</span>(
+        pageName, <span class="field">testPage</span>);
+}
+
+<span class="kw">private</span> <span class="type">String</span> <span class="method">getPathNameForPage</span>(<span class="type">WikiPage</span> page)
+        <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="type">WikiPagePath</span> pagePath =
+        <span class="field">pageCrawler</span>.<span class="method">getFullPath</span>(page);
+    <span class="kw">return</span> <span class="type">PathParser</span>.<span class="method">render</span>(pagePath);
+}
+
+<span class="kw">private void</span> <span class="method">buildIncludeDirective</span>(
+        <span class="type">String</span> pagePathName, <span class="type">String</span> arg) {
+    <span class="field">newPageContent</span>
+        .<span class="method">append</span>(<span class="str">"\n!include "</span>)
+        .<span class="method">append</span>(arg)
+        .<span class="method">append</span>(<span class="str">" ."</span>)
+        .<span class="method">append</span>(pagePathName)
+        .<span class="method">append</span>(<span class="str">"\n"</span>);
+}
+}</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">include</code> metodu, sınıfın en kritik yardımcı metodudur. Bir sayfa adı ve argüman alır, kalıtım yoluyla sayfayı bulur ve eğer varsa bir dahil etme yönergesi (include directive) oluşturur. Buradaki <code class="inline">null</code> kontrolü, sayfanın mevcut olup olmadığını güvenli bir şekilde kontrol eder.</span>
+        <span class="en-text" style="display:none;">The <code class="inline">include</code> method is the class's most critical helper method. It takes a page name and an argument, finds the page through inheritance, and if it exists, builds an include directive. The <code class="inline">null</code> check here safely verifies whether the page exists.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">buildIncludeDirective</code> metodu, yeni sayfa içeriğine bir FitNesse dahil etme yönergesi ekler. Zincirleme <code class="inline">append</code> çağrıları bu bağlamda kabul edilebilir bir kullanımdır çünkü hepsi aynı <code class="inline">StringBuffer</code> nesnesi üzerinde çalışır ve tek bir amaca hizmet eder: yönerge dizgesini (directive string) oluşturmak.</span>
+        <span class="en-text" style="display:none;">The <code class="inline">buildIncludeDirective</code> method appends a FitNesse include directive to the new page content. The chained <code class="inline">append</code> calls are acceptable in this context because they all operate on the same <code class="inline">StringBuffer</code> object and serve a single purpose: building the directive string.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Kaynakça / Bibliography</span>
+        <span class="en-text" style="display:none;">Bibliography</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu bölümde referans verilen kaynaklar aşağıda listelenmiştir. Tam kaynakça sonraki sayfada devam etmektedir.</span>
+        <span class="en-text" style="display:none;">The references cited in this chapter are listed below. The full bibliography continues on the next page.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('delegation')">
+                <span class="tr-text">Delege Etme</span>
+                <span class="en-text" style="display:none;">Delegation</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('method-chaining')">
+                <span class="tr-text">Metot Zincirleme</span>
+                <span class="en-text" style="display:none;">Method Chaining</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-50.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 50 — SetupTeardownIncluder (devam)</span><span class="en-text" style="display:none;">Page 50 — SetupTeardownIncluder (cont.)</span></div>
+    </a>
+    <a href="page-52.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 52 — Kaynakça</span><span class="en-text" style="display:none;">Page 52 — Bibliography</span></div>
+    </a>
+</div>
+
+<!-- Modal: Delege Etme -->
+<div class="modal-overlay" id="modal-delegation">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Delege Etme (Delegation)</span><span class="en-text" style="display:none;">Delegation</span></h3>
+            <button class="modal-close" onclick="closeModal('delegation')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Delege etme (Delegation), bir nesnenin kendisi yerine işi başka bir nesneye ya da metoda yaptırması prensibidir. <code class="inline">findInheritedPage</code> metodu, asıl sayfa arama işini <code class="inline">PageCrawlerImpl</code> sınıfına delege eder. Bu sayede her katman kendi sorumluluğuna odaklanır.</span><span class="en-text" style="display:none;">Delegation is the principle of having an object pass work to another object or method instead of doing it itself. The <code class="inline">findInheritedPage</code> method delegates the actual page search to <code class="inline">PageCrawlerImpl</code>. This way each layer focuses on its own responsibility.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Her şeyi kendisi yapar</span><span class="en-text" style="display:none;">BAD — Does everything itself</span></span>
+<pre><span class="kw">class</span> <span class="type">OrderService</span> {
+    <span class="method">placeOrder</span>(order) {
+        <span class="comment">// Stok kontrolü burada</span>
+        <span class="kw">const</span> stock = db.<span class="method">query</span>(
+            <span class="str">`SELECT qty FROM inventory
+             WHERE id = ${order.productId}`</span>);
+        <span class="kw">if</span> (stock &lt; order.qty) <span class="kw">throw</span> ...;
+        <span class="comment">// Ödeme burada</span>
+        stripe.<span class="method">charges</span>.<span class="method">create</span>({...});
+        <span class="comment">// Kargo burada</span>
+        ups.<span class="method">createShipment</span>({...});
+    }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Sorumluluklar delege edilmiş</span><span class="en-text" style="display:none;">GOOD — Responsibilities delegated</span></span>
+<pre><span class="kw">class</span> <span class="type">OrderService</span> {
+    <span class="method">constructor</span>(inventory, payment, shipping) {
+        <span class="kw">this</span>.inventory = inventory;
+        <span class="kw">this</span>.payment = payment;
+        <span class="kw">this</span>.shipping = shipping;
+    }
+
+    <span class="method">placeOrder</span>(order) {
+        <span class="kw">this</span>.inventory.<span class="method">reserve</span>(order);
+        <span class="kw">this</span>.payment.<span class="method">charge</span>(order);
+        <span class="kw">this</span>.shipping.<span class="method">dispatch</span>(order);
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir metot farklı bir alanın detaylarına dalıyorsa (veritabanı sorgusu, API çağrısı, dosya işlemi), bu işi o alandan sorumlu bir sınıfa delege edin. Metot yalnızca "ne yapılacağını" bilmeli, "nasıl yapılacağını" değil.</span><span class="en-text" style="display:none;">If a method dives into details of a different domain (database queries, API calls, file operations), delegate that work to a class responsible for that domain. The method should only know "what" to do, not "how" to do it.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Metot Zincirleme -->
+<div class="modal-overlay" id="modal-method-chaining">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Metot Zincirleme (Method Chaining)</span><span class="en-text" style="display:none;">Method Chaining</span></h3>
+            <button class="modal-close" onclick="closeModal('method-chaining')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Metot Zincirleme (Method Chaining), birden fazla metot çağrısını ardışık olarak bağlama tekniğidir. <code class="inline">StringBuffer.append()</code> zincirleri bu tekniğin güvenli kullanımına örnektir çünkü hepsi aynı nesne üzerinde çalışır. Ancak farklı nesneler arasındaki uzun zincirler (<code class="inline">a.b().c().d()</code>) "Tren Kazası" (Train Wreck) olarak adlandırılır ve kaçınılması gereken bir kalıptır.</span><span class="en-text" style="display:none;">Method Chaining is the technique of linking multiple method calls sequentially. <code class="inline">StringBuffer.append()</code> chains are an example of safe usage because they all operate on the same object. However, long chains across different objects (<code class="inline">a.b().c().d()</code>) are called "Train Wrecks" and should be avoided.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Farklı nesneler arası zincir (Tren Kazası)</span><span class="en-text" style="display:none;">BAD — Cross-object chain (Train Wreck)</span></span>
+<pre><span class="comment"># Demeter Yasasını ihlal eder</span>
+city = employee.<span class="method">getDepartment</span>()
+    .<span class="method">getManager</span>()
+    .<span class="method">getAddress</span>()
+    .<span class="method">getCity</span>()</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Aynı nesne üzerinde zincir (Kabul edilebilir)</span><span class="en-text" style="display:none;">GOOD — Same-object chain (Acceptable)</span></span>
+<pre><span class="comment"># StringBuilder zincirleri kabul edilebilir</span>
+query = (<span class="type">StringBuilder</span>()
+    .<span class="method">append</span>(<span class="str">"SELECT * "</span>)
+    .<span class="method">append</span>(<span class="str">"FROM users "</span>)
+    .<span class="method">append</span>(<span class="str">"WHERE active = true"</span>)
+    .<span class="method">toString</span>())
+
+<span class="comment"># Farklı nesneler arası: delege et</span>
+city = employee.<span class="method">getManagerCity</span>()</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Zincirleme yaparken bir kural uygulayın: zincirdeki her çağrı aynı nesneyi mi döndürüyor? Evetse (builder, buffer), sorun yok. Hayırsa (farklı nesnelere dalıyorsa), bu bir tren kazası — delege metotlarla çözün.</span><span class="en-text" style="display:none;">Apply a rule when chaining: does each call in the chain return the same object? If yes (builder, buffer), it's fine. If no (reaching into different objects), it's a train wreck — resolve it with delegation methods.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 51;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

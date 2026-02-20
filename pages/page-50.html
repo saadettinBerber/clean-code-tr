@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 50 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; SetupTeardownIncluder (devam)</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="50" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size:20px;">
+        <span class="tr-text">SetupTeardownIncluder (devam) / SetupTeardownIncluder (cont.)</span>
+        <span class="en-text" style="display:none;">SetupTeardownIncluder (cont.)</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Kodun devamında, sınıfın asıl iş mantığını içeren özel (private) metotlar yer almaktadır. <code class="inline">render(boolean isSuite)</code> metodu, sınıfın ana giriş noktasıdır ve tüm iş akışını üst seviyede koordine eder. Dikkat ederseniz, bu metot yalnızca birkaç satırdan oluşur ve ne yaptığını açıkça ifade eder.</span>
+        <span class="en-text" style="display:none;">The continuation of the code contains the private methods that hold the actual business logic. The <code class="inline">render(boolean isSuite)</code> method is the main entry point and coordinates the entire workflow at a high level. Notice that this method consists of only a few lines and clearly expresses what it does.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>SetupTeardownIncluder.java (devam)</span>
+            <span class="listing-label">Listing 3-7 (devam)</span>
+        </div>
+        <pre><span class="kw">private</span> <span class="type">String</span> <span class="method">render</span>(<span class="kw">boolean</span> isSuite) <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="kw">this</span>.<span class="field">isSuite</span> = isSuite;
+    <span class="kw">if</span> (<span class="method">isTestPage</span>())
+        <span class="method">includeSetupAndTeardownPages</span>();
+    <span class="kw">return</span> <span class="field">pageData</span>.<span class="method">getHtml</span>();
+}
+
+<span class="kw">private boolean</span> <span class="method">isTestPage</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="kw">return</span> <span class="field">pageData</span>.<span class="method">hasAttribute</span>(<span class="str">"Test"</span>);
+}
+
+<span class="kw">private void</span> <span class="method">includeSetupAndTeardownPages</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">includeSetupPages</span>();
+    <span class="method">includePageContent</span>();
+    <span class="method">includeTeardownPages</span>();
+    <span class="method">updatePageContent</span>();
+}
+
+<span class="kw">private void</span> <span class="method">includeSetupPages</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="kw">if</span> (<span class="field">isSuite</span>)
+        <span class="method">includeSuiteSetupPage</span>();
+    <span class="method">includeSetupPage</span>();
+}
+
+<span class="kw">private void</span> <span class="method">includeSuiteSetupPage</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">include</span>(<span class="type">SuiteResponder</span>.<span class="field">SUITE_SETUP_NAME</span>, <span class="str">"-setup"</span>);
+}
+
+<span class="kw">private void</span> <span class="method">includeSetupPage</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">include</span>(<span class="str">"SetUp"</span>, <span class="str">"-setup"</span>);
+}
+
+<span class="kw">private void</span> <span class="method">includePageContent</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="field">newPageContent</span>.<span class="method">append</span>(<span class="field">pageData</span>.<span class="method">getContent</span>());
+}
+
+<span class="kw">private void</span> <span class="method">includeTeardownPages</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">includeTeardownPage</span>();
+    <span class="kw">if</span> (<span class="field">isSuite</span>)
+        <span class="method">includeSuiteTeardownPage</span>();
+}
+
+<span class="kw">private void</span> <span class="method">includeTeardownPage</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">include</span>(<span class="str">"TearDown"</span>, <span class="str">"-teardown"</span>);
+}
+
+<span class="kw">private void</span> <span class="method">includeSuiteTeardownPage</span>() <span class="kw">throws</span> <span class="type">Exception</span> {
+    <span class="method">include</span>(<span class="type">SuiteResponder</span>.<span class="field">SUITE_TEARDOWN_NAME</span>, <span class="str">"-teardown"</span>);
+}</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu metotların her biri yalnızca tek bir iş yapmaktadır. Her metot, adıyla uyumlu tek bir sorumluluğa sahiptir: <code class="inline">includeSetupPages()</code> yalnızca kurulum sayfalarını ekler, <code class="inline">includeTeardownPages()</code> yalnızca temizlik sayfalarını ekler. Bu, Tek Sorumluluk (Single Responsibility) ilkesinin metot seviyesindeki mükemmel bir uygulamasıdır.</span>
+        <span class="en-text" style="display:none;">Each of these methods does only one thing. Each method has a single responsibility consistent with its name: <code class="inline">includeSetupPages()</code> only includes setup pages, <code class="inline">includeTeardownPages()</code> only includes teardown pages. This is a perfect application of the Single Responsibility principle at the method level.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Ayrıca Basamak Kuralına (Stepdown Rule) da uyulduğuna dikkat edin: kod yukarıdan aşağıya bir gazete makalesi gibi okunabilir. Üst seviye metotlar önce gelir, ayrıntılar aşağıya doğru açılır. <code class="inline">render</code> &rarr; <code class="inline">includeSetupAndTeardownPages</code> &rarr; <code class="inline">includeSetupPages</code> &rarr; <code class="inline">includeSuiteSetupPage</code> şeklinde bir soyutlama hiyerarşisi oluşur.</span>
+        <span class="en-text" style="display:none;">Also notice how the Stepdown Rule is followed: the code reads top-down like a newspaper article. Higher-level methods come first, details unfold downward. A hierarchy of abstraction forms: <code class="inline">render</code> &rarr; <code class="inline">includeSetupAndTeardownPages</code> &rarr; <code class="inline">includeSetupPages</code> &rarr; <code class="inline">includeSuiteSetupPage</code>.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('single-responsibility-method')">
+                <span class="tr-text">Metot Seviyesinde Tek Sorumluluk</span>
+                <span class="en-text" style="display:none;">Method-Level Single Responsibility</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('stepdown-rule')">
+                <span class="tr-text">Basamak Kuralı</span>
+                <span class="en-text" style="display:none;">Stepdown Rule</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('composed-method')">
+                <span class="tr-text">Oluşturulmuş Metot</span>
+                <span class="en-text" style="display:none;">Composed Method</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-49.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 49 — SetupTeardownIncluder</span><span class="en-text" style="display:none;">Page 49 — SetupTeardownIncluder</span></div>
+    </a>
+    <a href="page-51.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 51 — SetupTeardownIncluder (son) ve Kaynakça</span><span class="en-text" style="display:none;">Page 51 — SetupTeardownIncluder (end) &amp; Bibliography</span></div>
+    </a>
+</div>
+
+<!-- Modal: Metot Seviyesinde Tek Sorumluluk -->
+<div class="modal-overlay" id="modal-single-responsibility-method">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Metot Seviyesinde Tek Sorumluluk (Method-Level SRP)</span><span class="en-text" style="display:none;">Method-Level Single Responsibility</span></h3>
+            <button class="modal-close" onclick="closeModal('single-responsibility-method')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Tek Sorumluluk İlkesi (SRP) sadece sınıflar için değil, metotlar için de geçerlidir. Her metot yalnızca bir şey yapmalı ve bunu adıyla açıkça ifade etmelidir. Bir metodun ne yaptığını özetlemek için "ve" kullanıyorsanız, o metot muhtemelen bölünmelidir.</span><span class="en-text" style="display:none;">The Single Responsibility Principle (SRP) applies not only to classes but also to methods. Every method should do only one thing and express it clearly through its name. If you need the word "and" to summarize what a method does, it probably needs to be split.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Birden fazla sorumluluk</span><span class="en-text" style="display:none;">BAD — Multiple responsibilities</span></span>
+<pre><span class="kw">function</span> <span class="method">processOrder</span>(order) {
+    <span class="comment">// Doğrulama</span>
+    <span class="kw">if</span> (!order.items || order.items.length === 0)
+        <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">"Empty order"</span>);
+    <span class="comment">// Hesaplama</span>
+    <span class="kw">let</span> total = 0;
+    <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> order.items)
+        total += item.price * item.qty;
+    <span class="comment">// Veritabanı</span>
+    db.<span class="method">save</span>({ ...order, total });
+    <span class="comment">// E-posta</span>
+    <span class="method">sendConfirmation</span>(order.email, total);
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her metot tek iş</span><span class="en-text" style="display:none;">GOOD — Each method does one thing</span></span>
+<pre><span class="kw">function</span> <span class="method">processOrder</span>(order) {
+    <span class="method">validateOrder</span>(order);
+    <span class="kw">const</span> total = <span class="method">calculateTotal</span>(order.items);
+    <span class="method">persistOrder</span>(order, total);
+    <span class="method">notifyCustomer</span>(order.email, total);
+}
+
+<span class="kw">function</span> <span class="method">validateOrder</span>(order) { <span class="comment">/* ... */</span> }
+<span class="kw">function</span> <span class="method">calculateTotal</span>(items) { <span class="comment">/* ... */</span> }
+<span class="kw">function</span> <span class="method">persistOrder</span>(order, total) { <span class="comment">/* ... */</span> }
+<span class="kw">function</span> <span class="method">notifyCustomer</span>(email, total) { <span class="comment">/* ... */</span> }</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir metotta yorum başlıkları görüyorsanız (// Doğrulama, // Hesaplama, // Kaydet), her bölüm ayrı bir metot olmalıdır. Yorum başlığı, "burada yeni bir sorumluluk başlıyor" demektir.</span><span class="en-text" style="display:none;">If you see comment headers in a method (// Validate, // Calculate, // Save), each section should be a separate method. A comment header means "a new responsibility starts here."</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Basamak Kuralı -->
+<div class="modal-overlay" id="modal-stepdown-rule">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Basamak Kuralı (Stepdown Rule)</span><span class="en-text" style="display:none;">Stepdown Rule</span></h3>
+            <button class="modal-close" onclick="closeModal('stepdown-rule')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Basamak Kuralı (Stepdown Rule), kodu bir gazete makalesi gibi organize etmeyi önerir: önce üst seviye özet, sonra detaylar. Her fonksiyonun altındaki fonksiyonlar, bir soyutlama seviyesi daha düşük olmalıdır. Okuyucu yukarıdan aşağıya inerken giderek daha fazla detayla karşılaşır.</span><span class="en-text" style="display:none;">The Stepdown Rule suggests organizing code like a newspaper article: first a high-level summary, then details. Functions below each function should be one level of abstraction lower. As the reader moves top-down, they encounter progressively more detail.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Karışık soyutlama seviyeleri</span><span class="en-text" style="display:none;">BAD — Mixed abstraction levels</span></span>
+<pre><span class="kw">class</span> <span class="type">ReportGenerator</span> {
+    <span class="comment">// Düşük seviye detay en üstte</span>
+    <span class="kw">private</span> <span class="type">String</span> <span class="method">formatCurrency</span>(<span class="kw">double</span> v) {
+        <span class="kw">return</span> <span class="type">String</span>.<span class="method">format</span>(<span class="str">"$%.2f"</span>, v);
+    }
+    <span class="comment">// Yüksek seviye metot altta</span>
+    <span class="kw">public</span> <span class="type">Report</span> <span class="method">generate</span>() { ... }
+    <span class="comment">// Orta seviye arada</span>
+    <span class="kw">private</span> <span class="type">List</span> <span class="method">fetchData</span>() { ... }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Yukarıdan aşağıya soyutlama</span><span class="en-text" style="display:none;">GOOD — Top-down abstraction</span></span>
+<pre><span class="kw">class</span> <span class="type">ReportGenerator</span> {
+    <span class="comment">// Seviye 1: En yüksek soyutlama</span>
+    <span class="kw">public</span> <span class="type">Report</span> <span class="method">generate</span>() {
+        <span class="type">List</span> data = <span class="method">fetchData</span>();
+        <span class="type">Table</span> table = <span class="method">buildTable</span>(data);
+        <span class="kw">return</span> <span class="method">formatReport</span>(table);
+    }
+    <span class="comment">// Seviye 2: Orta soyutlama</span>
+    <span class="kw">private</span> <span class="type">List</span> <span class="method">fetchData</span>() { ... }
+    <span class="kw">private</span> <span class="type">Table</span> <span class="method">buildTable</span>(...) { ... }
+    <span class="kw">private</span> <span class="type">Report</span> <span class="method">formatReport</span>(...) { ... }
+    <span class="comment">// Seviye 3: Düşük seviye detay</span>
+    <span class="kw">private</span> <span class="type">String</span> <span class="method">formatCurrency</span>(...) { ... }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Dosyanızı açtığınızda ilk gördüğünüz metot, "bu sınıf ne yapıyor?" sorusunun cevabı olmalıdır. Detaylar aşağıda olsun — bir gazete makalesinin manşetinden gövdeye inmesi gibi.</span><span class="en-text" style="display:none;">The first method you see when opening a file should answer "what does this class do?" Details come below — like going from a newspaper headline to the body text.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Oluşturulmuş Metot -->
+<div class="modal-overlay" id="modal-composed-method">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Oluşturulmuş Metot (Composed Method)</span><span class="en-text" style="display:none;">Composed Method</span></h3>
+            <button class="modal-close" onclick="closeModal('composed-method')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Oluşturulmuş Metot (Composed Method) deseni, bir metodu yalnızca diğer metotlara yapılan çağrılardan oluşturma tekniğidir. <code class="inline">includeSetupAndTeardownPages()</code> bunun harika bir örneğidir: kendi içinde herhangi bir düşük seviye iş yapmaz, sadece diğer metotları doğru sırayla çağırır.</span><span class="en-text" style="display:none;">The Composed Method pattern is a technique of building a method entirely from calls to other methods. <code class="inline">includeSetupAndTeardownPages()</code> is a great example: it doesn't do any low-level work itself, it just calls other methods in the right order.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tek monolitik metot</span><span class="en-text" style="display:none;">BAD — Single monolithic method</span></span>
+<pre><span class="kw">def</span> <span class="method">deploy</span>(app):
+    <span class="comment"># 50+ satır: build, test, package, upload,</span>
+    <span class="comment"># verify, notify... hepsi tek metotta</span>
+    subprocess.<span class="method">run</span>([<span class="str">"npm"</span>, <span class="str">"run"</span>, <span class="str">"build"</span>])
+    subprocess.<span class="method">run</span>([<span class="str">"npm"</span>, <span class="str">"test"</span>])
+    <span class="comment"># ... 40 satır daha</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Oluşturulmuş metot</span><span class="en-text" style="display:none;">GOOD — Composed method</span></span>
+<pre><span class="kw">def</span> <span class="method">deploy</span>(app):
+    <span class="method">build_application</span>(app)
+    <span class="method">run_tests</span>(app)
+    <span class="method">create_package</span>(app)
+    <span class="method">upload_to_server</span>(app)
+    <span class="method">verify_deployment</span>(app)
+    <span class="method">notify_team</span>(app)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Üst seviye bir metot "ne yapılacağını" anlatmalı, "nasıl yapılacağını" değil. <code class="inline">includeSetupAndTeardownPages</code> okuyucuya tam olarak ne olduğunu söyler — detaylar merak edenler alt metotlara inebilir.</span><span class="en-text" style="display:none;">A high-level method should tell "what" to do, not "how" to do it. <code class="inline">includeSetupAndTeardownPages</code> tells the reader exactly what happens — those curious about details can drill into the sub-methods.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 50;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 42 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code &mdash; Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; İkili Fonksiyonlar, Üçlüler &amp; Argüman Nesneleri</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="42" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">İkili Fonksiyonlar / Dyadic Functions</span>
+        <span class="en-text" style="display:none;">Dyadic Functions</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İki argümanlı bir fonksiyon, tekli (monadic) bir fonksiyondan daha zor anlaşılır. Örneğin, <code class="inline">writeField(name)</code> ifadesini anlamak <code class="inline">writeField(outputStream, name)</code> ifadesinden daha kolaydır.<sup>10</sup> Her ikisinin anlamı açık olsa da, ilki gözün önünden kayarak kolayca anlamını bırakır. İkincisi ise ilk parametreyi görmezden gelmeyi öğrenene kadar kısa bir duraksama gerektirir. Ve bu da, elbette, sonunda sorunlara yol açar çünkü kodun hiçbir parçasını görmezden gelmemeliyiz. Görmezden geldiğimiz parçalar, hataların saklanacağı yerlerdir.</span>
+        <span class="en-text" style="display:none;">A function with two arguments is harder to understand than a monadic function. For example, <code class="inline">writeField(name)</code> is easier to understand than <code class="inline">writeField(outputStream, name)</code>.<sup>10</sup> Though the meaning of both is clear, the first glides past the eye, easily depositing its meaning. The second requires a short pause until we learn to ignore the first parameter. And <em>that</em>, of course, eventually results in problems because we should never ignore any part of code. The parts we ignore are where the bugs will hide.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Elbette, iki argümanın uygun olduğu durumlar vardır. Örneğin, <code class="inline">Point p = new Point(0,0);</code> son derece makuldür. Kartezyen noktalar doğal olarak iki argüman alır. Aslında, <code class="inline">new Point(0)</code> görsek çok şaşırırdık. Ancak bu durumda iki argüman, <em>tek bir değerin sıralı bileşenleridir</em>! Oysa <code class="inline">outputStream</code> ve <code class="inline">name</code>'in ne doğal bir bütünlüğü (cohesion) ne de doğal bir sıralaması vardır.</span>
+        <span class="en-text" style="display:none;">There are times, of course, where two arguments are appropriate. For example, <code class="inline">Point p = new Point(0,0);</code> is perfectly reasonable. Cartesian points naturally take two arguments. Indeed, we'd be very surprised to see <code class="inline">new Point(0)</code>. However, the two arguments in this case <em>are ordered components of a single value!</em> Whereas <code class="inline">outputStream</code> and <code class="inline">name</code> have neither a natural cohesion, nor a natural ordering.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text"><code class="inline">assertEquals(expected, actual)</code> gibi açık ikili fonksiyonlar bile sorunludur. Kaç kez <code class="inline">actual</code>'ı <code class="inline">expected</code>'ın yerine koyduğunuz oldu? İki argümanın doğal bir sıralaması yoktur. <code class="inline">expected, actual</code> sıralaması, öğrenilmesi gereken bir gelenektir ve pratik gerektirir.</span>
+        <span class="en-text" style="display:none;">Even obvious dyadic functions like <code class="inline">assertEquals(expected, actual)</code> are problematic. How many times have you put the <code class="inline">actual</code> where the <code class="inline">expected</code> should be? The two arguments have no natural ordering. The <code class="inline">expected, actual</code> ordering is a convention that requires practice to learn.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İkililer (dyads) kötü değildir ve kesinlikle yazmak zorunda kalacaksınız. Ancak, bunların bir maliyeti olduğunun farkında olmalı ve onları tekliye (monad) dönüştürmek için elinizde ne tür mekanizmalar olduğundan yararlanmalısınız. Örneğin, <code class="inline">writeField</code> metodunu <code class="inline">outputStream</code>'in bir üyesi yaparak <code class="inline">outputStream.writeField(name)</code> diyebilirsiniz. Ya da <code class="inline">outputStream</code>'i mevcut sınıfın bir üye değişkeni yaparak geçirmek zorunda kalmayabilirsiniz. Ya da yapıcısında (constructor) <code class="inline">outputStream</code> alan ve bir <code class="inline">write</code> metodu olan <code class="inline">FieldWriter</code> gibi yeni bir sınıf çıkarabilirsiniz.</span>
+        <span class="en-text" style="display:none;">Dyads aren't evil, and you will certainly have to write them. However, you should be aware that they come at a cost and should take advantage of what mechanisms may be available to you to convert them into monads. For example, you might make the <code class="inline">writeField</code> method a member of <code class="inline">outputStream</code> so that you can say <code class="inline">outputStream.writeField(name)</code>. Or you might make the <code class="inline">outputStream</code> a member variable of the current class so that you don't have to pass it. Or you might extract a new class like <code class="inline">FieldWriter</code> that takes the <code class="inline">outputStream</code> in its constructor and has a <code class="inline">write</code> method.</span>
+    </div>
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Üçlüler / Triads</span>
+        <span class="en-text" style="display:none;">Triads</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Üç argüman alan fonksiyonlar, ikililere göre önemli ölçüde daha zor anlaşılır. Sıralama, duraklatma ve görmezden gelme sorunları ikiye katlanmanın ötesindedir. Bir üçlü (triad) oluşturmadan önce çok dikkatli düşünmenizi öneririm.</span>
+        <span class="en-text" style="display:none;">Functions that take three arguments are significantly harder to understand than dyads. The issues of ordering, pausing, and ignoring are more than doubled. I suggest you think very carefully before creating a triad.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Örneğin, üç argüman alan yaygın <code class="inline">assertEquals</code> aşırı yüklemesini (overload) ele alalım: <code class="inline">assertEquals(message, expected, actual)</code>. Kaç kez <code class="inline">message</code>'ı okuyup <code class="inline">expected</code> sandığınız oldu? Bu özel üçlüde tökezleyip duraksadım defalarca. Aslında, <em>her gördüğümde</em> iki kez bakıp sonra mesajı görmezden gelmeyi öğreniyorum.</span>
+        <span class="en-text" style="display:none;">For example, consider the common overload of <code class="inline">assertEquals</code> that takes three arguments: <code class="inline">assertEquals(message, expected, actual)</code>. How many times have you read the <code class="inline">message</code> and thought it was the <code class="inline">expected</code>? I have stumbled and paused over that particular triad many times. In fact, <em>every time I see it</em>, I do a double-take and then learn to ignore the message.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Öte yandan, o kadar da sinsi olmayan bir üçlü (triad) örneği var: <code class="inline">assertEquals(1.0, amount, .001)</code>. Bu yine bir iki kez bakmayı gerektirse de, buna değer. Kayan noktalı (floating point) değerlerin eşitliğinin göreceli bir şey olduğunu hatırlatması her zaman iyidir.</span>
+        <span class="en-text" style="display:none;">On the other hand, here is a triad that is not quite so insidious: <code class="inline">assertEquals(1.0, amount, .001)</code>. Although this still requires a double-take, it's one that's worth taking. It's always good to be reminded that equality of floating point values is a relative thing.</span>
+    </div>
+
+    <div class="footnote">
+        <span class="footnote-number">10.</span>
+        <span class="tr-text"> İkili formu kullanan bir modülü yeniden düzenlemeyi (refactoring) yeni bitirdim. <code class="inline">outputStream</code>'i sınıfın bir alanı yaparak tüm <code class="inline">writeField</code> çağrılarını tekli forma dönüştürebildim. Sonuç çok daha temizdi.</span>
+        <span class="en-text" style="display:none;"> I just finished refactoring a module that used the dyadic form. I was able to make the <code class="inline">outputStream</code> a field of the class and convert all the <code class="inline">writeField</code> calls to the monadic form. The result was much cleaner.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('dyad-to-monad')">
+                <span class="tr-text">İkiliden Tekliye Dönüşüm</span>
+                <span class="en-text" style="display:none;">Dyad to Monad Conversion</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('natural-cohesion')">
+                <span class="tr-text">Doğal Bütünlük</span>
+                <span class="en-text" style="display:none;">Natural Cohesion</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('argument-ordering')">
+                <span class="tr-text">Argüman Sıralama Problemi</span>
+                <span class="en-text" style="display:none;">Argument Ordering Problem</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-41.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 41 &mdash; Çıkış Argümanları &amp; Tekli Formlar</span><span class="en-text" style="display:none;">Page 41 &mdash; Output Arguments &amp; Monadic Forms</span></div>
+    </a>
+    <a href="page-43.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 43 &mdash; Argüman Nesneleri &amp; Fiiller ve Anahtar Kelimeler</span><span class="en-text" style="display:none;">Page 43 &mdash; Argument Objects &amp; Verbs and Keywords</span></div>
+    </a>
+</div>
+
+<!-- Modal: İkiliden Tekliye Dönüşüm -->
+<div class="modal-overlay" id="modal-dyad-to-monad">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İkiliden Tekliye Dönüşüm (Dyad to Monad)</span><span class="en-text" style="display:none;">Dyad to Monad Conversion</span></h3>
+            <button class="modal-close" onclick="closeModal('dyad-to-monad')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">İki argümanlı fonksiyonları tek argümanlı hale getirmenin üç yolu vardır: (1) Argümanlardan birini sınıf üyesi yapmak, (2) argümanı nesnenin metodu olarak çağırmak, (3) yeni bir sınıf oluşturmak.</span><span class="en-text" style="display:none;">There are three ways to convert dyadic functions to monadic: (1) Make one argument a class member, (2) call it as a method of the argument object, (3) create a new class.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; İkili fonksiyon</span><span class="en-text" style="display:none;">BAD &mdash; Dyadic function</span></span>
+<pre><span class="kw">function</span> <span class="method">sendEmail</span>(smtpClient, message) {
+    smtpClient.<span class="method">connect</span>();
+    smtpClient.<span class="method">send</span>(message);
+    smtpClient.<span class="method">disconnect</span>();
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Sınıf üyesi olarak dönüştürme</span><span class="en-text" style="display:none;">GOOD &mdash; Convert to class member</span></span>
+<pre><span class="kw">class</span> <span class="type">EmailSender</span> {
+    <span class="method">constructor</span>(smtpClient) {
+        <span class="kw">this</span>.smtpClient = smtpClient;
+    }
+
+    <span class="method">send</span>(message) {
+        <span class="kw">this</span>.smtpClient.<span class="method">connect</span>();
+        <span class="kw">this</span>.smtpClient.<span class="method">send</span>(message);
+        <span class="kw">this</span>.smtpClient.<span class="method">disconnect</span>();
+    }
+}
+
+<span class="comment">// Kullanım: tekli forma dönüştü</span>
+<span class="kw">const</span> sender = <span class="kw">new</span> <span class="type">EmailSender</span>(smtpClient);
+sender.<span class="method">send</span>(message);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">İki argüman gördüğünüzde kendinize sorun: "Bu argümanlardan biri her zaman aynı mı?" Eğer öyleyse, onu sınıfın yapıcısına taşıyın ve fonksiyonu tekliye dönüştürün.</span><span class="en-text" style="display:none;">When you see two arguments, ask yourself: "Is one of these arguments always the same?" If so, move it to the class constructor and convert the function to monadic.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Doğal Bütünlük -->
+<div class="modal-overlay" id="modal-natural-cohesion">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Doğal Bütünlük (Natural Cohesion)</span><span class="en-text" style="display:none;">Natural Cohesion</span></h3>
+            <button class="modal-close" onclick="closeModal('natural-cohesion')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">İki argüman yalnızca tek bir değerin sıralı bileşenleri olduğunda doğal bir bütünlüğe sahiptir. Point(x, y) doğaldır çünkü x ve y birlikte bir kavramı temsil eder. Ancak rastgele iki argümanın doğal bir bütünlüğü yoktur.</span><span class="en-text" style="display:none;">Two arguments have natural cohesion only when they are ordered components of a single value. Point(x, y) is natural because x and y together represent a concept. But arbitrary two arguments have no natural cohesion.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Doğal bütünlüğü olmayan argümanlar</span><span class="en-text" style="display:none;">BAD &mdash; Arguments without natural cohesion</span></span>
+<pre><span class="kw">def</span> <span class="method">create_rectangle</span>(x1, y1, x2, y2, color, border_width):
+    <span class="comment"># 6 ayrı argüman - hangileri birlikte?</span>
+    ...</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Doğal bütünlükle gruplandırılmış</span><span class="en-text" style="display:none;">GOOD &mdash; Grouped by natural cohesion</span></span>
+<pre><span class="kw">def</span> <span class="method">create_rectangle</span>(top_left, bottom_right, style):
+    <span class="comment"># 3 argüman, her biri doğal bir kavramı temsil ediyor</span>
+    ...
+
+top_left = <span class="type">Point</span>(<span class="field">10</span>, <span class="field">20</span>)
+bottom_right = <span class="type">Point</span>(<span class="field">100</span>, <span class="field">200</span>)
+style = <span class="type">RectStyle</span>(color=<span class="str">"blue"</span>, border_width=<span class="field">2</span>)
+<span class="method">create_rectangle</span>(top_left, bottom_right, style)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Bu argümanlar birlikte bir kavram oluşturuyor mu?" diye sorun. Eğer x ve y gibi her zaman birlikte kullanılıyorlarsa, bir Point nesnesi oluşturun. Eğer bağımsız kavramlarsa, farklı fonksiyonlara bölün.</span><span class="en-text" style="display:none;">Ask: "Do these arguments form a concept together?" If they are always used together like x and y, create a Point object. If they are independent concepts, split into different functions.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Argüman Sıralama Problemi -->
+<div class="modal-overlay" id="modal-argument-ordering">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Argüman Sıralama Problemi (Argument Ordering)</span><span class="en-text" style="display:none;">Argument Ordering Problem</span></h3>
+            <button class="modal-close" onclick="closeModal('argument-ordering')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Doğal sıralaması olmayan argümanlar, yanlış sırada geçirilmeye son derece açıktır. assertEquals(expected, actual) gibi fonksiyonlarda hangi argümanın hangisi olduğunu hatırlamak bir gelenektir ve hataya davetiye çıkarır.</span><span class="en-text" style="display:none;">Arguments without a natural ordering are prone to being passed in the wrong order. In functions like assertEquals(expected, actual), remembering which argument is which is a convention and invites errors.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Sıralama belirsiz</span><span class="en-text" style="display:none;">BAD &mdash; Ambiguous ordering</span></span>
+<pre><span class="kw">function</span> <span class="method">copyFile</span>(path1, path2) {
+    <span class="comment">// path1 kaynak mı hedef mi? path2?</span>
+    ...
+}
+
+<span class="method">copyFile</span>(<span class="str">"/tmp/backup.sql"</span>, <span class="str">"/var/data/db.sql"</span>);
+<span class="comment">// Hangi yöne kopyalanıyor?</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; İsimde sıralama kodlanmış</span><span class="en-text" style="display:none;">GOOD &mdash; Ordering encoded in name</span></span>
+<pre><span class="kw">function</span> <span class="method">copyFileFromSourceToDestination</span>(source, destination) {
+    ...
+}
+
+<span class="comment">// Veya daha kısa: nesne yaklaşımı</span>
+<span class="kw">class</span> <span class="type">FileCopier</span> {
+    <span class="method">constructor</span>(source) { <span class="kw">this</span>.source = source; }
+    <span class="method">copyTo</span>(destination) { ... }
+}
+
+<span class="kw">new</span> <span class="type">FileCopier</span>(<span class="str">"/var/data/db.sql"</span>).<span class="method">copyTo</span>(<span class="str">"/tmp/backup.sql"</span>);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Argüman sıralaması belirsizse iki çözüm var: (1) Argüman isimlerini fonksiyon adına kodlayın: <code class="inline">assertExpectedEqualsActual</code>, (2) argümanlardan birini nesnenin kendisi yapın.</span><span class="en-text" style="display:none;">If argument ordering is ambiguous, two solutions: (1) Encode argument names into the function name: <code class="inline">assertExpectedEqualsActual</code>, (2) make one argument the object itself.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 42;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

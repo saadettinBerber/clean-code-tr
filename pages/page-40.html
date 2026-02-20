@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 40 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code &mdash; Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Betimleyici İsimler Kullanın &amp; Fonksiyon Argümanları</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="40" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Betimleyici İsimler Kullanın / Use Descriptive Names (devam)</span>
+        <span class="en-text" style="display:none;">Use Descriptive Names (continued)</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir isim seçerken zaman harcamaktan korkmayın. Aslında birkaç farklı isim deneyip her birinin yerinde nasıl göründüğünü okuyarak kodu gözden geçirmelisiniz. Eclipse veya IntelliJ gibi modern IDE'ler isimleri değiştirmeyi son derece kolaylaştırır. Bu IDE'lerden birini kullanın ve mümkün olduğunca betimleyici olan ismi bulana kadar farklı isimlerle denemeler yapın.</span>
+        <span class="en-text" style="display:none;">Don't be afraid to spend time choosing a name. Indeed, you should try several different names and read the code with each in place. Modern IDEs like Eclipse or IntelliJ make it trivial to change names. Use one of those IDEs and experiment with different names until you find one that is as descriptive as you can make it.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Betimleyici isimler (descriptive names) seçmek, modülün tasarımını zihninizde netleştirecek ve onu geliştirmenize yardımcı olacaktır. İyi bir isim arayışının kodun olumlu bir yeniden yapılandırmasıyla (restructuring) sonuçlanması hiç de nadir değildir.</span>
+        <span class="en-text" style="display:none;">Choosing descriptive names will clarify the design of the module in your mind and help you to improve it. It is not at all uncommon that hunting for a good name results in a favorable restructuring of the code.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">İsimlerinizde tutarlı (consistent) olun. Modülleriniz için seçtiğiniz fonksiyon isimlerinde aynı kalıpları, isimleri ve fiilleri kullanın. Örneğin, <code class="inline">includeSetupAndTeardownPages</code>, <code class="inline">includeSetupPages</code>, <code class="inline">includeSuiteSetupPage</code> ve <code class="inline">includeSetupPage</code> isimlerini ele alalım. Bu isimlerdeki benzer ifade kalıbı, dizinin bir hikaye anlatmasını sağlar. Eğer size yukarıdaki diziyi göstersem, kendinize sorarsınız: "<code class="inline">includeTeardownPages</code>, <code class="inline">includeSuiteTeardownPage</code> ve <code class="inline">includeTeardownPage</code>'e ne oldu?" Bu, tam da Ward'un ilkesindeki gibi "<em>...hemen hemen beklediğiniz gibi</em>" olmak demektir.</span>
+        <span class="en-text" style="display:none;">Be consistent in your names. Use the same phrases, nouns, and verbs in the function names you choose for your modules. Consider, for example, the names <code class="inline">includeSetupAndTeardownPages</code>, <code class="inline">includeSetupPages</code>, <code class="inline">includeSuiteSetupPage</code>, and <code class="inline">includeSetupPage</code>. The similar phraseology in those names allows the sequence to tell a story. Indeed, if I showed you just the sequence above, you'd ask yourself: "What happened to <code class="inline">includeTeardownPages</code>, <code class="inline">includeSuiteTeardownPage</code>, and <code class="inline">includeTeardownPage</code>?" How's that for being "<em>...pretty much what you expected.</em>"</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Fonksiyon Argümanları / Function Arguments</span>
+        <span class="en-text" style="display:none;">Function Arguments</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon için ideal argüman sayısı sıfırdır (sıfırlı / niladic). Sonra bir (tekli / monadic) gelir, ardından yakın bir şekilde iki (ikili / dyadic). Üç argüman (üçlü / triadic) mümkün olduğunca kaçınılmalıdır. Üçten fazla (çoklu / polyadic) çok özel bir gerekçe gerektirir &mdash; ve o zaman bile kullanılmamalıdır.</span>
+        <span class="en-text" style="display:none;">The ideal number of arguments for a function is zero (niladic). Next comes one (monadic), followed closely by two (dyadic). Three arguments (triadic) should be avoided where possible. More than three (polyadic) requires very special justification&mdash;and then shouldn't be used anyway.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Argümanlar zordur. Çok fazla kavramsal güç gerektirirler. Bu yüzden örnekten neredeyse hepsini çıkardım. Örneğin, örnekteki <code class="inline">StringBuffer</code>'ı ele alalım. Onu bir örnek değişkeni (instance variable) yapmak yerine argüman olarak geçirebilirdik, ama o zaman okuyucularımız her gördüklerinde onu yorumlamak zorunda kalırlardı. Modülün anlattığı hikayeyi okurken, <code class="inline">includeSetupPage()</code> ifadesini anlamak <code class="inline">includeSetupPageInto(newPageContent)</code> ifadesinden daha kolaydır. Argüman, fonksiyon adından farklı bir soyutlama seviyesindedir (abstraction level) ve sizi o noktada özellikle önemli olmayan bir detayı (başka bir deyişle, <code class="inline">StringBuffer</code>) bilmeye zorlar.</span>
+        <span class="en-text" style="display:none;">Arguments are hard. They take a lot of conceptual power. That's why I got rid of almost all of them from the example. Consider, for instance, the <code class="inline">StringBuffer</code> in the example. We could have passed it around as an argument rather than making it an instance variable, but then our readers would have had to interpret it each time they saw it. When you are reading the story told by the module, <code class="inline">includeSetupPage()</code> is easier to understand than <code class="inline">includeSetupPageInto(newPageContent)</code>. The argument is at a different level of abstraction than the function name and forces you to know a detail (in other words, <code class="inline">StringBuffer</code>) that isn't particularly important at that point.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Argümanlar test açısından daha da zordur. Tüm argüman kombinasyonlarının doğru çalıştığından emin olmak için gerekli tüm test senaryolarını yazmanın zorluğunu hayal edin. Hiç argüman yoksa bu iş önemsizdir. Tek argüman varsa çok da zor değildir. İki argümanla problem biraz daha zorlaşır. İkiden fazla argümanla, uygun değerlerin her kombinasyonunu test etmek gözünüzü korkutabilir.</span>
+        <span class="en-text" style="display:none;">Arguments are even harder from a testing point of view. Imagine the difficulty of writing all the test cases to ensure that all the various combinations of arguments work properly. If there are no arguments, this is trivial. If there's one argument, it's not too hard. With two arguments the problem gets a bit more challenging. With more than two arguments, testing every combination of appropriate values can be daunting.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('naming-consistency')">
+                <span class="tr-text">İsimlendirme Tutarlılığı</span>
+                <span class="en-text" style="display:none;">Naming Consistency</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('argument-count')">
+                <span class="tr-text">Argüman Sayısı</span>
+                <span class="en-text" style="display:none;">Argument Count</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('testability')">
+                <span class="tr-text">Test Edilebilirlik</span>
+                <span class="en-text" style="display:none;">Testability</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-39.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 39 &mdash; Tekli Formlar &amp; Bayrak Argümanları</span><span class="en-text" style="display:none;">Page 39 &mdash; Monadic Forms &amp; Flag Arguments</span></div>
+    </a>
+    <a href="page-41.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 41 &mdash; Çıkış Argümanları &amp; Tekli Formlar</span><span class="en-text" style="display:none;">Page 41 &mdash; Output Arguments &amp; Monadic Forms</span></div>
+    </a>
+</div>
+
+<!-- Modal: İsimlendirme Tutarlılığı -->
+<div class="modal-overlay" id="modal-naming-consistency">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">İsimlendirme Tutarlılığı (Naming Consistency)</span><span class="en-text" style="display:none;">Naming Consistency</span></h3>
+            <button class="modal-close" onclick="closeModal('naming-consistency')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyon isimlerinde aynı kalıpları, fiilleri ve isimleri kullanmak okunabilirliği artırır. Tutarlı isimlendirme, kod tabanında bir hikaye anlatır ve okuyucunun beklentilerini doğrular.</span><span class="en-text" style="display:none;">Using the same phrases, verbs, and nouns in function names improves readability. Consistent naming tells a story in the codebase and confirms the reader's expectations.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Tutarsız isimlendirme</span><span class="en-text" style="display:none;">BAD &mdash; Inconsistent naming</span></span>
+<pre><span class="kw">class</span> <span class="type">UserService</span> {
+    <span class="kw">void</span> <span class="method">fetchUserById</span>(<span class="type">int</span> id);
+    <span class="kw">void</span> <span class="method">retrieveOrders</span>(<span class="type">int</span> userId);
+    <span class="kw">void</span> <span class="method">loadPaymentHistory</span>(<span class="type">int</span> userId);
+    <span class="kw">void</span> <span class="method">getAccountDetails</span>(<span class="type">int</span> userId);
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Tutarlı fiil kalıbı</span><span class="en-text" style="display:none;">GOOD &mdash; Consistent verb pattern</span></span>
+<pre><span class="kw">class</span> <span class="type">UserService</span> {
+    <span class="kw">void</span> <span class="method">fetchUserById</span>(<span class="type">int</span> id);
+    <span class="kw">void</span> <span class="method">fetchOrdersByUserId</span>(<span class="type">int</span> userId);
+    <span class="kw">void</span> <span class="method">fetchPaymentHistoryByUserId</span>(<span class="type">int</span> userId);
+    <span class="kw">void</span> <span class="method">fetchAccountDetailsByUserId</span>(<span class="type">int</span> userId);
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir modüldeki tüm fonksiyon isimlerini bir listeye yazın. Fiiller ve kalıplar tutarlı mı? "fetch, get, retrieve, load" gibi karışıklık varsa tek bir fiilde karar kılın.</span><span class="en-text" style="display:none;">List all function names in a module. Are verbs and patterns consistent? If you see a mix like "fetch, get, retrieve, load", settle on a single verb.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Argüman Sayısı -->
+<div class="modal-overlay" id="modal-argument-count">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Argüman Sayısı (Argument Count)</span><span class="en-text" style="display:none;">Argument Count</span></h3>
+            <button class="modal-close" onclick="closeModal('argument-count')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyon argüman sayısı ne kadar azsa, fonksiyon o kadar anlaşılır ve test edilebilir olur. İdeal olan sıfır argümandır. Her eklenen argüman kavramsal karmaşıklığı artırır.</span><span class="en-text" style="display:none;">The fewer arguments a function has, the easier it is to understand and test. Zero arguments is ideal. Each additional argument increases conceptual complexity.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Çok fazla argüman</span><span class="en-text" style="display:none;">BAD &mdash; Too many arguments</span></span>
+<pre><span class="kw">function</span> <span class="method">createUser</span>(name, email, age, role, department, isActive) {
+    <span class="comment">// 6 argüman - anlaması ve test etmesi zor</span>
+    ...
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Nesne ile sarma</span><span class="en-text" style="display:none;">GOOD &mdash; Wrapped in object</span></span>
+<pre><span class="kw">function</span> <span class="method">createUser</span>(userConfig) {
+    <span class="comment">// Tek argüman - açık ve test edilmesi kolay</span>
+    <span class="kw">const</span> { name, email, age, role, department, isActive } = userConfig;
+    ...
+}
+
+<span class="method">createUser</span>({
+    name: <span class="str">"Ayşe"</span>,
+    email: <span class="str">"ayse@firma.com"</span>,
+    age: <span class="field">28</span>,
+    role: <span class="str">"developer"</span>,
+    department: <span class="str">"engineering"</span>,
+    isActive: <span class="kw">true</span>
+});</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kural basit: 0 ideal, 1 iyi, 2 kabul edilebilir, 3 kaçının, 4+ asla. Üçten fazla argüman görürseniz bir parametre nesnesi (parameter object) oluşturun.</span><span class="en-text" style="display:none;">The rule is simple: 0 ideal, 1 good, 2 acceptable, 3 avoid, 4+ never. If you see more than three arguments, create a parameter object.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Test Edilebilirlik -->
+<div class="modal-overlay" id="modal-testability">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Test Edilebilirlik (Testability)</span><span class="en-text" style="display:none;">Testability</span></h3>
+            <button class="modal-close" onclick="closeModal('testability')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Argüman sayısı arttıkça test senaryoları katlanarak büyür. Her argüman kombinasyonunu test etmeniz gerekir. Az argümanlı fonksiyonlar doğal olarak daha test edilebilirdir.</span><span class="en-text" style="display:none;">As argument count increases, test cases grow exponentially. You need to test every combination. Functions with fewer arguments are naturally more testable.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ &mdash; Test kombinasyonu patlaması</span><span class="en-text" style="display:none;">BAD &mdash; Test combination explosion</span></span>
+<pre><span class="kw">def</span> <span class="method">calculate_shipping</span>(weight, distance, is_fragile, is_express, zone):
+    <span class="comment"># 5 argüman = yüzlerce test kombinasyonu</span>
+    ...
+
+<span class="comment"># Test etmek: 5 parametre x olası değerler = kabus</span>
+<span class="kw">def</span> <span class="method">test_shipping</span>():
+    <span class="method">calculate_shipping</span>(<span class="field">2.5</span>, <span class="field">100</span>, <span class="kw">True</span>, <span class="kw">False</span>, <span class="str">"A"</span>)
+    <span class="method">calculate_shipping</span>(<span class="field">2.5</span>, <span class="field">100</span>, <span class="kw">True</span>, <span class="kw">True</span>, <span class="str">"A"</span>)
+    <span class="comment"># ... daha yüzlerce kombinasyon</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ &mdash; Bölünmüş ve test edilebilir</span><span class="en-text" style="display:none;">GOOD &mdash; Split and testable</span></span>
+<pre><span class="kw">def</span> <span class="method">calculate_base_cost</span>(package):
+    <span class="kw">return</span> package.weight * RATE_PER_KG
+
+<span class="kw">def</span> <span class="method">apply_zone_modifier</span>(base_cost, zone):
+    <span class="kw">return</span> base_cost * ZONE_RATES[zone]
+
+<span class="kw">def</span> <span class="method">apply_express_surcharge</span>(cost):
+    <span class="kw">return</span> cost * EXPRESS_MULTIPLIER
+
+<span class="comment"># Her fonksiyon bağımsız test edilebilir</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Test yazarken "bu fonksiyonu test etmek kaç satır alıyor?" diye sorun. Çok uzun bir test, fonksiyonun çok fazla argüman aldığının işaretidir.</span><span class="en-text" style="display:none;">When writing tests, ask "how many lines does it take to test this function?" A very long test is a sign the function takes too many arguments.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 40;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

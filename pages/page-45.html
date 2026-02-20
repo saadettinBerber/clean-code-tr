@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 45 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Çıkış Argümanları / Komut Sorgu Ayrımı</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="45" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="font-size: 20px;">
+        <span class="tr-text">Çıkış Argümanları / Output Arguments</span>
+        <span class="en-text" style="display:none;">Output Arguments</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Argümanlar en doğal olarak bir fonksiyona <em>girdi</em> (input) olarak yorumlanır. Birkaç yıldan fazla programlama deneyiminiz varsa, eminim girdi değil aslında <em>çıktı</em> (output) olan bir argüman karşısında bir an duraksadığınız olmuştur. Örneğin:</span>
+        <span class="en-text" style="display:none;">Arguments are most naturally interpreted as <em>inputs</em> to a function. If you have been programming for more than a few years, I'm sure you've done a double-take on an argument that was actually an <em>output</em> rather than an input. For example:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>appendFooter Belirsizliği</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="method">appendFooter</span>(s);</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu fonksiyon <code class="inline">s</code>'yi bir şeye footer olarak mı ekliyor? Yoksa <code class="inline">s</code>'ye bir footer mı ekliyor? <code class="inline">s</code> bir girdi mi yoksa çıktı mı? Fonksiyon imzasına bakmak uzun sürmez:</span>
+        <span class="en-text" style="display:none;">Does this function append <code class="inline">s</code> as the footer to something? Or does it append some footer to <code class="inline">s</code>? Is <code class="inline">s</code> an input or an output? It doesn't take long to look at the function signature and see:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Fonksiyon İmzası</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="kw">public void</span> <span class="method">appendFooter</span>(<span class="type">StringBuffer</span> report)</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu, konuyu açıklığa kavuşturur, ama fonksiyonun bildirimini kontrol etmek pahasına. Fonksiyon imzasını kontrol etmeye zorlayan her şey bilişsel bir kesinti (cognitive break) yaratır ve bundan kaçınılmalıdır.</span>
+        <span class="en-text" style="display:none;">This clarifies the issue, but only at the expense of checking the declaration of the function. Anything that forces you to check the function signature is equivalent to a double-take. It's a cognitive break and should be avoided.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Nesne yönelimli programlama öncesi dönemde bazen çıkış argümanlarına ihtiyaç duyuluyordu. Ancak nesne yönelimli dillerde çıkış argümanlarına olan ihtiyacın büyük kısmı ortadan kalkmıştır çünkü <code class="inline">this</code> bir çıkış argümanı olarak hareket etmek üzere <em>tasarlanmıştır</em>. Başka bir deyişle, <code class="inline">appendFooter</code>'ın şu şekilde çağrılması daha iyi olurdu:</span>
+        <span class="en-text" style="display:none;">In the days before object oriented programming it was sometimes necessary to have output arguments. However, much of the need for output arguments disappears in OO languages because <code class="inline">this</code> is <em>intended</em> to act as an output argument. In other words, it would be better for <code class="inline">appendFooter</code> to be invoked as:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Nesne Yönelimli Yaklaşım</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre>report.<span class="method">appendFooter</span>();</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Genel olarak çıkış argümanlarından (output arguments) kaçınılmalıdır. Fonksiyonunuz bir şeyin durumunu değiştirmek zorundaysa, ait olduğu nesnenin durumunu değiştirsin.</span>
+        <span class="en-text" style="display:none;">In general output arguments should be avoided. If your function must change the state of something, have it change the state of its owning object.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Komut Sorgu Ayrımı / Command Query Separation</span>
+        <span class="en-text" style="display:none;">Command Query Separation</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonlar ya bir şey yapmalı ya da bir şeye cevap vermeli, ama ikisini birden yapmamalıdır. Ya fonksiyonunuz bir nesnenin durumunu değiştirmeli ya da o nesne hakkında bilgi döndürmelidir. İkisini birden yapmak genellikle kafa karışıklığına yol açar. Örneğin, şu fonksiyonu ele alalım:</span>
+        <span class="en-text" style="display:none;">Functions should either do something or answer something, but not both. Either your function should change the state of an object, or it should return some information about that object. Doing both often leads to confusion. Consider, for example, the following function:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Belirsiz set Fonksiyonu</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="kw">public boolean</span> <span class="method">set</span>(<span class="type">String</span> attribute, <span class="type">String</span> value);</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu fonksiyon, adı verilen bir niteliğin (attribute) değerini ayarlar ve başarılıysa <code class="inline">true</code>, böyle bir nitelik yoksa <code class="inline">false</code> döndürür. Bu, şöyle garip ifadelere yol açar:</span>
+        <span class="en-text" style="display:none;">This function sets the value of a named attribute and returns <code class="inline">true</code> if it is successful and <code class="inline">false</code> if no such attribute exists. This leads to odd statements like this:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Kafa Karıştırıcı Kullanım</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="kw">if</span> (<span class="method">set</span>(<span class="str">"username"</span>, <span class="str">"unclebob"</span>))...</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bunu okuyucunun bakış açısından düşünün. Ne anlama geliyor? <code class="inline">"username"</code> niteliği daha önce <code class="inline">"unclebob"</code> olarak ayarlanmış mı diye mi soruyor? Yoksa <code class="inline">"username"</code> niteliği başarıyla <code class="inline">"unclebob"</code> olarak ayarlandı mı diye mi soruyor? Çağrıdan anlamı çıkarmak zordur çünkü <code class="inline">"set"</code> kelimesinin fiil mi yoksa sıfat mı olduğu belli değildir.</span>
+        <span class="en-text" style="display:none;">Imagine this from the point of view of the reader. What does it mean? Is it asking whether the <code class="inline">"username"</code> attribute was previously set to <code class="inline">"unclebob"</code>? Or is it asking whether the <code class="inline">"username"</code> attribute was successfully set to <code class="inline">"unclebob"</code>? It's hard to infer the meaning from the call because it's not clear whether the word <code class="inline">"set"</code> is a verb or an adjective.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Gerçek çözüm, komutu sorgudan ayırarak belirsizliğin oluşmasını engellemektir:</span>
+        <span class="en-text" style="display:none;">The real solution is to separate the command from the query so that the ambiguity cannot occur:</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>Komut ve Sorgu Ayrılmış</span>
+            <span class="listing-label">Java</span>
+        </div>
+        <pre><span class="kw">if</span> (<span class="method">attributeExists</span>(<span class="str">"username"</span>)) {
+    <span class="method">setAttribute</span>(<span class="str">"username"</span>, <span class="str">"unclebob"</span>);
+    ...
+}</pre>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('output-arguments')">
+                <span class="tr-text">Çıkış Argümanları</span>
+                <span class="en-text" style="display:none;">Output Arguments</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('command-query-separation')">
+                <span class="tr-text">Komut Sorgu Ayrımı</span>
+                <span class="en-text" style="display:none;">Command Query Separation</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('cognitive-break')">
+                <span class="tr-text">Bilişsel Kesinti</span>
+                <span class="en-text" style="display:none;">Cognitive Break</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-44.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 44 — Yan Etkilere Dikkat</span><span class="en-text" style="display:none;">Page 44 — Have No Side Effects</span></div>
+    </a>
+    <a href="page-46.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 46 — Hata Kodları Yerine İstisnalar</span><span class="en-text" style="display:none;">Page 46 — Prefer Exceptions to Returning Error Codes</span></div>
+    </a>
+</div>
+
+<!-- Modal: Çıkış Argümanları -->
+<div class="modal-overlay" id="modal-output-arguments">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Çıkış Argümanları (Output Arguments)</span><span class="en-text" style="display:none;">Output Arguments</span></h3>
+            <button class="modal-close" onclick="closeModal('output-arguments')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Çıkış argümanları, fonksiyonun girdi yerine çıktı olarak kullandığı argümanlardır. Nesne yönelimli programlamada <code class="inline">this</code> zaten bu amaca hizmet ettiği için çıkış argümanlarına gerek kalmaz.</span><span class="en-text" style="display:none;">Output arguments are arguments that a function uses as output rather than input. In OOP, <code class="inline">this</code> already serves this purpose, so output arguments are unnecessary.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Çıkış argümanı</span><span class="en-text" style="display:none;">BAD — Output argument</span></span>
+<pre><span class="kw">function</span> <span class="method">addItemsToList</span>(items, targetList) {
+    <span class="comment">// targetList girdi mi çıktı mı?</span>
+    <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> items) {
+        targetList.<span class="method">push</span>(<span class="method">transform</span>(item));
+    }
+}
+
+<span class="kw">const</span> result = [];
+<span class="method">addItemsToList</span>(rawData, result);  <span class="comment">// result değiştiriliyor</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Dönüş değeri ile</span><span class="en-text" style="display:none;">GOOD — Using return value</span></span>
+<pre><span class="kw">function</span> <span class="method">transformItems</span>(items) {
+    <span class="kw">return</span> items.<span class="method">map</span>(item => <span class="method">transform</span>(item));
+}
+
+<span class="kw">const</span> result = <span class="method">transformItems</span>(rawData);  <span class="comment">// Açık ve temiz</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir fonksiyonun bir şeyin durumunu değiştirmesi gerekiyorsa, ait olduğu nesnenin metodunu kullanın: <code class="inline">report.appendFooter()</code> daha iyidir <code class="inline">appendFooter(report)</code>'dan.</span><span class="en-text" style="display:none;">If a function needs to change something's state, use a method on the owning object: <code class="inline">report.appendFooter()</code> is better than <code class="inline">appendFooter(report)</code>.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Komut Sorgu Ayrımı -->
+<div class="modal-overlay" id="modal-command-query-separation">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Komut Sorgu Ayrımı (Command Query Separation)</span><span class="en-text" style="display:none;">Command Query Separation</span></h3>
+            <button class="modal-close" onclick="closeModal('command-query-separation')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Komut Sorgu Ayrımı (CQS) ilkesine göre fonksiyonlar ya bir eylem gerçekleştirmeli (komut) ya da bilgi döndürmeli (sorgu) ama ikisini birden yapmamalıdır. Bu ilke, kodun okunabilirliğini ve öngörülebilirliğini artırır.</span><span class="en-text" style="display:none;">According to Command Query Separation (CQS), functions should either perform an action (command) or return information (query), but not both. This principle increases code readability and predictability.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Hem komut hem sorgu</span><span class="en-text" style="display:none;">BAD — Both command and query</span></span>
+<pre><span class="kw">class</span> <span class="type">Stack</span>:
+    <span class="kw">def</span> <span class="method">pop</span>(self):
+        <span class="comment"># Hem değeri döndürür hem de durumu değiştirir</span>
+        item = self.items[-<span class="field">1</span>]
+        self.items = self.items[:-<span class="field">1</span>]
+        <span class="kw">return</span> item
+
+<span class="comment"># "pop" bir eylem mi yoksa bir soru mu?</span>
+<span class="kw">if</span> stack.<span class="method">pop</span>() == <span class="str">"target"</span>:
+    <span class="comment"># Eşleşmezse eleman geri gelmez!</span>
+    ...</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Ayrılmış komut ve sorgu</span><span class="en-text" style="display:none;">GOOD — Separated command and query</span></span>
+<pre><span class="kw">class</span> <span class="type">Stack</span>:
+    <span class="kw">def</span> <span class="method">peek</span>(self):
+        <span class="comment"># Sorgu: sadece bakar, değiştirmez</span>
+        <span class="kw">return</span> self.items[-<span class="field">1</span>]
+
+    <span class="kw">def</span> <span class="method">remove_top</span>(self):
+        <span class="comment"># Komut: sadece siler, döndürmez</span>
+        self.items.<span class="method">pop</span>()
+
+<span class="kw">if</span> stack.<span class="method">peek</span>() == <span class="str">"target"</span>:
+    stack.<span class="method">remove_top</span>()  <span class="comment"># Güvenli ve açık</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir fonksiyon yazarken kendinize sorun: "Bu bir soru mu yoksa bir eylem mi?" Eğer ikisi de ise, ikiye bölün. Sorgular yan etkisiz (side-effect-free) olmalı, komutlar ise hiçbir şey döndürmemelidir.</span><span class="en-text" style="display:none;">When writing a function, ask: "Is this a question or an action?" If it's both, split it. Queries should be side-effect-free, commands should return nothing.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Bilişsel Kesinti -->
+<div class="modal-overlay" id="modal-cognitive-break">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Bilişsel Kesinti (Cognitive Break)</span><span class="en-text" style="display:none;">Cognitive Break</span></h3>
+            <button class="modal-close" onclick="closeModal('cognitive-break')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bilişsel kesinti, bir kod satırını anlamak için okuyucunun başka bir yere bakması gerektiğinde oluşan akış bozulmasıdır. Fonksiyon imzalarını kontrol etmeye zorlamak, belgelere başvurmak veya başka dosyalara atlamak gibi durumlar bilişsel kesintilere neden olur.</span><span class="en-text" style="display:none;">A cognitive break occurs when understanding a line of code requires the reader to look elsewhere. Checking function signatures, consulting documentation, or jumping to other files all cause cognitive breaks.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Anlam için imza gerekli</span><span class="en-text" style="display:none;">BAD — Signature needed for meaning</span></span>
+<pre><span class="comment">// Bu ne yapıyor? Belgeyi mi formatlar, formatı mı belgeler?</span>
+<span class="method">format</span>(document);
+
+<span class="comment">// Diske mi yazıyor, listeye mi ekliyor?</span>
+<span class="method">save</span>(users, file);
+
+<span class="comment">// Sonucu döndürür mü, yerinde mi değiştirir?</span>
+<span class="method">sort</span>(data);</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — İmza gerektirmeyen açıklık</span><span class="en-text" style="display:none;">GOOD — Self-evident without signatures</span></span>
+<pre>document.<span class="method">formatAsMarkdown</span>();
+
+<span class="method">saveUsersToFile</span>(users, filePath);
+
+<span class="kw">const</span> sortedData = <span class="method">sortByDate</span>(data);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Kodunuzu okuyucunun gözüyle inceleyin. Eğer bir satırı anlamak için başka bir yere bakmanız gerekiyorsa, isim seçimi veya yapı yeterince açık değildir. Amacınız "sıfır atlama" (zero-jump) okunabilirlik olmalıdır.</span><span class="en-text" style="display:none;">Review your code through the reader's eyes. If understanding a line requires looking elsewhere, the naming or structure isn't clear enough. Aim for "zero-jump" readability.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 45;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

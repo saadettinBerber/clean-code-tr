@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 49 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; SetupTeardownIncluder</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="49" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">SetupTeardownIncluder / SetupTeardownIncluder</span>
+        <span class="en-text" style="display:none;">SetupTeardownIncluder</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-7, bu bölümün başında gördüğümüz karmaşık kodun (Liste 3-1) yeniden düzenlenmiş (refactored) nihai halini göstermektedir. Bu sınıf, tüm bölüm boyunca tartıştığımız temiz kod ilkelerinin uygulandığı somut bir örnektir. Her fonksiyon küçük, tek bir iş yapar ve anlamlı isimler taşır.</span>
+        <span class="en-text" style="display:none;">Listing 3-7 shows the final refactored version of the messy code (Listing 3-1) we saw at the beginning of this chapter. This class is a concrete example of applying the clean code principles we discussed throughout the chapter. Every function is small, does one thing, and has a meaningful name.</span>
+    </div>
+
+    <div class="code-listing">
+        <div class="code-listing-header">
+            <span>SetupTeardownIncluder.java</span>
+            <span class="listing-label">Listing 3-7</span>
+        </div>
+        <pre><span class="kw">package</span> fitnesse.html;
+
+<span class="kw">import</span> fitnesse.responders.run.SuiteResponder;
+<span class="kw">import</span> fitnesse.wiki.*;
+
+<span class="kw">public class</span> <span class="type">SetupTeardownIncluder</span> {
+    <span class="kw">private</span> <span class="type">PageData</span> <span class="field">pageData</span>;
+    <span class="kw">private boolean</span> <span class="field">isSuite</span>;
+    <span class="kw">private</span> <span class="type">WikiPage</span> <span class="field">testPage</span>;
+    <span class="kw">private</span> <span class="type">StringBuffer</span> <span class="field">newPageContent</span>;
+    <span class="kw">private</span> <span class="type">PageCrawler</span> <span class="field">pageCrawler</span>;
+
+    <span class="kw">public static</span> <span class="type">String</span> <span class="method">render</span>(<span class="type">PageData</span> pageData) <span class="kw">throws</span> <span class="type">Exception</span> {
+        <span class="kw">return</span> <span class="method">render</span>(pageData, <span class="kw">false</span>);
+    }
+
+    <span class="kw">public static</span> <span class="type">String</span> <span class="method">render</span>(<span class="type">PageData</span> pageData, <span class="kw">boolean</span> isSuite)
+            <span class="kw">throws</span> <span class="type">Exception</span> {
+        <span class="kw">return new</span> <span class="type">SetupTeardownIncluder</span>(pageData).<span class="method">render</span>(isSuite);
+    }
+
+    <span class="kw">private</span> <span class="method">SetupTeardownIncluder</span>(<span class="type">PageData</span> pageData) {
+        <span class="kw">this</span>.<span class="field">pageData</span> = pageData;
+        <span class="field">testPage</span> = pageData.<span class="method">getWikiPage</span>();
+        <span class="field">pageCrawler</span> = <span class="field">testPage</span>.<span class="method">getPageCrawler</span>();
+        <span class="field">newPageContent</span> = <span class="kw">new</span> <span class="type">StringBuffer</span>();
+    }</pre>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu kodda dikkat edilmesi gereken birkaç önemli nokta vardır. İlk olarak, sınıfın tüm alanları (fields) <code class="inline">private</code> olarak tanımlanmıştır — Kapsülleme (Encapsulation) ilkesine uygun şekilde. İkincisi, dışarıya açılan tek giriş noktası statik <code class="inline">render</code> metotlarıdır. Bu, Fabrika Metodu (Factory Method) deseninin basitleştirilmiş bir uygulamasıdır.</span>
+        <span class="en-text" style="display:none;">There are several important points to notice in this code. First, all fields of the class are declared <code class="inline">private</code> — following the principle of Encapsulation. Second, the only entry point exposed to the outside world is the static <code class="inline">render</code> methods. This is a simplified application of the Factory Method pattern.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Yapıcı metot (constructor) da <code class="inline">private</code> olarak tanımlanmıştır, bu sayede sınıf yalnızca kendi statik metotları aracılığıyla oluşturulabilir. Yapıcı, gerekli tüm bağımlılıkları bir kez başlatır ve sınıfın geri kalanını bu başlatılmış değerler üzerinde çalışır hale getirir.</span>
+        <span class="en-text" style="display:none;">The constructor is also declared <code class="inline">private</code>, so the class can only be instantiated through its own static methods. The constructor initializes all necessary dependencies once, and the rest of the class operates on these initialized values.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('encapsulation')">
+                <span class="tr-text">Kapsülleme</span>
+                <span class="en-text" style="display:none;">Encapsulation</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('factory-method')">
+                <span class="tr-text">Fabrika Metodu</span>
+                <span class="en-text" style="display:none;">Factory Method</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('private-constructor')">
+                <span class="tr-text">Private Yapıcı Metot</span>
+                <span class="en-text" style="display:none;">Private Constructor</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-48.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 48 — Yapılandırılmış Programlama</span><span class="en-text" style="display:none;">Page 48 — Structured Programming</span></div>
+    </a>
+    <a href="page-50.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 50 — SetupTeardownIncluder (devam)</span><span class="en-text" style="display:none;">Page 50 — SetupTeardownIncluder (cont.)</span></div>
+    </a>
+</div>
+
+<!-- Modal: Kapsülleme -->
+<div class="modal-overlay" id="modal-encapsulation">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kapsülleme (Encapsulation)</span><span class="en-text" style="display:none;">Encapsulation</span></h3>
+            <button class="modal-close" onclick="closeModal('encapsulation')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Kapsülleme (Encapsulation), bir sınıfın iç durumunu dış dünyadan gizleyerek yalnızca kontrollü bir arayüz (interface) üzerinden erişim sağlama ilkesidir. Alanları <code class="inline">private</code> yaparak iç detayları korursunuz.</span><span class="en-text" style="display:none;">Encapsulation is the principle of hiding a class's internal state from the outside world and providing access only through a controlled interface. By making fields <code class="inline">private</code>, you protect internal details.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Public alanlar</span><span class="en-text" style="display:none;">BAD — Public fields</span></span>
+<pre><span class="kw">class</span> <span class="type">UserSession</span> {
+    <span class="kw">public</span> <span class="type">String</span> <span class="field">token</span>;
+    <span class="kw">public boolean</span> <span class="field">isExpired</span>;
+    <span class="kw">public</span> <span class="type">Date</span> <span class="field">lastAccess</span>;
+}
+
+<span class="comment">// Dışarıdan doğrudan müdahale:</span>
+session.<span class="field">isExpired</span> = <span class="kw">false</span>; <span class="comment">// Tehlikeli!</span>
+session.<span class="field">token</span> = <span class="str">"hacked"</span>;   <span class="comment">// Hiçbir kontrol yok</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Private alanlar + kontrollü erişim</span><span class="en-text" style="display:none;">GOOD — Private fields + controlled access</span></span>
+<pre><span class="kw">class</span> <span class="type">UserSession</span> {
+    <span class="kw">private</span> <span class="type">String</span> <span class="field">token</span>;
+    <span class="kw">private</span> <span class="type">Instant</span> <span class="field">expiresAt</span>;
+
+    <span class="kw">public boolean</span> <span class="method">isExpired</span>() {
+        <span class="kw">return</span> <span class="type">Instant</span>.<span class="method">now</span>().<span class="method">isAfter</span>(<span class="field">expiresAt</span>);
+    }
+
+    <span class="kw">public</span> <span class="type">String</span> <span class="method">getToken</span>() {
+        <span class="kw">if</span> (<span class="method">isExpired</span>())
+            <span class="kw">throw new</span> <span class="type">SessionExpiredException</span>();
+        <span class="kw">return</span> <span class="field">token</span>;
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Varsayılan olarak her alanı <code class="inline">private</code> yapın. Gerçekten dışarıya açılması gerektiğinde bile doğrudan alan yerine bir metot sunun. Bu, ileride iç yapıyı değiştirme özgürlüğü verir.</span><span class="en-text" style="display:none;">Make every field <code class="inline">private</code> by default. Even when you need to expose it, provide a method instead of direct field access. This gives you the freedom to change the internal structure later.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Fabrika Metodu -->
+<div class="modal-overlay" id="modal-factory-method">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Fabrika Metodu (Factory Method)</span><span class="en-text" style="display:none;">Factory Method</span></h3>
+            <button class="modal-close" onclick="closeModal('factory-method')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fabrika Metodu (Factory Method), nesne oluşturma mantığını kapsülleyen bir tasarım desenidir. Doğrudan <code class="inline">new</code> çağırmak yerine, statik bir metot üzerinden nesne oluşturulur. Bu sayede oluşturma süreci kontrol altına alınır ve iç detaylar gizlenir.</span><span class="en-text" style="display:none;">The Factory Method is a design pattern that encapsulates object creation logic. Instead of calling <code class="inline">new</code> directly, objects are created through a static method. This puts the creation process under control and hides internal details.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Doğrudan nesne oluşturma</span><span class="en-text" style="display:none;">BAD — Direct object creation</span></span>
+<pre><span class="comment">// İstemci kodu karmaşık kurulumu bilmek zorunda</span>
+<span class="type">DatabaseConnection</span> conn = <span class="kw">new</span> <span class="type">DatabaseConnection</span>();
+conn.<span class="method">setHost</span>(<span class="str">"localhost"</span>);
+conn.<span class="method">setPort</span>(5432);
+conn.<span class="method">setCredentials</span>(user, pass);
+conn.<span class="method">connect</span>();</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Statik fabrika metodu</span><span class="en-text" style="display:none;">GOOD — Static factory method</span></span>
+<pre><span class="kw">class</span> <span class="type">DatabaseConnection</span> {
+    <span class="kw">private</span> <span class="method">DatabaseConnection</span>() { }
+
+    <span class="kw">public static</span> <span class="type">DatabaseConnection</span> <span class="method">create</span>(
+            <span class="type">Config</span> config) {
+        <span class="type">DatabaseConnection</span> conn =
+            <span class="kw">new</span> <span class="type">DatabaseConnection</span>();
+        conn.<span class="method">initialize</span>(config);
+        <span class="kw">return</span> conn;
+    }
+}
+
+<span class="comment">// Kullanım: tek satır, temiz</span>
+<span class="type">DatabaseConnection</span> conn =
+    <span class="type">DatabaseConnection</span>.<span class="method">create</span>(config);</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Nesne oluşturmak birden fazla adım gerektiriyorsa veya oluşturma mantığı değişebilirse, statik fabrika metodu kullanın. Yapıcıyı <code class="inline">private</code> yaparak istemci kodunun kontrolsüz nesne yaratmasını engelleyin.</span><span class="en-text" style="display:none;">If creating an object requires multiple steps or the creation logic might change, use a static factory method. Make the constructor <code class="inline">private</code> to prevent uncontrolled object creation by client code.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Private Yapıcı Metot -->
+<div class="modal-overlay" id="modal-private-constructor">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Private Yapıcı Metot (Private Constructor)</span><span class="en-text" style="display:none;">Private Constructor</span></h3>
+            <button class="modal-close" onclick="closeModal('private-constructor')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Yapıcı metodu (constructor) <code class="inline">private</code> yapmak, sınıfın dışarıdan doğrudan örneklenmesini (instantiation) engeller. Bu teknik genellikle Fabrika Metodu deseniyle birlikte kullanılır ve nesne oluşturma sürecinin tamamen sınıfın kontrolünde kalmasını sağlar.</span><span class="en-text" style="display:none;">Making a constructor <code class="inline">private</code> prevents the class from being directly instantiated from outside. This technique is commonly used with the Factory Method pattern to ensure that the object creation process remains entirely under the class's control.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Public yapıcı, kontrolsüz oluşturma</span><span class="en-text" style="display:none;">BAD — Public constructor, uncontrolled creation</span></span>
+<pre><span class="kw">class</span> <span class="type">Logger</span>:
+    <span class="kw">def</span> <span class="method">__init__</span>(self, file_path):
+        self.file = <span class="method">open</span>(file_path, <span class="str">"a"</span>)
+
+<span class="comment"># Her yerde yeni logger oluşturulabilir</span>
+logger1 = <span class="type">Logger</span>(<span class="str">"/var/log/app.log"</span>)
+logger2 = <span class="type">Logger</span>(<span class="str">"/var/log/app.log"</span>)
+<span class="comment"># Aynı dosyaya iki farklı handler — sorun!</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kontrollü oluşturma</span><span class="en-text" style="display:none;">GOOD — Controlled creation</span></span>
+<pre><span class="kw">class</span> <span class="type">Logger</span>:
+    _instance = <span class="kw">None</span>
+
+    <span class="kw">def</span> <span class="method">__init__</span>(self):
+        <span class="kw">raise</span> <span class="type">RuntimeError</span>(<span class="str">"Use Logger.get()"</span>)
+
+    @<span class="method">classmethod</span>
+    <span class="kw">def</span> <span class="method">get</span>(cls, file_path):
+        <span class="kw">if</span> cls._instance <span class="kw">is None</span>:
+            obj = <span class="method">object</span>.<span class="method">__new__</span>(cls)
+            obj.file = <span class="method">open</span>(file_path, <span class="str">"a"</span>)
+            cls._instance = obj
+        <span class="kw">return</span> cls._instance
+
+<span class="comment"># Her zaman aynı nesne döner</span>
+logger = <span class="type">Logger</span>.<span class="method">get</span>(<span class="str">"/var/log/app.log"</span>)</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Yapıcıyı private yapmak "Bu nesneyi nasıl oluşturacağıma ben karar veririm" demektir. SetupTeardownIncluder'da olduğu gibi, kullanıcının <code class="inline">render()</code> çağırması yeterli — sınıfın iç mekanizmasını bilmesine gerek yoktur.</span><span class="en-text" style="display:none;">Making the constructor private means "I decide how this object is created." As in SetupTeardownIncluder, the user just calls <code class="inline">render()</code> — they don't need to know the class's internal mechanics.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 49;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>
