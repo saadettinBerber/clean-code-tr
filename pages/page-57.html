@@ -555,7 +555,7 @@
         <div class="code-listing">
             <div class="code-listing-header"><span class="tr-text">Devre dışı bırakılmış test — uyarı yorumu</span><span
                     class="en-text" style="display:none;">Disabled test — warning comment</span></div>
-            <pre><span class="comment">// Biraz zamanınız olmadıkça çalıştırmayın.</span>
+            <pre><span class="comment">// Don't run this unless you have a few minutes to spare.</span>
 <span class="kw">public void</span> _testWithReallyBigFile()
 {
   writeLinesToFile(10000000);
@@ -588,8 +588,8 @@
                     style="display:none;">Thread safety warning</span></div>
             <pre><span class="kw">public static</span> SimpleDateFormat makeStandardHttpDateFormat()
 {
-  <span class="comment">//SimpleDateFormat thread-safe değildir,
-  //bu yüzden her örneği bağımsız oluşturmamız gerekir.</span>
+  <span class="comment">// SimpleDateFormat is not thread safe,
+  // so we need to create each instance independently.</span>
   SimpleDateFormat df = <span class="kw">new</span> SimpleDateFormat(<span class="str">"EEE, dd MMM  yyyy HH:mm:ss z"</span>);
   df.setTimeZone(TimeZone.getTimeZone(<span class="str">"GMT"</span>));
   <span class="kw">return</span> df;
@@ -623,8 +623,7 @@
         <div class="code-listing">
             <div class="code-listing-header"><span class="tr-text">TODO yorum örneği</span><span class="en-text"
                     style="display:none;">TODO comment example</span></div>
-            <pre><span class="comment">//TODO-MdM bunlara gerek yok
-// Ödeme modelini yaptığımızda bunun ortadan kalkmasını bekliyoruz</span>
+            <pre><span class="comment">// TODO-MdM these don't need to exist once we have the payment model</span>
 <span class="kw">protected</span> VersionInfo makeVersion() <span class="kw">throws</span> Exception
 {
   <span class="kw">return null</span>;
@@ -670,9 +669,9 @@
             <div class="code-listing-header"><span class="tr-text">trim() çağrısının önemi vurgulanıyor</span><span
                     class="en-text" style="display:none;">Importance of trim() call amplified</span></div>
             <pre>String listItemContent = match.group(3).trim();
-<span class="comment">// trim gerçekten önemli. Elemanın başındaki
-// boşlukları kaldırır; aksi halde öğe başka bir
-// liste olarak tanınabilir.</span>
+<span class="comment">// trim is really important. it removes the item's trailing
+// whitespace. Otherwise the item can't be recognized as
+// another list item.</span>
 <span class="kw">new</span> ListItemWidget(<span class="kw">this</span>, listItemContent, <span class="kw">this</span>.level + 1);
 <span class="kw">return</span> buildList(text.substring(match.end()));</pre>
         </div>

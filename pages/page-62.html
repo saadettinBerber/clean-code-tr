@@ -770,7 +770,7 @@
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Uzak bir konfigürasyon bilgisi yorumda</span><span
                         class="en-text" style="display:none;">BAD — Remote configuration info in comment</span></span>
-                <pre><span class="comment">// Varsayılan zaman aşımı 30 saniyedir (Config.TIMEOUT_SECONDS'da)</span>
+                <pre><span class="comment">// Default timeout is 30 seconds (see Config.TIMEOUT_SECONDS)</span>
 <span class="kw">public void</span> setTimer(Timer t) {
     <span class="kw">this</span>.timer = t;
 }</pre>
@@ -780,9 +780,9 @@
                         class="en-text" style="display:none;">GOOD — Code contains its own default</span></span>
                 <pre><span class="kw">public static final int</span> DEFAULT_TIMEOUT_SECONDS = 30;
 
-                    <span class="kw">public void</span> setTimer(Timer t) {
-                    <span class="kw">this</span>.timer = t;
-                    }</pre>
+        <span class="kw">public void</span> setTimer(Timer t) {
+        <span class="kw">this</span>.timer = t;
+        }</pre>
                     <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
                                 style="display:none;">Practical Tip</span></strong>
                         <span class="tr-text">Bir yorumda "başka bir yerde tanımlanmış bir değer" hakkında bilgi

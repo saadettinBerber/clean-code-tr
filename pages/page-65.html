@@ -616,7 +616,7 @@
   }
   <span class="kw">catch</span>(SocketException e)
   {
-    <span class="comment">// normal. biri isteği iptal etti.</span>
+    <span class="comment">// Normal. Someone just stopped the request.</span>
   }
   <span class="kw">catch</span>(Exception e)
   {
@@ -629,7 +629,7 @@
     }
     <span class="kw">catch</span>(Exception e1)
     {
-      <span class="comment">//Artık ne yapabiliriz ki!</span>
+      <span class="comment">// Give it up!</span>
     }
   }
 }</pre>
@@ -647,7 +647,7 @@
   }
   <span class="kw">catch</span>(SocketException e)
   {
-    <span class="comment">// normal. biri isteği iptal etti.</span>
+    <span class="comment">// Normal. Someone just stopped the request.</span>
   }
   <span class="kw">catch</span>(Exception e)
   {
@@ -704,16 +704,16 @@
             <div class="code-listing-header"><span class="tr-text">Korkunç gürültü — yapıştırma hatası
                     içeriyor</span><span class="en-text" style="display:none;">Scary noise — contains paste error</span>
             </div>
-            <pre><span class="comment">/** İsim. */</span>
+            <pre><span class="comment">/** Name. */</span>
 <span class="kw">private</span> String name;
 
-<span class="comment">/** Sürüm. */</span>
+<span class="comment">/** Version. */</span>
 <span class="kw">private</span> String version;
 
-<span class="comment">/** licenceAdı. */</span>
+<span class="comment">/** License Name. */</span>
 <span class="kw">private</span> String licenceName;
 
-<span class="comment">/** Sürüm. */</span>  <span class="comment">// ← HATA: "info" için "Sürüm" yazıyor!</span>
+<span class="comment">/** Version. */</span>  <span class="comment">// ← ERROR: Should say "info" not "Version"!</span>
 <span class="kw">private</span> String info;</pre>
         </div>
 
@@ -790,21 +790,21 @@
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum bir sinirlenmeyi gizliyor</span><span
                         class="en-text" style="display:none;">BAD — Comment hides frustration</span></span>
                 <pre><span class="kw">catch</span>(Exception e1) {
-                    <span class="comment">//Artık ne yapabiliriz ki!</span>
-                    }</pre>
+        <span class="comment">// Give it up!</span>
+        }</pre>
                     <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
                             Example (After)</span></h4>
                     <span class="label-good"><span class="tr-text">İYİ — Ayrı metot, anlamlı soyutlama</span><span
                             class="en-text" style="display:none;">GOOD — Separate method, meaningful
                             abstraction</span></span>
                     <pre><span class="kw">private void</span> addExceptionAndCloseResponse(Exception e) {
-                        <span class="kw">try</span> {
-                        response.add(ErrorResponder.makeExceptionString(e));
-                        response.closeAll();
-                        } <span class="kw">catch</span>(Exception ignored) {
-                        <span class="comment">// Yanıt zaten kapatıldı; ek işlem yapılamaz</span>
-                        }
-                        }</pre>
+        <span class="kw">try</span> {
+        response.add(ErrorResponder.makeExceptionString(e));
+        response.closeAll();
+        } <span class="kw">catch</span>(Exception ignored) {
+        <span class="comment">// Response already closed; cannot do anything.</span>
+        }
+        }</pre>
                         <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
                                     style="display:none;">Practical Tip</span></strong>
                             <span class="tr-text">Bir yorum yazmak istediğinizde, bunun yerine şunlardan birini yapmayı

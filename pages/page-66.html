@@ -582,9 +582,8 @@
                     <span class="tr-text">Yorum ile açıklama</span>
                     <span class="listing-label-bad">KÖTÜ</span>
                 </div>
-                <pre><span class="comment">// global listenin &lt;mod&gt; modülü
-// içinde olduğumuz alt sisteme
-// bağımlı mı?</span>
+                <pre><span class="comment">// Does the modular dependency in the subsystem
+// module depend on the subsystem we're building?</span>
 <span class="kw">if</span> (smodule.getDependSubsystems()
     .contains(subSysMod.getSubSystem()))</pre>
             </div>
@@ -719,7 +718,7 @@ String ourSubSystem =
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum gerekiyor</span><span class="en-text"
                         style="display:none;">BAD — Comment needed</span></span>
-                <pre><span class="comment">// kullanıcı premium üye mi VE abonelik süresi dolmadı mı?</span>
+                <pre><span class="comment">// User is premium AND subscription hasn't expired</span>
 <span class="kw">if</span> (user.tier == TIER_PREMIUM
     &amp;&amp; user.subscriptionExpiry.isAfter(now()))</pre>
                 <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
@@ -727,9 +726,9 @@ String ourSubSystem =
                 <span class="label-good"><span class="tr-text">İYİ — Yorum yok, kod zaten açık</span><span
                         class="en-text" style="display:none;">GOOD — No comment, code is already clear</span></span>
                 <pre><span class="kw">boolean</span> isPremiumAndActive =
-                    user.tier == TIER_PREMIUM
-                    &amp;&amp; user.subscriptionExpiry.isAfter(now());
-                    <span class="kw">if</span> (isPremiumAndActive)</pre>
+        user.tier == TIER_PREMIUM
+        &amp;&amp; user.subscriptionExpiry.isAfter(now());
+        <span class="kw">if</span> (isPremiumAndActive)</pre>
                     <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
                                 style="display:none;">Practical Tip</span></strong>
                         <span class="tr-text">Bu teknik "anlamlı değişken" veya "açıklayıcı değişken" yöntemi olarak da

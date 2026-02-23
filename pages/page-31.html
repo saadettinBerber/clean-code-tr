@@ -159,27 +159,27 @@
     <span class="kw">if</span> (pageData.<span class="method">hasAttribute</span>(<span class="str">"Test"</span>)) {
         <span class="kw">if</span> (includeSuiteSetup) {
             <span class="type">WikiPage</span> suiteSetup =
-                <span class="type">PageCrawlerImpl</span>.<span class="method">getInheritedPage</span>(
-                    <span class="type">SuiteResponder</span>.SUITE_SETUP_NAME, wikiPage
-                );
+        <span class="type">PageCrawlerImpl</span>.<span class="method">getInheritedPage</span>(
+        <span class="type">SuiteResponder</span>.SUITE_SETUP_NAME, wikiPage
+        );
             <span class="kw">if</span> (suiteSetup != <span class="kw">null</span>) {
-                <span class="type">WikiPagePath</span> pagePath =
-                    suiteSetup.<span class="method">getPageCrawler</span>().<span class="method">getFullPath</span>(suiteSetup);
-                <span class="type">String</span> pagePathName = <span class="type">PathParser</span>.<span class="method">render</span>(pagePath);
-                buffer.<span class="method">append</span>(<span class="str">"!include -setup ."</span>)
-                    .<span class="method">append</span>(pagePathName)
-                    .<span class="method">append</span>(<span class="str">"\n"</span>);
+        <span class="type">WikiPagePath</span> pagePath =
+        suiteSetup.<span class="method">getPageCrawler</span>().<span class="method">getFullPath</span>(suiteSetup);
+        <span class="type">String</span> pagePathName = <span class="type">PathParser</span>.<span class="method">render</span>(pagePath);
+        buffer.<span class="method">append</span>(<span class="str">"!include -setup ."</span>)
+        .<span class="method">append</span>(pagePathName)
+        .<span class="method">append</span>(<span class="str">"\n"</span>);
             }
         }
         <span class="type">WikiPage</span> setup =
             <span class="type">PageCrawlerImpl</span>.<span class="method">getInheritedPage</span>(<span class="str">"SetUp"</span>, wikiPage);
         <span class="kw">if</span> (setup != <span class="kw">null</span>) {
             <span class="type">WikiPagePath</span> setupPath =
-                wikiPage.<span class="method">getPageCrawler</span>().<span class="method">getFullPath</span>(setup);
+        wikiPage.<span class="method">getPageCrawler</span>().<span class="method">getFullPath</span>(setup);
             <span class="type">String</span> setupPathName = <span class="type">PathParser</span>.<span class="method">render</span>(setupPath);
             buffer.<span class="method">append</span>(<span class="str">"!include -setup ."</span>)
-                .<span class="method">append</span>(setupPathName)
-                .<span class="method">append</span>(<span class="str">"\n"</span>);
+        .<span class="method">append</span>(setupPathName)
+        .<span class="method">append</span>(<span class="str">"\n"</span>);
         }
     }
     buffer.<span class="method">append</span>(pageData.<span class="method">getContent</span>());
@@ -188,12 +188,12 @@
             <span class="type">PageCrawlerImpl</span>.<span class="method">getInheritedPage</span>(<span class="str">"TearDown"</span>, wikiPage);
         <span class="kw">if</span> (teardown != <span class="kw">null</span>) {
             <span class="type">WikiPagePath</span> tearDownPath =
-                wikiPage.<span class="method">getPageCrawler</span>().<span class="method">getFullPath</span>(teardown);
+        wikiPage.<span class="method">getPageCrawler</span>().<span class="method">getFullPath</span>(teardown);
             <span class="type">String</span> tearDownPathName = <span class="type">PathParser</span>.<span class="method">render</span>(tearDownPath);
             buffer.<span class="method">append</span>(<span class="str">"\n"</span>)
-                .<span class="method">append</span>(<span class="str">"!include -teardown ."</span>)
-                .<span class="method">append</span>(tearDownPathName)
-                .<span class="method">append</span>(<span class="str">"\n"</span>);
+        .<span class="method">append</span>(<span class="str">"!include -teardown ."</span>)
+        .<span class="method">append</span>(tearDownPathName)
+        .<span class="method">append</span>(<span class="str">"\n"</span>);
         }
     }</pre>
     </div>

@@ -28,6 +28,8 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 1. **Parantezli Terminoloji (Parenthetical Terminology)**: Teknik terimler Türkçe yazılır, yanına parantez içinde İngilizce orijinali eklenir.
    - Örnek: "Yeniden düzenleme (Refactoring), kodun dış davranışını değiştirmeden iç yapısını iyileştirme sürecidir."
 2. **Kod blokları ASLA çevrilmez**: Değişken adları, fonksiyon adları, sınıf adları, import ifadeleri, dosya yolları, komut satırı komutları her zaman İngilizce kalır.
+   - **KRİTİK**: Kod içindeki **yorum satırları** (`// ...`, `/* ... */`, `/** ... */`, `# ...`) da bu kurala tabidir — kitap listing'lerinde yorumlar her zaman orijinal İngilizce halleriyle kalır.
+   - **İSTİSNA**: Kavram Butonları (concept-panel/modal) içindeki özel eğitim örneklerinde yorum satırları Türkçe olabilir. Bu örnekler kitaptan alınmamış, Claude tarafından üretilmiş örneklerdir ve EN/TR toggle içermeleri zorunlu değildir.
 3. **Sektörde yaygın kullanılan terimler**: API, bug, debug, commit, push, pull, merge, framework, library gibi terimler İngilizce bırakılır, gerekirse Türkçe açıklama eklenir.
 4. **Deyimler ve metaforlar**: Türkçe karşılığı bulunur veya açıklanır. Örneğin "Boy Scout Rule" -> "İzci Kuralı (Boy Scout Rule)" şeklinde yazılır.
 5. **Başlıklar**: Hem Türkçe hem İngilizce yazılır. Örnek: "Anlamlı İsimler / Meaningful Names"
@@ -98,6 +100,25 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
    - Sayfanın metni paragraflara bölünmüş şekilde gösterilir
    - Kod örnekleri syntax highlighting ile gösterilir
    - Kitaptaki orijinal formatlama mümkün olduğunca korunur (başlıklar, listeler, kod blokları)
+
+3b. **`<pre>` Blokları için Zorunlu Format Kuralları**:
+   - Tag her zaman `<pre>` olmalıdır — `<pre">` (fazla tırnak) veya başka varyantlar GEÇERSİZDİR.
+   - **HTML girinti sızıntısı yasaktır**: `<pre>` içindeki kod satırları HTML belgesinin girintisinden etkilenmemelidir. `<pre>` elementi içindeki boşluklar tarayıcıda olduğu gibi görüntülenir.
+   - Doğru kullanım: `<pre>` tagından hemen sonra kodun ilk satırı sıfır girintiden başlamalı, kodun kendi iç girintisi (4 boşluk, 8 boşluk vb.) korunmalı.
+   - **Yanlış** (HTML girintisi sızıyor):
+     ```html
+     <div class="code-listing">
+         <pre>        for (int i = 0; i < n; i++)
+                 doSomething(i);</pre>
+     </div>
+     ```
+   - **Doğru** (kod kendi girintisiyle, HTML girintisi yok):
+     ```html
+     <div class="code-listing">
+         <pre>for (int i = 0; i < n; i++)
+     doSomething(i);</pre>
+     </div>
+     ```
 
 4. **Kavram Butonları (Few-Shot Örnekler)**:
    - Sayfada geçen her önemli Clean Code kavramı/ilkesi için bir buton oluşturulur

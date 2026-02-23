@@ -373,14 +373,14 @@
             <div class="code-listing-header"><span class="tr-text">Yerel olmayan bilgi içeren Javadoc</span><span
                     class="en-text" style="display:none;">Javadoc with nonlocal information</span></div>
             <pre><span class="comment">/**
-                    * fitnesse'in çalışacağı port. Varsayılan &lt;b&gt;8082&lt;/b&gt;.
-                    *
-                    * @param fitnessePort
-                    */</span>
-                <span class="kw">public void</span> setFitnessePort(<span class="kw">int</span> fitnessePort)
-                {
-                <span class="kw">this</span>.fitnessePort = fitnessePort;
-                }</pre>
+        * The port on which the fitnesse test process listens. Defaults to &lt;b&gt;8082&lt;/b&gt;.
+        *
+        * @param fitnessePort
+        */</span>
+        <span class="kw">public void</span> setFitnessePort(<span class="kw">int</span> fitnessePort)
+        {
+        <span class="kw">this</span>.fitnessePort = fitnessePort;
+        }</pre>
         </div>
 
         <!-- Çok Fazla Bilgi -->
@@ -404,12 +404,12 @@
             <div class="code-listing-header"><span class="tr-text">Çok fazla bilgi içeren yorum (RFC metni)</span><span
                     class="en-text" style="display:none;">Too much information (RFC text in comment)</span></div>
             <pre><span class="comment">/*
-                    RFC 2045 - Multipurpose Internet Mail Extensions (MIME)
-                    Birinci Bölüm: İnternet Mesaj Gövdelerinin Biçimi
-                    Bölüm 6.8. Base64 İçerik-Transfer-Kodlama
-                    Kodlama işlemi, 24-bit giriş bit gruplarını 4 kodlanmış
-                    karakterden oluşan çıkış dizilerine dönüştürür. ...
-                    */</span></pre>
+        RFC 2045 - Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies
+        Section 6.8. Base64 Content-Transfer-Encoding
+        The encoding process represents 24-bit groups of input bits as output strings of 4 encoded
+        characters. Proceeding from left to right on the input, a 24-bit input group is formed by
+        concatenating 3 8bit input groups. ...
+        */</span></pre>
         </div>
 
         <!-- Bağlantısız Yorum -->
@@ -432,11 +432,11 @@
             <div class="code-listing-header"><span class="tr-text">Bağlantısız yorum — filtre byte nedir?</span><span
                     class="en-text" style="display:none;">Inobvious connection — what is a filter byte?</span></div>
             <pre><span class="comment">/*
-                   * tüm pikselleri (ve filtre byte'larını) tutabilecek kadar büyük
-                   * bir array'la başlayın ve başlık bilgisi için 200 byte fazladan
-                   */</span>
+        * Start with an array large enough to hold all the pixels
+        * (plus filter bytes) and header information.
+        */</span>
                <span class="kw">this</span>.pngBytes = <span class="kw">new byte</span>[(((<span
-                   class="kw">this</span>.width + 1) * <span class="kw">this</span>.height * 3) + 200)];</pre>
+        class="kw">this</span>.width + 1) * <span class="kw">this</span>.height * 3) + 200)];</pre>
         </div>
 
         <div class="content-paragraph">

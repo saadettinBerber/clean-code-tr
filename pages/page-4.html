@@ -607,13 +607,13 @@ class NotificationService {
             // copied from UserService.notify()
             let subj = data.s || 'No Subject';
             if (user.prefs && user.prefs.lang === 'tr') {
-                subj = translate(subj); // sometimes crashes
+        subj = translate(subj); // sometimes crashes
             }
             mailer.send(user.email, subj, data.body);
             db.log('email', user.id, subj);
             // HACK: also send SMS if urgent
             if (data.urgent) {
-                this.send(user, 'sms', data);
+        this.send(user, 'sms', data);
             }
         } else if (type === 'sms') {
             if (!user.phone) return; // silent fail

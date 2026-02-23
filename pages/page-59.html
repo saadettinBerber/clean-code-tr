@@ -651,7 +651,7 @@
  * @param durationInMinutes CD'nin dakika cinsinden süresi
  */</span>
 <span class="kw">public void</span> addCD(String title, String author,
-                  <span class="kw">int</span> tracks, <span class="kw">int</span> durationInMinutes) {
+        <span class="kw">int</span> tracks, <span class="kw">int</span> durationInMinutes) {
   CD cd = <span class="kw">new</span> CD();
   cd.title = title;
   cd.author = author;
@@ -740,9 +740,9 @@
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum tam doğru değil, yanıltıcı</span><span
                         class="en-text" style="display:none;">BAD — Comment not quite accurate, misleading</span></span>
-                <pre><span class="comment">// items listesini sıralar ve döndürür</span>
+                <pre><span class="comment">// Sorts the items and returns the list.</span>
 <span class="kw">public</span> List&lt;Item&gt; getSortedItems() {
-    <span class="kw">if</span> (items == <span class="kw">null</span>) <span class="kw">return null</span>; <span class="comment">// yorum bunu söylemedi!</span>
+    <span class="kw">if</span> (items == <span class="kw">null</span>) <span class="kw">return null</span>; <span class="comment">// But the comment didn't mention this!</span>
     Collections.sort(items);
     <span class="kw">return</span> items;
 }</pre>
@@ -835,10 +835,10 @@
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Dosya başında değişiklik günlüğü</span><span
                         class="en-text" style="display:none;">BAD — Change log at top of file</span></span>
-                <pre><span class="comment">// 12-Mar-2023: auth modülü eklendi (ali)
-// 15-Mar-2023: token süresi düzeltildi (ayse)
-// 20-Mar-2023: refresh token eklendi (ali)
-// 01-Apr-2023: rate limiting eklendi (mehmet)</span></pre>
+                <pre><span class="comment">// 12-Mar-2023: Added auth module (ali)
+// 15-Mar-2023: Fixed token expiration (ayse)
+// 20-Mar-2023: Added refresh token (ali)
+// 01-Apr-2023: Added rate limiting (mehmet)</span></pre>
                 <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
                         Example (After)</span></h4>
                 <span class="label-good"><span class="tr-text">İYİ — Git commit'leri tarihi tutar</span><span

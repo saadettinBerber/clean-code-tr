@@ -636,7 +636,7 @@
   }
   <span class="kw">catch</span>(IOException e)
   {
-    <span class="comment">// Properties dosyası yoksa tüm varsayılanlar yüklenir</span>
+    <span class="comment">// If the properties file is missing then load all defaults</span>
   }
 }</pre>
         </div>
@@ -694,8 +694,8 @@
                 <span>Listing 4-1 — waitForClose</span>
                 <span class="listing-label">Java</span>
             </div>
-            <pre><span class="comment">// this.closed true olduğunda dönen yardımcı metot.
-// Zaman aşımına ulaşılırsa istisna fırlatır.</span>
+            <pre><span class="comment">// Helper method that returns when this.closed goes true; throws an
+// exception if the timeout is reached.</span>
 <span class="kw">public synchronized void</span> waitForClose(<span class="kw">final long</span> timeoutMillis)
   <span class="kw">throws</span> Exception
 {
@@ -761,8 +761,8 @@
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Mırıldanan yorum</span><span class="en-text"
                         style="display:none;">BAD — Mumbling comment</span></span>
                 <pre><span class="kw">catch</span>(FileNotFoundException e) {
-    <span class="comment">// config yoksa varsayılanlar kullanılır</span>
-    <span class="comment">// (kim yükler? ne zaman? bilinmiyor)</span>
+    <span class="comment">// Use defaults if config is missing
+    // (left ambiguous on purpose!)</span>
 }</pre>
                 <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
                         Example (After)</span></h4>
@@ -805,10 +805,10 @@
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum kodu tekrar söylüyor</span><span
                         class="en-text" style="display:none;">BAD — Comment repeats the code</span></span>
-                <pre><span class="comment">// Kullanıcı listesi boşsa boş liste döndür</span>
+                <pre><span class="comment">// Return an empty list if the user list is empty</span>
 <span class="kw">if</span> (users.isEmpty()) <span class="kw">return</span> Collections.emptyList();
 
-<span class="comment">// kullanıcı sayısını döndür</span>
+<span class="comment">// Return user count</span>
 <span class="kw">return</span> users.size();</pre>
                 <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
                         Example (After)</span></h4>

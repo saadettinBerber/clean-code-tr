@@ -242,9 +242,9 @@
         <span class="kw">if</span> result == <span class="field">SUCCESS</span>:
             result = <span class="method">ship_order</span>(order)
             <span class="kw">if</span> result == <span class="field">SUCCESS</span>:
-                <span class="method">send_confirmation</span>(order)
+        <span class="method">send_confirmation</span>(order)
             <span class="kw">else</span>:
-                <span class="method">log_error</span>(<span class="str">"Shipping failed"</span>)
+        <span class="method">log_error</span>(<span class="str">"Shipping failed"</span>)
         <span class="kw">else</span>:
             <span class="method">log_error</span>(<span class="str">"Payment failed"</span>)
     <span class="kw">else</span>:
@@ -343,7 +343,7 @@
         <span class="kw">if</span> (content.length > <span class="field">0</span>) {
             <span class="kw">const</span> parsed = JSON.<span class="method">parse</span>(content);
             <span class="kw">if</span> (parsed.data) {
-                <span class="kw">return</span> parsed.data;
+        <span class="kw">return</span> parsed.data;
             }
         }
     }

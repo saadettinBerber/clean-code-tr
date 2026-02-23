@@ -214,26 +214,26 @@
         # Hızlı düzeltme: bazen None geliyor
         if order is not None:
             try:
-                total = 0
-                for item in order.items:
-                    total = total + item.price  # vergi? neyse...
+        total = 0
+        for item in order.items:
+        total = total + item.price  # vergi? neyse...
                 
-                # Başka biri eklemiş, dokunma
-                if order.customer.vip:
-                    total = total * 0.9  # hardcoded indirim
+        # Başka biri eklemiş, dokunma
+        if order.customer.vip:
+        total = total * 0.9  # hardcoded indirim
                 
-                # Acil hotfix - müşteri şikayet etti
-                if order.country == "DE":
-                    total = total * 1.19  # Almanya KDV
-                elif order.country == "FR":
-                    total = total * 1.20  # Fransa KDV
-                # diğer ülkeler? sonra ekleriz...
+        # Acil hotfix - müşteri şikayet etti
+        if order.country == "DE":
+        total = total * 1.19  # Almanya KDV
+        elif order.country == "FR":
+        total = total * 1.20  # Fransa KDV
+        # diğer ülkeler? sonra ekleriz...
                 
-                order.total = total
-                db.save(order)  # hata yönetimi? biri halletsin
-                send_email(order.customer.email, total)  # bazen patlar ama olsun
+        order.total = total
+        db.save(order)  # hata yönetimi? biri halletsin
+        send_email(order.customer.email, total)  # bazen patlar ama olsun
             except:
-                pass  # hataları yut, kimse fark etmez
+        pass  # hataları yut, kimse fark etmez
 </pre>
             <div class="explanation"><span class="tr-text">İlk TODO zaten bir kırık pencereydi. Sonra "neyse", "dokunma", "sonra ekleriz", "biri halletsin" ve son olarak <code>except: pass</code> geldi. Her yeni geliştirici "zaten bozuk" diyerek kendi kırık penceresini ekledi.</span><span class="en-text" style="display:none;">The first TODO was already a broken window. Then came "whatever", "don't touch", "add later", "someone else will handle it", and finally <code>except: pass</code>. Each new developer said "it's already broken" and added their own broken window.</span></div>
             <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
@@ -291,8 +291,8 @@
     public void deleteOld() {  // ne zaman çağrılacak? kim çağıracak?
         for (String key : TTL.keySet()) {  // ConcurrentModificationException riski
             if (TTL.get(key) &lt; System.currentTimeMillis()) {
-                cache.remove(key);
-                TTL.remove(key);  // iterasyon sırasında silme!
+        cache.remove(key);
+        TTL.remove(key);  // iterasyon sırasında silme!
             }
         }
     }
@@ -349,9 +349,9 @@
         const x = d[i];
         if (x.s === 1 && x.e > n) {
             if (t === 1) {
-                if (x.p > 100) r.push(x);
+        if (x.p > 100) r.push(x);
             } else if (t === 2) {
-                if (x.c >= 4.0) r.push(x);
+        if (x.c >= 4.0) r.push(x);
             }
         }
     }
