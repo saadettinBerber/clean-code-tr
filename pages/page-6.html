@@ -251,7 +251,7 @@ function calculateDiscount(cart: CartItem[]): Money {
     return discountRules
         .filter(rule => rule.appliesTo(cart))
         .reduce((total, rule) => total.add(rule.calculate(cart)),
-                Money.zero());
+        Money.zero());
 }</pre>
             <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Yöneticinize "Hayır" demek değil, "Evet, ama..." demek önemlidir. "Bunu 1 günde yapabilirim ama 3 kritik riski var. 2 günde risksiz yapabilirim. Hangisini tercih edersiniz?" Bu yaklaşım hem profesyonelliğinizi hem de çözüm odaklılığınızı gösterir.</span><span class="en-text" style="display:none;">It's not about saying "No" but "Yes, but..." to your manager. "I can do this in 1 day but with 3 critical risks. In 2 days I can do it risk-free. Which do you prefer?" This shows both professionalism and solution-oriented thinking.</span></div>
         </div>
@@ -285,10 +285,10 @@ def send_notification(user_id, msg, type, urgent, channel):
         if urgent:
             # acil sms
             requests.post('https://sms-api.com/send',
-                json={'to': get_phone(user_id), 'msg': msg, 'priority': 'high'})
+        json={'to': get_phone(user_id), 'msg': msg, 'priority': 'high'})
         else:
             requests.post('https://sms-api.com/send',
-                json={'to': get_phone(user_id), 'msg': msg})
+        json={'to': get_phone(user_id), 'msg': msg})
     elif type == "push":
         # ... 50 satır daha
         pass
@@ -343,19 +343,19 @@ class EmailChannel:
             <pre>// Geliştirici biliyor ki bu kod kötü... ama alternatifi ne?
 public class DataProcessor {
     public Object process(Object data, int mode, boolean flag1,
-                          boolean flag2, String format, int retry) {
+        boolean flag2, String format, int retry) {
         Object result = null;
         if (mode == 1) {
             if (flag1) {
-                if (format.equals("json")) {
-                    // 30 satır iç içe mantık
-                    result = doSomething(data);
-                } else if (format.equals("xml")) {
-                    result = doSomethingElse(data);
-                }
+        if (format.equals("json")) {
+        // 30 satır iç içe mantık
+        result = doSomething(data);
+        } else if (format.equals("xml")) {
+        result = doSomethingElse(data);
+        }
             } else if (flag2) {
-                // 20 satır daha...
-                result = doAnotherThing(data);
+        // 20 satır daha...
+        result = doAnotherThing(data);
             }
         } else if (mode == 2) {
             // mode 1'in kopyası, küçük farkla...

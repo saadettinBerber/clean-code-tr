@@ -427,11 +427,11 @@
             <div class="code-listing-header"><span class="tr-text">Yorum satırına alınmış kod</span><span
                     class="en-text" style="display:none;">Commented-out code</span></div>
             <pre>InputStreamResponse response = <span class="kw">new</span> InputStreamResponse();
-                response.setBody(formatter.getResultStream(), formatter.getByteCount());
-                <span class="comment">//</span>
-                <span class="comment">// InputStream resultsStream = formatter.getResultStream();</span>
-                <span class="comment">// StreamReader reader = new StreamReader(resultsStream);</span>
-                <span class="comment">// response.setContent(reader.read(formatter.getByteCount()));</span></pre>
+        response.setBody(formatter.getResultStream(), formatter.getByteCount());
+        <span class="comment">//</span>
+        <span class="comment">// InputStream resultsStream = formatter.getResultStream();</span>
+        <span class="comment">// StreamReader reader = new StreamReader(resultsStream);</span>
+        <span class="comment">// response.setContent(reader.read(formatter.getByteCount()));</span></pre>
         </div>
 
         <div class="content-paragraph">
@@ -452,15 +452,15 @@
             <div class="code-listing-header"><span class="tr-text">Apache commons — yorum satırındaki kod</span><span
                     class="en-text" style="display:none;">Apache commons — commented-out code</span></div>
             <pre><span class="kw">this</span>.bytePos = writeBytes(pngIdBytes, 0);
-                <span class="comment">//hdrPos = bytePos;</span>
-                writeHeader();
-                writeResolution();
-                <span class="comment">//dataPos = bytePos;</span>
-                <span class="kw">if</span> (writeImageData()) {
-                writeEnd();
-                <span class="kw">this</span>.pngBytes = resizeByteArray(<span class="kw">this</span>.pngBytes, <span
-                    class="kw">this</span>.maxPos);
-                }</pre>
+        <span class="comment">//hdrPos = bytePos;</span>
+        writeHeader();
+        writeResolution();
+        <span class="comment">//dataPos = bytePos;</span>
+        <span class="kw">if</span> (writeImageData()) {
+        writeEnd();
+        <span class="kw">this</span>.pngBytes = resizeByteArray(<span class="kw">this</span>.pngBytes, <span
+        class="kw">this</span>.maxPos);
+        }</pre>
         </div>
 
         <div class="highlight-box">

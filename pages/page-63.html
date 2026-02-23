@@ -685,7 +685,7 @@
                         Example (After)</span></h4>
                 <span class="label-good"><span class="tr-text">İYİ — Kısa yorum, referans dışarıda</span><span
                         class="en-text" style="display:none;">GOOD — Short comment, reference external</span></span>
-                <pre><span class="comment">// Base64 kodlaması (RFC 2045 Section 6.8)</span>
+                <pre><span class="comment">// Base64 encoding (see RFC 2045 Section 6.8)</span>
 <span class="kw">public</span> String encodeBase64(byte[] data) { ... }</pre>
                 <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
                             style="display:none;">Practical Tip</span></strong>
@@ -721,7 +721,7 @@
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Kim anlar?</span><span class="en-text"
                         style="display:none;">BAD — Who understands this?</span></span>
-                <pre><span class="comment">// 3 baytlık grupları 4 karakterlik sekizliğe dönüştürür</span>
+                <pre><span class="comment">// Convert 3-byte groups to 4-byte encoding</span>
 <span class="kw">return</span> ((n &gt;&gt; 18) &amp; 0x3f) | (((n &gt;&gt; 12) &amp; 0x3f) &lt;&lt; 8)
      | (((n &gt;&gt; 6) &amp; 0x3f) &lt;&lt; 16) | ((n &amp; 0x3f) &lt;&lt; 24);</pre>
                 <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
@@ -729,10 +729,10 @@
                 <span class="label-good"><span class="tr-text">İYİ — İsimlendirilmiş adımlar</span><span class="en-text"
                         style="display:none;">GOOD — Named steps</span></span>
                 <pre><span class="kw">int</span> b0 = (n &gt;&gt; 18) &amp; 0x3f;
-                    <span class="kw">int</span> b1 = (n &gt;&gt; 12) &amp; 0x3f;
-                    <span class="kw">int</span> b2 = (n &gt;&gt; 6) &amp; 0x3f;
-                    <span class="kw">int</span> b3 = n &amp; 0x3f;
-                    <span class="kw">return</span> b0 | (b1 &lt;&lt; 8) | (b2 &lt;&lt; 16) | (b3 &lt;&lt; 24);</pre>
+        <span class="kw">int</span> b1 = (n &gt;&gt; 12) &amp; 0x3f;
+        <span class="kw">int</span> b2 = (n &gt;&gt; 6) &amp; 0x3f;
+        <span class="kw">int</span> b3 = n &amp; 0x3f;
+        <span class="kw">return</span> b0 | (b1 &lt;&lt; 8) | (b2 &lt;&lt; 16) | (b3 &lt;&lt; 24);</pre>
                     <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
                                 style="display:none;">Practical Tip</span></strong>
                         <span class="tr-text">Bir yorum okuyucunun kafasında soru işareti bırakıyorsa, o soruların

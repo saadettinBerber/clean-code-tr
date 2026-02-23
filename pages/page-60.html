@@ -602,7 +602,7 @@
   }
   <span class="kw">catch</span>(SocketException e)
   {
-    <span class="comment">// Gönderme iptal edildi. Bu normal.</span>
+    <span class="comment">// Connection aborted. This is normal.</span>
   }
   <span class="kw">catch</span>(Exception e)
   {
@@ -613,7 +613,7 @@
     }
     <span class="kw">catch</span>(Exception e1)
     {
-      <span class="comment">//Artık ne yapabiliriz ki?</span>
+      <span class="comment">// Give it up!</span>
     }
   }
 }</pre>
@@ -755,13 +755,13 @@
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Her satır yorumlanmış, hiçbiri değer
                         katmıyor</span><span class="en-text" style="display:none;">BAD — Every line commented, none
                         adding value</span></span>
-                <pre><span class="comment">/** Kullanıcı adı */</span>
+                <pre><span class="comment">/** User name */</span>
 String username;
 
-<span class="comment">/** Yaş */</span>
+<span class="comment">/** Age */</span>
 <span class="kw">int</span> age;
 
-<span class="comment">/** Kullanıcı adını döndürür */</span>
+<span class="comment">/** Returns user name */</span>
 String getUsername() { <span class="kw">return</span> username; }</pre>
                 <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
                         Example (After)</span></h4>
@@ -860,21 +860,21 @@ String getUsername() { <span class="kw">return</span> username; }</pre>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Kapatma parantezi yorumları</span><span
                         class="en-text" style="display:none;">BAD — Closing brace comments</span></span>
                 <pre><span class="kw">while</span> (hasNext()) {
-                    <span class="kw">if</span> (isValid()) {
-                    process();
-                    } <span class="comment">// if isValid</span>
-                    } <span class="comment">// while hasNext</span></pre>
+        <span class="kw">if</span> (isValid()) {
+        process();
+        } <span class="comment">// if isValid</span>
+        } <span class="comment">// while hasNext</span></pre>
                     <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
                             Example (After)</span></h4>
                     <span class="label-good"><span class="tr-text">İYİ — Küçük fonksiyon, yorum gereksiz</span><span
                             class="en-text" style="display:none;">GOOD — Small function, no comment needed</span></span>
                     <pre><span class="kw">while</span> (hasNext()) {
-                        processNextValidItem();
-                        }
+        processNextValidItem();
+        }
 
-                        <span class="kw">private void</span> processNextValidItem() {
-                        <span class="kw">if</span> (isValid()) process();
-                        }</pre>
+        <span class="kw">private void</span> processNextValidItem() {
+        <span class="kw">if</span> (isValid()) process();
+        }</pre>
                         <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
                                     style="display:none;">Practical Tip</span></strong>
                             <span class="tr-text">Kapatma parantezine yorum ekleme ihtiyacı hissediyorsanız, durdurun ve

@@ -568,7 +568,7 @@
         <div class="code-listing">
             <div class="code-listing-header"><span class="tr-text">Temel bilgi yorumu</span><span class="en-text"
                     style="display:none;">Basic informative comment</span></div>
-            <pre><span class="comment">// Test edilen Responder örneğini döner.</span>
+            <pre><span class="comment">// Returns the instance of the responder being tested.</span>
 <span class="kw">protected abstract</span> Responder responderInstance();</pre>
         </div>
 
@@ -589,7 +589,7 @@
         <div class="code-listing">
             <div class="code-listing-header"><span class="tr-text">Regex formatı açıklayan yorum</span><span
                     class="en-text" style="display:none;">Comment explaining regex format</span></div>
-            <pre><span class="comment">// format matched kk:mm:ss EEE, MMM dd, yyyy</span>
+            <pre><span class="comment">// format matched hh:mm:ss EEE, MMM dd, yyyy</span>
 Pattern timeMatcher = Pattern.compile(
        <span class="str">"\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*"</span>);</pre>
         </div>
@@ -636,7 +636,7 @@ Pattern timeMatcher = Pattern.compile(
     String compressedArgumentName = StringUtil.join(p.names, <span class="str">""</span>);
     <span class="kw">return</span> compressedName.compareTo(compressedArgumentName);
   }
-  <span class="kw">return</span> 1; <span class="comment">// doğru türden olduğumuz için daha büyüğüz.</span>
+  <span class="kw">return</span> 1; <span class="comment">// we are greater because we are the right type.</span>
 }</pre>
         </div>
 
@@ -658,8 +658,8 @@ Pattern timeMatcher = Pattern.compile(
     <span class="kw">new</span> BoldWidget(<span class="kw">new</span> MockWidgetRoot(), <span class="str">"'''bold text'''"</span>);
   AtomicBoolean failFlag = <span class="kw">new</span> AtomicBoolean();
   failFlag.set(<span class="kw">false</span>);
-  <span class="comment">//Bu yarış koşulunu elde etmek için en iyi girişimimiz:
-  //çok sayıda thread oluşturuyoruz.</span>
+  <span class="comment">// This is our best attempt to get a race condition
+  // by creating lots of threads.</span>
   <span class="kw">for</span> (<span class="kw">int</span> i = 0; i &lt; 25000; i++) {
     WidgetBuilderThread widgetBuilderThread =
       <span class="kw">new</span> WidgetBuilderThread(widgetBuilder, text, parent, failFlag);

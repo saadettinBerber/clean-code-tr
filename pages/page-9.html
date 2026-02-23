@@ -208,19 +208,19 @@
     YAML ve belki Parquet de eklenebilir.
     """
     def maybe_process(self, data, options=None, context=None,
-                      retry_count=3, fallback=None, 
-                      enable_logging=True, dry_run=False):
+        retry_count=3, fallback=None, 
+        enable_logging=True, dry_run=False):
         if data is not None:
             if options is not None:
-                if context is not None:
-                    if not dry_run:
-                        return self._do_process_internal(data)
-                    else:
-                        return self._simulate(data)
-                else:
-                    return self._do_process_internal(data)
+        if context is not None:
+        if not dry_run:
+        return self._do_process_internal(data)
+        else:
+        return self._simulate(data)
+        else:
+        return self._do_process_internal(data)
             else:
-                return self._do_process_internal(data)
+        return self._do_process_internal(data)
         return fallback</pre>
             <div class="explanation"><span class="tr-text">Burada her şey spekülatif ve tereddütlü. Sınıf adı ("maybe_process", "AbstractDataProcessorStrategyFactoryBase") soyutlamayı bulanıklaştırıyor. Kullanılmayan parametreler (<code>retry_count</code>, <code>enable_logging</code>) "belki lazım olur" zihniyetiyle eklenmiş. İç içe <code>if</code>'ler kararsızlığı yansıtıyor.</span><span class="en-text" style="display:none;">Everything here is speculative and hesitant. The class name ("maybe_process", "AbstractDataProcessorStrategyFactoryBase") makes the abstraction fuzzy. Unused parameters (<code>retry_count</code>, <code>enable_logging</code>) were added with a "might need it" mentality. Nested <code>if</code>s reflect indecisiveness.</span></div>
             <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>

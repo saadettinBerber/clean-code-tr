@@ -434,51 +434,51 @@
 <span class="kw">public class</span> GeneratePrimes
 {
   <span class="comment">/**
-   * @param maxValue üretim limitidir.
+   * @param maxValue is the limit of primes to generate.
    */</span>
   <span class="kw">public static int</span>[] generatePrimes(<span class="kw">int</span> maxValue)
   {
-    <span class="kw">if</span> (maxValue &gt;= 2) <span class="comment">// tek geçerli durum</span>
+    <span class="kw">if</span> (maxValue &gt;= 2) <span class="comment">// only valid case</span>
     {
-      <span class="comment">// bildirimler</span>
-      <span class="kw">int</span> s = maxValue + 1; <span class="comment">// dizi boyutu</span>
+      <span class="comment">// declarations</span>
+      <span class="kw">int</span> s = maxValue + 1; <span class="comment">// array size</span>
       <span class="kw">boolean</span>[] f = <span class="kw">new boolean</span>[s];
       <span class="kw">int</span> i;
-      <span class="comment">// diziyi doğruya başlat</span>
+      <span class="comment">// initialize all flags to true</span>
       <span class="kw">for</span> (i = 0; i &lt; s; i++)
         f[i] = <span class="kw">true</span>;
 
-      <span class="comment">// 0 ve 1 asal değildir</span>
+      <span class="comment">// zero and one are not prime</span>
       f[0] = f[1] = <span class="kw">false</span>;
 
-      <span class="comment">// kalbur</span>
+      <span class="comment">// sieve</span>
       <span class="kw">int</span> j;
       <span class="kw">for</span> (i = 2; i &lt; Math.sqrt(s) + 1; i++)
       {
-        <span class="kw">if</span> (f[i]) <span class="comment">// eğer i çizilmemişse,</span>
-        {  <span class="comment">// katlarını çiz</span>
+        <span class="kw">if</span> (f[i]) <span class="comment">// if i is uncrossed,</span>
+        {  <span class="comment">// cross-out its multiples</span>
           <span class="kw">for</span> (j = 2 * i; j &lt; s; j += i)
-            f[j] = <span class="kw">false</span>; <span class="comment">// birden fazla i katı asal değildir</span>
+            f[j] = <span class="kw">false</span>; <span class="comment">// multiple of i is not prime</span>
         }
       }
-      <span class="comment">// kaç tane asal sayı var?</span>
+      <span class="comment">// how many primes are there?</span>
       <span class="kw">int</span> count = 0;
       <span class="kw">for</span> (i = 0; i &lt; s; i++)
       {
         <span class="kw">if</span> (f[i])
-          count++; <span class="comment">// sayacı artır</span>
+          count++; <span class="comment">// increment count</span>
       }
       <span class="kw">int</span>[] primes = <span class="kw">new int</span>[count];
-      <span class="comment">// asalları sonuç dizisine taşı</span>
+      <span class="comment">// move the primes into the result</span>
       <span class="kw">for</span> (i = 0, j = 0; i &lt; s; i++)
       {
-        <span class="kw">if</span> (f[i])        <span class="comment">// eğer asal ise...</span>
+        <span class="kw">if</span> (f[i])        <span class="comment">// if i is still marked... it is prime</span>
           primes[j++] = i;
       }
-      <span class="kw">return</span> primes; <span class="comment">// asalları döndür</span>
+      <span class="kw">return</span> primes; <span class="comment">// return the primes</span>
     }
     <span class="kw">else</span> <span class="comment">// maxValue < 2</span>
-      <span class="kw">return new int</span>[0]; <span class="comment">// girdi hatalı; boş dizi döndür</span>
+      <span class="kw">return new int</span>[0]; <span class="comment">// return empty array</span>
   }
 }</pre>
         </div>

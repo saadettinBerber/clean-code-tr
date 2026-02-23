@@ -313,11 +313,11 @@ class UserRepository:
         self._validate_amount(amount)
         try:
             with self.transaction() as tx:
-                order = tx.orders.find_by_id(order_id)
-                if not order:
-                    raise OrderNotFound(order_id)
-                order.mark_as_paid(amount)
-                tx.audit.log_payment(order_id, amount)
+        order = tx.orders.find_by_id(order_id)
+        if not order:
+        raise OrderNotFound(order_id)
+        order.mark_as_paid(amount)
+        tx.audit.log_payment(order_id, amount)
             return PaymentResult.success(order_id)
         except PaymentError as e:
             self.notifier.alert_ops(e)

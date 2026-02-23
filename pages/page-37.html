@@ -136,13 +136,13 @@
     <span class="kw">public</span> <span class="type">Employee</span> <span class="method">makeEmployee</span>(<span class="type">EmployeeRecord</span> r) <span class="kw">throws</span> <span class="type">InvalidEmployeeType</span> {
         <span class="kw">switch</span> (r.type) {
             <span class="kw">case</span> COMMISSIONED:
-                <span class="kw">return new</span> <span class="type">CommissionedEmployee</span>(r);
+        <span class="kw">return new</span> <span class="type">CommissionedEmployee</span>(r);
             <span class="kw">case</span> HOURLY:
-                <span class="kw">return new</span> <span class="type">HourlyEmployee</span>(r);
+        <span class="kw">return new</span> <span class="type">HourlyEmployee</span>(r);
             <span class="kw">case</span> SALARIED:
-                <span class="kw">return new</span> <span class="type">SalariedEmployee</span>(r);
+        <span class="kw">return new</span> <span class="type">SalariedEmployee</span>(r);
             <span class="kw">default</span>:
-                <span class="kw">throw new</span> <span class="type">InvalidEmployeeType</span>(r.type);
+        <span class="kw">throw new</span> <span class="type">InvalidEmployeeType</span>(r.type);
         }
     }
 }</pre>

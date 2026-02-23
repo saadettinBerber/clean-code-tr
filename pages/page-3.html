@@ -548,10 +548,10 @@ public class OrderService {
             double p = (double) item.get("p");
             int q = (int) item.get("q");
             if (t.equals("B2B")) {
-                total += p * q * 0.85;
+        total += p * q * 0.85;
             } else if (t.equals("B2C")) {
-                total += p * q;
-                if (m) total -= total * 0.1;  // member?
+        total += p * q;
+        if (m) total -= total * 0.1;  // member?
             }
         }
         if (d > 0) total -= d;  // what is d?
@@ -580,9 +580,9 @@ public class OrderService {
     private static final double MEMBERSHIP_DISCOUNT_RATE = 0.10;
 
     public double calculateTotal(List&lt;OrderItem&gt; items,
-                                 CustomerType customerType,
-                                 boolean isMember,
-                                 double couponDiscount) {
+        CustomerType customerType,
+        boolean isMember,
+        double couponDiscount) {
         double subtotal = calculateSubtotal(items, customerType);
 
         if (isMember) {
@@ -594,12 +594,12 @@ public class OrderService {
     }
 
     private double calculateSubtotal(List&lt;OrderItem&gt; items,
-                                     CustomerType customerType) {
+        CustomerType customerType) {
         double subtotal = 0;
         for (OrderItem item : items) {
             double lineTotal = item.getPrice() * item.getQuantity();
             if (customerType == CustomerType.B2B) {
-                lineTotal *= (1 - B2B_DISCOUNT_RATE);
+        lineTotal *= (1 - B2B_DISCOUNT_RATE);
             }
             subtotal += lineTotal;
         }

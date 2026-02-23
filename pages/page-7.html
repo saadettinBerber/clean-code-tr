@@ -209,7 +209,7 @@
     for (let i = 0; i < data.length; i++) {
         if (filterBy) {
             if (data[i][filterBy.field] === filterBy.value) {
-                result.push(data[i]);
+        result.push(data[i]);
             }
         } else {
             result.push(data[i]);
@@ -277,8 +277,8 @@ const report = new ReportBuilder(salesData)
     for i in range(len(items)):
         for j in range(len(items)):
             if i != j and items[i] == items[j]:
-                if items[i] not in duplicates:
-                    duplicates.append(items[i])
+        if items[i] not in duplicates:
+        duplicates.append(items[i])
     return duplicates
 
 # O(n²) karmaşıklık, okunması zor, niyeti belirsiz</pre>
