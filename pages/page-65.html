@@ -789,7 +789,7 @@
                         Example (Before)</span></h4>
                 <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum bir sinirlenmeyi gizliyor</span><span
                         class="en-text" style="display:none;">BAD — Comment hides frustration</span></span>
-                <pre"><span class="kw">catch</span>(Exception e1) {
+                <pre><span class="kw">catch</span>(Exception e1) {
                     <span class="comment">//Artık ne yapabiliriz ki!</span>
                     }</pre>
                     <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
@@ -797,7 +797,7 @@
                     <span class="label-good"><span class="tr-text">İYİ — Ayrı metot, anlamlı soyutlama</span><span
                             class="en-text" style="display:none;">GOOD — Separate method, meaningful
                             abstraction</span></span>
-                    <pre"><span class="kw">private void</span> addExceptionAndCloseResponse(Exception e) {
+                    <pre><span class="kw">private void</span> addExceptionAndCloseResponse(Exception e) {
                         <span class="kw">try</span> {
                         response.add(ErrorResponder.makeExceptionString(e));
                         response.closeAll();

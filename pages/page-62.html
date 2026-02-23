@@ -553,45 +553,45 @@
                 <span>Listing 4-2 (devam) — ContainerBase.java (Tomcat)</span>
                 <span class="listing-label">Java</span>
             </div>
-            <pre>  <span class="comment">/**
-   * Bu Container ile ilişkili Manager uygulaması.
-   */</span>
-  <span class="kw">protected</span> Manager manager = <span class="kw">null</span>;
+            <pre><span class="comment">/**
+ * Bu Container ile ilişkili Manager uygulaması.
+ */</span>
+<span class="kw">protected</span> Manager manager = <span class="kw">null</span>;
 
-  <span class="comment">/**
-   * Bu Container ile ilişkili küme.
-   */</span>
-  <span class="kw">protected</span> Cluster cluster = <span class="kw">null</span>;
+<span class="comment">/**
+ * Bu Container ile ilişkili küme.
+ */</span>
+<span class="kw">protected</span> Cluster cluster = <span class="kw">null</span>;
 
-  <span class="comment">/**
-   * Bu Container'ın insan tarafından okunabilir adı.
-   */</span>
-  <span class="kw">protected</span> String name = <span class="kw">null</span>;
+<span class="comment">/**
+ * Bu Container'ın insan tarafından okunabilir adı.
+ */</span>
+<span class="kw">protected</span> String name = <span class="kw">null</span>;
 
-  <span class="comment">/**
-   * Bu Container'ın alt olduğu üst Container.
-   */</span>
-  <span class="kw">protected</span> Container parent = <span class="kw">null</span>;
+<span class="comment">/**
+ * Bu Container'ın alt olduğu üst Container.
+ */</span>
+<span class="kw">protected</span> Container parent = <span class="kw">null</span>;
 
-  <span class="comment">/**
-   * Bir Loader kurulduğunda yapılandırılacak üst sınıf yükleyici.
-   */</span>
-  <span class="kw">protected</span> ClassLoader parentClassLoader = <span class="kw">null</span>;
+<span class="comment">/**
+ * Bir Loader kurulduğunda yapılandırılacak üst sınıf yükleyici.
+ */</span>
+<span class="kw">protected</span> ClassLoader parentClassLoader = <span class="kw">null</span>;
 
-  <span class="comment">/**
-   * Bu Container ile ilişkili Pipeline nesnesi.
-   */</span>
-  <span class="kw">protected</span> Pipeline pipeline = <span class="kw">new</span> StandardPipeline(<span class="kw">this</span>);
+<span class="comment">/**
+ * Bu Container ile ilişkili Pipeline nesnesi.
+ */</span>
+<span class="kw">protected</span> Pipeline pipeline = <span class="kw">new</span> StandardPipeline(<span class="kw">this</span>);
 
-  <span class="comment">/**
-   * Bu Container ile ilişkili Realm.
-   */</span>
-  <span class="kw">protected</span> Realm realm = <span class="kw">null</span>;
+<span class="comment">/**
+ * Bu Container ile ilişkili Realm.
+ */</span>
+<span class="kw">protected</span> Realm realm = <span class="kw">null</span>;
 
-  <span class="comment">/**
-   * Bu Container ile ilişkili resources DirContext nesnesi.
-   */</span>
-  <span class="kw">protected</span> DirContext resources = <span class="kw">null</span>;</pre>
+<span class="comment">/**
+ * Bu Container ile ilişkili resources DirContext nesnesi.
+ */</span>
+<span class="kw">protected</span> DirContext resources = <span class="kw">null</span>;</pre>
         </div>
 
         <!-- HTML Yorumu -->
@@ -778,7 +778,7 @@
                         Example (After)</span></h4>
                 <span class="label-good"><span class="tr-text">İYİ — Kod kendi varsayılanını içeriyor</span><span
                         class="en-text" style="display:none;">GOOD — Code contains its own default</span></span>
-                <pre"><span class="kw">public static final int</span> DEFAULT_TIMEOUT_SECONDS = 30;
+                <pre><span class="kw">public static final int</span> DEFAULT_TIMEOUT_SECONDS = 30;
 
                     <span class="kw">public void</span> setTimer(Timer t) {
                     <span class="kw">this</span>.timer = t;

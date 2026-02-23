@@ -374,21 +374,21 @@
 
         <div class="code-listing">
             <div class="code-listing-header">Listing 4-6 (devam) — wc.java</div>
-            <pre"> <span class="kw">while</span> ((line = in.readLine()) != <span class="kw">null</span>) {
-                lineCount++;
-                charCount += line.length();
-                String words[] = line.split(<span class="str">"\\W"</span>);
-                wordCount += words.length;
-                } <span class="comment">//while</span>
-                System.out.println(<span class="str">"wordCount = "</span> + wordCount);
-                System.out.println(<span class="str">"lineCount = "</span> + lineCount);
-                System.out.println(<span class="str">"charCount = "</span> + charCount);
-                } <span class="comment">// try</span>
-                <span class="kw">catch</span> (IOException e) {
-                System.err.println(<span class="str">"Error:"</span> + e.getMessage());
-                } <span class="comment">//catch</span>
-                } <span class="comment">//main</span>
-                }</pre>
+            <pre><span class="kw">while</span> ((line = in.readLine()) != <span class="kw">null</span>) {
+               lineCount++;
+               charCount += line.length();
+               String words[] = line.split(<span class="str">"\\W"</span>);
+               wordCount += words.length;
+               } <span class="comment">//while</span>
+               System.out.println(<span class="str">"wordCount = "</span> + wordCount);
+               System.out.println(<span class="str">"lineCount = "</span> + lineCount);
+               System.out.println(<span class="str">"charCount = "</span> + charCount);
+               } <span class="comment">// try</span>
+               <span class="kw">catch</span> (IOException e) {
+               System.err.println(<span class="str">"Error:"</span> + e.getMessage());
+               } <span class="comment">//catch</span>
+               } <span class="comment">//main</span>
+               }</pre>
         </div>
 
         <!-- Atıf ve Yazarlık (bu sayfadaki bölüm) -->
@@ -400,7 +400,7 @@
         <div class="code-listing">
             <div class="code-listing-header"><span class="tr-text">Gereksiz atıf yorumu</span><span class="en-text"
                     style="display:none;">Unnecessary attribution comment</span></div>
-            <pre"><span class="comment">/* Rick tarafından eklendi */</span></pre>
+            <pre><span class="comment">/* Rick tarafından eklendi */</span></pre>
         </div>
 
         <div class="content-paragraph">
@@ -424,7 +424,7 @@
             <div class="code-listing-header"><span class="tr-text">Apache commons'tan — iki satır neden yorum
                     satırı?</span><span class="en-text" style="display:none;">From apache commons — why are two lines
                     commented?</span></div>
-            <pre"><span class="kw">this</span>.bytePos = writeBytes(pngIdBytes, 0);
+            <pre><span class="kw">this</span>.bytePos = writeBytes(pngIdBytes, 0);
                 <span class="comment">//hdrPos = bytePos;</span>
                 writeHeader();
                 writeResolution();

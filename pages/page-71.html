@@ -429,41 +429,41 @@
 
         <div class="code-listing">
             <div class="code-listing-header">Listing 4-7 (devam) — GeneratePrimes.java</div>
-            <pre"> <span class="comment">// diziyi true'ya başlat</span>
-                <span class="kw">for</span> (i = 0; i &lt; s; i++)
-                f[i] = <span class="kw">true</span>;
+            <pre><span class="comment">// diziyi true'ya başlat</span>
+               <span class="kw">for</span> (i = 0; i &lt; s; i++)
+               f[i] = <span class="kw">true</span>;
 
-                <span class="comment">// 0 ve 1 asal değildir</span>
-                f[0] = f[1] = <span class="kw">false</span>;
+               <span class="comment">// 0 ve 1 asal değildir</span>
+               f[0] = f[1] = <span class="kw">false</span>;
 
-                <span class="comment">// kalbur</span>
-                <span class="kw">int</span> j;
-                <span class="kw">for</span> (i = 2; i &lt; Math.sqrt(s) + 1; i++)
-                {
-                <span class="kw">if</span> (f[i]) <span class="comment">// eğer i çizilmemişse,</span>
-                { <span class="comment">// katlarını çiz</span>
-                <span class="kw">for</span> (j = 2 * i; j &lt; s; j += i)
-                f[j] = <span class="kw">false</span>; <span class="comment">// birden fazla i katı asal değil</span>
-                }
-                }
-                <span class="comment">// kaç tane asal var?</span>
-                <span class="kw">int</span> count = 0;
-                <span class="kw">for</span> (i = 0; i &lt; s; i++)
-                {
-                <span class="kw">if</span> (f[i])
-                count++; <span class="comment">// sayacı artır</span>
-                }
-                <span class="kw">int</span>[] primes = <span class="kw">new int</span>[count];
-                <span class="comment">// asalları sonuç dizisine taşı</span>
-                <span class="kw">for</span> (i = 0, j = 0; i &lt; s; i++)
-                {
-                <span class="kw">if</span> (f[i]) <span class="comment">// eğer asal ise...</span>
-                primes[j++] = i;
-                }
-                <span class="kw">return</span> primes; <span class="comment">// asalları döndür</span>
-                }
-                <span class="kw">else</span> <span class="comment">// maxValue &lt; 2</span>
-                <span class="kw">return new int</span>[0]; <span class="comment">// girdi hatası; boş dizi döndür</span>
+               <span class="comment">// kalbur</span>
+               <span class="kw">int</span> j;
+               <span class="kw">for</span> (i = 2; i &lt; Math.sqrt(s) + 1; i++)
+               {
+               <span class="kw">if</span> (f[i]) <span class="comment">// eğer i çizilmemişse,</span>
+               { <span class="comment">// katlarını çiz</span>
+               <span class="kw">for</span> (j = 2 * i; j &lt; s; j += i)
+               f[j] = <span class="kw">false</span>; <span class="comment">// birden fazla i katı asal değil</span>
+               }
+               }
+               <span class="comment">// kaç tane asal var?</span>
+               <span class="kw">int</span> count = 0;
+               <span class="kw">for</span> (i = 0; i &lt; s; i++)
+               {
+               <span class="kw">if</span> (f[i])
+               count++; <span class="comment">// sayacı artır</span>
+               }
+               <span class="kw">int</span>[] primes = <span class="kw">new int</span>[count];
+               <span class="comment">// asalları sonuç dizisine taşı</span>
+               <span class="kw">for</span> (i = 0, j = 0; i &lt; s; i++)
+               {
+               <span class="kw">if</span> (f[i]) <span class="comment">// eğer asal ise...</span>
+               primes[j++] = i;
+               }
+               <span class="kw">return</span> primes; <span class="comment">// asalları döndür</span>
+               }
+               <span class="kw">else</span> <span class="comment">// maxValue &lt; 2</span>
+               <span class="kw">return new int</span>[0]; <span class="comment">// girdi hatası; boş dizi döndür</span>
                 </pre>
         </div>
 
