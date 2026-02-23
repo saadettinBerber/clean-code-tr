@@ -9,41 +9,25 @@ allowed-tools: ["Read", "Write", "Edit", "Bash", "Glob"]
 
 Kullanıcı bu skill'i çağırdığında aşağıdaki adımları takip et:
 
-## 1. Sayfa Numarasını ve Modu Belirle
+## 1. Sayfa Numarasını Belirle
 
-**Tekli mod** — `$ARGUMENTS` tek bir sayıysa (örnek: `5`):
-- O sayfayı çevir, aşağıdaki adımları bir kez uygula.
-
-**Toplu mod** — `$ARGUMENTS` "X-Y" formatında bir aralıksa (örnek: `12-17`):
-- start=12, end=17 olarak belirle.
-- Adım 3'ten 8'e kadar olan adımları her sayfa için sırayla tekrarla (döngü).
-- Her sayfa tamamlandıktan sonra `last_translated_page` güncellenir.
-- Tüm sayfalar bittikten sonra tek bir git commit + push yapılır.
-- **Önbellek avantajı**: Sayfa N işlenirken N+1 EN-only kaydedilir; N+1 sıraya geldiğinde PDF okumaya gerek kalmaz, sadece N+2 için PDF okunur.
-
-**Sonraki sayfa modu** — `$ARGUMENTS` "next", "sıradaki", "sonraki", "devam" veya boşsa:
-- `CLAUDE.md` dosyasındaki `last_translated_page` değerini oku.
-- O değere 1 ekleyerek sonraki sayfayı belirle (tekli mod olarak devam et).
-- Eğer değer 0 ise, sayfa 1'den başla.
+- Eğer `$ARGUMENTS` bir sayı ise (örnek: `5`), o sayfayı çevir.
+- Eğer `$ARGUMENTS` "next", "sıradaki", "sonraki", "devam" gibi bir ifade ise veya boş ise:
+  - `CLAUDE.md` dosyasındaki `last_translated_page` değerini oku.
+  - O değere 1 ekleyerek sonraki sayfayı belirle.
+  - Eğer değer 0 ise, sayfa 1'den başla.
 
 ## 2. Glossary'yi Oku
 
 - `.claude/skills/cevir/glossary.md` dosyasını oku.
 - Mevcut terim çevirilerini öğren ve çeviri sırasında tutarlı kullan.
 
-## 3. Bağlam Sayfalarını Oku (Önbellek Kontrolü ile)
+## 3. PDF'den Sayfaları Oku
 
-Sayfa N çevrilecek. N-1 (önceki) ve N+1 (sonraki) bağlam için gereklidir. Her biri için şu kontrol yapılır:
-
-**Bağlam sayfaları (N-1 ve N+1) için:**
-- `pages/page-(N-1).html` dosyası var mı? → **Varsa**: dosyadan EN içeriğini oku. PDF okuma YOK.
-- `pages/page-(N+1).html` dosyası var mı? → **Varsa**: dosyadan EN içeriğini oku. PDF okuma YOK.
-- **Yoksa**: PDF'den ilgili sayfayı oku ve hemen `pages/page-X.html` olarak **EN-only** (sadece İngilizce toggle kısmı dolu, TR kısmı boş/placeholder) şekilde kaydet. Bu sayfa ileride çevrildiğinde TR kısmı tamamlanacak.
-
-**Hedef sayfa N için:**
-- Her zaman PDF'den oku (bu sayfa çevrilecek).
-- PDF yolu ve sayfa offset bilgisi için CLAUDE.md'deki **PDF Bilgileri** bölümüne bak.
-- Örnek: Sayfa 5 için PDF sayfaları 35 (N-1), 36 (N), 37 (N+1)'yi oku.
+- PDF yolu: `/home/b920/Desktop/make_greater/Clean Code/[PROGRAMMING][Clean Code by Robert C Martin].pdf`
+- Sayfa offset: PDF sayfa = kitap sayfa + 31
+- İstenilen sayfanın **bir önceki**, **kendisi** ve **bir sonraki** sayfasını oku (toplam 3 sayfa).
+- Örnek: Sayfa 5 için PDF sayfaları 35, 36, 37'yi oku.
 
 ## 4. Çeviriyi Yap
 
@@ -62,19 +46,9 @@ Sayfa N çevrilecek. N-1 (önceki) ve N+1 (sonraki) bağlam için gereklidir. He
   - Pratik ipucu
 - Örnekler kitaptakilerden FARKLI, orijinal örnekler olmalı.
 
-## 6. page-X.html Oluştur veya Güncelle
+## 6. page-X.html Oluştur
 
-Dosya yolu CLAUDE.md'deki yapıya göre `pages/page-X.html` (X = sayfa numarası). Tam yol için CLAUDE.md'deki **HTML Çıktı Kuralları** bölümüne bak.
-
-**Eğer dosya zaten var (3. adımda EN-only olarak oluşturulmuştu):**
-- Mevcut dosyayı aç.
-- TR içeriğini, kavram butonlarını ve navigasyonu ekle/tamamla.
-- Dosyayı kaydet (üzerine yaz).
-
-**Eğer dosya yoksa:**
-- Sıfırdan oluştur, hem EN hem TR kısımları dolu tam bir sayfa olarak kaydet.
-
-**Her iki durumda da geçerli kurallar:**
+- Dosya yolu: `/home/b920/Desktop/make_greater/Clean Code/pages/page-X.html` (X = sayfa numarası)
 - CLAUDE.md'deki HTML çıktı kurallarına uy.
 - CSS inline, JS ise `../js/common.js` harici dosyasından yüklenir.
 - Script bölümü sadece şu 2 satırdan oluşmalı:

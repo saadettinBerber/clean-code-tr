@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 70 | Bölüm 4: Yerel Olmayan Bilgi devamı, Çok Fazla Bilgi, Bağlantısız Yorum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Yerel Olmayan Bilgi, Çok Fazla Bilgi,
+                Bağlantısız Yorum, Fonksiyon Başlığı</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="70" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Yerel Olmayan Bilgi (devam) -->
+        <div class="section-title">
+            <span class="tr-text">Yerel Olmayan Bilgi — Devam / Nonlocal Information (Continued)</span>
+            <span class="en-text" style="display:none;">Nonlocal Information (Continued)</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Yerel olmayan bilgi içeren Javadoc</span><span
+                    class="en-text" style="display:none;">Javadoc with nonlocal information</span></div>
+            <pre"><span class="comment">/**
+                    * fitnesse'in çalışacağı port. Varsayılan &lt;b&gt;8082&lt;/b&gt;.
+                    *
+                    * @param fitnessePort
+                    */</span>
+                <span class="kw">public void</span> setFitnessePort(<span class="kw">int</span> fitnessePort)
+                {
+                <span class="kw">this</span>.fitnessePort = fitnessePort;
+                }</pre>
+        </div>
+
+        <!-- Çok Fazla Bilgi -->
+        <div class="section-title">
+            <span class="tr-text">Çok Fazla Bilgi / Too Much Information</span>
+            <span class="en-text" style="display:none;">Too Much Information</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">İlginç tarihsel tartışmalar veya alakasız ayrıntılar yorumlarınıza eklemeyin.
+                Aşağıdaki yorum, base64 kodlama ve kod çözme işlevini test etmek için tasarlanmış bir modülden
+                alınmıştır. RFC numarası dışında bu kodu okuyan birinin yorumda yer alan anlaşılmaz bilgilere hiçbir
+                ihtiyacı yoktur:</span>
+            <span class="en-text" style="display:none;">Don't put interesting historical discussions or irrelevant
+                descriptions of details into your comments. The comment below was extracted from a module designed to
+                test that a function could encode and decode base64. Other than the RFC number, someone reading this
+                code has no need for the arcane information contained in the comment.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Çok fazla bilgi içeren yorum (RFC metni)</span><span
+                    class="en-text" style="display:none;">Too much information (RFC text in comment)</span></div>
+            <pre"><span class="comment">/*
+                    RFC 2045 - Multipurpose Internet Mail Extensions (MIME)
+                    Birinci Bölüm: İnternet Mesaj Gövdelerinin Biçimi
+                    Bölüm 6.8. Base64 İçerik-Transfer-Kodlama
+                    Kodlama işlemi, 24-bit giriş bit gruplarını 4 kodlanmış
+                    karakterden oluşan çıkış dizilerine dönüştürür. ...
+                    */</span></pre>
+        </div>
+
+        <!-- Bağlantısız Yorum -->
+        <div class="section-title">
+            <span class="tr-text">Bağlantısız Yorum / Inobvious Connection</span>
+            <span class="en-text" style="display:none;">Inobvious Connection</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bir yorum ile açıkladığı kod arasındaki bağlantı açık olmalıdır. Bir yorum yazma
+                zahmetine katlanıyorsanız, en azından okuyucunun hem yoruma hem de koda bakıp yorumun ne hakkında
+                olduğunu anlayabilmesini istersiniz. Örneğin apache commons'tan şu yoruma bakın:</span>
+            <span class="en-text" style="display:none;">The connection between a comment and the code it describes
+                should be obvious. If you are going to the trouble to write a comment, then at least you'd like the
+                reader to be able to look at the comment and the code and understand what the comment is talking about.
+                Consider, for example, this comment drawn from apache commons:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Bağlantısız yorum — filtre byte nedir?</span><span
+                    class="en-text" style="display:none;">Inobvious connection — what is a filter byte?</span></div>
+            <pre"> <span class="comment">/*
+                    * tüm pikselleri (ve filtre byte'larını) tutabilecek kadar büyük
+                    * bir array'la başlayın ve başlık bilgisi için 200 byte fazladan
+                    */</span>
+                <span class="kw">this</span>.pngBytes = <span class="kw">new byte</span>[(((<span
+                    class="kw">this</span>.width + 1) * <span class="kw">this</span>.height * 3) + 200)];</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Filtre byte nedir? <code class="inline">+1</code> ile mi ilgili? <code
+                    class="inline">*3</code> ile mi? İkisiyle birden mi? Bir piksel bir byte mıdır? Neden 200? Bir
+                yorumun amacı kendini açıklamayan kodu açıklamaktır. Bir yorumun kendi açıklamasına ihtiyaç duyması ne
+                yazık ki gayet üzücüdür.</span>
+            <span class="en-text" style="display:none;">What is a filter byte? Does it relate to the +1? Or to the *3?
+                Both? Is a pixel a byte? Why 200? The purpose of a comment is to explain code that does not explain
+                itself. It is a pity when a comment needs its own explanation.</span>
+        </div>
+
+        <!-- Fonksiyon Başlığı -->
+        <div class="section-title">
+            <span class="tr-text">Fonksiyon Başlığı / Function Headers</span>
+            <span class="en-text" style="display:none;">Function Headers</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kısa fonksiyonlar fazla açıklamaya ihtiyaç duymaz. Tek bir şey yapan küçük bir
+                fonksiyon için iyi seçilmiş bir isim, genellikle bir yorum başlığından çok daha iyidir.</span>
+            <span class="en-text" style="display:none;">Short functions don't need much description. A well-chosen name
+                for a small function that does one thing is usually better than a comment header.</span>
+        </div>
+
+    </div>
+
+    <div class="page-nav">
+        <a href="page-69.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 69 — HTML Yorumu, Yerel Olmayan Bilgi</span><span
+                    class="en-text" style="display:none;">Page 69 — HTML Comment, Nonlocal Information</span></div>
+        </a>
+        <a href="page-71.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 71 — Javadoc Herkese Açık Olmayan Kod, Listing 4-7
+                    devamı (GeneratePrimes)</span><span class="en-text" style="display:none;">Page 71 — Javadoc in
+                    Nonpublic Code, Listing 4-7 continued</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 70;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>

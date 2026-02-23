@@ -6,7 +6,7 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 
 ## PDF Bilgileri
 
-- **PDF Dosya Yolu**: `/home/b920/Desktop/make_greater/Clean Code/[PROGRAMMING][Clean Code by Robert C Martin].pdf`
+- **PDF Dosya Yolu**: `../docs/[PROGRAMMING][Clean Code by Robert C Martin].pdf`
 - **Sayfa Offset**: PDF sayfa numarası = Kitap sayfa numarası + 31
   - Örnek: Kitap sayfa 1 = PDF sayfa 32
   - Örnek: Kitap sayfa 10 = PDF sayfa 41
@@ -18,9 +18,9 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ## Son Çevrilen Sayfa Takibi
 
 - **KRİTİK KURAL**: Her çeviri tamamlandığında, bu dosyadaki `last_translated_page` değerini güncelle.
-- **last_translated_page**: 52
-- Kullanıcı "sıradaki sayfa", "sonraki sayfa", "next", "devam" gibi ifadeler kullandığında veya `/cevir next` yazdığında, `last_translated_page + 1` sayfasını çevir.
-- Eğer `last_translated_page` değeri 0 ise ve kullanıcı "sıradaki" derse, sayfa 1'den başla.
+- **last_translated_page**: 71
+- **last_translated_group**: 5 (Chapter 4'ten itibaren grup takibi başlar)
+- Kullanıcı "sıradaki grup", "sonraki grup", "next group", "devam" gibi ifadeler kullandığında veya `/cevir group next` yazdığında, `implementation_plan.md`'de tanımlanan sıradaki grubu çevir.
 
 ## Çeviri Kuralları
 
@@ -31,11 +31,16 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 3. **Sektörde yaygın kullanılan terimler**: API, bug, debug, commit, push, pull, merge, framework, library gibi terimler İngilizce bırakılır, gerekirse Türkçe açıklama eklenir.
 4. **Deyimler ve metaforlar**: Türkçe karşılığı bulunur veya açıklanır. Örneğin "Boy Scout Rule" -> "İzci Kuralı (Boy Scout Rule)" şeklinde yazılır.
 5. **Başlıklar**: Hem Türkçe hem İngilizce yazılır. Örnek: "Anlamlı İsimler / Meaningful Names"
+6. **ÖZET YASAKTIR**: Çeviriler asla özet niteliğinde olmamalıdır. Kitabın orijinal metni paragraf paragraf, tüm detayları ve kod analizleriyle birlikte tam sadakatle çevrilmelidir.
 
-### Sayfa Bağlamı
-- Her çeviri yapılırken istenilen sayfanın **bir önceki** ve **bir sonraki** sayfası da PDF'den okunur.
+### Sayfa Bağlamı ve Önbellek Kullanımı
+- Her çeviri yapılırken istenilen sayfanın **bir önceki** ve **bir sonraki** sayfası da bağlam için okunur.
 - Amaç: Paragraf ortasında kesilebilecek cümleleri tamamlamak ve bağlamı anlamak.
 - Ancak çeviri sadece istenilen sayfayı kapsar, önceki/sonraki sayfalar sadece bağlam içindir.
+- **KRİTİK OPTİMİZASYON — Önbellek Kontrolü**: Bağlam sayfalarını okumadan önce `pages/page-X.html` dosyasının var olup olmadığını kontrol et:
+  - **Dosya varsa** → dosyadan EN içeriğini oku. PDF okuma YOK, zaman kaybı YOK.
+  - **Dosya yoksa** → PDF'den oku VE dosyayı EN-only olarak kaydet (ileride çevrilmeye hazır önbellek).
+- Bu sayede toplu çevirilerde her sayfa için PDF yalnızca **bir kez** okunur.
 
 ### Bulunduğu Başlık/Bölüm
 - Sayfanın hangi Chapter ve Section altında olduğu her zaman belirtilmelidir.
@@ -55,13 +60,18 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ### Genel Yapı
 - **Çoklu dosya yapısı** kullanılır:
   - `index.html`: Ana sayfa (navigasyon hub'ı, sayfa numarası giriş kutusu, çevrilen sayfaların listesi)
-  - `pages/page-X.html`: Her çevrilen sayfa `pages/` klasörü altında ayrı dosyada saklanır (örnek: `pages/page-1.html`, `pages/page-2.html`)
+  - `pages/page-X.html`: Her sayfa `pages/` klasörü altında saklanır (örnek: `pages/page-1.html`, `pages/page-2.html`)
   - Sayfa dosyalarından `index.html`'e linkler `../index.html` şeklinde, sayfalar arası linkler ise `page-X.html` şeklinde (aynı dizinde oldukları için) olmalıdır.
 - Her sayfa dosyası CSS'i inline içerir, JS ise `../js/common.js` harici dosyasından yüklenir.
 - Her sayfa dosyasında sadece `<script>const CURRENT_PAGE = X;</script>` ve `<script src="../js/common.js"></script>` bulunur.
 - Responsive tasarım (mobil uyumlu).
 - Türkçe karakter desteği (UTF-8).
-- **Her yeni çeviri yapıldığında `index.html` de güncellenmelidir**:
+
+- **İki Aşamalı Sayfa Durumu**:
+  - **EN-only (Önbellek)**: Sayfa, bir başka sayfanın bağlamı okunurken PDF'den alınmış ve kaydedilmiştir. Yalnızca İngilizce (EN) kısmı doludur; TR kısmı henüz çevrilmemiştir. Tarayıcıda açılabilir, EN toggle ile içerik görüntülenebilir. `index.html`'e eklenmez.
+  - **Tam Çeviri**: Hem EN hem TR kısımları dolu, kavram butonları ve navigasyon tamamlanmış. `index.html`'e eklenir.
+
+- **Her yeni TAM ÇEVİRİ tamamlandığında `index.html` de güncellenmelidir**:
   - `TRANSLATED_PAGES` JavaScript objesine yeni sayfa eklenir
   - Sayfa kartı (page-card) HTML'e eklenir
   - Badge sayısı ve input-hint güncellenir
@@ -121,7 +131,10 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 
 1. **Glossary'yi oku**: `.claude/skills/cevir/glossary.md` dosyasını oku, mevcut terimleri öğren.
-2. **PDF'den sayfaları oku**: İstenilen sayfa + önceki sayfa + sonraki sayfa (bağlam için). Sayfa numarasına 31 ekleyerek PDF sayfa numarasını bul.
+2. **Bağlam sayfalarını kontrol et ve oku**: N-1 ve N+1 için önce `pages/page-X.html` dosyası var mı kontrol et.
+   - **Varsa** → dosyadan EN içeriğini oku (PDF okuma YOK).
+   - **Yoksa** → PDF'den oku (sayfa numarası + 31 = PDF sayfası) ve dosyayı **EN-only** olarak kaydet.
+   - Hedef sayfa N her zaman PDF'den okunur.
 3. **Bölüm/başlık bilgisini belirle**: Sayfanın hangi Chapter ve Section altında olduğunu tespit et.
 4. **Çeviriyi yap**: Kurallara uygun şekilde hem EN hem TR metinleri hazırla.
 5. **Kavram butonlarını hazırla**: Sayfadaki önemli kavramlar için few-shot örnekler oluştur.
@@ -137,7 +150,7 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 - Bu proje eğitim amaçlıdır. Kitabın tamamını bir seferde çevirme gibi bir amaç yoktur.
 - Kullanıcı sayfa sayfa ilerler, kendi hızında okur.
 - Her sohbette CLAUDE.md otomatik okunacağı için, kullanıcının uzun açıklamalar yapmasına gerek yoktur.
-- Kullanıcı sadece `/cevir 5` veya "sıradaki sayfa" demesi yeterlidir.
+- Kullanıcı sadece `/cevir group 1` veya "sıradaki grup" demesi yeterlidir.
 
 ## Git Commit Kuralı
 

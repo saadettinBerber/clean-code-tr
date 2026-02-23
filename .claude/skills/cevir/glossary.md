@@ -117,7 +117,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Abstract Factory | Soyut Fabrika (Abstract Factory) | Nesne oluşturma mantığını gizleyen tasarım deseni |
 | Consistent Lexicon | Tutarlı Kelime Haznesi (Consistent Lexicon) | Kod tabanında tutarlı terimler kullanma prensibi |
 | Dyadic | İkili (Dyadic) | İki argümanlı fonksiyon |
+| Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
 | Flag Argument | Bayrak Argümanı (Flag Argument) | Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir |
+| Informative Comment | Bilgilendirici Yorum (Informative Comment) | Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum |
+| Legal Comment | Yasal Yorum (Legal Comment) | Telif hakkı, lisans gibi yasal zorunlulukları belirten yorum |
 | Monadic | Tekli (Monadic) | Bir argümanlı fonksiyon |
 | Niladic | Sıfırlı (Niladic) | Argümansız fonksiyon |
 | Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
@@ -196,4 +199,20 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Structured Programming | Yapısal Programlama (Structured Programming) | Dijkstra'nın tek giriş / tek çıkış kuralları |
 | Temporal Coupling | Zamansal Bağımlılık (Temporal Coupling) | Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu |
 | Wrapper | Sarmalayıcı (Wrapper) | |
-
+| Amplification | Önem Belirtme (Amplification) | Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum |
+| Clarification | Netleştirme (Clarification) | Karmaşık kütüphane çağrılarını veya dönüş değerlerini açıklayan yorum |
+| Javadoc | Javadoc | Java API dokümantasyon formatı |
+| TODO | TODO / Yapılacaklar (TODO) | Gelecek için bırakılan notlar ve hatırlatıcılar |
+| Warning of Consequences | Sonuçlara Dair Uyarı (Warning of Consequences) | Belirli bir işlemin etkileri hakkında diğer programcıları uyaran yorum |
+| Journal Comment | Günlük Yorumu (Journal Comment) | Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum |
+| Mandated Comment | Zorunlu Yorum (Mandated Comment) | Şirket politikası veya kurallar gereği zorla eklenen yorum |
+| Misleading Comment | Yanıltıcı Yorum (Misleading Comment) | Kodun gerçekte yaptığından farklı bir şey söyleyen hatalı yorum |
+| Mumbling | Mırıldanma (Mumbling) | Belirsiz, özensiz veya ne dediği anlaşılmayan yorum |
+| Noise Comment | Gürültü Yorumu (Noise Comment) | Hiçbir değer katmayan, bariz olanı tekrar eden yorum |
+| Redundant Comment | Gereksiz Yorum (Redundant Comment) | Koddan daha fazla bilgi vermeyen, fazlalık yorum |
+| Closing Brace | Kapatma Parantezi (Closing Brace) | Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum |
+| Commented-out Code | Yorum Satırına Alınmış Kod (Commented-out Code) | Silinmesi gereken, artık kullanılmayan kod blokları |
+| Function Header | Fonksiyon Başlığı (Function Header) | Fonksiyonun başına eklenen açıklama bloğu |
+| Nonlocal Information | Yerel Olmayan Bilgi (Nonlocal Information) | Bulunduğu yerle doğrudan ilgili olmayan sistem bilgisi |
+| Position Marker | Konum İşaretçisi (Position Marker) | Kod bloklarını ayırmak için kullanılan görsel banner'lar |
+| Scary Noise | Korkunç Gürültü (Scary Noise) | Bariz olanı karmaşık Javadoc formatında tekrar eden sinir bozucu yorum |

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 71 | Bölüm 4: Javadoc Herkese Açık Olmayan Kod, Listing 4-7 devamı</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .chapter-complete-box {
+            background: linear-gradient(135deg, #1a1a2e, #2d2d4e);
+            color: #e8d44d;
+            padding: 28px 32px;
+            border-radius: 16px;
+            margin: 36px 0;
+            text-align: center;
+        }
+
+        .chapter-complete-box h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .chapter-complete-box p {
+            color: #adb5bd;
+            font-size: 16px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Herkese Açık Olmayan Javadoc, Listing 4-7
+                Devamı — Bölüm 4 Sonu</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="71" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Herkese Açık Olmayan Kodlarda Javadoc -->
+        <div class="section-title">
+            <span class="tr-text">Herkese Açık Olmayan Kodlarda Javadoc / Javadocs in Nonpublic Code</span>
+            <span class="en-text" style="display:none;">Javadocs in Nonpublic Code</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Javadoc'lar herkese açık API'lar için ne kadar yararlıysa, herkese sunulmayan kodlar
+                için o kadar zararlıdır. Bir sistemdeki sınıflar ve fonksiyonlar için Javadoc sayfaları oluşturmak
+                genellikle faydalı değildir; Javadoc yorumlarının eklediği ekstra biçimsellik ise çoğunlukla boş
+                gürültüden ibaret kalır ve dikkati dağıtır.</span>
+            <span class="en-text" style="display:none;">As useful as javadocs are for public APIs, they are anathema to
+                code that is not intended for public consumption. Generating javadoc pages for the classes and functions
+                inside a system is not generally useful, and the extra formality of the javadoc comments amounts to
+                little more than cruft and distraction.</span>
+        </div>
+
+        <!-- Örnek / GeneratePrimes devamı -->
+        <div class="section-title">
+            <span class="tr-text">Örnek — Listing 4-7 (devam) / Example — Listing 4-7 (Continued)</span>
+            <span class="en-text" style="display:none;">Example — Listing 4-7 (Continued)</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Listing 4-7'yi ilk XP Immersion için yazdım. Kötü kodlama ve yorum yazma tarzına örnek
+                olması amacıyla hazırlandı. Kent Beck ardından bu kodu birkaç düzine hevesli öğrencinin önünde çok daha
+                hoş bir forma dönüştürdü. Daha sonra bu örneği "Agile Software Development, Principles, Patterns, and
+                Practices" kitabım ve Software Development dergisindeki ilk Craftsman makalem için uyarladım.</span>
+            <span class="en-text" style="display:none;">I wrote the module in Listing 4-7 for the first XP Immersion. It
+                was intended to be an example of bad coding and commenting style. Kent Beck then refactored this code
+                into a much more pleasant form in front of several dozen enthusiastic students. Later I adapted the
+                example for my book Agile Software Development, Principles, Patterns, and Practices and the first of my
+                Craftsman articles published in Software Development magazine.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu modülde beni büyüleyen şey, bir zamanlar pek çoğumuzun onu "iyi belgelenmiş"
+                saydığıdır. Şimdi ise küçük bir karmaşa olarak görüyoruz. Ne kadar farklı yorum sorununu bulabildiğinize
+                bakın:</span>
+            <span class="en-text" style="display:none;">What I find fascinating about this module is that there was a
+                time when many of us would have considered it "well documented." Now we see it as a small mess. See how
+                many different comment problems you can find.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">Listing 4-7 (devam) — GeneratePrimes.java</div>
+            <pre"> <span class="comment">// diziyi true'ya başlat</span>
+                <span class="kw">for</span> (i = 0; i &lt; s; i++)
+                f[i] = <span class="kw">true</span>;
+
+                <span class="comment">// 0 ve 1 asal değildir</span>
+                f[0] = f[1] = <span class="kw">false</span>;
+
+                <span class="comment">// kalbur</span>
+                <span class="kw">int</span> j;
+                <span class="kw">for</span> (i = 2; i &lt; Math.sqrt(s) + 1; i++)
+                {
+                <span class="kw">if</span> (f[i]) <span class="comment">// eğer i çizilmemişse,</span>
+                { <span class="comment">// katlarını çiz</span>
+                <span class="kw">for</span> (j = 2 * i; j &lt; s; j += i)
+                f[j] = <span class="kw">false</span>; <span class="comment">// birden fazla i katı asal değil</span>
+                }
+                }
+                <span class="comment">// kaç tane asal var?</span>
+                <span class="kw">int</span> count = 0;
+                <span class="kw">for</span> (i = 0; i &lt; s; i++)
+                {
+                <span class="kw">if</span> (f[i])
+                count++; <span class="comment">// sayacı artır</span>
+                }
+                <span class="kw">int</span>[] primes = <span class="kw">new int</span>[count];
+                <span class="comment">// asalları sonuç dizisine taşı</span>
+                <span class="kw">for</span> (i = 0, j = 0; i &lt; s; i++)
+                {
+                <span class="kw">if</span> (f[i]) <span class="comment">// eğer asal ise...</span>
+                primes[j++] = i;
+                }
+                <span class="kw">return</span> primes; <span class="comment">// asalları döndür</span>
+                }
+                <span class="kw">else</span> <span class="comment">// maxValue &lt; 2</span>
+                <span class="kw">return new int</span>[0]; <span class="comment">// girdi hatası; boş dizi döndür</span>
+                </pre>
+        </div>
+
+        <div class="chapter-complete-box">
+            <h3>✓ <span class="tr-text">Bölüm 4 Tamamlandı — Yorumlar</span><span class="en-text"
+                    style="display:none;">Chapter 4 Complete — Comments</span></h3>
+            <p><span class="tr-text">İyi yorumlar, kötü yorumlar ve GeneratePrimes örneği. Bölüm 5'te biçimlendirme ele
+                    alınıyor.</span>
+                <span class="en-text" style="display:none;">Good comments, bad comments, and the GeneratePrimes example.
+                    Chapter 5 covers formatting.</span>
+            </p>
+        </div>
+
+    </div>
+
+    <div class="page-nav">
+        <a href="page-70.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 70 — Yerel Olmayan, Çok Bilgi, Bağlantısız
+                    Yorum</span><span class="en-text" style="display:none;">Page 70 — Nonlocal, Too Much Info,
+                    Inobvious</span></div>
+        </a>
+        <a href="page-72.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 72 — Bölüm 5: Biçimlendirme Amacı</span><span
+                    class="en-text" style="display:none;">Page 72 — Chapter 5: The Purpose of Formatting</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 71;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>
