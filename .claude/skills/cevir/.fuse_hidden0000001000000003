@@ -3,33 +3,23 @@ name: cevir
 description: Clean Code kitabının belirtilen sayfasını EN/TR interaktif HTML olarak çevirir. Sayfa numarası veya "next/sıradaki" ile kullanılır.
 argument-hint: "[sayfa-numarasi veya next]"
 allowed-tools: ["Read", "Write", "Edit", "Bash", "Glob"]
-compatibility: ["antigravity", "claude-code"]
 ---
 
 # Clean Code Sayfa Çeviri Skill'i
 
 Kullanıcı bu skill'i çağırdığında aşağıdaki adımları takip et:
 
-## 1. Sayfa Numarasını ve Modu Belirle
+## 1. Sayfa Numarasını Belirle
 
-**Tekli mod** — `$ARGUMENTS` tek bir sayıysa (örnek: `5`):
-- O sayfayı çevir, aşağıdaki adımları bir kez uygula.
-
-**Toplu mod** — `$ARGUMENTS` "X-Y" formatında bir aralıksa (örnek: `12-17`):
-- start=12, end=17 olarak belirle.
-- Adım 3'ten 8'e kadar olan adımları her sayfa için sırayla tekrarla (döngü).
-- Her sayfa tamamlandıktan sonra `last_translated_page` güncellenir.
-- Tüm sayfalar bittikten sonra tek bir git commit + push yapılır.
-- **Önbellek avantajı**: Sayfa N işlenirken N+1 EN-only kaydedilir; N+1 sıraya geldiğinde PDF okumaya gerek kalmaz, sadece N+2 için PDF okunur.
-
-**Sonraki sayfa modu** — `$ARGUMENTS` "next", "sıradaki", "sonraki", "devam" veya boşsa:
-- `AGENTS.md` (veya `CLAUDE.md`) dosyasındaki `last_translated_page` değerini oku.
-- O değere 1 ekleyerek sonraki sayfayı belirle (tekli mod olarak devam et).
-- Eğer değer 0 ise, sayfa 1'den başla.
+- Eğer `$ARGUMENTS` bir sayı ise (örnek: `5`), o sayfayı çevir.
+- Eğer `$ARGUMENTS` "next", "sıradaki", "sonraki", "devam" gibi bir ifade ise veya boş ise:
+  - `CLAUDE.md` dosyasındaki `last_translated_page` değerini oku.
+  - O değere 1 ekleyerek sonraki sayfayı belirle.
+  - Eğer değer 0 ise, sayfa 1'den başla.
 
 ## 2. Glossary'yi Oku
 
-- `.claude/skills/cevir/glossary.md` dosyasını oku (paylaşılan tek kaynak).
+- `.claude/skills/cevir/glossary.md` dosyasını oku.
 - Mevcut terim çevirilerini öğren ve çeviri sırasında tutarlı kullan.
 
 ## 3. Bağlam Sayfalarını Oku (Önbellek Kontrolü ile)
@@ -43,12 +33,12 @@ Sayfa N çevrilecek. N-1 (önceki) ve N+1 (sonraki) bağlam için gereklidir. He
 
 **Hedef sayfa N için:**
 - Her zaman PDF'den oku (bu sayfa çevrilecek).
-- PDF yolu ve sayfa offset bilgisi için AGENTS.md'deki **PDF Bilgileri** bölümüne bak.
+- PDF yolu ve sayfa offset bilgisi için CLAUDE.md'deki **PDF Bilgileri** bölümüne bak.
 - Örnek: Sayfa 5 için PDF sayfaları 35 (N-1), 36 (N), 37 (N+1)'yi oku.
 
 ## 4. Çeviriyi Yap
 
-- AGENTS.md'deki tüm çeviri kurallarına uy.
+- CLAUDE.md'deki tüm çeviri kurallarına uy.
 - Parantezli terminoloji kullan.
 - Kod bloklarını çevirmeden bırak.
 - Hangi Chapter/Section altında olduğunu belirle.
@@ -65,7 +55,7 @@ Sayfa N çevrilecek. N-1 (önceki) ve N+1 (sonraki) bağlam için gereklidir. He
 
 ## 6. page-X.html Oluştur veya Güncelle
 
-Dosya yolu AGENTS.md'deki yapıya göre `pages/page-X.html` (X = sayfa numarası).
+Dosya yolu CLAUDE.md'deki yapıya göre `pages/page-X.html` (X = sayfa numarası). Tam yol için CLAUDE.md'deki **HTML Çıktı Kuralları** bölümüne bak.
 
 **Eğer dosya zaten var (3. adımda EN-only olarak oluşturulmuştu):**
 - Mevcut dosyayı aç.
@@ -76,7 +66,7 @@ Dosya yolu AGENTS.md'deki yapıya göre `pages/page-X.html` (X = sayfa numarası
 - Sıfırdan oluştur, hem EN hem TR kısımları dolu tam bir sayfa olarak kaydet.
 
 **Her iki durumda da geçerli kurallar:**
-- AGENTS.md'deki HTML çıktı kurallarına uy.
+- CLAUDE.md'deki HTML çıktı kurallarına uy.
 - CSS inline, JS ise `../js/common.js` harici dosyasından yüklenir.
 - Script bölümü sadece şu 2 satırdan oluşmalı:
   - `<script>const CURRENT_PAGE = X;</script>`
@@ -106,8 +96,7 @@ Dosya yolu AGENTS.md'deki yapıya göre `pages/page-X.html` (X = sayfa numarası
 - Yeni teknik terimler varsa `.claude/skills/cevir/glossary.md`'ye ekle.
 - Alfabetik sıra koru.
 
-## 8. AGENTS.md'yi Güncelle
+## 8. CLAUDE.md'yi Güncelle
 
 - `last_translated_page` değerini yeni çevrilen sayfa numarasıyla güncelle.
-- Dosyadaki `last_translated_page: X` satırını `last_translated_page: Y` olarak değiştir.
-- Aynı güncellemeyi `CLAUDE.md`'de de yap (her iki dosya senkronize tutulur).
+- CLAUDE.md dosyasındaki `last_translated_page: X` satırını `last_translated_page: Y` olarak değiştir.

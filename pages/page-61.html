@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 61 | Bölüm 4: Kötü Yorumlar — Atıf, Yorum Satırındaki Kod (Listing 4-4)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-listing-header .listing-label {
+            opacity: 0.7;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #e8d44d;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+            font-size: 16px;
+            color: #664d03;
+            font-style: italic;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Atıf ve Yazarlık, Yorum Satırındaki Kod
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="61" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Atıf ve Yazarlık -->
+        <div class="section-title">
+            <span class="tr-text">Atıf ve Yazarlık / Attributions and Bylines</span>
+            <span class="en-text" style="display:none;">Attributions and Bylines</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kaynak koda şunun gibi şeyler eklenmesi yaygın bir uygulamadır:</span>
+            <span class="en-text" style="display:none;">Source control systems are very good at remembering who added
+                what, when. There is no need to pollute the code with little bylines such as:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Atıf yorumu — gereksiz</span><span class="en-text"
+                    style="display:none;">Byline comment — unnecessary</span></div>
+            <pre><span class="comment">/* Rick tarafından eklendi */</span></pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kaynak kod kontrol sistemleri, kimin ne zaman ne eklediğini hatırlamakta son derece
+                iyidir. Kodu böyle küçük atıf yorumlarıyla kirletmeye gerek yoktur. Bu tür yorumların zamanla eskidiğini
+                ve yanlış bilgi içermeye başladığını düşünürseniz daha da anlamsızdırlar. Tekrar söyleyelim: kaynak kod
+                kontrol sistemi daha iyi bir yer bunun için.</span>
+            <span class="en-text" style="display:none;">Source control systems are very good at remembering who added
+                what, when. There is no need to pollute the code with little bylines. You might think that such comments
+                would be useful in order to help others know who to talk to about the code. But the reality is that they
+                tend to stay around for years and years, getting less and less accurate, until they form a haze over the
+                code. Again, source control is a better place for this kind of information.</span>
+        </div>
+
+        <!-- Yorum Satırındaki Kod -->
+        <div class="section-title">
+            <span class="tr-text">Yorum Satırındaki Kod / Commented-Out Code</span>
+            <span class="en-text" style="display:none;">Commented-Out Code</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kodu yorum satırına almak en kötü pratiklerden biridir. Bunu yapmayın!</span>
+            <span class="en-text" style="display:none;">Few practices are as odious as commenting-out code. Don't do
+                this!</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span>Listing 4-4 (FitNesse'den)</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre>InputStreamResponse response = <span class="kw">new</span> InputStreamResponse();
+response.setBody(formatter.getResultStream(), formatter.getByteCount());
+<span class="comment">//  InputStream resultsStream = formatter.getResultStream();</span>
+<span class="comment">//  StreamReader reader = new StreamReader(resultsStream);</span>
+<span class="comment">//  response.setContent(reader.read(formatter.getByteCount()));</span></pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu yorum satırına alınmış kodu gören diğerleri onu silme cesaretini kendilerinde
+                bulamayacaklar. Bunun bir nedeni olduğunu düşünecekler ve silinmesi için çok önemli olduğuna karar
+                verecekler. Böylece yorum satırına alınmış kodlar, kötü bir şarabın dibindeki tortu gibi birikir.</span>
+            <span class="en-text" style="display:none;">Others who see that commented-out code won't have the courage to
+                delete it. They'll think it is there for a reason and is too important to delete. So commented-out code
+                gathers like dregs at the bottom of a bad bottle of wine.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Apache commons'tan şu örneğe bakın:</span>
+            <span class="en-text" style="display:none;">Consider this from apache commons:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Apache commons'tan yorum satırındaki kod</span>
+                <span class="en-text" style="display:none;">Commented-out code from apache commons</span>
+            </div>
+            <pre>this.bytePos = writeBytes(pngIdBytes, 0);
+<span class="comment">//hdrPos = bytePos;</span>
+writeHeader();
+writeResolution();
+<span class="comment">//dataPos = bytePos;</span>
+<span class="kw">if</span> (writeImageData()) {
+  writeEnd();
+  <span class="kw">this</span>.pngBytes = resizeByteArray(<span class="kw">this</span>.pngBytes, <span class="kw">this</span>.maxPos);
+}</pre>
+        </div>
+
+        <div class="highlight-box">
+            <span class="tr-text">Altmışlı yıllarda, kaynak kodu kontrol sistemleri yokken kodu yorum satırına almak bu
+                kadar anlam taşıyordu. Ama uzun süredir iyi kaynak kodu kontrol sistemlerimiz var. O sistemler kodu
+                bizim için hatırlayacaklar. Artık kodu yorum satırına almamıza gerek yok. Kodu silin. Onu
+                kaybetmeyeceğiz. Söz.</span>
+            <span class="en-text" style="display:none;">There was a time, back in the sixties, when commenting-out code
+                might have been useful. But we've had good source code control systems for a very long time now. Those
+                systems will remember the code for us. We don't have to comment it out any more. Just delete the code.
+                We won't lose it. Promise.</span>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('attributions')">
+                    <span class="tr-text">Atıf ve Yazarlık</span>
+                    <span class="en-text" style="display:none;">Attributions and Bylines</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('commented-out-code')">
+                    <span class="tr-text">Yorum Satırındaki Kod</span>
+                    <span class="en-text" style="display:none;">Commented-Out Code</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Atıf ve Yazarlık -->
+    <div class="modal-overlay" id="modal-attributions">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Atıf ve Yazarlık (Attributions and Bylines)</span><span class="en-text"
+                        style="display:none;">Attributions and Bylines</span></h3>
+                <button class="modal-close" onclick="closeModal('attributions')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">"Bu kodu Ali yazdı" gibi yorumlar gereksizdir çünkü kaynak kod kontrol
+                        sistemleri (Git, SVN) bunu çok daha eksiksiz bir biçimde kaydeder. Bu yorumlar zamanla eskir,
+                        yanlış bilgi içerir ve kodu kirletir.</span>
+                    <span class="en-text" style="display:none;">Comments like "Ali wrote this code" are unnecessary
+                        because source code control systems (Git, SVN) record this much more completely. These comments
+                        become outdated over time, contain incorrect information, and pollute the code.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yazarlık koda gömülmüş</span><span class="en-text"
+                        style="display:none;">BAD — Authorship embedded in code</span></span>
+                <pre><span class="comment">// AuthService.java - Mehmet tarafından oluşturuldu - 15 Mart 2023
+// Son değişiklik: Ali - Token yenileme eklendi - 20 Nisan 2023</span>
+<span class="kw">public class</span> AuthService { ... }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Git bu bilgiyi tutuyor</span><span class="en-text"
+                        style="display:none;">GOOD — Git keeps this information</span></span>
+                <pre><span class="comment">$ git log --oneline AuthService.java
+a1b2c3d feat: add token refresh (Ali)
+d4e5f6g feat: create AuthService (Mehmet)</span></pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir kodla ilgili kimin ne zaman neyi değiştirdiğini merak ediyorsanız <code
+                            class="inline">git blame</code> komutunu kullanın. Yorum yazmaktan çok daha güvenilir bir
+                        bilgi kaynağıdır.</span>
+                    <span class="en-text" style="display:none;">If you're curious about who changed what and when in a
+                        piece of code, use the <code>git blame</code> command. It's a far more reliable source of
+                        information than writing comments.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Yorum Satırındaki Kod -->
+    <div class="modal-overlay" id="modal-commented-out-code">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Yorum Satırındaki Kod (Commented-Out Code)</span><span class="en-text"
+                        style="display:none;">Commented-Out Code</span></h3>
+                <button class="modal-close" onclick="closeModal('commented-out-code')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Kodu yorum satırına almak, onu "güvenli bir yerde saklamak" gibi görünebilir.
+                        Ama gerçekte başkalarının silemediği bir engele dönüşür — çünkü "belki önemlidir" diye
+                        düşünürler. Git tarihi bu kodu zaten saklıyor; dolayısıyla yorum satırına almak
+                        anlamsızdır.</span>
+                    <span class="en-text" style="display:none;">Commenting out code may seem like "keeping it in a safe
+                        place." But in reality it becomes a barrier others can't delete — because they think "maybe it's
+                        important." Git history already stores this code; therefore commenting it out is
+                        meaningless.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum satırındaki ölü kod birikimi</span><span
+                        class="en-text" style="display:none;">BAD — Dead code accumulation in comments</span></span>
+                <pre><span class="kw">public</span> Order processOrder(Cart cart) {
+    <span class="comment">// eskiden manuel doğrulama vardı:
+    // if (!isValidCart(cart)) throw new InvalidCartException();
+    // validateInventory(cart.items());</span>
+    <span class="kw">return</span> orderService.create(cart);
+}</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Temiz kod, Git tarih saklıyor</span><span
+                        class="en-text" style="display:none;">GOOD — Clean code, Git stores history</span></span>
+                <pre><span class="kw">public</span> Order processOrder(Cart cart) {
+    <span class="kw">return</span> orderService.create(cart);
+}</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Kodu yorum satırına almak yerine direkt silin. "Ya geri gerekirse?" endişeniz
+                        varsa: <code class="inline">git revert</code> veya <code class="inline">git checkout</code> ile
+                        her zaman geri alabilirsiniz. Git sizin güvenlik ağınızdır.</span>
+                    <span class="en-text" style="display:none;">Instead of commenting code out, delete it directly. If
+                        you're worried "what if I need it back?": you can always get it back with
+                        <code>git revert</code> or <code>git checkout</code>. Git is your safety net.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-60.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 60 — Gürültü, Konum İşaretçisi, Kapatma
+                    Parantezi</span><span class="en-text" style="display:none;">Page 60 — Noise, Position Marker,
+                    Closing Brace</span></div>
+        </a>
+        <a href="page-62.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 62 — HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla
+                    Bilgi</span><span class="en-text" style="display:none;">Page 62 — HTML Comment, Nonlocal Info, Too
+                    Much Info</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 61;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>

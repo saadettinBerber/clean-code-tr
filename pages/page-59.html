@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 59 | Bölüm 4: Kötü Yorumlar — Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-listing-header .listing-label {
+            opacity: 0.7;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Gereksiz Javadoc, Yanıltıcı, Zorunlu,
+                Günlük Yorumlar</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="59" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Gereksiz Javadoc (Tomcat devamı) -->
+        <div class="section-title">
+            <span class="tr-text">Gereksiz Javadoc Yorumları (Listing 4-2 Devamı)</span>
+            <span class="en-text" style="display:none;">Redundant Javadocs (Listing 4-2 Continued)</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Tomcat'ten alınan ve gereksiz Javadoc yorumlarla dolu Listing 4-2'ye bakalım. Bu
+                yorumlar yalnızca kodu karıştırıp gizlemektedir. Hiçbir dokümantasyon amacına hizmet etmemektedir. Daha
+                da kötüsü, yalnızca ilk birkaçını gösterdim — bu modülde çok daha fazlası var:</span>
+            <span class="en-text" style="display:none;">Now consider the legion of useless and redundant javadocs in
+                Listing 4-2 taken from Tomcat. These comments serve only to clutter and obscure the code. They serve no
+                documentary purpose at all. To make matters worse, I only showed you the first few. There are many more
+                in this module.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span>Listing 4-2 — ContainerBase.java (Tomcat)</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="kw">public abstract class</span> ContainerBase
+  <span class="kw">implements</span> Container, Lifecycle, Pipeline,
+  MBeanRegistration, Serializable {
+
+  <span class="comment">/**
+   * Bu bileşen için işlemci gecikmesi.
+   */</span>
+  <span class="kw">protected int</span> backgroundProcessorDelay = -1;
+
+  <span class="comment">/**
+   * Bu bileşen için yaşam döngüsü olay desteği.
+   */</span>
+  <span class="kw">protected</span> LifecycleSupport lifecycle =
+    <span class="kw">new</span> LifecycleSupport(<span class="kw">this</span>);
+
+  <span class="comment">/**
+   * Bu Container için container olay dinleyicileri.
+   */</span>
+  <span class="kw">protected</span> ArrayList listeners = <span class="kw">new</span> ArrayList();
+
+  <span class="comment">/**
+   * Bu Container ile ilişkili Loader uygulaması.
+   */</span>
+  <span class="kw">protected</span> Loader loader = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bu Container ile ilişkili Log uygulaması.
+   */</span>
+  <span class="kw">protected</span> Log logger = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * İlişkili logger adı.
+   */</span>
+  <span class="kw">protected</span> String logName = <span class="kw">null</span>;
+}</pre>
+        </div>
+
+        <!-- Yanıltıcı Yorum -->
+        <div class="section-title">
+            <span class="tr-text">Yanıltıcı Yorum / Misleading Comments</span>
+            <span class="en-text" style="display:none;">Misleading Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen iyi niyetle de olsa, bir programcı yeterince kesin olmayan yorumlar yazar.
+                Yukarıdaki Listing 4-1'deki yorumu yeniden düşünün. Metot, <code class="inline">this.closed</code>
+                değişkeni <code class="inline">true</code> olduğunda "geri döner" — bu doğру. Fakat belirtilen zaman
+                aşımı süresi geçmeden <code class="inline">this.closed</code> true olmadığı durumda ne olur? Yorum
+                sessizce geçiştiriyor. Bu küçük yanıltıcı bilgi, kendisine inanan bir programcının kodu o metodu çağırıp
+                neden yavaş çalıştığını merak etmesine neden olabilir.</span>
+            <span class="en-text" style="display:none;">Sometimes, with best intentions, a programmer makes a statement
+                in his comments that isn't precise enough to be accurate. Consider again the comment from Listing 4-1.
+                The method does not return when this.closed becomes true. It returns if this.closed is true, and then
+                waits for a thousand milliseconds, and then throws an exception if this.closed is still not true. This
+                subtle bit of misinformation, couched in a comment that is harder to read than the code, could cause
+                another programmer to blithely call this function in the expectation that it will return as soon as
+                this.closed becomes true.</span>
+        </div>
+
+        <!-- Zorunlu Yorum -->
+        <div class="section-title">
+            <span class="tr-text">Zorunlu Yorum / Mandated Comments</span>
+            <span class="en-text" style="display:none;">Mandated Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Her fonksiyonun bir Javadoc'a, her değişkenin bir yoruma sahip olmasını emreden kural
+                tamamen saçmadır. Bu tür yorumlar kodu karmaşıklaştırır, yanlış anlaşılmalara zemin hazırlar ve genel
+                bir düzensizliğe katkıda bulunur. Aşağıdaki Javadoc'u zorunlu kılan bir kuralın ürünü olmak dışında
+                herhangi bir anlam ifade etmiyor:</span>
+            <span class="en-text" style="display:none;">It is just plain silly to have a rule that says that every
+                function must have a javadoc, or every variable must have a comment. Comments like this just clutter up
+                the code, propagate lies, and lend to general confusion and disorganization. The following is an example
+                of what can happen when a coding standard mandates that every function must have a javadoc:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Zorunluluktan yazılan anlamsız Javadoc</span>
+                <span class="en-text" style="display:none;">Mandated meaningless Javadoc</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="comment">/**
+ * @param title CD'nin başlığı
+ * @param author CD'nin yaratıcısı
+ * @param tracks CD'deki parça sayısı
+ * @param durationInMinutes CD'nin dakika cinsinden süresi
+ */</span>
+<span class="kw">public void</span> addCD(String title, String author,
+                  <span class="kw">int</span> tracks, <span class="kw">int</span> durationInMinutes) {
+  CD cd = <span class="kw">new</span> CD();
+  cd.title = title;
+  cd.author = author;
+  cd.tracks = tracks;
+  cd.duration = durationInMinutes;
+  cdList.add(cd);
+}</pre>
+        </div>
+
+        <!-- Günlük Yorumu -->
+        <div class="section-title">
+            <span class="tr-text">Günlük Yorumu / Journal Comments</span>
+            <span class="en-text" style="display:none;">Journal Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen insanlar bir modülü her düzenlediklerinde başına değişiklik kaydı ekler. Bu
+                davranış uzun yıllar geriye gider. Kaynak kodu kontrol sistemleri yokken bu bir ölçüde anlam taşıyordu.
+                Ancak günümüzde bu günlük yorumları — uzun, karmaşık ve giderek büyüyen kayıtlar — kodu baştan
+                kirletmektedir. Silinmelidirler.</span>
+            <span class="en-text" style="display:none;">Sometimes people add a comment to the start of a module every
+                time they edit it. These comments accumulate as a kind of journal, or log, of every change that has ever
+                been made. I have seen some modules with dozens of pages of these run-on journal entries. The running
+                log of changes used to be important when source code control systems didn't exist. Nowadays, however,
+                these long journals are just more clutter to obfuscate the module. They should be completely
+                removed.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Silinmesi gereken günlük yorumu örneği</span>
+                <span class="en-text" style="display:none;">Journal comment example — should be deleted</span>
+            </div>
+            <pre><span class="comment">* Değişiklikler (11-Oct-2001'den itibaren)
+* ----------------------------------------
+* 11-Oct-2001 : Sınıf yeniden düzenlendi ve com.jrefinery.date paketine taşındı (DG);
+* 05-Nov-2001 : getDescription() metodu eklendi (DG); getMonthNames() kaldırıldı (DG);
+* 12-Nov-2001 : IBD'nin talebi üzerine addDays() metoduna yorumlar eklendi (DG);
+*               stringToWeekdayCode() metodu düzeltildi (DG);
+* 05-Dec-2001 : Hatalar düzeltildi (DG);
+* 29-May-2002 : Ay sabitlerini bir arabirime taşıdım (DG);</span></pre>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('misleading-comment')">
+                    <span class="tr-text">Yanıltıcı Yorum</span>
+                    <span class="en-text" style="display:none;">Misleading Comment</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('mandated-comment')">
+                    <span class="tr-text">Zorunlu Yorum</span>
+                    <span class="en-text" style="display:none;">Mandated Comment</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('journal-comment')">
+                    <span class="tr-text">Günlük Yorumu</span>
+                    <span class="en-text" style="display:none;">Journal Comment</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Yanıltıcı Yorum -->
+    <div class="modal-overlay" id="modal-misleading-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Yanıltıcı Yorum (Misleading Comment)</span><span class="en-text"
+                        style="display:none;">Misleading Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('misleading-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Yanıltıcı yorumlar iyi niyetle yazılabilir; ancak yeterince kesin değillerdir.
+                        Kodun gerçekte ne yaptığından farklı bir beklenti yaratırlar ve bu durum ince ve tehlikeli
+                        hatalara yol açar. Hiç yorum olmamaktan çok daha zararlıdırlar.</span>
+                    <span class="en-text" style="display:none;">Misleading comments can be written with good intent, but
+                        they are not precise enough. They create expectations that differ from what the code actually
+                        does, leading to subtle and dangerous bugs. They are far more harmful than having no comment at
+                        all.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum tam doğru değil, yanıltıcı</span><span
+                        class="en-text" style="display:none;">BAD — Comment not quite accurate, misleading</span></span>
+                <pre><span class="comment">// items listesini sıralar ve döndürür</span>
+<span class="kw">public</span> List&lt;Item&gt; getSortedItems() {
+    <span class="kw">if</span> (items == <span class="kw">null</span>) <span class="kw">return null</span>; <span class="comment">// yorum bunu söylemedi!</span>
+    Collections.sort(items);
+    <span class="kw">return</span> items;
+}</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Yorum yoksa kod doğrudan konuşuyor</span><span
+                        class="en-text" style="display:none;">GOOD — No comment, code speaks directly</span></span>
+                <pre><span class="kw">public</span> List&lt;Item&gt; getSortedItems() {
+    <span class="kw">if</span> (items == <span class="kw">null</span>) <span class="kw">return</span> Collections.emptyList();
+    <span class="kw">return</span> items.stream().sorted().collect(toList());
+}</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Yorum yazmadan önce şunu sorun: "Bu yorumun söylediği ile kodun yaptığı
+                        arasında hiçbir fark yok mu?" En küçük belirsizlik bile yanıltıcı yoruma dönüşebilir.</span>
+                    <span class="en-text" style="display:none;">Before writing a comment, ask: "Is there any discrepancy
+                        between what this comment says and what the code does?" Even the smallest ambiguity can turn
+                        into a misleading comment.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Zorunlu Yorum -->
+    <div class="modal-overlay" id="modal-mandated-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Zorunlu Yorum (Mandated Comment)</span><span class="en-text"
+                        style="display:none;">Mandated Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('mandated-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Kodlama standartlarının "her fonksiyon Javadoc içermeli" gibi katı kuralları,
+                        programcıları anlamsız yorumlar yazmaya zorlar. Bu yorumlar değer katmaz — sadece kod gürültüsü
+                        yaratır ve gerçek yorumları gizler.</span>
+                    <span class="en-text" style="display:none;">Coding standards with strict rules like "every function
+                        must have a Javadoc" force programmers to write meaningless comments. These comments add no
+                        value — they just create code noise and hide real comments.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Zoraki Javadoc, hiçbir şey eklemiyor</span><span
+                        class="en-text" style="display:none;">BAD — Forced Javadoc, adds nothing</span></span>
+                <pre><span class="comment">/**
+ * @param name Kullanıcı adı
+ * @param email Kullanıcı e-postası
+ * @return Bir kullanıcı nesnesi döndürür
+ */</span>
+<span class="kw">public</span> User createUser(String name, String email) { ... }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Açık isim, yorum gereksiz</span><span
+                        class="en-text" style="display:none;">GOOD — Clear name, comment unnecessary</span></span>
+                <pre><span class="kw">public</span> User createUser(String name, String email) { ... }</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Ekip olarak "her fonksiyon Javadoc içermeli" kuralını "herkese açık API
+                        metodları iyi belgelenmiş Javadoc içermeli" kuralıyla değiştirin. İkincisi gerçekten değer
+                        yaratır.</span>
+                    <span class="en-text" style="display:none;">As a team, replace the "every function must have
+                        Javadoc" rule with "public API methods must have well-documented Javadoc." The latter actually
+                        creates value.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Günlük Yorumu -->
+    <div class="modal-overlay" id="modal-journal-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Günlük Yorumu (Journal Comment)</span><span class="en-text"
+                        style="display:none;">Journal Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('journal-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Dosyanın başına her değişiklikte eklenen tarihli kayıtlar, versiyon kontrol
+                        sistemlerinin olmadığı dönemde anlam taşırdı. Bugün Git gibi araçlar bu tarihi çok daha eksiksiz
+                        tutar. Bu yorumlar artık yalnızca kodu karıştırmaktadır — silinmelidirler.</span>
+                    <span class="en-text" style="display:none;">Dated entries added to the start of a file with each
+                        change made sense in the era before version control systems. Today tools like Git keep this
+                        history far more completely. These comments now only clutter code — they should be
+                        deleted.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Dosya başında değişiklik günlüğü</span><span
+                        class="en-text" style="display:none;">BAD — Change log at top of file</span></span>
+                <pre><span class="comment">// 12-Mar-2023: auth modülü eklendi (ali)
+// 15-Mar-2023: token süresi düzeltildi (ayse)
+// 20-Mar-2023: refresh token eklendi (ali)
+// 01-Apr-2023: rate limiting eklendi (mehmet)</span></pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Git commit'leri tarihi tutar</span><span
+                        class="en-text" style="display:none;">GOOD — Git commits maintain history</span></span>
+                <pre><span class="comment">$ git log --oneline auth.service.ts
+a1b2c3d feat: add rate limiting
+d4e5f6g feat: add refresh token support
+7h8i9j0 fix: correct token expiry
+k1l2m3n feat: add auth module</span></pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Ekibinizdeki günlük yorumları temizleyin ve anlamlı Git commit mesajları
+                        yazmayı bir kültür haline getirin. <code class="inline">git blame</code> ve <code
+                            class="inline">git log</code> zaten tüm tarihi saklıyor.</span>
+                    <span class="en-text" style="display:none;">Clean up journal comments in your team and make writing
+                        meaningful Git commit messages a culture. <code>git blame</code> and <code>git log</code>
+                        already store all the history.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-58.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 58 — Mırıldanma, Gereksiz Yorum</span><span
+                    class="en-text" style="display:none;">Page 58 — Mumbling, Redundant Comment</span></div>
+        </a>
+        <a href="page-60.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 60 — Gürültü Yorumu, Konum İşaretçisi, Kapatma
+                    Parantezi</span><span class="en-text" style="display:none;">Page 60 — Noise, Position Marker,
+                    Closing Brace</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 59;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>

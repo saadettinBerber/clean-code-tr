@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 63 | Bölüm 4: Kötü Yorumlar — Çok Fazla, Bağlantısız, Fonksiyon Başlığı, Javadoc</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Çok Fazla Bilgi, Bağlantısız Yorum,
+                Fonksiyon Başlığı, Yorum Satırındaki Kod devamı</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="63" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Çok Fazla Bilgi -->
+        <div class="section-title">
+            <span class="tr-text">Çok Fazla Bilgi / Too Much Information</span>
+            <span class="en-text" style="display:none;">Too Much Information</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">İlginç tarihsel tartışmalar veya alakasız ayrıntılar yorumlarınıza eklemeyin.
+                Aşağıdaki yorum, base64 kodlama ve kod çözme işlevini test etmek için tasarlanmış bir modülden
+                alınmıştır. RFC numarası dışında bu kodu okuyan birinin yorumda yer alan anlaşılmaz bilgilere hiçbir
+                ihtiyacı yoktur:</span>
+            <span class="en-text" style="display:none;">Don't put interesting historical discussions or irrelevant
+                descriptions of details into your comments. The comment below was extracted from a module designed to
+                test that a function could encode and decode base64. Other than the RFC number, someone reading this
+                code has no need for the arcane information contained in the comment.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Çok fazla bilgi içeren yorum</span><span
+                    class="en-text" style="display:none;">Too much information in comment</span></div>
+            <pre><span class="comment">/*
+  RFC 2045 - Multipurpose Internet Mail Extensions (MIME)
+  Part One: Format of Internet Message Bodies
+  section 6.8.  Base64 Content-Transfer-Encoding
+  The encoding process represents 24-bit groups of input bits as output
+  strings of 4 encoded characters. Proceeding from left to right, a
+  24-bit input group is formed by concatenating 3 8-bit input groups.
+  These 24 bits are then treated as 4 concatenated 6-bit groups, each
+  of which is translated into a single digit in the base64 alphabet.
+  When encoding a bit stream via the base64 encoding, the bit stream
+  must be presumed to be ordered with the most-significant-bit first.
+  ...
+*/</span></pre>
+        </div>
+
+        <!-- Bağlantısız Yorum -->
+        <div class="section-title">
+            <span class="tr-text">Bağlantısız Yorum / Inobvious Connection</span>
+            <span class="en-text" style="display:none;">Inobvious Connection</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bir yorum ile açıkladığı kod arasındaki bağlantı açık olmalıdır. Bir yorum yazma
+                zahmetine katlanıyorsanız, en azından okuyucunun hem yoruma hem de koda bakıp yorumun ne hakkında
+                olduğunu anlayabilmesini istersiniz. Apache commons'tan şu örneği ele alalım:</span>
+            <span class="en-text" style="display:none;">The connection between a comment and the code it describes
+                should be obvious. If you are going to the trouble to write a comment, then at least you'd like the
+                reader to be able to look at the comment and the code and understand what the comment is talking about.
+                Consider, for example, this comment drawn from apache commons:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Bağlantısız yorum — "filtre byte" nedir?</span><span
+                    class="en-text" style="display:none;">Inobvious connection — what is a "filter byte"?</span></div>
+            <pre>         <span class="comment">/*
+          * tüm pikselleri (ve filtre byte'larını) tutabilecek kadar büyük
+          * bir array'la başlayın ve başlık bilgisi için 200 byte fazladan ekleyin
+          */</span>
+         <span class="kw">this</span>.pngBytes = <span class="kw">new byte</span>[(((<span class="kw">this</span>.width + 1) * <span class="kw">this</span>.height * 3) + 200)];</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Filtre byte nedir? <code class="inline">+1</code> ile mi ilgili? <code
+                    class="inline">*3</code> ile mi? İkisiyle birden mi? Bir piksel bir byte mıdır? Neden 200? Bir
+                yorumun amacı, kendini açıklamayan kodu açıklamaktır. Bir yorumun kendi açıklamasına ihtiyaç duyması ne
+                yazık ki gayet piyanktır.</span>
+            <span class="en-text" style="display:none;">What is a filter byte? Does it relate to the +1? Or to the *3?
+                Both? Is a pixel a byte? Why 200? The purpose of a comment is to explain code that does not explain
+                itself. It is a pity when a comment needs its own explanation.</span>
+        </div>
+
+        <!-- Fonksiyon Başlığı -->
+        <div class="section-title">
+            <span class="tr-text">Fonksiyon Başlığı / Function Headers</span>
+            <span class="en-text" style="display:none;">Function Headers</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kısa fonksiyonlar fazla açıklamaya ihtiyaç duymaz. Tek bir şey yapan küçük bir
+                fonksiyon için iyi seçilmiş bir isim, genellikle bir yorum başlığından çok daha iyidir.</span>
+            <span class="en-text" style="display:none;">Short functions don't need much description. A well-chosen name
+                for a small function that does one thing is usually better than a comment header.</span>
+        </div>
+
+        <!-- Herkese Açık Olmayan Kodlarda Javadoc -->
+        <div class="section-title">
+            <span class="tr-text">Herkese Açık Olmayan Kodlarda Javadoc / Javadocs in Nonpublic Code</span>
+            <span class="en-text" style="display:none;">Javadocs in Nonpublic Code</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Javadoc'lar herkese açık API'lar için ne kadar yararlıysa, herkese sunulmayan kodlar
+                için o kadar zararlıdır. Bir sistemdeki sınıflar ve fonksiyonlar için Javadoc sayfaları oluşturmak
+                genellikle faydalı değildir; Javadoc yorumlarının eklediği ekstra biçimsellik ise çoğunlukla boş
+                gürültüden ibaret kalır ve dikkati dağıtır.</span>
+            <span class="en-text" style="display:none;">As useful as javadocs are for public APIs, they are anathema to
+                code that is not intended for public consumption. Generating javadoc pages for the classes and functions
+                inside a system is not generally useful, and the extra formality of the javadoc comments amounts to
+                little more than cruft and distraction.</span>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('too-much-info')">
+                    <span class="tr-text">Çok Fazla Bilgi</span>
+                    <span class="en-text" style="display:none;">Too Much Information</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('inobvious-connection')">
+                    <span class="tr-text">Bağlantısız Yorum</span>
+                    <span class="en-text" style="display:none;">Inobvious Connection</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('function-headers')">
+                    <span class="tr-text">Fonksiyon Başlığı</span>
+                    <span class="en-text" style="display:none;">Function Headers</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Çok Fazla Bilgi -->
+    <div class="modal-overlay" id="modal-too-much-info">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Çok Fazla Bilgi (Too Much Information)</span><span class="en-text"
+                        style="display:none;">Too Much Information</span></h3>
+                <button class="modal-close" onclick="closeModal('too-much-info')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Yorumlar kısa ve amaca yönelik olmalıdır. Tarihsel arka plan, RFC veya standart
+                        detayları, matematiksel kanıtlar gibi bilgiler yoruma değil, ayrı bir dokümana aittir.</span>
+                    <span class="en-text" style="display:none;">Comments should be brief and purposeful. Historical
+                        background, RFC or standard details, mathematical proofs and similar information belong in
+                        separate documentation, not in comments.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorumda tam RFC metni</span><span class="en-text"
+                        style="display:none;">BAD — Full RFC text in comment</span></span>
+                <pre><span class="comment">// RFC 2045, Section 6.8: Base64 Content-Transfer-Encoding
+// The encoding process represents 24-bit groups...
+// (15 satır devam eder)</span>
+<span class="kw">public</span> String encodeBase64(byte[] data) { ... }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Kısa yorum, referans dışarıda</span><span
+                        class="en-text" style="display:none;">GOOD — Short comment, reference external</span></span>
+                <pre><span class="comment">// Base64 kodlaması (RFC 2045 Section 6.8)</span>
+<span class="kw">public</span> String encodeBase64(byte[] data) { ... }</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir yorumun iki satırdan uzun olması gerekiyorsa, önce bu bilgiyi kodda (iyi
+                        isimler, sabitler) veya harici dokümantasyonda ifade etmeye çalışın.</span>
+                    <span class="en-text" style="display:none;">If a comment needs to be more than two lines, first try
+                        to express this information in the code (good names, constants) or in external
+                        documentation.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Bağlantısız Yorum -->
+    <div class="modal-overlay" id="modal-inobvious-connection">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Bağlantısız Yorum (Inobvious Connection)</span><span class="en-text"
+                        style="display:none;">Inobvious Connection</span></h3>
+                <button class="modal-close" onclick="closeModal('inobvious-connection')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Bir yorum anlaşılması için ek açıklamaya ihtiyaç duyuyorsa, başarısız olmuş
+                        demektir. Okuyucu yorumu okuduktan sonra hâlâ "filtre byte ne demek?" diye soruyorsa, yorum
+                        değer katmaktan çok kafa karıştırıyor.</span>
+                    <span class="en-text" style="display:none;">If a comment requires additional explanation to be
+                        understood, it has failed. If after reading the comment the reader is still asking "what does a
+                        filter byte mean?", the comment is contributing confusion rather than value.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Kim anlar?</span><span class="en-text"
+                        style="display:none;">BAD — Who understands this?</span></span>
+                <pre><span class="comment">// 3 baytlık grupları 4 karakterlik sekizliğe dönüştürür</span>
+<span class="kw">return</span> ((n &gt;&gt; 18) &amp; 0x3f) | (((n &gt;&gt; 12) &amp; 0x3f) &lt;&lt; 8)
+     | (((n &gt;&gt; 6) &amp; 0x3f) &lt;&lt; 16) | ((n &amp; 0x3f) &lt;&lt; 24);</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — İsimlendirilmiş adımlar</span><span class="en-text"
+                        style="display:none;">GOOD — Named steps</span></span>
+                <pre"><span class="kw">int</span> b0 = (n &gt;&gt; 18) &amp; 0x3f;
+                    <span class="kw">int</span> b1 = (n &gt;&gt; 12) &amp; 0x3f;
+                    <span class="kw">int</span> b2 = (n &gt;&gt; 6) &amp; 0x3f;
+                    <span class="kw">int</span> b3 = n &amp; 0x3f;
+                    <span class="kw">return</span> b0 | (b1 &lt;&lt; 8) | (b2 &lt;&lt; 16) | (b3 &lt;&lt; 24);</pre>
+                    <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                                style="display:none;">Practical Tip</span></strong>
+                        <span class="tr-text">Bir yorum okuyucunun kafasında soru işareti bırakıyorsa, o soruların
+                            cevabını koda taşıyın — yorum değil, adlandırma kullanın.</span>
+                        <span class="en-text" style="display:none;">If a comment leaves a question mark in the reader's
+                            mind, move the answer to those questions into the code — use naming, not comments.</span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Fonksiyon Başlığı -->
+    <div class="modal-overlay" id="modal-function-headers">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Fonksiyon Başlığı (Function Headers)</span><span class="en-text"
+                        style="display:none;">Function Headers</span></h3>
+                <button class="modal-close" onclick="closeModal('function-headers')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Küçük ve tek amacı olan fonksiyonlar, yorum başlığına ihtiyaç duymaz.
+                        Fonksiyonun adı yeterince açıklayıcıysa yorum artık gereksizdir. İyi seçilmiş bir isim, her
+                        zaman yorumdan önce gelir.</span>
+                    <span class="en-text" style="display:none;">Small functions with a single purpose don't need a
+                        comment header. If the function name is sufficiently descriptive, the comment is already
+                        unnecessary. A well-chosen name always comes before comments.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum gereksiz, fonksiyon adı yeterli</span><span
+                        class="en-text" style="display:none;">BAD — Comment unnecessary, function name is
+                        enough</span></span>
+                <pre><span class="comment">/**
+ * Kullanıcıyı geçersiz kılar ve oturumu kapatır.
+ */</span>
+<span class="kw">public void</span> invalidateUserAndLogout(User user) { ... }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — İyi isimlendirilmiş, yorum yok</span><span
+                        class="en-text" style="display:none;">GOOD — Well named, no comment</span></span>
+                <pre"><span class="kw">public void</span> invalidateUserAndLogout(User user) { ... }</pre>
+                    <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                                style="display:none;">Practical Tip</span></strong>
+                        <span class="tr-text">Bir fonksiyona Javadoc yazmak istediğinizde, önce şunu deneyin: fonksiyon
+                            adını ve parametrelerini o kadar açık yapın ki Javadoc gereksiz hale gelsin.</span>
+                        <span class="en-text" style="display:none;">When you want to write Javadoc for a function, first
+                            try this: make the function name and parameters so clear that the Javadoc becomes
+                            unnecessary.</span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-62.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 62 — HTML Yorumu, Yerel Olmayan Bilgi</span><span
+                    class="en-text" style="display:none;">Page 62 — HTML Comment, Nonlocal Information</span></div>
+        </a>
+        <a href="page-64.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 64 — Örnek: GeneratePrimes (Listing 4-7)</span><span
+                    class="en-text" style="display:none;">Page 64 — Example: GeneratePrimes (Listing 4-7)</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 63;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>
