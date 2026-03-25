@@ -4,6 +4,9 @@
 # Claude Code yerel ayarları
 .claude/settings.local.json
 
+# Log dosyaları
+*.log
+
 # Geçici ve yedek dosyalar
 sorted_glossary.txt
 *.bak
