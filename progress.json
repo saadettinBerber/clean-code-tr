@@ -357,72 +357,72 @@
       "chapter": 3,
       "title_en": "Functions — Introduction",
       "title_tr": "Fonksiyonlar — Giriş",
-      "section_en": "Giriş",
+      "section_en": "Introduction",
       "section_tr": "Giriş"
     },
     "32": {
       "pdf_page": 63,
       "chapter": 3,
-      "title_en": "Small!",
-      "title_tr": "Küçük Olmalı!",
-      "section_en": "Küçük Olmalı!",
-      "section_tr": "Küçük Olmalı!"
+      "title_en": "A Long, Confusing Function",
+      "title_tr": "Uzun ve Anlaşılması Güç Bir Fonksiyon",
+      "section_en": "Introduction",
+      "section_tr": "Giriş"
     },
     "33": {
       "pdf_page": 64,
       "chapter": 3,
-      "title_en": "Blocks and Indenting",
-      "title_tr": "Bloklar ve Girinti",
-      "section_en": "Küçük Olmalı!",
-      "section_tr": "Küçük Olmalı!"
+      "title_en": "Listing 3-2: The Refactored Function",
+      "title_tr": "Listing 3-2: Yeniden Düzenlenmiş Fonksiyon",
+      "section_en": "Introduction",
+      "section_tr": "Giriş"
     },
     "34": {
       "pdf_page": 65,
       "chapter": 3,
-      "title_en": "Do One Thing",
-      "title_tr": "Tek Şey Yapmalı",
-      "section_en": "Tek Şey Yapmalı",
-      "section_tr": "Tek Şey Yapmalı"
+      "title_en": "Introduction (cont.) & Small!",
+      "title_tr": "Giriş (devam) ve Küçük Olmalı!",
+      "section_en": "Introduction",
+      "section_tr": "Giriş"
     },
     "35": {
       "pdf_page": 66,
       "chapter": 3,
-      "title_en": "Sections within Functions & One Level of Abstraction per Function",
-      "title_tr": "Fonksiyonlar İçinde Bölümler & Soyutlama Seviyesi",
-      "section_en": "Tek Şey Yapmalı",
+      "title_en": "Do One Thing",
+      "title_tr": "Tek Bir Şey Yap",
+      "section_en": "Do One Thing",
       "section_tr": "Tek Şey Yapmalı"
     },
     "36": {
       "pdf_page": 67,
       "chapter": 3,
-      "title_en": "One Level of Abstraction per Function & The Stepdown Rule",
-      "title_tr": "Fonksiyon Başına Bir Soyutlama Seviyesi & Basamak Kuralı",
-      "section_en": "Fonksiyon Başına Bir Soyutlama Seviyesi",
-      "section_tr": "Fonksiyon Başına Bir Soyutlama Seviyesi"
+      "title_en": "One Level of Abstraction per Function",
+      "title_tr": "Fonksiyon Başına Tek Soyutlama Seviyesi",
+      "section_en": "Do One Thing",
+      "section_tr": "Tek Şey Yapmalı"
     },
     "37": {
       "pdf_page": 68,
       "chapter": 3,
-      "title_en": "Switch Statements & Use Descriptive Names",
-      "title_tr": "Switch İfadeleri & Açıklayıcı İsimler",
-      "section_en": "Switch İfadeleri",
+      "title_en": "The Stepdown Rule & Switch Statements",
+      "title_tr": "Basamak Kuralı ve Switch İfadeleri",
+      "section_en": "Switch Statements",
       "section_tr": "Switch İfadeleri"
     },
     "38": {
       "pdf_page": 69,
       "chapter": 3,
-      "title_en": "Consistent Lexicon & Function Arguments",
-      "title_tr": "Tutarlı Kelime Haznesi & Fonksiyon Argümanları",
-      "section_en": "Açıklayıcı İsimler",
-      "section_tr": "Açıklayıcı İsimler"
+      "title_en": "Switch Statements",
+      "title_tr": "Switch İfadeleri",
+      "section_en": "Switch Statements",
+      "section_tr": "Switch İfadeleri"
     },
     "39": {
       "pdf_page": 70,
       "chapter": 3,
-      "title_en": "Common Monadic Forms, Flag Arguments, Dyads",
-      "title_tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları, İkililer",
-      "section_en": "Fonksiyon Argümanları",
-      "section_tr": "Fonksiyon Argümanları"
+      "title_en": "Use Descriptive Names",
+      "title_tr": "Betimleyici İsimler Kullanın",
+      "section_en": "Use Descriptive Names",
+      "section_tr": "Betimleyici İsimler Kullanın"
     },
     "40": {
       "pdf_page": 71,

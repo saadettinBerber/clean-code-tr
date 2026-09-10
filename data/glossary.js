@@ -250,6 +250,11 @@ window.GLOSSARY = [
     "note": "Grady Booch'un temiz kod tanımından; net ve öz soyutlama"
   },
   {
+    "en": "Data Type",
+    "tr": "Veri Türü (Data Type)",
+    "note": "Bir değişkenin veya değerin türünü belirten kavram"
+  },
+  {
     "en": "Deadline",
     "tr": "Son Teslim Tarihi (Deadline)",
     "note": "Projenin teslim edilmesi gereken tarih"
@@ -288,6 +293,11 @@ window.GLOSSARY = [
     "en": "Dependency Magnet",
     "tr": "Bağımlılık Mıknatısı (Dependency Magnet)",
     "note": "Birçok sınıfın bağımlı olduğu merkezi yapı (ör. Error enum)"
+  },
+  {
+    "en": "Descriptive Names",
+    "tr": "Betimleyici İsimler (Descriptive Names)",
+    "note": "Fonksiyonun ne yaptığını açıkça anlatan, gerekirse uzun tutulan isimlendirme ilkesi"
   },
   {
     "en": "Design Intent",
@@ -945,6 +955,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Setup",
+    "tr": "Kurulum (Setup)",
+    "note": "FitNesse test sayfalarında testten önce çalıştırılan hazırlık sayfası/adımı"
+  },
+  {
     "en": "Side Effect",
     "tr": "Yan Etki (Side Effect)",
     "note": ""
@@ -963,6 +978,11 @@ window.GLOSSARY = [
     "en": "Single Responsibility",
     "tr": "Tek Sorumluluk (Single Responsibility)",
     "note": ""
+  },
+  {
+    "en": "Single Responsibility Principle (SRP)",
+    "tr": "Tek Sorumluluk İlkesi (SRP)",
+    "note": "Bir sınıfın/fonksiyonun değişmesi için yalnızca bir nedeni olmalıdır ilkesi"
   },
   {
     "en": "Snail's Pace",
@@ -1025,9 +1045,24 @@ window.GLOSSARY = [
     "note": "Dizi veya koleksiyondaki öğeye erişim indeksi"
   },
   {
+    "en": "Suite",
+    "tr": "Suite",
+    "note": "Çevrilmez; FitNesse'de bir grup test sayfasını ifade eden yapı"
+  },
+  {
+    "en": "Switch Statement",
+    "tr": "Switch İfadesi (Switch Statement)",
+    "note": "Bir değişkenin farklı değerlerine göre dallanma sağlayan kontrol yapısı"
+  },
+  {
     "en": "Synopsis",
     "tr": "Özet (Synopsis)",
     "note": "Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar"
+  },
+  {
+    "en": "Teardown",
+    "tr": "Temizlik (Teardown)",
+    "note": "FitNesse test sayfalarında testten sonra çalıştırılan temizlik sayfası/adımı"
   },
   {
     "en": "Technical Debt",
@@ -1053,6 +1088,11 @@ window.GLOSSARY = [
     "en": "Tiger Team",
     "tr": "Kaplan Ekibi (Tiger Team)",
     "note": "En yetenekli geliştiricilerden oluşan ekip"
+  },
+  {
+    "en": "TO Paragraph",
+    "tr": "TO Paragrafı",
+    "note": "Fonksiyonun ne yaptığını \"Bunu yapmak için (TO)...\" kalıbıyla anlatan cümle; LOGO dilindeki TO anahtar kelimesinden esinlenilmiştir"
   },
   {
     "en": "TODO",
@@ -1103,6 +1143,11 @@ window.GLOSSARY = [
     "en": "Wading",
     "tr": "Çamura Batma (Wading)",
     "note": "Kötü kodda ilerlerken hissedilen zorluk metaforu"
+  },
+  {
+    "en": "Ward's Principle",
+    "tr": "Ward'ın İlkesi (Ward's Principle)",
+    "note": "Ward Cunningham'ın temiz kod tanımı: her rutin, tam olarak beklediğiniz gibi çıkar"
   },
   {
     "en": "Warning of Consequences",

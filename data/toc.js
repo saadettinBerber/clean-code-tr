@@ -459,96 +459,96 @@ window.TOC = {
         "tr": "Fonksiyonlar — Giriş"
       },
       "section": {
-        "en": "Giriş",
+        "en": "Introduction",
         "tr": "Giriş"
       },
       "chapter": 3
     },
     "32": {
       "title": {
-        "en": "Small!",
-        "tr": "Küçük Olmalı!"
+        "en": "A Long, Confusing Function",
+        "tr": "Uzun ve Anlaşılması Güç Bir Fonksiyon"
       },
       "section": {
-        "en": "Küçük Olmalı!",
-        "tr": "Küçük Olmalı!"
+        "en": "Introduction",
+        "tr": "Giriş"
       },
       "chapter": 3
     },
     "33": {
       "title": {
-        "en": "Blocks and Indenting",
-        "tr": "Bloklar ve Girinti"
+        "en": "Listing 3-2: The Refactored Function",
+        "tr": "Listing 3-2: Yeniden Düzenlenmiş Fonksiyon"
       },
       "section": {
-        "en": "Küçük Olmalı!",
-        "tr": "Küçük Olmalı!"
+        "en": "Introduction",
+        "tr": "Giriş"
       },
       "chapter": 3
     },
     "34": {
       "title": {
-        "en": "Do One Thing",
-        "tr": "Tek Şey Yapmalı"
+        "en": "Introduction (cont.) & Small!",
+        "tr": "Giriş (devam) ve Küçük Olmalı!"
       },
       "section": {
-        "en": "Tek Şey Yapmalı",
-        "tr": "Tek Şey Yapmalı"
+        "en": "Introduction",
+        "tr": "Giriş"
       },
       "chapter": 3
     },
     "35": {
       "title": {
-        "en": "Sections within Functions & One Level of Abstraction per Function",
-        "tr": "Fonksiyonlar İçinde Bölümler & Soyutlama Seviyesi"
+        "en": "Do One Thing",
+        "tr": "Tek Bir Şey Yap"
       },
       "section": {
-        "en": "Tek Şey Yapmalı",
+        "en": "Do One Thing",
         "tr": "Tek Şey Yapmalı"
       },
       "chapter": 3
     },
     "36": {
       "title": {
-        "en": "One Level of Abstraction per Function & The Stepdown Rule",
-        "tr": "Fonksiyon Başına Bir Soyutlama Seviyesi & Basamak Kuralı"
+        "en": "One Level of Abstraction per Function",
+        "tr": "Fonksiyon Başına Tek Soyutlama Seviyesi"
       },
       "section": {
-        "en": "Fonksiyon Başına Bir Soyutlama Seviyesi",
-        "tr": "Fonksiyon Başına Bir Soyutlama Seviyesi"
+        "en": "Do One Thing",
+        "tr": "Tek Şey Yapmalı"
       },
       "chapter": 3
     },
     "37": {
       "title": {
-        "en": "Switch Statements & Use Descriptive Names",
-        "tr": "Switch İfadeleri & Açıklayıcı İsimler"
+        "en": "The Stepdown Rule & Switch Statements",
+        "tr": "Basamak Kuralı ve Switch İfadeleri"
       },
       "section": {
-        "en": "Switch İfadeleri",
+        "en": "Switch Statements",
         "tr": "Switch İfadeleri"
       },
       "chapter": 3
     },
     "38": {
       "title": {
-        "en": "Consistent Lexicon & Function Arguments",
-        "tr": "Tutarlı Kelime Haznesi & Fonksiyon Argümanları"
+        "en": "Switch Statements",
+        "tr": "Switch İfadeleri"
       },
       "section": {
-        "en": "Açıklayıcı İsimler",
-        "tr": "Açıklayıcı İsimler"
+        "en": "Switch Statements",
+        "tr": "Switch İfadeleri"
       },
       "chapter": 3
     },
     "39": {
       "title": {
-        "en": "Common Monadic Forms, Flag Arguments, Dyads",
-        "tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları, İkililer"
+        "en": "Use Descriptive Names",
+        "tr": "Betimleyici İsimler Kullanın"
       },
       "section": {
-        "en": "Fonksiyon Argümanları",
-        "tr": "Fonksiyon Argümanları"
+        "en": "Use Descriptive Names",
+        "tr": "Betimleyici İsimler Kullanın"
       },
       "chapter": 3
     },

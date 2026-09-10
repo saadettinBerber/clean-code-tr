@@ -102,6 +102,7 @@ Clean Code/
 
 - **Okuyucuyu açmak**: `xdg-open index.html` veya `python3 -m http.server 8000` (sonra `http://localhost:8000`).
 - **CSS/JS değişince**: `index.html` içindeki `?v=N` sürüm ekini artır (tarayıcı önbelleği).
+- **Mevcut bir sayfanın verisi yeniden yazılınca** (yeniden çeviri, düzeltme): `js/pages.js` içindeki `ASSET_VERSION` artırılır; sayfa verileri bu ekle yüklenir, artırılmazsa okur eski `data/pages/page-N.js`'i görmeye devam eder. Yeni sayfa eklemek için gerekmez.
 - **`odl_extract.py` ne yapar**: OpenDataLoader PDF ile kalın başlıklar, paragraflar, listeler, görseller ve caption'lar; PyMuPDF ile Clean Code'a özgü işler: Courier satırlarından girintili kod listeleri, `Listing N-N` caption'ları, bölüm açılış sayfaları, koşu başlığı/alt bilgi temizliği, font boyutuna göre dipnotlar, italik alıntı paragrafları, ters tırnakla işaretlenen satır içi kod, tire onarımı (örn. McGraw-Hill).
 - **Bağımlılıklar**: `opendataloader-pdf` ve `pymupdf` (pip) ile Java 11+ (OpenDataLoader Java tabanlıdır). `prepare_page.py` `ModuleNotFoundError` verirse: `python3 -m pip install -U opendataloader-pdf pymupdf`.
 - **macOS'ta Java**: Homebrew'un `openjdk` formülü keg-only'dir; kurulu olsa bile `/usr/libexec/java_home` onu bulamaz ve `prepare_page.py` "Unable to locate a Java Runtime" ile düşer. `prepare_page.py` çalıştırmadan önce:
