@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 462,
   "pages_per_run": 3,
-  "last_translated_page": 74,
+  "last_translated_page": 77,
   "chapters": [
     {
       "num": 1,
@@ -703,6 +703,30 @@
       "title_tr": "PrimeGenerator yorumları ve Kaynakça",
       "section_en": "PrimeGenerator comments & Bibliography",
       "section_tr": "PrimeGenerator yorumları ve Kaynakça"
+    },
+    "75": {
+      "pdf_page": 106,
+      "chapter": 5,
+      "title_en": "Formatting — Introduction",
+      "title_tr": "Biçimlendirme — Giriş",
+      "section_en": "Introduction",
+      "section_tr": "Giriş"
+    },
+    "76": {
+      "pdf_page": 107,
+      "chapter": 5,
+      "title_en": "Purpose of Formatting & File Size",
+      "title_tr": "Biçimlendirmenin Amacı ve Dosya Boyutu",
+      "section_en": "The Purpose of Formatting & Vertical Formatting",
+      "section_tr": "Biçimlendirmenin Amacı ve Dikey Biçimlendirme"
+    },
+    "77": {
+      "pdf_page": 108,
+      "chapter": 5,
+      "title_en": "File Size and The Newspaper Metaphor",
+      "title_tr": "Dosya Boyutu ve Gazete Metaforu",
+      "section_en": "Vertical Formatting",
+      "section_tr": "Dikey Biçimlendirme (Vertical Formatting)"
     }
   }
 }
