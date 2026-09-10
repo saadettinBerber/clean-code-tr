@@ -475,11 +475,6 @@ window.GLOSSARY = [
     "note": "Bağlamın kodda açıkça belirtilmeme derecesi"
   },
   {
-    "en": "Inattention to Detail",
-    "tr": "Detay Özensizliği (Inattention to Detail)",
-    "note": "Detaylara Dikkat'in tersi; okuyucuya projenin geneline dair kötü izlenim verir"
-  },
-  {
     "en": "Include Directive",
     "tr": "Dahil Etme Yönergesi (Include Directive)",
     "note": "FitNesse'de sayfa dahil etme komutu"
@@ -570,11 +565,6 @@ window.GLOSSARY = [
     "note": "Knuth'un kavramı: kod önce insanlar için yazılmalı"
   },
   {
-    "en": "Log Scale",
-    "tr": "Logaritmik Ölçek (Log Scale)",
-    "note": "Dikey konumdaki küçük farkın mutlak boyutta büyük fark demek olduğu ölçek"
-  },
-  {
     "en": "Magic Number",
     "tr": "Sihirli Sayı (Magic Number)",
     "note": "Kodda açıklamasız kullanılan sabit değer"
@@ -603,11 +593,6 @@ window.GLOSSARY = [
     "en": "Matter-of-fact",
     "tr": "Olgusal (Matter-of-fact)",
     "note": "Spekülatif olmayan, gerçeklere dayanan kod"
-  },
-  {
-    "en": "Mean",
-    "tr": "Ortalama (Mean)",
-    "note": "Şekil 5-1'deki kutuların ortasında gösterilen aritmetik ortalama"
   },
   {
     "en": "Meaningful Distinctions",
@@ -705,11 +690,6 @@ window.GLOSSARY = [
     "note": ""
   },
   {
-    "en": "Neatness",
-    "tr": "Düzgünlük (Neatness)",
-    "note": "Kodun derli toplu, özenli görünmesi"
-  },
-  {
     "en": "Nesting Level",
     "tr": "İç İçe Geçme Seviyesi (Nesting Level)",
     "note": "Kod bloklarının derinlik seviyesi"
@@ -768,11 +748,6 @@ window.GLOSSARY = [
     "en": "Open/Closed Principle (OCP)",
     "tr": "Açık/Kapalı İlkesi (OCP)",
     "note": "Genişletmeye açık, değişikliğe kapalı prensibi"
-  },
-  {
-    "en": "Orderliness",
-    "tr": "Düzenlilik (Orderliness)",
-    "note": "Kodun tutarlı bir düzen içinde yerleşmiş olması"
   },
   {
     "en": "Output Argument",
@@ -1015,11 +990,6 @@ window.GLOSSARY = [
     "note": "Biçimsel gereksinim tanımı"
   },
   {
-    "en": "Standard Deviation",
-    "tr": "Standart Sapma (Standard Deviation)",
-    "note": "Dağılımın yayılımını ölçen istatistiksel büyüklük"
-  },
-  {
     "en": "Status Value",
     "tr": "Durum Değeri (Status Value)",
     "note": "Bir öğenin mevcut durumunu temsil eden değer"
@@ -1103,11 +1073,6 @@ window.GLOSSARY = [
     "en": "Type System",
     "tr": "Tür Sistemi (Type System)",
     "note": ""
-  },
-  {
-    "en": "Under the Hood",
-    "tr": "Kaputun Altı (Under the Hood)",
-    "note": "Bir sistemin dışarıdan görünmeyen iç yapısına bakma metaforu"
   },
   {
     "en": "Unit Test",

@@ -17,6 +17,23 @@ Aynı paragrafta tekrar geçerse:
 - Sadece Türkçe karşılığı kullanılabilir
 - Ancak farklı bir paragrafta tekrar geçerse, yine parantezli formatı kullan
 
+### Neyin terim SAYILMADIĞI
+
+Parantezli format yalnızca **teknik terimler** içindir. Sıradan İngilizce kelimeler,
+deyimler ve tek seferlik anlatım sözcükleri ne parantezlenir ne de sözlüğe eklenir:
+
+- Sıradan nitelemeler: neatness, orderliness, clean, readable
+- Deyimler: under the hood, at first glance
+- Şekil/altyazıdan gelen istatistik sözcükleri: mean, standard deviation, log scale
+- Bir terimin yalnızca olumsuz hâli: inattention to detail (← attention to detail)
+
+Ölçüt: sözcük kitapta **kavram olarak** kullanılıyorsa (bir ilke, desen, ölçüt ya da
+adı konmuş metafor) parantezlenir; yalnızca cümlenin akışında geçen bir kelimeyse
+düz Türkçe yazılır.
+
+**Bir cümlede en fazla bir parantezli terim bulunur.** Aynı cümlede ikinci bir terim
+geçiyorsa düz Türkçe karşılığı kullanılır — parantez yığılması metni okunmaz kılar.
+
 ## Çevrilmeyecek Öğeler
 
 - Kod blokları, kod parçaları, değişken adları
