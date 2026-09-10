@@ -36,7 +36,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Gereksiz atıf yorumu</span><span class=\"en-text\" style=\"display:none;\">Unnecessary attribution comment</span></div>\n<pre\"><span class=\"comment\">/* Rick tarafından eklendi */</span>\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Gereksiz atıf yorumu</span><span class=\"en-text\">Unnecessary attribution comment</span></div>\n<pre\"><span class=\"comment\">/* Rick tarafından eklendi */</span>\n</pre\"></div>"
     },
     {
       "type": "para",
@@ -57,7 +57,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Apache commons'tan — iki satır neden yorum\n                    satırı?</span><span class=\"en-text\" style=\"display:none;\">From apache commons — why are two lines\n                    commented?</span></div>\n<pre\"><span class=\"kw\">this</span>.bytePos = writeBytes(pngIdBytes, 0);\n                <span class=\"comment\">//hdrPos = bytePos;</span>\n                writeHeader();\n                writeResolution();\n                <span class=\"comment\">//dataPos = bytePos;</span>\n<span class=\"kw\">if</span> (writeImageData()) {\n                writeEnd();\n                <span class=\"kw\">this</span>.pngBytes = resizeByteArray(<span class=\"kw\">this</span>.pngBytes, <span class=\"kw\">this</span>.maxPos);\n                }\n                <span class=\"kw\">else</span> {\n                <span class=\"kw\">this</span>.pngBytes = <span class=\"kw\">null</span>;\n                }\n                <span class=\"kw\">return this</span>.pngBytes;\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Apache commons'tan — iki satır neden yorum\n                    satırı?</span><span class=\"en-text\">From apache commons — why are two lines\n                    commented?</span></div>\n<pre\"><span class=\"kw\">this</span>.bytePos = writeBytes(pngIdBytes, 0);\n                <span class=\"comment\">//hdrPos = bytePos;</span>\n                writeHeader();\n                writeResolution();\n                <span class=\"comment\">//dataPos = bytePos;</span>\n<span class=\"kw\">if</span> (writeImageData()) {\n                writeEnd();\n                <span class=\"kw\">this</span>.pngBytes = resizeByteArray(<span class=\"kw\">this</span>.pngBytes, <span class=\"kw\">this</span>.maxPos);\n                }\n                <span class=\"kw\">else</span> {\n                <span class=\"kw\">this</span>.pngBytes = <span class=\"kw\">null</span>;\n                }\n                <span class=\"kw\">return this</span>.pngBytes;\n</pre\"></div>"
     },
     {
       "type": "para",
@@ -71,7 +71,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"page-note\">\n<strong><span class=\"tr-text\">Temel Kural:</span><span class=\"en-text\" style=\"display:none;\">Core\n                    Rule:</span></strong>\n<span class=\"tr-text\"> Altmışlı yıllarda, kaynak kodu kontrol sistemleri yokken kodu yorum satırına almak bu\n                kadar anlam taşıyordu. Ama uzun süredir iyi kaynak kodu kontrol sistemlerimiz var. O sistemler kodu\n                bizim için hatırlayacaklar. Artık kodu yorum satırına almamıza gerek yok. Kodu silin. Onu\n                kaybetmeyeceğiz. Söz.</span>\n<span class=\"en-text\" style=\"display:none;\"> There was a time, back in the sixties, when commenting-out code\n                might have been useful. But we've had good source code control systems for a very long time now. Those\n                systems will remember the code for us. We don't have to comment it out any more. Just delete the code.\n                We won't lose it. Promise.</span>\n</div>"
+      "html": "<div class=\"page-note\">\n<strong><span class=\"tr-text\">Temel Kural:</span><span class=\"en-text\">Core\n                    Rule:</span></strong>\n<span class=\"tr-text\"> Altmışlı yıllarda, kaynak kodu kontrol sistemleri yokken kodu yorum satırına almak bu\n                kadar anlam taşıyordu. Ama uzun süredir iyi kaynak kodu kontrol sistemlerimiz var. O sistemler kodu\n                bizim için hatırlayacaklar. Artık kodu yorum satırına almamıza gerek yok. Kodu silin. Onu\n                kaybetmeyeceğiz. Söz.</span>\n<span class=\"en-text\"> There was a time, back in the sixties, when commenting-out code\n                might have been useful. But we've had good source code control systems for a very long time now. Those\n                systems will remember the code for us. We don't have to comment it out any more. Just delete the code.\n                We won't lose it. Promise.</span>\n</div>"
     }
   ],
   "concepts": []

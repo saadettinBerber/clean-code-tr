@@ -66,7 +66,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"chapter-complete-box\">\n<h3>✓ <span class=\"tr-text\">Bölüm 4 Tamamlandı — Yorumlar</span><span class=\"en-text\" style=\"display:none;\">Chapter 4 Complete — Comments</span></h3>\n<p><span class=\"tr-text\">İyi yorumlar, kötü yorumlar ve GeneratePrimes örneği. Bölüm 5'te biçimlendirme ele\n                    alınıyor.</span>\n<span class=\"en-text\" style=\"display:none;\">Good comments, bad comments, and the GeneratePrimes example.\n                    Chapter 5 covers formatting.</span>\n</p>\n</div>"
+      "html": "<div class=\"chapter-complete-box\">\n<h3>✓ <span class=\"tr-text\">Bölüm 4 Tamamlandı — Yorumlar</span><span class=\"en-text\">Chapter 4 Complete — Comments</span></h3>\n<p><span class=\"tr-text\">İyi yorumlar, kötü yorumlar ve GeneratePrimes örneği. Bölüm 5'te biçimlendirme ele\n                    alınıyor.</span>\n<span class=\"en-text\">Good comments, bad comments, and the GeneratePrimes example.\n                    Chapter 5 covers formatting.</span>\n</p>\n</div>"
     }
   ],
   "concepts": []
