@@ -499,34 +499,34 @@
     "49": {
       "pdf_page": 80,
       "chapter": 3,
-      "title_en": "SetupTeardownIncluder (Listing 3-7)",
-      "title_tr": "SetupTeardownIncluder (Listing 3-7)",
-      "section_en": "SetupTeardownIncluder",
-      "section_tr": "SetupTeardownIncluder"
+      "title_en": "How Do You Write Functions Like This? / Conclusion",
+      "title_tr": "Böyle Fonksiyonları Nasıl Yazarsınız? / Sonuç",
+      "section_en": "Conclusion",
+      "section_tr": "Sonuç"
     },
     "50": {
       "pdf_page": 81,
       "chapter": 3,
-      "title_en": "SetupTeardownIncluder (devam)",
-      "title_tr": "SetupTeardownIncluder (devam)",
-      "section_en": "SetupTeardownIncluder (devam)",
-      "section_tr": "SetupTeardownIncluder (devam)"
+      "title_en": "Conclusion & Listing 3-7",
+      "title_tr": "Sonuç ve Listing 3-7",
+      "section_en": "Conclusion",
+      "section_tr": "Sonuç"
     },
     "51": {
       "pdf_page": 82,
       "chapter": 3,
-      "title_en": "SetupTeardownIncluder (son) & Kaynakça",
-      "title_tr": "SetupTeardownIncluder (son) & Kaynakça",
-      "section_en": "SetupTeardownIncluder (son) & Kaynakça",
-      "section_tr": "SetupTeardownIncluder (son) & Kaynakça"
+      "title_en": "Listing 3-7 (continued)",
+      "title_tr": "Listing 3-7 (devam)",
+      "section_en": "SetupTeardownIncluder",
+      "section_tr": "SetupTeardownIncluder"
     },
     "52": {
       "pdf_page": 83,
       "chapter": 3,
-      "title_en": "Bibliography",
-      "title_tr": "Kaynakça",
-      "section_en": "Kaynakça (Bibliography)",
-      "section_tr": "Kaynakça (Bibliography)"
+      "title_en": "Listing 3-7 (end) & Bibliography",
+      "title_tr": "Listing 3-7 (son) ve Kaynakça",
+      "section_en": "SetupTeardownIncluder",
+      "section_tr": "SetupTeardownIncluder"
     },
     "53": {
       "pdf_page": 84,
@@ -563,18 +563,18 @@
     "57": {
       "pdf_page": 88,
       "chapter": 4,
-      "title_en": "Explanation of Intent",
-      "title_tr": "Niyetin Açıklanması",
-      "section_en": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API",
-      "section_tr": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API"
+      "title_en": "Clarification",
+      "title_tr": "Netleştirme",
+      "section_en": "Good Comments",
+      "section_tr": "İyi Yorumlar"
     },
     "58": {
       "pdf_page": 89,
       "chapter": 4,
-      "title_en": "Clarification",
-      "title_tr": "Netleştirme",
-      "section_en": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum",
-      "section_tr": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum"
+      "title_en": "Warning of Consequences & TODO Comments",
+      "title_tr": "Sonuçlara Dair Uyarı ve TODO Yorumları",
+      "section_en": "Good Comments",
+      "section_tr": "İyi Yorumlar"
     },
     "59": {
       "pdf_page": 90,
@@ -587,26 +587,26 @@
     "60": {
       "pdf_page": 91,
       "chapter": 4,
-      "title_en": "TODO Comments",
-      "title_tr": "TODO Yorumları",
-      "section_en": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları",
-      "section_tr": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları"
+      "title_en": "Mumbling & Redundant Comments",
+      "title_tr": "Mırıldanma ve Gereksiz Yorumlar",
+      "section_en": "Bad Comments",
+      "section_tr": "Kötü Yorumlar"
     },
     "61": {
       "pdf_page": 92,
       "chapter": 4,
-      "title_en": "Amplification & Javadoc",
-      "title_tr": "Önem Belirtme & Javadoc",
-      "section_en": "Atıf ve Yazarlık, Yorum Satırındaki Kod",
-      "section_tr": "Atıf ve Yazarlık, Yorum Satırındaki Kod"
+      "title_en": "Redundant Comments & Listing 4-2",
+      "title_tr": "Gereksiz Yorumlar ve Listing 4-2",
+      "section_en": "Bad Comments",
+      "section_tr": "Kötü Yorumlar"
     },
     "62": {
       "pdf_page": 93,
       "chapter": 4,
-      "title_en": "Bad Comments: Mumbling",
-      "title_tr": "Kötü Yorumlar: Mırıldanma",
-      "section_en": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi",
-      "section_tr": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi"
+      "title_en": "Listing 4-2 (continued)",
+      "title_tr": "Listing 4-2 (devam)",
+      "section_en": "Bad Comments",
+      "section_tr": "Kötü Yorumlar"
     },
     "63": {
       "pdf_page": 94,

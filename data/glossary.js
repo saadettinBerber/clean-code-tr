@@ -880,6 +880,11 @@ window.GLOSSARY = [
     "note": "Değişiklik sonrası kodun tekrar derlenmesi"
   },
   {
+    "en": "Recursion",
+    "tr": "Özyineleme (Recursion)",
+    "note": "Bir fonksiyonun doğrudan ya da dolaylı olarak kendini çağırması"
+  },
+  {
     "en": "Redeployment",
     "tr": "Yeniden Dağıtım (Redeployment)",
     "note": "Değişiklik sonrası kodun tekrar dağıtılması"
@@ -985,6 +990,11 @@ window.GLOSSARY = [
     "note": "Bir sınıfın/fonksiyonun değişmesi için yalnızca bir nedeni olmalıdır ilkesi"
   },
   {
+    "en": "Single-Entry, Single-Exit Rule",
+    "tr": "Tek Giriş, Tek Çıkış Kuralı (Single-Entry, Single-Exit Rule)",
+    "note": "Dijkstra'nın yapısal programlama disiplini: her fonksiyon ve blok yalnızca bir girişe ve bir çıkışa sahip olmalı"
+  },
+  {
     "en": "Snail's Pace",
     "tr": "Salyangoz Hızı (Snail's Pace)",
     "note": "Çok yavaş ilerleme metaforu"
@@ -1008,6 +1018,11 @@ window.GLOSSARY = [
     "en": "Specification",
     "tr": "Spesifikasyon (Specification)",
     "note": "Biçimsel gereksinim tanımı"
+  },
+  {
+    "en": "Static Initializer",
+    "tr": "Statik Başlatıcı (Static Initializer)",
+    "note": "Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu"
   },
   {
     "en": "Status Value",
