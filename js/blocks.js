@@ -98,6 +98,7 @@ const Blocks = (function () {
   }
 
   function renderImage(block, ctx) {
+    if (!block.src) return "";
     const src = `data/pages/${ctx.pageId}_images/${encodeURIComponent(block.src)}`;
     return `<figure class="figure"><img src="${src}" alt="" loading="lazy"></figure>`;
   }

@@ -25,6 +25,9 @@ const Reader = (function () {
 
   function pairOf(num) {
     if (isParallel()) return [num, num];
+    // Tek sayfa kipinde sağ yaprak gizlidir (renderCurrent). İstenen sayfa sol
+    // yaprağa çizilmezse tek numaralı sayfaların hiçbirine erişilemez.
+    if (!isSpread()) return [num, num];
     const left = num % 2 === 0 ? num : num - 1;
     return [left, left + 1];
   }
