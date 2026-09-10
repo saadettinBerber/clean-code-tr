@@ -103,7 +103,6 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Headline | Manşet (Headline) | Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler |
 | Heuristic | Sezgisel Kural (Heuristic) |  |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
-| Inattention to Detail | Detay Özensizliği (Inattention to Detail) | Detaylara Dikkat'in tersi; okuyucuya projenin geneline dair kötü izlenim verir |
 | Include Directive | Dahil Etme Yönergesi (Include Directive) | FitNesse'de sayfa dahil etme komutu |
 | Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
 | Informative Comment | Bilgilendirici Yorum (Informative Comment) | Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum |
@@ -122,14 +121,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Level of Abstraction | Soyutlama Seviyesi (Level of Abstraction) | Kodun genelden özele doğru soyutluk derecesi |
 | Lexicon | Sözlük (Lexicon) | Bir projedeki tutarlı terimler bütünü |
 | Literate Programming | Okuryazar Programlama (Literate Programming) | Knuth'un kavramı: kod önce insanlar için yazılmalı |
-| Log Scale | Logaritmik Ölçek (Log Scale) | Dikey konumdaki küçük farkın mutlak boyutta büyük fark demek olduğu ölçek |
 | Magic Number | Sihirli Sayı (Magic Number) | Kodda açıklamasız kullanılan sabit değer |
 | Maintainability | Bakılabilirlik (Maintainability) | Kodun zaman içinde bakımının yapılabilme kolaylığı |
 | Management | Yönetim (Management) |  |
 | Mandated Comment | Zorunlu Yorum (Mandated Comment) | Şirket politikası veya kurallar gereği zorla eklenen yorum |
 | Marketer | Pazarlamacı (Marketer) |  |
 | Matter-of-fact | Olgusal (Matter-of-fact) | Spekülatif olmayan, gerçeklere dayanan kod |
-| Mean | Ortalama (Mean) | Şekil 5-1'deki kutuların ortasında gösterilen aritmetik ortalama |
 | Meaningful Distinctions | Anlamlı Ayrımlar (Meaningful Distinctions) | İsimlerin gerçekten farklı anlamlar taşıyacak şekilde farklılaştırılması |
 | Meaningful Names | Anlamlı İsimler (Meaningful Names) | Niyet ifade eden değişken/fonksiyon isimleri |
 | Mental Burden | Zihinsel Yük (Mental Burden) | Kod okurken harcanan bilişsel çaba |
@@ -149,7 +146,6 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Mutator | Değiştirici (Mutator) | JavaBean standardında set metotları |
 | Namespace | Ad Alanı (Namespace) |  |
 | Naming Convention | İsimlendirme Kuralı (Naming Convention) |  |
-| Neatness | Düzgünlük (Neatness) | Kodun derli toplu, özenli görünmesi |
 | Nesting Level | İç İçe Geçme Seviyesi (Nesting Level) | Kod bloklarının derinlik seviyesi |
 | Newspaper Metaphor | Gazete Metaforu (Newspaper Metaphor) | Kaynak dosya gazete makalesi gibi okunmalı: üstte manşet ve özet, aşağı indikçe artan ayrıntı |
 | Niladic | Sıfırlı (Niladic) | Argümansız fonksiyon |
@@ -162,7 +158,6 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Object-Oriented Design | Nesne Yönelimli Tasarım (Object-Oriented Design) |  |
 | Open Closed Principle (OCP) | Açık Kapalı İlkesi (OCP) | Sınıflar genişlemeye açık, değişikliğe kapalı olmalı |
 | Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
-| Orderliness | Düzenlilik (Orderliness) | Kodun tutarlı bir düzen içinde yerleşmiş olması |
 | Output Argument | Çıkış Argümanı (Output Argument) | Değer döndürmek için kullanılan argüman |
 | Oxymoron | Oksimoron (Oxymoron) | Birbirine zıt kavramların birleşimi (ör. "keskin soyutlama") |
 | Package | Paket (Package) | Kod organizasyon birimi |
@@ -211,7 +206,6 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Solution Domain | Çözüm Alanı (Solution Domain) |  |
 | Source File | Kaynak Dosyası (Source File) | Programın kaynak kodunu içeren dosya |
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
-| Standard Deviation | Standart Sapma (Standard Deviation) | Dağılımın yayılımını ölçen istatistiksel büyüklük |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
 | Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
 | StringBuffer | StringBuffer | Java'da değiştirilebilir dizgi nesnesi |
@@ -229,7 +223,6 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Transformation | Dönüşüm (Transformation) | Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi |
 | Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
 | Type System | Tür Sistemi (Type System) |  |
-| Under the Hood | Kaputun Altı (Under the Hood) | Bir sistemin dışarıdan görünmeyen iç yapısına bakma metaforu |
 | Unit Test | Birim Testi (Unit Test) |  |
 | Unprofessional | Profesyonel Olmayan (Unprofessional) | Mesleğin gerekliliklerini yerine getirmemek |
 | Variable | Değişken (Variable) |  |
