@@ -3,7 +3,7 @@
 const Reader = (function () {
   const LAST_PAGE_KEY = "cleancode-last-page";
   const LAYOUT_KEY = "cleancode-layout";
-  const SPREAD_MIN_WIDTH = 1100;
+  const SPREAD_MIN_WIDTH = 1000;
   const TURN_ANIMATION_MS = 400;   // arka planda duraklayan animasyon yaprağı görünmez bırakmasın
   const state = { page: null, layout: "single", direction: "next" };
 
@@ -166,7 +166,8 @@ const Reader = (function () {
     Panels.init({ onSelectPage: (target) => goTo(target, "next") });
     Concepts.init();
     Controls.init({ goTo, goNext, goPrev, toggleLayout, refresh: renderCurrent, currentPage: () => state.page });
-    setLayout(localStorage.getItem(LAYOUT_KEY) || "single");
+    // Geniş ekranda varsayılan açık kitap (çift sayfa); kullanıcı seçimi hatırlanır.
+    setLayout(localStorage.getItem(LAYOUT_KEY) || (window.innerWidth >= SPREAD_MIN_WIDTH ? "spread" : "single"));
     window.addEventListener("hashchange", routeFromHash);
     window.addEventListener("resize", Controls.debounce(renderCurrent));
     routeFromHash();

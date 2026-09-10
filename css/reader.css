@@ -162,7 +162,7 @@ a { color: var(--navy); }
 .layout-btn { display: inline-flex; gap: 3px; align-items: center; justify-content: center; }
 .layout-btn .pg-icon { width: 9px; height: 13px; border: 1.5px solid currentColor; border-radius: 1px; }
 .layout-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
-@media (max-width: 1099px) { .layout-btn { display: none; } }
+@media (max-width: 999px) { .layout-btn { display: none; } }
 [data-lang="parallel"] .sheet[data-lang="en"] .tr-text, [data-lang="parallel"] .sheet[data-lang="tr"] .en-text { display: none; }
 [data-lang="parallel"] .sheet[data-lang="tr"] .legacy .tr-text { display: inline; }
 [data-lang="parallel"] .sentence.revealed > .en-text, [data-lang="parallel"] .sentence.revealed > .tr-text { background: rgba(179, 139, 42, .22); }
