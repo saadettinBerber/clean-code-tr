@@ -344,10 +344,19 @@ def legacy_page_paths():
     return sorted(paths, key=page_number_of)
 
 
+_INLINE_HIDDEN = re.compile(r'\s*style="display:\s*none;?"')
+
+
+def strip_inline_display(text):
+    """Eski common.js'nin bıraktığı satır içi gizleme stili yeni okuyucuda
+    EN modunda metni tamamen gizlerdi; dil görünürlüğünü artık CSS yönetir."""
+    return _INLINE_HIDDEN.sub("", text)
+
+
 def main():
     titles = titles_from_index()
     pages = [build_page(path, titles) for path in legacy_page_paths()]
-    written = [write_page_js(page) for page in pages]
+    written = [write_page_js(json.loads(strip_inline_display(json.dumps(page, ensure_ascii=False)))) for page in pages]
     write_registry(pages)
     block_counts, html_only_pages = verify_outputs(written)
     print_summary(len(written), block_counts, html_only_pages)

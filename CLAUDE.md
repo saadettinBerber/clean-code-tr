@@ -89,6 +89,7 @@ Clean Code/
 │   ├── text_fixer.py           ODL metnini PyMuPDF bulgularıyla onarır
 │   ├── text_utils.py           Metin temizleme ve cümle ayırma yardımcıları
 │   ├── migrate_legacy.py       Eski HTML sayfalarını tek seferlik dönüştürücü
+│   ├── backfill_images.py      Mevcut sayfalara PDF'teki görselleri geriye dönük ekler (tekrar çalıştırılabilir)
 │   ├── FORMAT.md               Sayfa veri formatı ve çevirmen agent sözleşmesi
 │   └── _work/in | out          Geçici çalışma dizini (git'e girmez)
 ├── legacy/                     Eski sayfa-başına-HTML site (index.html, pages/, js/common.js)
