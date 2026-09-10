@@ -1,0 +1,79 @@
+window.PAGE({
+  "id": "page-53",
+  "page": 53,
+  "pdf_page": 84,
+  "chapter": {
+    "num": 4,
+    "en": "Comments",
+    "tr": "Yorumlar"
+  },
+  "section": {
+    "en": "Giriş",
+    "tr": "Giriş"
+  },
+  "title": {
+    "en": "Comments — Introduction",
+    "tr": "Yorumlar — Giriş"
+  },
+  "blocks": [
+    {
+      "type": "html",
+      "html": "<div class=\"chapter-badge\">Bölüm 4 / Chapter 4</div>"
+    },
+    {
+      "type": "heading",
+      "level": 1,
+      "en": "Comments",
+      "tr": "Yorumlar / Comments",
+      "html": true
+    },
+    {
+      "type": "html",
+      "html": "<div class=\"quote-block\">\n<span class=\"tr-text\">\n                \"Kötü kodu yorum satırı ekleyerek kurtarmaya çalışma — onu yeniden yaz.\"\n                <span class=\"quote-source\">— Brian W. Kernighan ve P. J. Plaugher<sup>1</sup></span>\n</span>\n<span class=\"en-text\" style=\"display:none;\">\n                \"Don't comment bad code—rewrite it.\"\n                <span class=\"quote-source\">— Brian W. Kernighan and P. J. Plaugher<sup>1</sup></span>\n</span>\n</div>"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Nothing can be quite so helpful as a well-placed comment. Nothing can clutter up a module more than frivolous dogmatic comments. Nothing can be quite so damaging as an old crufty comment that propagates lies and misinformation.",
+          "tr": "Doğru yere yerleştirilmiş bir yorum kadar yararlı hiçbir şey olamaz. Gereksiz, dogmatik yorumlar kadar bir modülü kirletecek hiçbir şey yoktur. Yanlış bilgi yayan eski ve çürümüş bir yorum kadar zararlı hiçbir şey olamaz.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Comments are not like Schindler's List. They are not \"pure good.\" Indeed, comments are, at best, a necessary evil. If our programming languages were expressive enough, or if we had the talent to subtly wield those languages to express our intent, we would not need comments very much—perhaps not at all.",
+          "tr": "Yorumlar, Schindler'in Listesi gibi değildir. Onlar \"salt iyilik\" değildir. Gerçek şu ki: yorumlar en iyi ihtimalle zorunlu bir kötülüktür. Eğer programlama dillerimiz yeterince ifade edici olsaydı ya da niyetimizi bu dilleri ustalıkla kullanarak aktarabilseydik, yorumlara neredeyse hiç — belki de hiç — ihtiyacımız kalmazdı.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "footnote",
+      "en": "<sup>1</sup> [KP78], p. 144.",
+      "tr": "<sup>1</sup> [KP78], s. 144.",
+      "html": true
+    }
+  ],
+  "concepts": [
+    {
+      "id": "necessary-evil",
+      "title": {
+        "en": "Necessary Evil",
+        "tr": "Zorunlu Kötülük (Necessary Evil)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept\n                        Explanation</span></h4>\n<p><span class=\"tr-text\">Yorumlar, programcının niyetini kodla ifade edememesinin bir itirafıdır.\n                        \"Zorunlu kötülük\" metaforu şunu söyler: yorumlar bazen kaçınılmazdır, ama hiçbir zaman\n                        kutlanmamalıdır. Her yorum yazıldığında, aslında bir başarısızlık belgelenmiş olur.</span>\n<span class=\"en-text\" style=\"display:none;\">Comments are an admission that the programmer could not\n                        express their intent in code. The \"necessary evil\" metaphor says: comments are sometimes\n                        unavoidable, but should never be celebrated. Every time a comment is written, a failure is\n                        documented.</span>\n</p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad\n                        Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Yorumla ifade edilmeye çalışılan niyet</span><span class=\"en-text\" style=\"display:none;\">BAD — Intent expressed through comment</span></span>\n<pre><span class=\"comment\">// Kullanıcı aktif ve premium üyeyse indirim uygula</span>\n<span class=\"kw\">if</span> (user.status == 1 &amp;&amp; user.type == 2) {\n    applyDiscount(order);\n}</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good\n                        Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Niyet kodun içinde</span><span class=\"en-text\" style=\"display:none;\">GOOD — Intent expressed in code</span></span>\n<pre><span class=\"kw\">if</span> (user.isActiveAndPremium()) {\n    applyDiscount(order);\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong>\n<span class=\"tr-text\">Bir yorum yazmak üzereyken durun ve sorun: \"Bu yorumu koda nasıl\n                        dönüştürebilirim?\" Çoğu zaman iyi bir metot adı yorumun yerini alır.</span>\n<span class=\"en-text\" style=\"display:none;\">Before writing a comment, pause and ask: \"How can I turn\n                        this comment into code?\" Often a good method name replaces the comment entirely.</span>\n</div>"
+    },
+    {
+      "id": "expressive-code",
+      "title": {
+        "en": "Expressive Code",
+        "tr": "İfade Edici Kod (Expressive Code)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept\n                        Explanation</span></h4>\n<p><span class=\"tr-text\">İfade gücü yüksek kod (Expressive Code), programcının niyetini doğrudan kodun\n                        kendi yapısıyla aktarabilmesidir. Değişken isimleri, metot isimleri ve sınıf yapıları o kadar\n                        açık olmalıdır ki ekstra açıklamaya gerek kalmasın.</span>\n<span class=\"en-text\" style=\"display:none;\">Expressive code is code that communicates the\n                        programmer's intent directly through its own structure. Variable names, method names, and class\n                        structures should be so clear that no extra explanation is needed.</span>\n</p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad\n                        Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Sihirli sayılar ve belirsiz isimler</span><span class=\"en-text\" style=\"display:none;\">BAD — Magic numbers and vague names</span></span>\n<pre><span class=\"comment\">// 86400 = bir günün saniyesi</span>\nint d = 86400;\n<span class=\"comment\">// kullanıcının son 7 günde aktif olup olmadığını kontrol et</span>\n<span class=\"kw\">if</span> (now - user.lastSeen &lt; d * 7) { ... }</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good\n                        Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Kendini açıklayan sabitler ve metot</span><span class=\"en-text\" style=\"display:none;\">GOOD — Self-explanatory constants and method</span></span>\n<pre><span class=\"kw\">static final int</span> SECONDS_PER_DAY = 86400;\n<span class=\"kw\">if</span> (user.wasActiveInLastDays(7)) { ... }</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong>\n<span class=\"tr-text\">Kodunuzu bir meslektaşınıza okutun. Eğer herhangi bir kısmı açıklamak zorunda\n                        kalıyorsanız, o kısım yeterince ifade edici değildir — yorumla değil, yeniden adlandırmayla\n                        düzeltin.</span>\n<span class=\"en-text\" style=\"display:none;\">Have a colleague read your code. If you need to explain\n                        any part, that part is not expressive enough — fix it by renaming, not by adding a\n                        comment.</span>\n</div>"
+    }
+  ]
+});

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convert legacy pages/page-N.html files into data/pages/page-N.js.
+"""Convert legacy legacy/pages/page-N.html files into data/pages/page-N.js.
 
 Output schema is described in tools/FORMAT.md. The legacy HTML is read only;
 nothing under pages/ is modified.
@@ -14,10 +14,10 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-LEGACY_PAGES_DIR = PROJECT_ROOT / "pages"
+LEGACY_PAGES_DIR = PROJECT_ROOT / "legacy" / "pages"
 OUTPUT_DIR = PROJECT_ROOT / "data" / "pages"
 REGISTRY_PATH = PROJECT_ROOT / "tools" / "_work" / "legacy_registry.json"
-INDEX_HTML_PATH = PROJECT_ROOT / "index.html"
+INDEX_HTML_PATH = PROJECT_ROOT / "legacy" / "index.html"
 
 PDF_PAGE_OFFSET = 31
 HTML_PARSER = "html.parser"

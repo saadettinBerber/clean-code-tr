@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 31,
-  "lastTranslatedPage": 52,
+  "lastTranslatedPage": 71,
   "chapters": [
     {
       "num": 1,
@@ -694,6 +694,215 @@ window.TOC = {
         "tr": "Kaynakça (Bibliography)"
       },
       "chapter": 3
+    },
+    "53": {
+      "title": {
+        "en": "Comments — Introduction",
+        "tr": "Yorumlar — Giriş"
+      },
+      "section": {
+        "en": "Giriş",
+        "tr": "Giriş"
+      },
+      "chapter": 4
+    },
+    "54": {
+      "title": {
+        "en": "Not for Bad Code",
+        "tr": "Kötü Kodun Telafisi Değildir"
+      },
+      "section": {
+        "en": "Yorumlar Neden Yalan Söyler?",
+        "tr": "Yorumlar Neden Yalan Söyler?"
+      },
+      "chapter": 4
+    },
+    "55": {
+      "title": {
+        "en": "Explain Yourself in Code",
+        "tr": "Kendinizi Kodla Açıklayın"
+      },
+      "section": {
+        "en": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar",
+        "tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
+      },
+      "chapter": 4
+    },
+    "56": {
+      "title": {
+        "en": "Good Comments",
+        "tr": "İyi Yorumlar (Yasal & Bilgilendirici)"
+      },
+      "section": {
+        "en": "Bilgilendirici, Niyet Açıklaması, Netleştirme",
+        "tr": "Bilgilendirici, Niyet Açıklaması, Netleştirme"
+      },
+      "chapter": 4
+    },
+    "57": {
+      "title": {
+        "en": "Explanation of Intent",
+        "tr": "Niyetin Açıklanması"
+      },
+      "section": {
+        "en": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API",
+        "tr": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API"
+      },
+      "chapter": 4
+    },
+    "58": {
+      "title": {
+        "en": "Clarification",
+        "tr": "Netleştirme"
+      },
+      "section": {
+        "en": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum",
+        "tr": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum"
+      },
+      "chapter": 4
+    },
+    "59": {
+      "title": {
+        "en": "Warning of Consequences",
+        "tr": "Sonuçlara Dair Uyarı"
+      },
+      "section": {
+        "en": "Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük Yorumlar",
+        "tr": "Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük Yorumlar"
+      },
+      "chapter": 4
+    },
+    "60": {
+      "title": {
+        "en": "TODO Comments",
+        "tr": "TODO Yorumları"
+      },
+      "section": {
+        "en": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları",
+        "tr": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları"
+      },
+      "chapter": 4
+    },
+    "61": {
+      "title": {
+        "en": "Amplification & Javadoc",
+        "tr": "Önem Belirtme & Javadoc"
+      },
+      "section": {
+        "en": "Atıf ve Yazarlık, Yorum Satırındaki Kod",
+        "tr": "Atıf ve Yazarlık, Yorum Satırındaki Kod"
+      },
+      "chapter": 4
+    },
+    "62": {
+      "title": {
+        "en": "Bad Comments: Mumbling",
+        "tr": "Kötü Yorumlar: Mırıldanma"
+      },
+      "section": {
+        "en": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi",
+        "tr": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi"
+      },
+      "chapter": 4
+    },
+    "63": {
+      "title": {
+        "en": "Redundant Comments",
+        "tr": "Gereksiz Yorumlar"
+      },
+      "section": {
+        "en": "Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı, Yorum Satırındaki Kod devamı",
+        "tr": "Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı, Yorum Satırındaki Kod devamı"
+      },
+      "chapter": 4
+    },
+    "64": {
+      "title": {
+        "en": "Misleading & Mandated",
+        "tr": "Yanıltıcı & Zorunlu"
+      },
+      "section": {
+        "en": "Örnek — GeneratePrimes.java (Listing 4-7)",
+        "tr": "Örnek — GeneratePrimes.java (Listing 4-7)"
+      },
+      "chapter": 4
+    },
+    "65": {
+      "title": {
+        "en": "Journal & Noise",
+        "tr": "Günlük & Gürültü Yorumları"
+      },
+      "section": {
+        "en": "Gürültü Yorumu Devamı — Listing 4-4 ve Refactored 4-5",
+        "tr": "Gürültü Yorumu Devamı — Listing 4-4 ve Refactored 4-5"
+      },
+      "chapter": 4
+    },
+    "66": {
+      "title": {
+        "en": "Scary Noise & By-lines",
+        "tr": "Korkunç Gürültü & İmzalar"
+      },
+      "section": {
+        "en": "Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma",
+        "tr": "Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma"
+      },
+      "chapter": 4
+    },
+    "67": {
+      "title": {
+        "en": "Konum İşaretçileri & Kapatma Parantezi",
+        "tr": "Konum İşaretçileri & Kapatma Parantezi"
+      },
+      "section": {
+        "en": "wc.java Listing Devamı, Atıf, Yorum Satırındaki Kod",
+        "tr": "wc.java Listing Devamı, Atıf, Yorum Satırındaki Kod"
+      },
+      "chapter": 4
+    },
+    "68": {
+      "title": {
+        "en": "Commented-out Code",
+        "tr": "Yorum Satırına Alınmış Kod"
+      },
+      "section": {
+        "en": "Listing 4-6 devamı (wc.java) ve Yorum Satırındaki Kod devamı",
+        "tr": "Listing 4-6 devamı (wc.java) ve Yorum Satırındaki Kod devamı"
+      },
+      "chapter": 4
+    },
+    "69": {
+      "title": {
+        "en": "HTML Javadoc & Yerel Olmayan Bilgi",
+        "tr": "HTML Javadoc & Yerel Olmayan Bilgi"
+      },
+      "section": {
+        "en": "HTML Yorumu, Yerel Olmayan Bilgi devamı",
+        "tr": "HTML Yorumu, Yerel Olmayan Bilgi devamı"
+      },
+      "chapter": 4
+    },
+    "70": {
+      "title": {
+        "en": "Çok Fazla Bilgi & Belirsiz Bağlantı",
+        "tr": "Çok Fazla Bilgi & Belirsiz Bağlantı"
+      },
+      "section": {
+        "en": "Yerel Olmayan Bilgi, Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı",
+        "tr": "Yerel Olmayan Bilgi, Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı"
+      },
+      "chapter": 4
+    },
+    "71": {
+      "title": {
+        "en": "Function Headers",
+        "tr": "Fonksiyon Başlıkları"
+      },
+      "section": {
+        "en": "Herkese Açık Olmayan Javadoc, Listing 4-7 Devamı — Bölüm 4 Sonu",
+        "tr": "Herkese Açık Olmayan Javadoc, Listing 4-7 Devamı — Bölüm 4 Sonu"
+      },
+      "chapter": 4
     }
   }
 };
