@@ -653,8 +653,30 @@ window.TOC = {
     },
     "49": {
       "title": {
-        "en": "SetupTeardownIncluder (Listing 3-7)",
-        "tr": "SetupTeardownIncluder (Listing 3-7)"
+        "en": "How Do You Write Functions Like This? / Conclusion",
+        "tr": "Böyle Fonksiyonları Nasıl Yazarsınız? / Sonuç"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 3
+    },
+    "50": {
+      "title": {
+        "en": "Conclusion & Listing 3-7",
+        "tr": "Sonuç ve Listing 3-7"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 3
+    },
+    "51": {
+      "title": {
+        "en": "Listing 3-7 (continued)",
+        "tr": "Listing 3-7 (devam)"
       },
       "section": {
         "en": "SetupTeardownIncluder",
@@ -662,36 +684,14 @@ window.TOC = {
       },
       "chapter": 3
     },
-    "50": {
-      "title": {
-        "en": "SetupTeardownIncluder (devam)",
-        "tr": "SetupTeardownIncluder (devam)"
-      },
-      "section": {
-        "en": "SetupTeardownIncluder (devam)",
-        "tr": "SetupTeardownIncluder (devam)"
-      },
-      "chapter": 3
-    },
-    "51": {
-      "title": {
-        "en": "SetupTeardownIncluder (son) & Kaynakça",
-        "tr": "SetupTeardownIncluder (son) & Kaynakça"
-      },
-      "section": {
-        "en": "SetupTeardownIncluder (son) & Kaynakça",
-        "tr": "SetupTeardownIncluder (son) & Kaynakça"
-      },
-      "chapter": 3
-    },
     "52": {
       "title": {
-        "en": "Bibliography",
-        "tr": "Kaynakça"
+        "en": "Listing 3-7 (end) & Bibliography",
+        "tr": "Listing 3-7 (son) ve Kaynakça"
       },
       "section": {
-        "en": "Kaynakça (Bibliography)",
-        "tr": "Kaynakça (Bibliography)"
+        "en": "SetupTeardownIncluder",
+        "tr": "SetupTeardownIncluder"
       },
       "chapter": 3
     },
@@ -741,23 +741,23 @@ window.TOC = {
     },
     "57": {
       "title": {
-        "en": "Explanation of Intent",
-        "tr": "Niyetin Açıklanması"
+        "en": "Clarification",
+        "tr": "Netleştirme"
       },
       "section": {
-        "en": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API",
-        "tr": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API"
+        "en": "Good Comments",
+        "tr": "İyi Yorumlar"
       },
       "chapter": 4
     },
     "58": {
       "title": {
-        "en": "Clarification",
-        "tr": "Netleştirme"
+        "en": "Warning of Consequences & TODO Comments",
+        "tr": "Sonuçlara Dair Uyarı ve TODO Yorumları"
       },
       "section": {
-        "en": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum",
-        "tr": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum"
+        "en": "Good Comments",
+        "tr": "İyi Yorumlar"
       },
       "chapter": 4
     },
@@ -774,34 +774,34 @@ window.TOC = {
     },
     "60": {
       "title": {
-        "en": "TODO Comments",
-        "tr": "TODO Yorumları"
+        "en": "Mumbling & Redundant Comments",
+        "tr": "Mırıldanma ve Gereksiz Yorumlar"
       },
       "section": {
-        "en": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları",
-        "tr": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları"
+        "en": "Bad Comments",
+        "tr": "Kötü Yorumlar"
       },
       "chapter": 4
     },
     "61": {
       "title": {
-        "en": "Amplification & Javadoc",
-        "tr": "Önem Belirtme & Javadoc"
+        "en": "Redundant Comments & Listing 4-2",
+        "tr": "Gereksiz Yorumlar ve Listing 4-2"
       },
       "section": {
-        "en": "Atıf ve Yazarlık, Yorum Satırındaki Kod",
-        "tr": "Atıf ve Yazarlık, Yorum Satırındaki Kod"
+        "en": "Bad Comments",
+        "tr": "Kötü Yorumlar"
       },
       "chapter": 4
     },
     "62": {
       "title": {
-        "en": "Bad Comments: Mumbling",
-        "tr": "Kötü Yorumlar: Mırıldanma"
+        "en": "Listing 4-2 (continued)",
+        "tr": "Listing 4-2 (devam)"
       },
       "section": {
-        "en": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi",
-        "tr": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi"
+        "en": "Bad Comments",
+        "tr": "Kötü Yorumlar"
       },
       "chapter": 4
     },
