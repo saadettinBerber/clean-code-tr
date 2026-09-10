@@ -146,7 +146,10 @@ def _element_blocks(element, fixer):
     if kind == "list":
         return _list_block(element, fixer)
     if kind == "image":
-        return [{"type": "image", "src": os.path.basename(element.get("source", ""))}]
+        src = os.path.basename(element.get("source", ""))
+        # Kaynak dosyası olmayan görsel öğeleri (çıkarılamayan vektör çizimler vb.)
+        # blok üretmez: boş src okuyucuda klasöre istek atıp kırık görsel gösterir.
+        return [{"type": "image", "src": src}] if src else []
     if kind == "caption":
         return [{"type": "caption", "en": fixer.rich(fixer.plain(element.get("content")))}]
     if kind == "table":

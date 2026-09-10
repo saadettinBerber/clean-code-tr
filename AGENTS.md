@@ -104,6 +104,12 @@ Clean Code/
 - **CSS/JS değişince**: `index.html` içindeki `?v=N` sürüm ekini artır (tarayıcı önbelleği).
 - **`odl_extract.py` ne yapar**: OpenDataLoader PDF ile kalın başlıklar, paragraflar, listeler, görseller ve caption'lar; PyMuPDF ile Clean Code'a özgü işler: Courier satırlarından girintili kod listeleri, `Listing N-N` caption'ları, bölüm açılış sayfaları, koşu başlığı/alt bilgi temizliği, font boyutuna göre dipnotlar, italik alıntı paragrafları, ters tırnakla işaretlenen satır içi kod, tire onarımı (örn. McGraw-Hill).
 - **Bağımlılıklar**: `opendataloader-pdf` ve `pymupdf` (pip) ile Java 11+ (OpenDataLoader Java tabanlıdır). `prepare_page.py` `ModuleNotFoundError` verirse: `python3 -m pip install -U opendataloader-pdf pymupdf`.
+- **macOS'ta Java**: Homebrew'un `openjdk` formülü keg-only'dir; kurulu olsa bile `/usr/libexec/java_home` onu bulamaz ve `prepare_page.py` "Unable to locate a Java Runtime" ile düşer. `prepare_page.py` çalıştırmadan önce:
+  ```sh
+  export JAVA_HOME="$(brew --prefix openjdk)/libexec/openjdk.jdk/Contents/Home"
+  export PATH="$JAVA_HOME/bin:$PATH"
+  ```
+  Kalıcı çözüm için bu iki satır `~/.zshrc`'ye eklenebilir. Java yoksa: `brew install openjdk`.
 - **toc/glossary'yi elle yeniden üretmek**: `cd tools && python3 toc_builder.py`.
 - Sayfa veri formatının ayrıntıları (blok tipleri, kavram kartı şeması, agent girdi/çıktı sözleşmesi) için `tools/FORMAT.md` okunur; burada tekrarlanmaz.
 
