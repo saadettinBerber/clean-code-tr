@@ -166,7 +166,7 @@ a { color: var(--navy); }
 [data-lang="parallel"] .sheet[data-lang="en"] .tr-text, [data-lang="parallel"] .sheet[data-lang="tr"] .en-text { display: none; }
 [data-lang="parallel"] .sheet[data-lang="tr"] .legacy .tr-text { display: inline; }
 [data-lang="parallel"] .sentence.revealed > .en-text, [data-lang="parallel"] .sentence.revealed > .tr-text { background: rgba(179, 139, 42, .22); }
-[data-lang="parallel"] .ui-pair .en-text { display: none; }
+[data-lang="parallel"] .ui-pair:not(.listing-caption) .en-text { display: none; }
 [data-lang="parallel"] .running-head .en-text { display: inline; }
 [data-lang="parallel"] .sheet[data-lang="en"] .running-head .tr-text { display: none; }
 [data-lang="parallel"] .sheet[data-lang="en"] .running-head .en-text { display: inline; }
@@ -210,7 +210,7 @@ a { color: var(--navy); }
 .listing-caption { padding: 9px 16px; border-bottom: 1px solid var(--ink); font-size: .95rem; line-height: 1.4; }
 .listing-caption .listing-label { font-weight: 700; }
 .listing-caption .listing-file { font-family: var(--font-mono); font-weight: 700; font-size: .9em; }
-.listing-caption .tr-text { display: none; }
+/* Listing başlığında dil, cümlelerle aynı kip kurallarına uyar (TR kipinde Türkçe, EN kipinde İngilizce). */
 pre.code { margin: 0; padding: 16px 18px; overflow-x: auto; background: var(--code-bg); color: var(--code-ink); font: .82rem/1.58 var(--font-mono); tab-size: 4; }
 pre.code code { font: inherit; }
 .figure { margin: 1.6em 0; text-align: center; }
