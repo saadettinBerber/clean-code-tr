@@ -77,7 +77,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Yorum satırına alınmış kod</span><span class=\"en-text\">Commented-out code</span></div>\n<pre\">InputStreamResponse response = <span class=\"kw\">new</span> InputStreamResponse();\n                response.setBody(formatter.getResultStream(), formatter.getByteCount());\n                <span class=\"comment\">//</span>\n<span class=\"comment\">// InputStream resultsStream = formatter.getResultStream();</span>\n<span class=\"comment\">// StreamReader reader = new StreamReader(resultsStream);</span>\n<span class=\"comment\">// response.setContent(reader.read(formatter.getByteCount()));</span>\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Yorum satırına alınmış kod</span><span class=\"en-text\">Commented-out code</span></div>\n<pre>InputStreamResponse response = <span class=\"kw\">new</span> InputStreamResponse();\n                response.setBody(formatter.getResultStream(), formatter.getByteCount());\n                <span class=\"comment\">//</span>\n<span class=\"comment\">// InputStream resultsStream = formatter.getResultStream();</span>\n<span class=\"comment\">// StreamReader reader = new StreamReader(resultsStream);</span>\n<span class=\"comment\">// response.setContent(reader.read(formatter.getByteCount()));</span>\n</pre\"></div>"
     },
     {
       "type": "para",
@@ -101,7 +101,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Apache commons — yorum satırındaki kod</span><span class=\"en-text\">Apache commons — commented-out code</span></div>\n<pre\"><span class=\"kw\">this</span>.bytePos = writeBytes(pngIdBytes, 0);\n                <span class=\"comment\">//hdrPos = bytePos;</span>\n                writeHeader();\n                writeResolution();\n                <span class=\"comment\">//dataPos = bytePos;</span>\n<span class=\"kw\">if</span> (writeImageData()) {\n                writeEnd();\n                <span class=\"kw\">this</span>.pngBytes = resizeByteArray(<span class=\"kw\">this</span>.pngBytes, <span class=\"kw\">this</span>.maxPos);\n                }\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Apache commons — yorum satırındaki kod</span><span class=\"en-text\">Apache commons — commented-out code</span></div>\n<pre><span class=\"kw\">this</span>.bytePos = writeBytes(pngIdBytes, 0);\n                <span class=\"comment\">//hdrPos = bytePos;</span>\n                writeHeader();\n                writeResolution();\n                <span class=\"comment\">//dataPos = bytePos;</span>\n<span class=\"kw\">if</span> (writeImageData()) {\n                writeEnd();\n                <span class=\"kw\">this</span>.pngBytes = resizeByteArray(<span class=\"kw\">this</span>.pngBytes, <span class=\"kw\">this</span>.maxPos);\n                }\n</pre\"></div>"
     },
     {
       "type": "html",

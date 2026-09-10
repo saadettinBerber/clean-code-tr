@@ -25,7 +25,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\">Listing 4-6 (devam) — wc.java</div>\n<pre\"> <span class=\"kw\">while</span> ((line = in.readLine()) != <span class=\"kw\">null</span>) {\n                lineCount++;\n                charCount += line.length();\n                String words[] = line.split(<span class=\"str\">\"\\\\W\"</span>);\n                wordCount += words.length;\n                } <span class=\"comment\">//while</span>\n                System.out.println(<span class=\"str\">\"wordCount = \"</span> + wordCount);\n                System.out.println(<span class=\"str\">\"lineCount = \"</span> + lineCount);\n                System.out.println(<span class=\"str\">\"charCount = \"</span> + charCount);\n                } <span class=\"comment\">// try</span>\n<span class=\"kw\">catch</span> (IOException e) {\n                System.err.println(<span class=\"str\">\"Error:\"</span> + e.getMessage());\n                } <span class=\"comment\">//catch</span>\n                } <span class=\"comment\">//main</span>\n                }\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\">Listing 4-6 (devam) — wc.java</div>\n<pre> <span class=\"kw\">while</span> ((line = in.readLine()) != <span class=\"kw\">null</span>) {\n                lineCount++;\n                charCount += line.length();\n                String words[] = line.split(<span class=\"str\">\"\\\\W\"</span>);\n                wordCount += words.length;\n                } <span class=\"comment\">//while</span>\n                System.out.println(<span class=\"str\">\"wordCount = \"</span> + wordCount);\n                System.out.println(<span class=\"str\">\"lineCount = \"</span> + lineCount);\n                System.out.println(<span class=\"str\">\"charCount = \"</span> + charCount);\n                } <span class=\"comment\">// try</span>\n<span class=\"kw\">catch</span> (IOException e) {\n                System.err.println(<span class=\"str\">\"Error:\"</span> + e.getMessage());\n                } <span class=\"comment\">//catch</span>\n                } <span class=\"comment\">//main</span>\n                }\n</pre\"></div>"
     },
     {
       "type": "heading",
@@ -36,7 +36,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Gereksiz atıf yorumu</span><span class=\"en-text\">Unnecessary attribution comment</span></div>\n<pre\"><span class=\"comment\">/* Rick tarafından eklendi */</span>\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Gereksiz atıf yorumu</span><span class=\"en-text\">Unnecessary attribution comment</span></div>\n<pre><span class=\"comment\">/* Rick tarafından eklendi */</span>\n</pre\"></div>"
     },
     {
       "type": "para",
@@ -57,7 +57,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Apache commons'tan — iki satır neden yorum\n                    satırı?</span><span class=\"en-text\">From apache commons — why are two lines\n                    commented?</span></div>\n<pre\"><span class=\"kw\">this</span>.bytePos = writeBytes(pngIdBytes, 0);\n                <span class=\"comment\">//hdrPos = bytePos;</span>\n                writeHeader();\n                writeResolution();\n                <span class=\"comment\">//dataPos = bytePos;</span>\n<span class=\"kw\">if</span> (writeImageData()) {\n                writeEnd();\n                <span class=\"kw\">this</span>.pngBytes = resizeByteArray(<span class=\"kw\">this</span>.pngBytes, <span class=\"kw\">this</span>.maxPos);\n                }\n                <span class=\"kw\">else</span> {\n                <span class=\"kw\">this</span>.pngBytes = <span class=\"kw\">null</span>;\n                }\n                <span class=\"kw\">return this</span>.pngBytes;\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Apache commons'tan — iki satır neden yorum\n                    satırı?</span><span class=\"en-text\">From apache commons — why are two lines\n                    commented?</span></div>\n<pre><span class=\"kw\">this</span>.bytePos = writeBytes(pngIdBytes, 0);\n                <span class=\"comment\">//hdrPos = bytePos;</span>\n                writeHeader();\n                writeResolution();\n                <span class=\"comment\">//dataPos = bytePos;</span>\n<span class=\"kw\">if</span> (writeImageData()) {\n                writeEnd();\n                <span class=\"kw\">this</span>.pngBytes = resizeByteArray(<span class=\"kw\">this</span>.pngBytes, <span class=\"kw\">this</span>.maxPos);\n                }\n                <span class=\"kw\">else</span> {\n                <span class=\"kw\">this</span>.pngBytes = <span class=\"kw\">null</span>;\n                }\n                <span class=\"kw\">return this</span>.pngBytes;\n</pre\"></div>"
     },
     {
       "type": "para",
