@@ -1,0 +1,138 @@
+window.PAGE({
+  "id": "page-9",
+  "page": 9,
+  "pdf_page": 40,
+  "chapter": {
+    "num": 1,
+    "en": "Clean Code",
+    "tr": "Temiz Kod"
+  },
+  "section": {
+    "en": "What Is Clean Code?",
+    "tr": "What Is Clean Code?"
+  },
+  "title": {
+    "en": "Crisp Abstraction & Dave Thomas",
+    "tr": "Keskin Soyutlama & \"Big\" Dave Thomas"
+  },
+  "blocks": [
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "[ Continued from page 8 ]",
+          "tr": "[ Sayfa 8'den devam ]",
+          "html": true
+        }
+      ],
+      "style": "continuation"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "the reader that \"Aha! Of course!\" as the issues and tensions are resolved in the revelation of an obvious solution.",
+          "tr": "— okuyucuya, sorunlar ve gerilimler apaçık bir çözümün ortaya çıkmasıyla çözüldüğünde \"Aaa! Tabii ki!\" dedirten o anı yaşatmalıdır.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "I find Grady's use of the phrase \"crisp abstraction\" to be a fascinating oxymoron! After all the word \"crisp\" is nearly a synonym for \"concrete.\" My MacBook's dictionary holds the following definition of \"crisp\": <em>briskly decisive and matter-of-fact, without hesitation or unnecessary detail.</em> Despite this seeming juxtaposition of meaning, the words carry a powerful message. Our code should be matter-of-fact as opposed to speculative. It should contain only what is necessary. Our readers should perceive us to have been decisive.",
+          "tr": "Grady'nin \"keskin soyutlama\" (crisp abstraction) ifadesini kullanmasını büyüleyici bir oksimoron (oxymoron) olarak görüyorum! Sonuçta \"keskin\" (crisp) kelimesi neredeyse \"somut\" (concrete) kelimesinin eş anlamlısıdır. MacBook'umdaki sözlük \"crisp\" için şu tanımı veriyor: <em>canlı biçimde kararlı ve pragmatik, tereddüt veya gereksiz detay içermeyen.</em> Bu görünürdeki anlam karşıtlığına rağmen, kelimeler güçlü bir mesaj taşır. Kodumuz spekülatif değil, olgusal (matter-of-fact) olmalıdır. Yalnızca gerekli olanı içermelidir. Okuyucularımız bizi kararlı (decisive) olarak algılamalıdır.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "html": "<div class=\"author-intro\">\n<span class=\"tr-text\">\"Big\" Dave Thomas, OTI'nin kurucusu, Eclipse stratejisinin babası</span>\n<span class=\"en-text\" style=\"display:none;\">\"Big\" Dave Thomas, founder of OTI, godfather of the Eclipse strategy</span>\n</div>"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Clean code can be read, and enhanced by a developer other than its original author. It has unit and acceptance tests. It has meaningful names. It provides one way rather than many ways for doing one thing. It has minimal dependencies, which are explicitly defined, and provides a clear and minimal API. Code should be literate since depending on the language, not all necessary information can be expressed clearly in code alone.",
+          "tr": "Temiz kod, orijinal yazarı dışındaki bir geliştirici tarafından okunabilir ve geliştirilebilir. Birim testleri (unit tests) ve kabul testleri (acceptance tests) vardır. Anlamlı isimleri (meaningful names) vardır. Bir şeyi yapmanın birçok yolu yerine tek bir yolunu sunar. Minimum düzeyde bağımlılıkları (dependencies) vardır — bunlar açıkça tanımlanmıştır — ve net, minimal bir API (Application Programming Interface) sunar. Kod, dile bağlı olarak gerekli tüm bilgi yalnızca kodda açıkça ifade edilemeyeceğinden, okuryazar (literate) olmalıdır.",
+          "html": true
+        }
+      ],
+      "style": "quote"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Big Dave shares Grady's desire for readability, but with an important twist. Dave asserts that clean code makes it easy for <em>other</em> people to enhance it. This may seem obvious, but it cannot be overemphasized. There is, after all, a difference between code that is easy to read and code that is easy to change.",
+          "tr": "\"Big\" Dave, Grady'nin okunabilirlik (readability) arzusunu paylaşır, ancak önemli bir farkla. Dave, temiz kodun <em>başka</em> insanların onu geliştirmesini (enhance) kolaylaştırdığını iddia eder. Bu açık görünebilir, ancak fazla vurgulanamaz. Sonuçta, okunması kolay kod ile değiştirilmesi kolay kod arasında bir fark vardır.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Dave ties cleanliness to tests! Ten years ago this would have raised a lot of eyebrows. But the discipline of Test Driven Development has made a profound impact upon our industry and has become one of our most fundamental disciplines. Dave is right. Code, without tests, is not clean. No matter how elegant it is, no matter how readable and accessible, if it hath not tests, it be unclean.",
+          "tr": "Dave temizliği testlere bağlıyor! On yıl önce bu pek çok kaşın kalkmasına neden olurdu. Ancak Test Güdümlü Geliştirme (Test Driven Development) disiplini endüstrimiz üzerinde derin bir etki yaratmış ve en temel disiplinlerimizden biri haline gelmiştir. Dave haklı. Testleri olmayan kod temiz değildir. Ne kadar zarif (elegant) olursa olsun, ne kadar okunabilir ve erişilebilir olursa olsun, eğer testleri yoksa, kirlidir (unclean).",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Dave uses the word <em>minimal</em> twice. Apparently he values code that is small, rather than code that is large. Indeed, this has been a common refrain throughout software literature since its inception. Smaller is better.",
+          "tr": "Dave <em>minimal</em> kelimesini iki kez kullanıyor. Görünüşe göre büyük kod yerine küçük kodu değerli buluyor. Gerçekten de bu, yazılım literatürünün başlangıcından beri tekrarlanan bir tema olmuştur. Küçük olan daha iyidir.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Dave also says that code should be <em>literate</em>. This is a soft reference to Knuth's <em>literate programming</em>.<sup>4</sup> The upshot is that the code should be composed in such a form as to make it readable by humans.",
+          "tr": "Dave ayrıca kodun <em>okuryazar</em> (literate) olması gerektiğini söylüyor. Bu, Knuth'un <em>okuryazar programlama</em> (literate programming) kavramına dolaylı bir referanstır.<sup>4</sup> Sonuç olarak, kod insanlar tarafından okunabilecek bir biçimde yazılmalıdır.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "footnote",
+      "en": "<sup>4</sup> [Knuth92].",
+      "tr": "<sup>4</sup> [Knuth92].",
+      "html": true
+    }
+  ],
+  "concepts": [
+    {
+      "id": "crispabstraction",
+      "title": {
+        "en": "Crisp Abstraction",
+        "tr": "Keskin Soyutlama (Crisp Abstraction)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Grady Booch'un \"keskin soyutlama\" (crisp abstraction) ifadesi büyüleyici bir oksimorondur: \"keskin\" (crisp) somutluğu çağrıştırırken, \"soyutlama\" (abstraction) tam tersini ifade eder. Martin'e göre bu ifade güçlü bir mesaj taşır: kodumuz <em>olgusal</em> (matter-of-fact) olmalı, spekülatif değil. Yalnızca gerekli olanı içermeli. Kararlı (decisive) olmalı — tereddüt ve gereksiz detay barındırmamalı. İyi bir soyutlama, somut bir biçimde sunulmalıdır.</span><span class=\"en-text\" style=\"display:none;\">Grady Booch's phrase \"crisp abstraction\" is a fascinating oxymoron: \"crisp\" evokes concreteness, while \"abstraction\" means the opposite. According to Martin, this carries a powerful message: our code should be <em>matter-of-fact</em>, not speculative. It should contain only what's necessary. It should be decisive — no hesitation, no unnecessary detail. A good abstraction should be presented in a concrete, clear manner.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Bulanık soyutlama: spekülatif, tereddütlü, gereksiz detayla dolu</span><span class=\"en-text\" style=\"display:none;\">BAD — Fuzzy abstraction: speculative, hesitant, full of unnecessary detail</span></span>\n<pre>class AbstractDataProcessorStrategyFactoryBase:\n    \"\"\"\n    Bu sınıf gelecekte farklı veri işleme stratejileri\n    için kullanılabilecek bir temel fabrika sağlar.\n    Şimdilik sadece CSV destekleniyor ama JSON, XML,\n    YAML ve belki Parquet de eklenebilir.\n    \"\"\"\n    def maybe_process(self, data, options=None, context=None,\n                      retry_count=3, fallback=None, \n                      enable_logging=True, dry_run=False):\n        if data is not None:\n            if options is not None:\n                if context is not None:\n                    if not dry_run:\n                        return self._do_process_internal(data)\n                    else:\n                        return self._simulate(data)\n                else:\n                    return self._do_process_internal(data)\n            else:\n                return self._do_process_internal(data)\n        return fallback</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Burada her şey spekülatif ve tereddütlü. Sınıf adı (\"maybe_process\", \"AbstractDataProcessorStrategyFactoryBase\") soyutlamayı bulanıklaştırıyor. Kullanılmayan parametreler (<code>retry_count</code>, <code>enable_logging</code>) \"belki lazım olur\" zihniyetiyle eklenmiş. İç içe <code>if</code>'ler kararsızlığı yansıtıyor.</span><span class=\"en-text\" style=\"display:none;\">Everything here is speculative and hesitant. The class name (\"maybe_process\", \"AbstractDataProcessorStrategyFactoryBase\") makes the abstraction fuzzy. Unused parameters (<code>retry_count</code>, <code>enable_logging</code>) were added with a \"might need it\" mentality. Nested <code>if</code>s reflect indecisiveness.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Keskin soyutlama: kararlı, olgusal, yalnızca gerekli olanı içerir</span><span class=\"en-text\" style=\"display:none;\">GOOD — Crisp abstraction: decisive, matter-of-fact, contains only what's necessary</span></span>\n<pre>class CsvParser:\n    def parse(self, content: str) -&gt; list[dict]:\n        rows = content.strip().splitlines()\n        headers = rows[0].split(',')\n        return [\n            dict(zip(headers, row.split(',')))\n            for row in rows[1:]\n        ]\n\nclass JsonParser:\n    def parse(self, content: str) -&gt; list[dict]:\n        return json.loads(content)</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">\"Keskin\" soyutlama testi: sınıfınızın veya fonksiyonunuzun adını söylediğinizde, ne yaptığı hemen anlaşılmalıdır. \"CsvParser.parse(content)\" → \"CSV içeriğini ayrıştır.\" Eğer ismi açıklamak için iki cümle gerekiyorsa, soyutlamanız yeterince keskin değildir. \"Maybe\", \"Abstract\", \"Base\", \"Manager\", \"Helper\" gibi bulanık kelimelerden kaçının.</span><span class=\"en-text\" style=\"display:none;\">\"Crisp\" abstraction test: when you say your class or function name, what it does should be immediately clear. \"CsvParser.parse(content)\" → \"Parse CSV content.\" If you need two sentences to explain the name, your abstraction isn't crisp enough. Avoid fuzzy words like \"Maybe\", \"Abstract\", \"Base\", \"Manager\", \"Helper\".</span></div>"
+    },
+    {
+      "id": "testsclean",
+      "title": {
+        "en": "Code Without Tests Is Unclean",
+        "tr": "Testsiz Kod Kirlidir (Code Without Tests Is Unclean)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">\"Big\" Dave Thomas temizliği doğrudan testlere bağlar: \"Testleri olmayan kod temiz değildir.\" Martin bunu güçlendirir: \"Ne kadar zarif olursa olsun, ne kadar okunabilir olursa olsun, eğer testleri yoksa, kirlidir.\" Test Güdümlü Geliştirme (TDD) disiplini endüstriyi dönüştürmüştür. Testler yalnızca hataları bulmak için değil, kodun <em>değiştirilebilir</em> olmasını garanti altına almak için vardır — çünkü okunması kolay ama değiştirilmesi riskli kod, gerçekten temiz değildir.</span><span class=\"en-text\" style=\"display:none;\">\"Big\" Dave Thomas ties cleanliness directly to tests: \"Code without tests is not clean.\" Martin reinforces this: \"No matter how elegant, no matter how readable, if it hath not tests, it be unclean.\" The discipline of Test Driven Development (TDD) has transformed the industry. Tests exist not just to find bugs, but to guarantee that code is <em>changeable</em> — because code that's easy to read but risky to change isn't truly clean.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — \"Zarif\" ama testsiz: değiştirmeye cesaret edilemez</span><span class=\"en-text\" style=\"display:none;\">BAD — \"Elegant\" but untested: nobody dares to change it</span></span>\n<pre>class ShippingCalculator {\n    calculateCost(weight, destination, isExpress) {\n        const baseRate = destination.startsWith('EU') ? 5.0 : 12.0;\n        const weightFactor = Math.ceil(weight / 0.5) * 1.5;\n        const expressSurcharge = isExpress ? baseRate * 0.75 : 0;\n        \n        return baseRate + weightFactor + expressSurcharge;\n    }\n}\n\n// Güzel görünüyor ama...\n// - Bu formül doğru mu? Kim doğrulayacak?\n// - \"EU\" kontrolü yeterli mi? İngiltere ne olacak?\n// - 0.5 ve 1.5 nereden geliyor? Değişirse?\n// - İş kuralları değiştiğinde kim fark edecek?</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Kod kısa ve okunabilir görünüyor — ama testleri yok. Formülün doğruluğunu hiçbir şey garanti etmiyor. İş kuralları değiştiğinde, kimse mevcut hesaplamanın bozulup bozulmadığını bilemez. \"Zarif ama testsiz\" = \"kirli.\"</span><span class=\"en-text\" style=\"display:none;\">The code looks short and readable — but has no tests. Nothing guarantees the formula is correct. When business rules change, nobody can tell if existing calculations break. \"Elegant but untested\" = \"unclean.\"</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Testlerle korunan kod: güvenle değiştirilebilir</span><span class=\"en-text\" style=\"display:none;\">GOOD — Code protected by tests: can be changed with confidence</span></span>\n<pre>describe('ShippingCalculator', () =&gt; {\n    it('applies EU base rate for European destinations', () =&gt; {\n        expect(calculator.calculateCost(1.0, 'EU-DE', false))\n            .toBe(5.0 + 3.0);\n    });\n\n    it('applies international rate for non-EU destinations', () =&gt; {\n        expect(calculator.calculateCost(1.0, 'US-NY', false))\n            .toBe(12.0 + 3.0);\n    });\n\n    it('adds 75% express surcharge on base rate', () =&gt; {\n        expect(calculator.calculateCost(1.0, 'EU-FR', true))\n            .toBe(5.0 + 3.0 + 3.75);\n    });\n\n    it('rounds weight up to nearest 0.5kg increment', () =&gt; {\n        expect(calculator.calculateCost(0.3, 'EU-DE', false))\n            .toBe(5.0 + 1.5);\n        expect(calculator.calculateCost(0.7, 'EU-DE', false))\n            .toBe(5.0 + 3.0);\n    });\n});</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">TDD döngüsünü uygulayın: (1) Başarısız bir test yaz (Red), (2) Testi geçirecek minimum kodu yaz (Green), (3) Kodu temizle (Refactor). Bu döngü sayesinde kodunuz her zaman test kapsamındadır. Dave Thomas'ın dediği gibi: testleri olmayan kod, ne kadar güzel olursa olsun, temiz değildir.</span><span class=\"en-text\" style=\"display:none;\">Apply the TDD cycle: (1) Write a failing test (Red), (2) Write minimal code to pass (Green), (3) Clean up (Refactor). With this cycle, your code always has test coverage. As Dave Thomas says: code without tests, no matter how beautiful, is not clean.</span></div>"
+    },
+    {
+      "id": "literate",
+      "title": {
+        "en": "Literate Programming",
+        "tr": "Okuryazar Programlama (Literate Programming)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">\"Big\" Dave Thomas, kodun \"okuryazar\" (literate) olması gerektiğini söyler — bu, Donald Knuth'un \"okuryazar programlama\" (literate programming) kavramına bir referanstır. Knuth'a göre programlar önce insanlar için, sonra bilgisayarlar için yazılmalıdır. Dave, dile bağlı olarak tüm gerekli bilginin yalnızca kodda açıkça ifade edilemeyeceğini vurgular. Kod, insanlar tarafından <em>okunabilecek</em> bir biçimde yazılmalıdır — bir makineye talimat vermekten öte, bir insana hikâye anlatmalıdır.</span><span class=\"en-text\" style=\"display:none;\">\"Big\" Dave Thomas says code should be \"literate\" — a reference to Donald Knuth's \"literate programming\" concept. According to Knuth, programs should be written primarily for humans, then for computers. Dave emphasizes that depending on the language, not all necessary information can be expressed clearly in code alone. Code should be composed in a form that makes it <em>readable by humans</em> — beyond giving instructions to a machine, it should tell a story to a person.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Makine için yazılmış: insan için okunamaz</span><span class=\"en-text\" style=\"display:none;\">BAD — Written for machines: unreadable for humans</span></span>\n<pre>public List&lt;int[]&gt; getThem() {\n    List&lt;int[]&gt; list1 = new ArrayList&lt;&gt;();\n    for (int[] x : theList) {\n        if (x[0] == 4)\n            list1.add(x);\n    }\n    return list1;\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Bu kod derlenebilir ve çalışır — ama ne yaptığını anlamak imkânsızdır. <code>theList</code> ne? <code>x[0]</code> ne anlama geliyor? <code>4</code> ne demek? Kod makineye talimat veriyor ama insana hiçbir şey anlatmıyor. \"Okuryazar\" değil.</span><span class=\"en-text\" style=\"display:none;\">This code compiles and runs — but understanding what it does is impossible. What's <code>theList</code>? What does <code>x[0]</code> mean? What does <code>4</code> represent? The code instructs the machine but tells the human nothing. Not \"literate.\"</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — İnsan için yazılmış: kod kendi hikâyesini anlatır</span><span class=\"en-text\" style=\"display:none;\">GOOD — Written for humans: code tells its own story</span></span>\n<pre>public List&lt;Cell&gt; getFlaggedCells() {\n    List&lt;Cell&gt; flaggedCells = new ArrayList&lt;&gt;();\n    for (Cell cell : gameBoard) {\n        if (cell.isFlagged())\n            flaggedCells.add(cell);\n    }\n    return flaggedCells;\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">Kodunuzu okuryazar yapmak için şu kuralı uygulayın: her değişken, fonksiyon ve sınıf adı bir <em>niyet</em> ifade etmelidir. \"theList\" yerine \"gameBoard\", \"x[0] == 4\" yerine \"cell.isFlagged()\" yazın. Dave Thomas'ın dediği gibi: tüm gerekli bilgi kodda açıkça ifade edilemeyebilir, ama ifade edebildiğiniz kadarını mümkün olduğunca net ifade edin.</span><span class=\"en-text\" style=\"display:none;\">To make code literate, apply this rule: every variable, function, and class name should express an <em>intent</em>. Write \"gameBoard\" instead of \"theList\", \"cell.isFlagged()\" instead of \"x[0] == 4\". As Dave Thomas says: not all necessary information can be expressed in code alone, but express what you can as clearly as possible.</span></div>"
+    }
+  ]
+});

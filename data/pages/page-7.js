@@ -1,0 +1,150 @@
+window.PAGE({
+  "id": "page-7",
+  "page": 7,
+  "pdf_page": 38,
+  "chapter": {
+    "num": 1,
+    "en": "Clean Code",
+    "tr": "Temiz Kod"
+  },
+  "section": {
+    "en": "The Art of Clean Code?, What Is Clean Code?",
+    "tr": "The Art of Clean Code?, What Is Clean Code?"
+  },
+  "title": {
+    "en": "What Is Clean Code?",
+    "tr": "Temiz Kod Nedir? — Bjarne Stroustrup"
+  },
+  "blocks": [
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "[ Continued from page 6 ]",
+          "tr": "[ Sayfa 6'dan devam ]",
+          "html": true
+        }
+      ],
+      "style": "continuation"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Writing clean code requires the disciplined use of a myriad little techniques applied through a painstakingly acquired sense of \"cleanliness.\" This \"code-sense\" is the key. Some of us are born with it. Some of us have to fight to acquire it. Not only does it let us see whether code is good or bad, but it also shows us the strategy for applying our discipline to transform bad code into clean code.",
+          "tr": "Temiz kod yazmak, zahmetli bir süreçte edinilen bir \"temizlik\" duygusuyla uygulanan sayısız küçük tekniğin disiplinli kullanımını gerektirir. Bu \"kod duygusu\" (code-sense) anahtardır. Bazılarımız onunla doğar. Bazılarımız onu edinmek için savaşmak zorundadır. Kod duygusu yalnızca kodun iyi mi kötü mü olduğunu görmemizi sağlamakla kalmaz, aynı zamanda kötü kodu temiz koda dönüştürmek için disiplinimizi uygulama stratejisini de gösterir.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "A programmer without \"code-sense\" can look at a messy module and recognize the mess but will have no idea what to do about it. A programmer with \"code-sense\" will look at a messy module and see options and variations. The \"code-sense\" will help that programmer choose the best variation and guide him or her to plot a sequence of behavior preserving transformations to get from here to there.",
+          "tr": "\"Kod duygusu\" (code-sense) olmayan bir programcı dağınık bir modüle (module) bakıp karmaşayı fark edebilir ama ne yapacağı hakkında hiçbir fikri olmaz. \"Kod duygusu\" olan bir programcı ise dağınık bir modüle bakıp seçenekleri ve varyasyonları görür. \"Kod duygusu\", o programcının en iyi varyasyonu seçmesine ve davranışı koruyan dönüşümlerin (behavior preserving transformations) bir dizisini planlayarak mevcut durumdan hedeflenen duruma ulaşmasına rehberlik eder.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "In short, a programmer who writes clean code is an artist who can take a blank screen through a series of transformations until it is an elegantly coded system.",
+          "tr": "Kısacası, temiz kod yazan bir programcı, boş bir ekranı bir dizi dönüşümden (transformations) geçirerek zarif bir şekilde kodlanmış (elegantly coded) bir sisteme dönüştürebilen bir sanatkârdır.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 1,
+      "en": "What Is Clean Code?",
+      "tr": "Temiz Kod Nedir? / What Is Clean Code?",
+      "html": true
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "There are probably as many definitions as there are programmers. So I asked some very well-known and deeply experienced programmers what they thought.",
+          "tr": "Muhtemelen programcı sayısı kadar tanım vardır. Bu yüzden çok tanınmış ve derin deneyime sahip bazı programcılara ne düşündüklerini sordum.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "html": "<div class=\"author-intro\">\n<span class=\"tr-text\">Bjarne Stroustrup, C++'ın yaratıcısı ve <em>The C++ Programming Language</em> kitabının yazarı</span>\n<span class=\"en-text\" style=\"display:none;\">Bjarne Stroustrup, inventor of C++ and author of <em>The C++ Programming Language</em></span>\n</div>"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "I like my code to be elegant and efficient. The logic should be straightforward to make it hard for bugs to hide, the dependencies minimal to ease maintenance, error handling complete according to an articulated strategy, and performance close to optimal so as not to tempt people to make the code messy with unprincipled optimizations. Clean code does one thing well.",
+          "tr": "Kodumun zarif (elegant) ve verimli (efficient) olmasını severim. Mantık, hataların (bugs) saklanmasını zorlaştıracak kadar açık olmalı; bağımlılıklar (dependencies) bakımı kolaylaştırmak için minimum düzeyde tutulmalı; hata yönetimi (error handling) açıkça ifade edilmiş bir stratejiye göre eksiksiz olmalı; ve performans, insanları ilkesiz optimizasyonlarla (unprincipled optimizations) kodu kirletmeye kışkırtmamak için optimale yakın olmalıdır. Temiz kod bir şeyi iyi yapar.",
+          "html": true
+        }
+      ],
+      "style": "quote"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Bjarne uses the word \"elegant.\" That's quite a word! The dictionary in my MacBook® provides the following definitions: <em>pleasingly graceful and stylish in appearance or manner; pleasingly ingenious and simple</em>. Notice the emphasis on the word \"pleasing.\" Apparently Bjarne thinks that clean code is <em>pleasing</em> to read. Reading it should make you smile the way a well-crafted music box or well-designed car would.",
+          "tr": "Bjarne \"zarif\" (elegant) kelimesini kullanıyor. Bu oldukça güçlü bir kelime! MacBook®'umdaki sözlük şu tanımları veriyor: <em>görünüm veya tavır bakımından hoş derecede zarif ve şık; hoş derecede yaratıcı ve basit</em>. \"Hoş\" (pleasing) kelimesine yapılan vurguya dikkat edin. Görünüşe göre Bjarne, temiz kodun okunmasının <em>hoş</em> olduğunu düşünüyor. Kodu okumak, iyi yapılmış bir müzik kutusu ya da iyi tasarlanmış bir araba gibi sizi gülümsetmelidir.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Bjarne also mentions efficiency—<em>twice</em>. Perhaps this should not surprise us coming from the inventor of C++; but I think there's more to it than the sheer desire for speed. Wasted cycles are inelegant, they are not pleasing. And now note the word that Bjarne uses",
+          "tr": "Bjarne ayrıca verimlilikten (efficiency) <em>iki kez</em> bahsediyor. C++'ın yaratıcısından geldiği düşünüldüğünde belki bu bizi şaşırtmamalı; ama bence bunun salt hız arzusundan ötesi var. Boşa harcanan döngüler zarafetle bağdaşmaz, hoş değildir. Ve şimdi Bjarne'nin kullandığı kelimeye dikkat edin —",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "[ Continued on page 8 ]",
+          "tr": "[ Sayfa 8'e devam edilecek ]",
+          "html": true
+        }
+      ],
+      "style": "continuation"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "codesense",
+      "title": {
+        "en": "Code-Sense",
+        "tr": "Kod Duygusu (Code-Sense)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Martin'e göre \"kod duygusu\" (code-sense), temiz kod yazmanın anahtarıdır. Bu yeti yalnızca kodun iyi mi kötü mü olduğunu görmenizi sağlamakla kalmaz; aynı zamanda kötü kodu temiz koda dönüştürmek için hangi adımları atacağınızı da gösterir. Kod duygusu olan bir programcı bir karmaşayı gördüğünde seçenekleri ve varyasyonları fark eder — kod duygusu olmayan programcı ise sadece karmaşayı fark edip çaresiz kalır.</span><span class=\"en-text\" style=\"display:none;\">According to Martin, \"code-sense\" is the key to writing clean code. This sense not only lets you see whether code is good or bad; it also shows you the strategy for transforming bad code into clean code. A programmer with code-sense sees options and variations when looking at a mess — a programmer without it only recognizes the mess but feels helpless.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Karmaşayı fark ediyor ama ne yapacağını bilmiyor</span><span class=\"en-text\" style=\"display:none;\">BAD — Recognizes the mess but doesn't know what to do</span></span>\n<pre>function getReport(data, type, format, includeHeader, sortBy, filterBy) {\n    let result = [];\n    for (let i = 0; i &lt; data.length; i++) {\n        if (filterBy) {\n            if (data[i][filterBy.field] === filterBy.value) {\n                result.push(data[i]);\n            }\n        } else {\n            result.push(data[i]);\n        }\n    }\n    if (sortBy) {\n        result.sort((a, b) =&gt; a[sortBy] &gt; b[sortBy] ? 1 : -1);\n    }\n    if (type === 'summary') {\n        let summary = {};\n        for (let i = 0; i &lt; result.length; i++) {\n            // ... 40 satır daha\n        }\n        return formatOutput(summary, format, includeHeader);\n    } else if (type === 'detailed') {\n        // ... 60 satır daha\n    }\n    return formatOutput(result, format, includeHeader);\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Bu fonksiyonun kötü olduğunu hissedebilirsiniz — ama \"nasıl düzeltirim?\" sorusuna cevabınız yoksa, henüz kod duygunuz gelişmemiş demektir.</span><span class=\"en-text\" style=\"display:none;\">You can feel this function is bad — but if you can't answer \"how do I fix it?\", your code-sense hasn't developed yet.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Kod duygusuyla dönüştürülmüş: her adım davranışı koruyarak</span><span class=\"en-text\" style=\"display:none;\">GOOD — Transformed with code-sense: each step preserving behavior</span></span>\n<pre>class ReportBuilder {\n    constructor(data) {\n        this.pipeline = [...data];\n    }\n\n    filterBy(field, value) {\n        this.pipeline = this.pipeline.filter(item =&gt; item[field] === value);\n        return this;\n    }\n\n    sortBy(field) {\n        this.pipeline.sort((a, b) =&gt; a[field] &gt; b[field] ? 1 : -1);\n        return this;\n    }\n\n    build(strategy) {\n        return strategy.generate(this.pipeline);\n    }\n}\n\nconst report = new ReportBuilder(salesData)\n    .filterBy('region', 'EMEA')\n    .sortBy('revenue')\n    .build(new SummaryStrategy());</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">Kod duygunuzu geliştirmek için \"refactoring kata\" yapın: Bilerek karmaşık bir fonksiyon alıp, her adımda testlerin geçmeye devam ettiğinden emin olarak küçük dönüşümler uygulayın. Extract Method, Replace Conditional with Polymorphism, Introduce Parameter Object gibi refactoring tekniklerini pratik edin.</span><span class=\"en-text\" style=\"display:none;\">To develop code-sense, do \"refactoring katas\": deliberately take a messy function and apply small transformations, ensuring tests pass at each step. Practice techniques like Extract Method, Replace Conditional with Polymorphism, Introduce Parameter Object.</span></div>"
+    },
+    {
+      "id": "elegant",
+      "title": {
+        "en": "Elegant Code",
+        "tr": "Zarif Kod (Elegant Code)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Bjarne Stroustrup temiz kodu tanımlarken \"zarif\" (elegant) kelimesini kullanır. Martin bu kelimeyi sözlükten açar: <em>\"görünüm veya tavır bakımından hoş derecede zarif ve şık; hoş derecede yaratıcı ve basit.\"</em> Zarif kod okunması hoş olan koddur — iyi yapılmış bir müzik kutusu gibi sizi gülümsetir. Aynı zamanda verimlidir (efficient): boşa harcanan döngüler zarafetle bağdaşmaz.</span><span class=\"en-text\" style=\"display:none;\">Bjarne Stroustrup uses the word \"elegant\" when defining clean code. Martin looks it up: <em>\"pleasingly graceful and stylish in appearance or manner; pleasingly ingenious and simple.\"</em> Elegant code is pleasing to read — it makes you smile like a well-crafted music box. It's also efficient: wasted cycles are inelegant.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Ne zarif ne de verimli</span><span class=\"en-text\" style=\"display:none;\">BAD — Neither elegant nor efficient</span></span>\n<pre>def find_duplicates(items):\n    duplicates = []\n    for i in range(len(items)):\n        for j in range(len(items)):\n            if i != j and items[i] == items[j]:\n                if items[i] not in duplicates:\n                    duplicates.append(items[i])\n    return duplicates\n\n# O(n²) karmaşıklık, okunması zor, niyeti belirsiz</pre>\n<div class=\"explanation\"><span class=\"tr-text\">İç içe döngü hem verimsiz (O(n²)) hem de okunması güç. Kodun amacı (niyet) iç içe geçmiş mantığın arkasına gizlenmiş durumda.</span><span class=\"en-text\" style=\"display:none;\">Nested loops are both inefficient (O(n²)) and hard to read. The code's intent is buried behind tangled logic.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Zarif: basit, verimli, niyeti açık</span><span class=\"en-text\" style=\"display:none;\">GOOD — Elegant: simple, efficient, clear intent</span></span>\n<pre>def find_duplicates(items):\n    seen = set()\n    return {item for item in items if item in seen or seen.add(item)}\n\n# O(n) karmaşıklık, tek satır, niyet kristal netliğinde\n# \"Daha önce gördüklerimi bul\" — hepsi bu</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">Zarafet testi: Kodunuzu sesli okuyun. Eğer bir cümle gibi akıyorsa, zariftir. Eğer kendinize \"bu ne yapıyor?\" diye soruyorsanız, henüz zarif değildir. Bjarne'nin dediği gibi: kod sizi gülümsetmeli.</span><span class=\"en-text\" style=\"display:none;\">Elegance test: read your code aloud. If it flows like a sentence, it's elegant. If you ask yourself \"what does this do?\", it's not elegant yet. As Bjarne says: code should make you smile.</span></div>"
+    },
+    {
+      "id": "onething",
+      "title": {
+        "en": "Does One Thing Well",
+        "tr": "Bir Şeyi İyi Yap (Does One Thing Well)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Bjarne Stroustrup'un temiz kod tanımı şu cümleyle biter: <em>\"Temiz kod bir şeyi iyi yapar.\"</em> Bu, Tek Sorumluluk İlkesinin (Single Responsibility Principle) özüdür. Her fonksiyon, her sınıf, her modül tek bir amaca odaklanmalıdır. Birden fazla şey yapmaya çalışan kod karmaşıklaşır, test edilmesi zorlaşır ve değişikliklere kırılgan hale gelir.</span><span class=\"en-text\" style=\"display:none;\">Bjarne Stroustrup's clean code definition ends with: <em>\"Clean code does one thing well.\"</em> This is the essence of the Single Responsibility Principle. Every function, class, and module should focus on a single purpose. Code that tries to do multiple things becomes complex, hard to test, and fragile to changes.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Bir fonksiyon, üç sorumluluk</span><span class=\"en-text\" style=\"display:none;\">BAD — One function, three responsibilities</span></span>\n<pre>public class UserManager {\n    public boolean registerUser(String email, String password) {\n        // 1. Validasyon\n        if (email == null || !email.contains(\"@\")) return false;\n        if (password.length() &lt; 8) return false;\n\n        // 2. Veritabanına kayıt\n        Connection conn = DriverManager.getConnection(DB_URL);\n        PreparedStatement stmt = conn.prepareStatement(\n            \"INSERT INTO users (email, password) VALUES (?, ?)\");\n        stmt.setString(1, email);\n        stmt.setString(2, hashPassword(password));\n        stmt.executeUpdate();\n        conn.close();\n\n        // 3. Hoş geldin e-postası gönder\n        Transport transport = Session.getInstance(props).getTransport();\n        transport.connect();\n        MimeMessage msg = new MimeMessage(session);\n        msg.setSubject(\"Hoş geldiniz!\");\n        msg.setText(\"Kayıt başarılı...\");\n        transport.sendMessage(msg, msg.getAllRecipients());\n        transport.close();\n\n        return true;\n    }\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Bu fonksiyon validasyon, veritabanı kaydı ve e-posta gönderimi olmak üzere üç farklı şey yapıyor. Herhangi birinde değişiklik gerektiğinde tüm fonksiyonu anlamak ve riske atmak zorundasınız.</span><span class=\"en-text\" style=\"display:none;\">This function does three different things: validation, database saving, and email sending. Changing any one requires understanding and risking the entire function.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Her bileşen bir şeyi iyi yapar</span><span class=\"en-text\" style=\"display:none;\">GOOD — Each component does one thing well</span></span>\n<pre>public class UserRegistration {\n    private final UserValidator validator;\n    private final UserRepository repository;\n    private final WelcomeMailer mailer;\n\n    public User register(RegistrationRequest request) {\n        validator.validate(request);\n        User user = repository.save(request.toUser());\n        mailer.sendWelcome(user);\n        return user;\n    }\n}\n\npublic class UserValidator {\n    public void validate(RegistrationRequest request) {\n        requireValidEmail(request.email());\n        requireStrongPassword(request.password());\n    }\n}\n\npublic class UserRepository {\n    public User save(User user) { /* sadece kayıt */ }\n}\n\npublic class WelcomeMailer {\n    public void sendWelcome(User user) { /* sadece e-posta */ }\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">Fonksiyonunuzun ne yaptığını tek cümlede açıklayın. Eğer cümlede \"ve\" veya \"veya\" kullanmak zorunda kalıyorsanız, fonksiyonunuz birden fazla şey yapıyor demektir. \"Bu fonksiyon kullanıcıyı doğrular VE kaydeder VE e-posta gönderir\" → üç fonksiyon olmalı.</span><span class=\"en-text\" style=\"display:none;\">Describe what your function does in one sentence. If you need \"and\" or \"or\" in that sentence, your function does more than one thing. \"This function validates the user AND saves AND sends email\" → should be three functions.</span></div>"
+    }
+  ]
+});

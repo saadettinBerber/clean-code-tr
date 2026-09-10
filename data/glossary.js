@@ -1,0 +1,942 @@
+window.GLOSSARY = [
+  {
+    "en": "Abstract Factory",
+    "tr": "Soyut Fabrika (Abstract Factory)",
+    "note": "Nesne oluşturma mantığını gizleyen tasarım deseni"
+  },
+  {
+    "en": "Abstraction",
+    "tr": "Soyutlama (Abstraction)",
+    "note": ""
+  },
+  {
+    "en": "Acceptance Test",
+    "tr": "Kabul Testi (Acceptance Test)",
+    "note": "Kullanıcı gereksinimlerini doğrulayan test"
+  },
+  {
+    "en": "Accessor",
+    "tr": "Erişimci (Accessor)",
+    "note": "JavaBean standardında get metotları"
+  },
+  {
+    "en": "Address",
+    "tr": "Adres (Address)",
+    "note": ""
+  },
+  {
+    "en": "Agile",
+    "tr": "Çevik (Agile)",
+    "note": "Çevik yazılım geliştirme"
+  },
+  {
+    "en": "Argument",
+    "tr": "Argüman (Argument)",
+    "note": "Fonksiyona geçirilen parametre"
+  },
+  {
+    "en": "Argument List",
+    "tr": "Argüman Listesi (Argument List)",
+    "note": "Değişken sayıda argüman alan fonksiyonlar (varargs)"
+  },
+  {
+    "en": "Argument Object",
+    "tr": "Argüman Nesnesi (Argument Object)",
+    "note": "Birden fazla argümanı bir sınıfa sarma tekniği"
+  },
+  {
+    "en": "Aspect Oriented Programming",
+    "tr": "Görünüm Yönelimli Programlama (AOP)",
+    "note": "Tekrarı kaldırma stratejilerinden biri"
+  },
+  {
+    "en": "Attention to Detail",
+    "tr": "Detaylara Dikkat (Attention to Detail)",
+    "note": "Temiz kodun temel özelliği"
+  },
+  {
+    "en": "Author",
+    "tr": "Yazar (Author)",
+    "note": ""
+  },
+  {
+    "en": "Autocomplete / Code Completion",
+    "tr": "Otomatik Kod Tamamlama (Autocomplete)",
+    "note": "IDE'nin isim önerme özelliği"
+  },
+  {
+    "en": "Bad Code",
+    "tr": "Kötü Kod (Bad Code)",
+    "note": "Bakımı zor, okunması güç kod"
+  },
+  {
+    "en": "Beautiful Code",
+    "tr": "Güzel Kod (Beautiful Code)",
+    "note": ""
+  },
+  {
+    "en": "Bibliography",
+    "tr": "Kaynakça (Bibliography)",
+    "note": ""
+  },
+  {
+    "en": "Boy Scout Rule",
+    "tr": "İzci Kuralı (Boy Scout Rule)",
+    "note": "Kamp alanını bulduğundan daha temiz bırak prensibi"
+  },
+  {
+    "en": "Broken Windows",
+    "tr": "Kırık Pencereler (Broken Windows)",
+    "note": "Pragmatik Programcılar metaforu: bir kırık pencere tüm binayı çürütür"
+  },
+  {
+    "en": "Bug",
+    "tr": "Hata (Bug)",
+    "note": "Sektörde \"bug\" olarak da kullanılır"
+  },
+  {
+    "en": "Care",
+    "tr": "Önemseme (Care)",
+    "note": "Zanaata ve koda duyulan özen"
+  },
+  {
+    "en": "Clarity",
+    "tr": "Açıklık (Clarity)",
+    "note": "Kodun anlaşılırlığı"
+  },
+  {
+    "en": "Class",
+    "tr": "Sınıf (Class)",
+    "note": ""
+  },
+  {
+    "en": "Class Name",
+    "tr": "Sınıf İsmi (Class Name)",
+    "note": ""
+  },
+  {
+    "en": "Clean Code",
+    "tr": "Temiz Kod (Clean Code)",
+    "note": ""
+  },
+  {
+    "en": "Code Smell",
+    "tr": "Kod Kokusu (Code Smell)",
+    "note": "Koddaki potansiyel sorunların belirtisi"
+  },
+  {
+    "en": "Code-Sense",
+    "tr": "Kod Duygusu (Code-Sense)",
+    "note": "Temiz kodu kirli koddan ayırt etme ve düzeltme yetisi"
+  },
+  {
+    "en": "Cognitive Break",
+    "tr": "Bilişsel Kesinti (Cognitive Break)",
+    "note": "Fonksiyon imzasını kontrol etme gerekliliği"
+  },
+  {
+    "en": "Collection Abstraction",
+    "tr": "Koleksiyon Soyutlama (Collection Abstraction)",
+    "note": ""
+  },
+  {
+    "en": "Command Query Separation",
+    "tr": "Komut Sorgu Ayrımı (Command Query Separation)",
+    "note": "Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil"
+  },
+  {
+    "en": "Commit",
+    "tr": "Commit",
+    "note": "Çevrilmez, olduğu gibi kullanılır"
+  },
+  {
+    "en": "Commitment",
+    "tr": "Taahhüt (Commitment)",
+    "note": ""
+  },
+  {
+    "en": "Compiler",
+    "tr": "Derleyici (Compiler)",
+    "note": "Kaynak kodu makine koduna çeviren program"
+  },
+  {
+    "en": "Component Oriented Programming",
+    "tr": "Bileşen Yönelimli Programlama (COP)",
+    "note": "Tekrarı kaldırma stratejilerinden biri"
+  },
+  {
+    "en": "Composed Method",
+    "tr": "Oluşturulmuş Metot (Composed Method)",
+    "note": "Metodu küçük adımlara bölerek oluşturma"
+  },
+  {
+    "en": "Consistent Lexicon",
+    "tr": "Tutarlı Kelime Haznesi (Consistent Lexicon)",
+    "note": "Kod tabanında tutarlı terimler kullanma prensibi"
+  },
+  {
+    "en": "Container",
+    "tr": "Kap (Container)",
+    "note": "Veri yapısı kapsayıcısı (List, Set, Map vb.)"
+  },
+  {
+    "en": "Context",
+    "tr": "Bağlam (Context)",
+    "note": "Kodun anlaşılması için gereken çevresel bilgi"
+  },
+  {
+    "en": "Continuous Improvement",
+    "tr": "Sürekli İyileştirme (Continuous Improvement)",
+    "note": ""
+  },
+  {
+    "en": "Conundrum",
+    "tr": "İkilem (Conundrum)",
+    "note": "Temiz kodun temel felsefesiyle ilgili zorluk"
+  },
+  {
+    "en": "Coupling",
+    "tr": "Bağımlılık (Coupling)",
+    "note": "Bileşenlerin birbirine bağımlılığı"
+  },
+  {
+    "en": "Craftsmanship",
+    "tr": "Zanaat / Ustalık (Craftsmanship)",
+    "note": "Yazılım zanaatı"
+  },
+  {
+    "en": "Crisp Abstraction",
+    "tr": "Keskin Soyutlama (Crisp Abstraction)",
+    "note": "Grady Booch'un temiz kod tanımından; net ve öz soyutlama"
+  },
+  {
+    "en": "Deadline",
+    "tr": "Son Teslim Tarihi (Deadline)",
+    "note": "Projenin teslim edilmesi gereken tarih"
+  },
+  {
+    "en": "Decay",
+    "tr": "Çürüme (Decay)",
+    "note": "Kırık pencereler metaforunda kodun giderek kötüleşmesi"
+  },
+  {
+    "en": "Decisive",
+    "tr": "Kararlı (Decisive)",
+    "note": "Kodun tereddütsüz ve kesin olması"
+  },
+  {
+    "en": "Delegation",
+    "tr": "Delege Etme (Delegation)",
+    "note": "Sorumluluğu başka bir nesneye devretme"
+  },
+  {
+    "en": "Dependency",
+    "tr": "Bağımlılık (Dependency)",
+    "note": ""
+  },
+  {
+    "en": "Dependency Injection",
+    "tr": "Bağımlılık Enjeksiyonu (Dependency Injection)",
+    "note": ""
+  },
+  {
+    "en": "Dependency Inversion Principle (DIP)",
+    "tr": "Bağımlılık Tersine Çevirme İlkesi (DIP)",
+    "note": "Üst seviye modüller alt seviye modüllere değil, soyutlamalara bağımlı olmalı"
+  },
+  {
+    "en": "Dependency Magnet",
+    "tr": "Bağımlılık Mıknatısı (Dependency Magnet)",
+    "note": "Birçok sınıfın bağımlı olduğu merkezi yapı (ör. Error enum)"
+  },
+  {
+    "en": "Design Intent",
+    "tr": "Tasarım Amacı (Design Intent)",
+    "note": "Sistemin amaçlanan mimari yapısı"
+  },
+  {
+    "en": "Design Pattern",
+    "tr": "Tasarım Deseni (Design Pattern)",
+    "note": ""
+  },
+  {
+    "en": "Dirty Code",
+    "tr": "Kirli Kod (Dirty Code)",
+    "note": "Temiz olmayan, bakımı zor kod"
+  },
+  {
+    "en": "Disinformation",
+    "tr": "Yanlış Bilgi (Disinformation)",
+    "note": "İsimlerin okuyucuyu yanlış yönlendirmesi"
+  },
+  {
+    "en": "Domain Expert",
+    "tr": "Alan Uzmanı (Domain Expert)",
+    "note": "İş alanına (problem alanına) hakim uzman kişi"
+  },
+  {
+    "en": "Domain-Specific Language",
+    "tr": "Alana Özgü Dil (Domain-Specific Language)",
+    "note": ""
+  },
+  {
+    "en": "Duplication",
+    "tr": "Tekrar (Duplication)",
+    "note": "DRY ilkesi: Don't Repeat Yourself"
+  },
+  {
+    "en": "Dyadic",
+    "tr": "İkili (Dyadic)",
+    "note": "İki argümanlı fonksiyon"
+  },
+  {
+    "en": "Efficiency",
+    "tr": "Verimlilik (Efficiency)",
+    "note": "Kodun performans ve kaynak kullanımı açısından etkinliği"
+  },
+  {
+    "en": "Elegant",
+    "tr": "Zarif (Elegant)",
+    "note": "Hoş derecede zarif, şık ve basit kod"
+  },
+  {
+    "en": "Encapsulation",
+    "tr": "Kapsülleme (Encapsulation)",
+    "note": ""
+  },
+  {
+    "en": "Entity",
+    "tr": "Varlık (Entity)",
+    "note": "Sınıf, metot, fonksiyon gibi yapı"
+  },
+  {
+    "en": "Error Handling",
+    "tr": "Hata Yönetimi (Error Handling)",
+    "note": "Hataları yakalama ve işleme stratejisi"
+  },
+  {
+    "en": "Exception",
+    "tr": "İstisna (Exception)",
+    "note": "Hata yönetimi bağlamında"
+  },
+  {
+    "en": "Explicit",
+    "tr": "Açık (Explicit)",
+    "note": "Bağlamın kodda doğrudan yer alması"
+  },
+  {
+    "en": "Expressiveness",
+    "tr": "İfade Gücü (Expressiveness)",
+    "note": "Kodun tasarım fikirlerini açıkça iletmesi"
+  },
+  {
+    "en": "Extract Method",
+    "tr": "Metot Çıkarma (Extract Method)",
+    "note": "Büyük bir metodu daha küçük parçalara bölme refactoring tekniği"
+  },
+  {
+    "en": "Factory Method",
+    "tr": "Fabrika Metodu (Factory Method)",
+    "note": "Nesne oluşturma mantığını kapsülleyen metot"
+  },
+  {
+    "en": "False Clue",
+    "tr": "Yanlış İpucu (False Clue)",
+    "note": "Kodun anlamını bulanıklaştıran yanıltıcı isimler"
+  },
+  {
+    "en": "Feature",
+    "tr": "Özellik (Feature)",
+    "note": ""
+  },
+  {
+    "en": "FitNesse",
+    "tr": "FitNesse",
+    "note": "Açık kaynaklı test aracı (www.fitnesse.org)"
+  },
+  {
+    "en": "Flag",
+    "tr": "Bayrak (Flag)",
+    "note": "Boolean kontrol parametresi"
+  },
+  {
+    "en": "Flag Argument",
+    "tr": "Bayrak Argümanı (Flag Argument)",
+    "note": "Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir"
+  },
+  {
+    "en": "Focused",
+    "tr": "Odaklanmış (Focused)",
+    "note": "Temiz kodun tek amaca yönelik olması"
+  },
+  {
+    "en": "Function",
+    "tr": "Fonksiyon (Function)",
+    "note": ""
+  },
+  {
+    "en": "Function Sections",
+    "tr": "Fonksiyon Bölümleri (Function Sections)",
+    "note": "Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.)"
+  },
+  {
+    "en": "Gratuitous Context",
+    "tr": "Gereksiz Bağlam (Gratuitous Context)",
+    "note": "Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek"
+  },
+  {
+    "en": "Green-field Project",
+    "tr": "Yeşil Alan Projesi (Green-field Project)",
+    "note": "Sıfırdan başlanan proje"
+  },
+  {
+    "en": "Heuristic",
+    "tr": "Sezgisel Kural (Heuristic)",
+    "note": ""
+  },
+  {
+    "en": "Implicity",
+    "tr": "Örtüklük (Implicity)",
+    "note": "Bağlamın kodda açıkça belirtilmeme derecesi"
+  },
+  {
+    "en": "Include Directive",
+    "tr": "Dahil Etme Yönergesi (Include Directive)",
+    "note": "FitNesse'de sayfa dahil etme komutu"
+  },
+  {
+    "en": "Indent Level",
+    "tr": "Girinti Seviyesi (Indent Level)",
+    "note": "Kod bloklarının iç içe geçme derinliği"
+  },
+  {
+    "en": "Inheritance",
+    "tr": "Kalıtım (Inheritance)",
+    "note": ""
+  },
+  {
+    "en": "Integer Handle",
+    "tr": "Tamsayı Tanıtıcısı (Integer Handle)",
+    "note": ""
+  },
+  {
+    "en": "Intention-Revealing Names",
+    "tr": "Niyet Belirten İsimler (Intention-Revealing Names)",
+    "note": "Amacı açıkça ortaya koyan isimler"
+  },
+  {
+    "en": "Interface",
+    "tr": "Arayüz (Interface)",
+    "note": ""
+  },
+  {
+    "en": "Interpreter",
+    "tr": "Yorumlayıcı (Interpreter)",
+    "note": "Kaynak kodu satır satır çalıştıran program"
+  },
+  {
+    "en": "JobQueue",
+    "tr": "İş Kuyruğu (JobQueue)",
+    "note": ""
+  },
+  {
+    "en": "Keyword Form",
+    "tr": "Anahtar Kelime Formu (Keyword Form)",
+    "note": "Argüman isimlerini fonksiyon adına kodlama tekniği"
+  },
+  {
+    "en": "Language Bigot",
+    "tr": "Dil Bağnazı (Language Bigot)",
+    "note": ""
+  },
+  {
+    "en": "LeBlanc's Law",
+    "tr": "LeBlanc Yasası (LeBlanc's Law)",
+    "note": "\"Sonra asla demektir\" (Later equals never)"
+  },
+  {
+    "en": "Level of Abstraction",
+    "tr": "Soyutlama Seviyesi (Level of Abstraction)",
+    "note": "Kodun genelden özele doğru soyutluk derecesi"
+  },
+  {
+    "en": "Lexicon",
+    "tr": "Sözlük (Lexicon)",
+    "note": "Bir projedeki tutarlı terimler bütünü"
+  },
+  {
+    "en": "Literate Programming",
+    "tr": "Okuryazar Programlama (Literate Programming)",
+    "note": "Knuth'un kavramı: kod önce insanlar için yazılmalı"
+  },
+  {
+    "en": "Magic Number",
+    "tr": "Sihirli Sayı (Magic Number)",
+    "note": "Kodda açıklamasız kullanılan sabit değer"
+  },
+  {
+    "en": "Management",
+    "tr": "Yönetim (Management)",
+    "note": ""
+  },
+  {
+    "en": "Marketer",
+    "tr": "Pazarlamacı (Marketer)",
+    "note": ""
+  },
+  {
+    "en": "Matter-of-fact",
+    "tr": "Olgusal (Matter-of-fact)",
+    "note": "Spekülatif olmayan, gerçeklere dayanan kod"
+  },
+  {
+    "en": "Meaningful Distinctions",
+    "tr": "Anlamlı Ayrımlar (Meaningful Distinctions)",
+    "note": "İsimlerin gerçekten farklı anlamlar taşıyacak şekilde farklılaştırılması"
+  },
+  {
+    "en": "Meaningful Names",
+    "tr": "Anlamlı İsimler (Meaningful Names)",
+    "note": "Niyet ifade eden değişken/fonksiyon isimleri"
+  },
+  {
+    "en": "Mental Burden",
+    "tr": "Zihinsel Yük (Mental Burden)",
+    "note": "Kod okurken harcanan bilişsel çaba"
+  },
+  {
+    "en": "Mental Mapping",
+    "tr": "Zihinsel Eşleştirme (Mental Mapping)",
+    "note": "Bir ismin zihinsel olarak başka bir isme çevrilmesi süreci"
+  },
+  {
+    "en": "Mess",
+    "tr": "Karmaşa (Mess)",
+    "note": "Dağınık, düzensiz kod"
+  },
+  {
+    "en": "Messy Code",
+    "tr": "Dağınık Kod (Messy Code)",
+    "note": ""
+  },
+  {
+    "en": "Method",
+    "tr": "Metot (Method)",
+    "note": ""
+  },
+  {
+    "en": "Method Chaining",
+    "tr": "Metot Zincirleme (Method Chaining)",
+    "note": "Metot çağrılarını ardışık zincirleme"
+  },
+  {
+    "en": "Method Name",
+    "tr": "Metot İsmi (Method Name)",
+    "note": ""
+  },
+  {
+    "en": "Minimal",
+    "tr": "Minimal (Minimal)",
+    "note": "Mümkün olan en küçük, yalnızca gerekli olanı içeren"
+  },
+  {
+    "en": "Mis-type",
+    "tr": "Yanlış Yazım (Mis-type)",
+    "note": ""
+  },
+  {
+    "en": "Misspelling",
+    "tr": "Kasıtlı Yazım Hatası (Misspelling)",
+    "note": "Derleyiciyi tatmin etmek için yapılan yanlış yazım (ör. klass)"
+  },
+  {
+    "en": "Module",
+    "tr": "Modül (Module)",
+    "note": ""
+  },
+  {
+    "en": "Monadic",
+    "tr": "Tekli (Monadic)",
+    "note": "Bir argümanlı fonksiyon"
+  },
+  {
+    "en": "Mutator",
+    "tr": "Değiştirici (Mutator)",
+    "note": "JavaBean standardında set metotları"
+  },
+  {
+    "en": "Namespace",
+    "tr": "Ad Alanı (Namespace)",
+    "note": ""
+  },
+  {
+    "en": "Naming Convention",
+    "tr": "İsimlendirme Kuralı (Naming Convention)",
+    "note": ""
+  },
+  {
+    "en": "Nesting Level",
+    "tr": "İç İçe Geçme Seviyesi (Nesting Level)",
+    "note": "Kod bloklarının derinlik seviyesi"
+  },
+  {
+    "en": "Niladic",
+    "tr": "Sıfırlı (Niladic)",
+    "note": "Argümansız fonksiyon"
+  },
+  {
+    "en": "Noise Word",
+    "tr": "Gürültü Kelimesi (Noise Word)",
+    "note": "İsme anlam katmayan ek (Info, Data, the, a)"
+  },
+  {
+    "en": "Normal Forms",
+    "tr": "Normal Formlar (Normal Forms)",
+    "note": "Codd'un veritabanı tekrar kaldırma stratejisi"
+  },
+  {
+    "en": "Number-Series Naming",
+    "tr": "Numara Serili İsimlendirme (Number-Series Naming)",
+    "note": "a1, a2, aN şeklinde anlamsız numara ekleme"
+  },
+  {
+    "en": "Object",
+    "tr": "Nesne (Object)",
+    "note": ""
+  },
+  {
+    "en": "Object-Oriented Design",
+    "tr": "Nesne Yönelimli Tasarım (Object-Oriented Design)",
+    "note": ""
+  },
+  {
+    "en": "Open Closed Principle (OCP)",
+    "tr": "Açık Kapalı İlkesi (OCP)",
+    "note": "Sınıflar genişlemeye açık, değişikliğe kapalı olmalı"
+  },
+  {
+    "en": "Open/Closed Principle (OCP)",
+    "tr": "Açık/Kapalı İlkesi (OCP)",
+    "note": "Genişletmeye açık, değişikliğe kapalı prensibi"
+  },
+  {
+    "en": "Output Argument",
+    "tr": "Çıkış Argümanı (Output Argument)",
+    "note": "Değer döndürmek için kullanılan argüman"
+  },
+  {
+    "en": "Oxymoron",
+    "tr": "Oksimoron (Oxymoron)",
+    "note": "Birbirine zıt kavramların birleşimi (ör. \"keskin soyutlama\")"
+  },
+  {
+    "en": "Package",
+    "tr": "Paket (Package)",
+    "note": "Kod organizasyon birimi"
+  },
+  {
+    "en": "Point of Declaration",
+    "tr": "Tanımlama Noktası (Point of Declaration)",
+    "note": "Değişkenin tanımlandığı yer"
+  },
+  {
+    "en": "Polyadic",
+    "tr": "Çoklu (Polyadic)",
+    "note": "Üç veya daha fazla argümanlı fonksiyon"
+  },
+  {
+    "en": "Polymorphism",
+    "tr": "Çok Biçimlilik (Polymorphism)",
+    "note": ""
+  },
+  {
+    "en": "Precision",
+    "tr": "Hassasiyet (Precision)",
+    "note": "Gereksinimlerdeki kesinlik"
+  },
+  {
+    "en": "Predicate",
+    "tr": "Yüklem (Predicate)",
+    "note": "JavaBean standardında boolean dönen is metotları"
+  },
+  {
+    "en": "Prefix Convention",
+    "tr": "Önek Kuralı (Prefix Convention)",
+    "note": "Yerel değişkenler için a, argümanlar için the gibi önek kuralları"
+  },
+  {
+    "en": "Prequel",
+    "tr": "Öncül (Prequel)",
+    "note": "Bu kitabın PPP kitabına göre konumu"
+  },
+  {
+    "en": "Principle",
+    "tr": "İlke (Principle)",
+    "note": ""
+  },
+  {
+    "en": "Principle of Least Surprise",
+    "tr": "En Az Şaşırtma İlkesi (Principle of Least Surprise)",
+    "note": ""
+  },
+  {
+    "en": "Problem Domain",
+    "tr": "Problem Alanı (Problem Domain)",
+    "note": ""
+  },
+  {
+    "en": "Productivity",
+    "tr": "Verimlilik (Productivity)",
+    "note": ""
+  },
+  {
+    "en": "Professional",
+    "tr": "Profesyonel (Professional)",
+    "note": ""
+  },
+  {
+    "en": "Programmer-eese",
+    "tr": "Programcı Dili (Programmer-eese)",
+    "note": "Programcıların kendi aralarında kullandığı teknik jargon"
+  },
+  {
+    "en": "Pronounceable Names",
+    "tr": "Telaffuz Edilebilir İsimler (Pronounceable Names)",
+    "note": "İsimlerin sesli okunabilir olması gerektiği ilkesi"
+  },
+  {
+    "en": "Prose",
+    "tr": "Düzyazı (Prose)",
+    "note": "Grady Booch: \"Temiz kod iyi yazılmış bir düzyazı gibi okunur\""
+  },
+  {
+    "en": "Pun",
+    "tr": "Kelime Oyunu (Pun)",
+    "note": "Bir kelimenin iki farklı anlamda kullanılması"
+  },
+  {
+    "en": "Race Condition",
+    "tr": "Yarış Durumu (Race Condition)",
+    "note": "Eşzamanlı erişimden kaynaklanan hata"
+  },
+  {
+    "en": "Readable Code",
+    "tr": "Okunabilir Kod (Readable Code)",
+    "note": ""
+  },
+  {
+    "en": "Recompilation",
+    "tr": "Yeniden Derleme (Recompilation)",
+    "note": "Değişiklik sonrası kodun tekrar derlenmesi"
+  },
+  {
+    "en": "Redeployment",
+    "tr": "Yeniden Dağıtım (Redeployment)",
+    "note": "Değişiklik sonrası kodun tekrar dağıtılması"
+  },
+  {
+    "en": "Redesign",
+    "tr": "Yeniden Tasarım (Redesign)",
+    "note": ""
+  },
+  {
+    "en": "Refactoring",
+    "tr": "Yeniden Düzenleme (Refactoring)",
+    "note": ""
+  },
+  {
+    "en": "Release Cycle",
+    "tr": "Yayın Döngüsü (Release Cycle)",
+    "note": "Ürün sürüm yayınlama süreci"
+  },
+  {
+    "en": "Renaming",
+    "tr": "Yeniden Adlandırma (Renaming)",
+    "note": "Değişken/fonksiyon/sınıf adını değiştirme"
+  },
+  {
+    "en": "Requirement",
+    "tr": "Gereksinim (Requirement)",
+    "note": ""
+  },
+  {
+    "en": "Routine",
+    "tr": "Rutin (Routine)",
+    "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
+  },
+  {
+    "en": "Schedule",
+    "tr": "Takvim / Zamanlama (Schedule)",
+    "note": ""
+  },
+  {
+    "en": "School of Thought",
+    "tr": "Düşünce Okulu (School of Thought)",
+    "note": ""
+  },
+  {
+    "en": "Scope",
+    "tr": "Kapsam (Scope)",
+    "note": "Bir değişkenin geçerli olduğu kod alanı"
+  },
+  {
+    "en": "Search-friendly name",
+    "tr": "Arama Dostu İsim (Search-friendly name)",
+    "note": ""
+  },
+  {
+    "en": "Searchable Names",
+    "tr": "Aranabilir İsimler (Searchable Names)",
+    "note": ""
+  },
+  {
+    "en": "Side Effect",
+    "tr": "Yan Etki (Side Effect)",
+    "note": ""
+  },
+  {
+    "en": "Sieve",
+    "tr": "Eleme (Sieve)",
+    "note": "Asal sayıları bulmak için kullanılan algoritma (Eratosthenes Kalburu)"
+  },
+  {
+    "en": "Simple Code",
+    "tr": "Basit Kod (Simple Code)",
+    "note": "Beck'in kuralları: testler çalışır, tekrar yok, ifade gücü yüksek, varlıklar minimize"
+  },
+  {
+    "en": "Single Responsibility",
+    "tr": "Tek Sorumluluk (Single Responsibility)",
+    "note": ""
+  },
+  {
+    "en": "Snail's Pace",
+    "tr": "Salyangoz Hızı (Snail's Pace)",
+    "note": "Çok yavaş ilerleme metaforu"
+  },
+  {
+    "en": "Software Craftsmanship",
+    "tr": "Yazılım Zanaatı (Software Craftsmanship)",
+    "note": ""
+  },
+  {
+    "en": "Solution Domain",
+    "tr": "Çözüm Alanı (Solution Domain)",
+    "note": ""
+  },
+  {
+    "en": "Source File",
+    "tr": "Kaynak Dosyası (Source File)",
+    "note": "Programın kaynak kodunu içeren dosya"
+  },
+  {
+    "en": "Specification",
+    "tr": "Spesifikasyon (Specification)",
+    "note": "Biçimsel gereksinim tanımı"
+  },
+  {
+    "en": "Status Value",
+    "tr": "Durum Değeri (Status Value)",
+    "note": "Bir öğenin mevcut durumunu temsil eden değer"
+  },
+  {
+    "en": "Stepdown Rule",
+    "tr": "Basamak Kuralı (Stepdown Rule)",
+    "note": "Kodun üst seviyeden alt seviyeye \"aşağı doğru\" okunması prensibi"
+  },
+  {
+    "en": "StringBuffer",
+    "tr": "StringBuffer",
+    "note": "Java'da değiştirilebilir dizgi nesnesi"
+  },
+  {
+    "en": "Structured Programming",
+    "tr": "Yapısal Programlama (Structured Programming)",
+    "note": "Dijkstra'nın tek giriş / tek çıkış kuralları"
+  },
+  {
+    "en": "Subprogram",
+    "tr": "Alt Program (Subprogram)",
+    "note": "Fortran/PL1 döneminde kullanılan program parçası"
+  },
+  {
+    "en": "Subroutine",
+    "tr": "Alt Rutin (Subroutine)",
+    "note": "Programlamanın ilk günlerindeki alt program yapısı"
+  },
+  {
+    "en": "Subscript",
+    "tr": "Alt İndis (Subscript)",
+    "note": "Dizi veya koleksiyondaki öğeye erişim indeksi"
+  },
+  {
+    "en": "Technical Debt",
+    "tr": "Teknik Borç (Technical Debt)",
+    "note": "Hızlı çözümlerden kaynaklanan birikmiş kod sorunları"
+  },
+  {
+    "en": "Temporal Coupling",
+    "tr": "Zamansal Bağımlılık (Temporal Coupling)",
+    "note": "Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu"
+  },
+  {
+    "en": "Test",
+    "tr": "Test",
+    "note": "Çevrilmez"
+  },
+  {
+    "en": "Test Driven Development",
+    "tr": "Test Güdümlü Geliştirme (Test Driven Development / TDD)",
+    "note": "Önce test yaz, sonra kodu yaz disiplini"
+  },
+  {
+    "en": "Tiger Team",
+    "tr": "Kaplan Ekibi (Tiger Team)",
+    "note": "En yetenekli geliştiricilerden oluşan ekip"
+  },
+  {
+    "en": "Transformation",
+    "tr": "Dönüşüm (Transformation)",
+    "note": "Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi"
+  },
+  {
+    "en": "Triadic",
+    "tr": "Üçlü (Triadic)",
+    "note": "Üç argümanlı fonksiyon"
+  },
+  {
+    "en": "Type System",
+    "tr": "Tür Sistemi (Type System)",
+    "note": ""
+  },
+  {
+    "en": "Unit Test",
+    "tr": "Birim Testi (Unit Test)",
+    "note": ""
+  },
+  {
+    "en": "Unprofessional",
+    "tr": "Profesyonel Olmayan (Unprofessional)",
+    "note": "Mesleğin gerekliliklerini yerine getirmemek"
+  },
+  {
+    "en": "Variable",
+    "tr": "Değişken (Variable)",
+    "note": ""
+  },
+  {
+    "en": "Visitor Pattern",
+    "tr": "Ziyaretçi Deseni (Visitor Pattern)",
+    "note": ""
+  },
+  {
+    "en": "Wading",
+    "tr": "Çamura Batma (Wading)",
+    "note": "Kötü kodda ilerlerken hissedilen zorluk metaforu"
+  },
+  {
+    "en": "Wrapper",
+    "tr": "Sarmalayıcı (Wrapper)",
+    "note": ""
+  }
+];

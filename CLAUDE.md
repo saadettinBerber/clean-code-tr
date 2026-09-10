@@ -2,25 +2,30 @@
 
 ## Proje Amacı
 
-Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsmanship" kitabını sayfa sayfa interaktif bir HTML sayfasına çevirmeyi amaçlar. Kullanıcı her seferinde bir sayfa çeviri ister. Çıktı olarak bir `index.html` dosyası üretilir.
+Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsmanship" kitabını sayfa sayfa Türkçeye çevirmeyi ve kitap benzeri, iki dilli, interaktif bir okuyucuda (reader) sunmayı amaçlar. Kullanıcı her seferinde bir ya da birkaç sayfa çeviri ister. Çeviriler `data/pages/page-N.js` veri dosyaları olarak saklanır; tek sayfalık `index.html` okuyucusu bu verileri çizer.
 
 ## PDF Bilgileri
 
 - **PDF Dosya Yolu**: `/home/b920/Desktop/make_greater/Clean Code/[PROGRAMMING][Clean Code by Robert C Martin].pdf`
-- **Sayfa Offset**: PDF sayfa numarası = Kitap sayfa numarası + 31
+- **Sayfa Offset**: PDF sayfa numarası = Kitap sayfa numarası + 31 (`progress.json` → `pdf_offset`)
   - Örnek: Kitap sayfa 1 = PDF sayfa 32
   - Örnek: Kitap sayfa 10 = PDF sayfa 41
 - **Kitap Yapısı**:
   - Foreword: PDF sayfa 20-22
   - Introduction: PDF sayfa 26-28
   - Chapter 1 (Clean Code): PDF sayfa 32'den başlar (kitap sayfa 1)
+  - Tüm bölümlerin (17 bölüm + Ekler) başlangıç sayfaları `progress.json` → `chapters` tablosundadır.
 
-## Son Çevrilen Sayfa Takibi
+## İlerleme Takibi (progress.json)
 
-- **KRİTİK KURAL**: Her çeviri tamamlandığında, bu dosyadaki `last_translated_page` değerini güncelle.
-- **last_translated_page**: 52
-- Kullanıcı "sıradaki sayfa", "sonraki sayfa", "next", "devam" gibi ifadeler kullandığında veya `/cevir next` yazdığında, `last_translated_page + 1` sayfasını çevir.
-- Eğer `last_translated_page` değeri 0 ise ve kullanıcı "sıradaki" derse, sayfa 1'den başla.
+- **KRİTİK KURAL**: İlerlemenin TEK doğruluk kaynağı (single source of truth) kök dizindeki `progress.json` dosyasıdır. Bu dosya (CLAUDE.md) hiçbir ilerleme sayısı içermez. Kural: **değişen her şey `progress.json`'dadır.**
+- `progress.json` alanları:
+  - `last_translated_page`: son çevrilen (ya da boş diye işaretlenen) kitap sayfası
+  - `pages`: çevrilmiş sayfa kaydı (sayfa başına `pdf_page`, `chapter`, `title_en/tr`, `section_en/tr`; sayfa 16 gibi boş sayfalar için `"blank": true`)
+  - `chapters`: bölüm tablosu (`num`, `en`, `tr`, `start` = başlangıç kitap sayfası)
+  - `pdf_offset` (31), `book_total_pages` (431), `pages_per_run` (bir çalıştırmada hazırlanacak sayfa sayısı)
+- `progress.json` elle düzenlenmez; `tools/prepare_page.py` (boş sayfa işaretleme) ve `tools/finalize_page.py` (kayıt + ilerletme) tarafından güncellenir.
+- Kullanıcı "sıradaki sayfa", "sonraki sayfa", "next", "devam et" dediğinde veya `/cevir next` yazdığında `last_translated_page + 1`'den başlayan sayfa(lar) çevrilir; bunu `prepare_page.py` kendisi hesaplar.
 
 ## Çeviri Kuralları
 
@@ -33,104 +38,101 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 5. **Başlıklar**: Hem Türkçe hem İngilizce yazılır. Örnek: "Anlamlı İsimler / Meaningful Names"
 
 ### Sayfa Bağlamı
-- Her çeviri yapılırken istenilen sayfanın **bir önceki** ve **bir sonraki** sayfası da PDF'den okunur.
+- Her çeviri yapılırken istenilen sayfanın **bir önceki** ve **bir sonraki** sayfası da bağlam için kullanılır. `prepare_page.py` bunu otomatik sağlar: girdi dosyasındaki `context.prev_tail` (önceki sayfanın sonu) ve `context.next_head` (sonraki sayfanın başı).
 - Amaç: Paragraf ortasında kesilebilecek cümleleri tamamlamak ve bağlamı anlamak.
 - Ancak çeviri sadece istenilen sayfayı kapsar, önceki/sonraki sayfalar sadece bağlam içindir.
 
 ### Bulunduğu Başlık/Bölüm
-- Sayfanın hangi Chapter ve Section altında olduğu her zaman belirtilmelidir.
-- Bu bilgi HTML çıktısında üst kısımda görünür olmalıdır.
+- Sayfanın hangi Chapter ve Section altında olduğu her zaman belirtilmelidir (`chapter` ve `section` alanları).
+- `chapter` hazırlayıcı tarafından `progress.json`'dan doldurulur; `section.en` koşu başlığından tahmin edilir, çevirmen agent yanlışsa düzeltir ve `section.tr`'yi yazar.
+- Bu bilgi okuyucuda koşu başlığında (running header) ve üst barda görünür.
 
 ## Glossary (Terim Sözlüğü) Kuralı
 
-- **KRİTİK KURAL**: Her sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimlerin `.claude/skills/cevir/glossary.md` dosyasına eklenip eklenmediğini kontrol et.
-- Eğer yeni bir terim varsa ve glossary'de yoksa, MUTLAKA ekle.
-- Glossary'deki terimler alfabetik sıralı tutulur.
+- **KRİTİK KURAL**: Çeviriye başlamadan önce `.claude/skills/cevir/glossary.md` okunur ve mevcut terimler aynen kullanılır. Bir terimi nasıl çevirdiysen, her yerde aynı şekilde çevirmelisin.
+- Çevirmen agent, sayfada geçen ve sözlükte OLMAYAN her terimi çıktı JSON'unun `glossary_new` listesine yazar: `[{ "en": "...", "tr": "...", "note": "..." }]`.
+- `finalize_page.py` bu terimleri `glossary.md`'ye otomatik ekler (alfabetik sıra korunur) ve `data/glossary.js`'i yeniden üretir. Yine de her sayfadan sonra agent yeni terim var mı diye kontrol etmek zorundadır; boş bırakılan `glossary_new` "yeni terim yok" anlamına gelir.
 - Format: `| İngilizce Terim | Türkçe Karşılığı | Açıklama/Not |`
-- Bu sayede tüm çeviri boyunca terimler TUTARLI kalır. Bir terimi nasıl çevirdiysen, her yerde aynı şekilde çevirmelisin.
-- Çeviri yapmadan önce glossary'yi oku ve mevcut terimleri kullan.
+- `data/glossary.js` elle düzenlenmez; kaynak dosya her zaman `glossary.md`'dir.
 
-## HTML Çıktı Kuralları
+## Sistem Mimarisi
 
-### Genel Yapı
-- **Çoklu dosya yapısı** kullanılır:
-  - `index.html`: Ana sayfa (navigasyon hub'ı, sayfa numarası giriş kutusu, çevrilen sayfaların listesi)
-  - `pages/page-X.html`: Her çevrilen sayfa `pages/` klasörü altında ayrı dosyada saklanır (örnek: `pages/page-1.html`, `pages/page-2.html`)
-  - Sayfa dosyalarından `index.html`'e linkler `../index.html` şeklinde, sayfalar arası linkler ise `page-X.html` şeklinde (aynı dizinde oldukları için) olmalıdır.
-- Her sayfa dosyası CSS'i inline içerir, JS ise `../js/common.js` harici dosyasından yüklenir.
-- Her sayfa dosyasında sadece `<script>const CURRENT_PAGE = X;</script>` ve `<script src="../js/common.js"></script>` bulunur.
-- Responsive tasarım (mobil uyumlu).
-- Türkçe karakter desteği (UTF-8).
-- **Her yeni çeviri yapıldığında `index.html` de güncellenmelidir**:
-  - `TRANSLATED_PAGES` JavaScript objesine yeni sayfa eklenir
-  - Sayfa kartı (page-card) HTML'e eklenir
-  - Badge sayısı ve input-hint güncellenir
+```
+Clean Code/
+├── index.html                  Okuyucu uygulaması (tek sayfa, kitap benzeri arayüz)
+├── css/reader.css              Okuyucu stili
+├── js/
+│   ├── reader.js               Okuyucu motoru (sayfa yükleme, çizim, gezinme)
+│   ├── controls.js             Denetimler (dil modu, yazı boyutu, klavye, kaydırma)
+│   ├── blocks.js               Blok tiplerini HTML'e çizer
+│   ├── concepts.js             Kavram kartları (few-shot modal)
+│   ├── panels.js               İçindekiler ve sözlük çekmeceleri
+│   ├── cover.js                Kapak görünümü (ilerleme, bölüm listesi)
+│   └── highlight.js            Kod vurgulama (syntax highlighting)
+├── data/
+│   ├── toc.js                  window.TOC — ÜRETİLİR (tools/toc_builder.py), elle düzenlenmez
+│   ├── glossary.js             window.GLOSSARY — ÜRETİLİR (glossary.md'den), elle düzenlenmez
+│   └── pages/
+│       ├── page-N.js           Çevrilmiş sayfa: window.PAGE({...}) — format: tools/FORMAT.md
+│       └── page-N_images/      Sayfadan çıkarılan PNG görseller
+├── progress.json               İlerlemenin tek doğruluk kaynağı
+├── tools/
+│   ├── prepare_page.py         PDF → _work/in/page-N.json (çevirmen agent girdisi)
+│   ├── finalize_page.py        _work/out/page-N.json → data/pages + progress + glossary + toc
+│   ├── toc_builder.py          data/toc.js ve data/glossary.js üretimi
+│   ├── odl_extract.py          Sayfayı yapılı bloklara ayırır (OpenDataLoader + PyMuPDF)
+│   ├── odl_runner.py           OpenDataLoader PDF çağrısı
+│   ├── layout_scan.py          PyMuPDF düzen taraması (kod satırları, satır içi kod, tire)
+│   ├── text_fixer.py           ODL metnini PyMuPDF bulgularıyla onarır
+│   ├── text_utils.py           Metin temizleme ve cümle ayırma yardımcıları
+│   ├── migrate_legacy.py       Eski HTML sayfalarını tek seferlik dönüştürücü
+│   ├── FORMAT.md               Sayfa veri formatı ve çevirmen agent sözleşmesi
+│   └── _work/in | out          Geçici çalışma dizini (git'e girmez)
+├── legacy/                     Eski sayfa-başına-HTML site (index.html, pages/, js/common.js)
+│                               Yalnız referans için; artık güncellenmez
+└── .claude/skills/cevir/       /cevir skill'i ve glossary.md
+```
 
-### Zorunlu Bileşenler
-1. **Üst Bar**:
-   - Kitap adı: "Clean Code - Robert C. Martin"
-   - Bulunulan bölüm/başlık bilgisi (Chapter ve Section)
-   - **Sayfa Numarası Input'u**: Sağ üstte interaktif sayfa numarası input'u bulunur
-     - Kullanıcı sayfa numarası yazıp Enter'a basınca çevrilmiş sayfaya yönlendirilir
-     - Çevrilmemiş sayfa girilirse tooltip ile uyarı gösterilir
-     - Focus kaybedilince mevcut sayfa numarasına döner
-     - `PAGES_MAP` objesi tüm çevrilen sayfaların dosya yollarını tutar
-     - `CURRENT_PAGE` değişkeni o sayfanın numarasını tutar
-
-2. **Dil Değiştirme (EN/TR Toggle)**:
-   - Sayfanın sağ üst köşesinde EN | TR butonu
-   - Varsayılan dil: TR (Türkçe)
-   - Butona basılınca tüm açıklama metinleri dil değiştirir
-   - Kod blokları dil değiştiğinde değişmez, her zaman aynı kalır
-   - Seçilen dil tercihi hatırlanmalı (localStorage)
-
-3. **İçerik Alanı**:
-   - Sayfanın metni paragraflara bölünmüş şekilde gösterilir
-   - Kod örnekleri syntax highlighting ile gösterilir
-   - Kitaptaki orijinal formatlama mümkün olduğunca korunur (başlıklar, listeler, kod blokları)
-
-4. **Kavram Butonları (Few-Shot Örnekler)**:
-   - Sayfada geçen her önemli Clean Code kavramı/ilkesi için bir buton oluşturulur
-   - Butona basılınca bir panel/modal açılır
-   - Panel içeriği:
-     - Kavram adı (EN/TR)
-     - Kısa açıklama (EN/TR toggle'a uyumlu)
-     - KÖTÜ ÖRNEK (Before): İlkeyi ihlal eden kod
-     - Neden kötü olduğunu açıklama
-     - İYİ ÖRNEK (After): Refactor edilmiş, temiz kod
-     - Ekstra pratik ipucu veya alıştırma önerisi
-   - Örnekler kitaptakilerden FARKLI olmalı, orijinal örnekler üretilmeli
-   - Örnekler Java, Python, JavaScript gibi popüler dillerden seçilmeli
-
-5. **Sayfa Navigasyonu**:
-   - Sayfanın alt kısmında "Önceki Sayfa" ve "Sonraki Sayfa" butonları
-   - Bu butonlar sadece görsel navigasyon içindir (kullanıcıya hangi sayfaya geçebileceğini gösterir)
-   - Butonlarda sayfa numarası ve varsa bölüm/başlık bilgisi yazar
-   - Butonlara basıldığında kullanıcıya "Bu sayfayı çevirmem için '/cevir X' yazın veya 'sıradaki sayfa' deyin" şeklinde bir bilgi gösterilir
-
-6. **Tasarım**:
-   - Modern, temiz, okunabilir tasarım
-   - Açık tema (light mode) varsayılan
-   - Kod blokları için koyu arka plan
-   - Yeterli satır aralığı ve kenar boşlukları
-   - Türkçe metin genişlemesine uygun layout (%30 daha uzun olabilir)
-   - Font: sistem fontu (system-ui) veya okunabilir bir sans-serif font
+- **Okuyucuyu açmak**: `xdg-open index.html` veya `python3 -m http.server 8000` (sonra `http://localhost:8000`).
+- **CSS/JS değişince**: `index.html` içindeki `?v=N` sürüm ekini artır (tarayıcı önbelleği).
+- **`odl_extract.py` ne yapar**: OpenDataLoader PDF ile kalın başlıklar, paragraflar, listeler, görseller ve caption'lar; PyMuPDF ile Clean Code'a özgü işler: Courier satırlarından girintili kod listeleri, `Listing N-N` caption'ları, bölüm açılış sayfaları, koşu başlığı/alt bilgi temizliği, font boyutuna göre dipnotlar, italik alıntı paragrafları, ters tırnakla işaretlenen satır içi kod, tire onarımı (örn. McGraw-Hill).
+- **Bağımlılıklar**: `opendataloader-pdf` ve `pymupdf` (pip) ile Java 11+ (OpenDataLoader Java tabanlıdır). `prepare_page.py` `ModuleNotFoundError` verirse: `python3 -m pip install -U opendataloader-pdf pymupdf`.
+- **toc/glossary'yi elle yeniden üretmek**: `cd tools && python3 toc_builder.py`.
+- Sayfa veri formatının ayrıntıları (blok tipleri, kavram kartı şeması, agent girdi/çıktı sözleşmesi) için `tools/FORMAT.md` okunur; burada tekrarlanmaz.
 
 ## Çalışma Akışı
 
-Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
+Kullanıcı `/cevir N`, `/cevir next`, "sıradaki sayfa", "devam et" vb. dediğinde şu adımlar izlenir:
 
-1. **Glossary'yi oku**: `.claude/skills/cevir/glossary.md` dosyasını oku, mevcut terimleri öğren.
-2. **PDF'den sayfaları oku**: İstenilen sayfa + önceki sayfa + sonraki sayfa (bağlam için). Sayfa numarasına 31 ekleyerek PDF sayfa numarasını bul.
-3. **Bölüm/başlık bilgisini belirle**: Sayfanın hangi Chapter ve Section altında olduğunu tespit et.
-4. **Çeviriyi yap**: Kurallara uygun şekilde hem EN hem TR metinleri hazırla.
-5. **Kavram butonlarını hazırla**: Sayfadaki önemli kavramlar için few-shot örnekler oluştur.
-6. **Sayfa HTML dosyasını oluştur**: `pages/page-X.html` olarak tüm bileşen kurallarına uygun HTML dosyasını yaz.
-7. **js/common.js'deki PAGES_MAP'i güncelle**: Yeni eklenen sayfayı `js/common.js` dosyasındaki `PAGES_MAP` objesine ekle. Tek dosya güncellemesi yeterlidir, sayfa dosyalarına dokunmaya gerek yoktur.
-8. **index.html'i güncelle**: `TRANSLATED_PAGES` objesine, sayfa kartına, badge ve input-hint'e yeni sayfayı ekle.
-9. **Glossary'yi güncelle**: Yeni terimler varsa glossary'ye ekle.
-10. **last_translated_page değerini güncelle**: Bu dosyadaki (CLAUDE.md) değeri güncelle.
-11. **GitHub'a push et**: Tüm değişiklikleri commit'le ve GitHub'a push et. Commit mesajı `Sayfa X çevirisi eklendi` formatında olsun. Bu adım her çeviri sonunda otomatik yapılır.
+1. **Glossary'yi oku**: `.claude/skills/cevir/glossary.md` (terim tutarlılığı için).
+2. **Hazırla**: `cd tools && python3 prepare_page.py`
+   - Argümansız: `progress.json`'daki sıradaki sayfa(lar), adet = `pages_per_run`. Boş sayfalar otomatik atlanır ve `blank` olarak işaretlenir.
+   - `python3 prepare_page.py 55`: yalnız kitap sayfası 55.
+   - `python3 prepare_page.py next --count 3`: sıradaki 3 sayfa.
+   - Çıktı: `tools/_work/in/page-N.json` — blok şemasının yalnız `en` tarafı, bağlam için `context.prev_tail` / `context.next_head`, önceden doldurulmuş `chapter` ve tahmini `section.en`. Script sayfa/PDF numaralarını ve blok sayılarını yazdırır.
+3. **Çevir (paralel agent'lar)**: Hazırlanan HER sayfa için bir çevirmen agent başlat — hepsi tek mesajda, paralel (Agent aracı). Her agent `tools/FORMAT.md`'yi, glossary'yi ve girdi JSON'unu okur, ardından `tools/_work/out/page-N.json` yazar:
+   - Aynı bloklar, aynı sırada; her `en` alanının yanına `tr` (başlıklar, cümleler, liste maddeleri, caption'lar, dipnotlar, bölüm başlığı).
+   - `section.tr` (yanlışsa `section.en` düzeltilir), `title.en` / `title.tr` (içindekiler için kısa sayfa başlığı).
+   - 2-4 `concepts` kartı, yapılı biçimde: kitaptakinden FARKLI özgün örnekler, Java/Python/JavaScript, kötü + iyi kod, neden, ipucu — hepsi iki dilli.
+   - `glossary_new`: sözlükte henüz olmayan terimler.
+   - `code` ve `image` blokları ASLA değiştirilmez veya çevrilmez. Tüm çeviri kuralları (parantezli terminoloji, iki dilli başlıklar, kod/tanımlayıcı çevrilmez vb.) geçerlidir.
+4. **Sonlandır**: Her sayfa için `cd tools && python3 finalize_page.py _work/out/page-N.json`
+   - `data/pages/page-N.js` yazılır, görseller kopyalanır, `progress.json` güncellenir (kayıt + `last_translated_page`), `glossary_new` terimleri `glossary.md`'ye eklenir, `data/toc.js` ve `data/glossary.js` yeniden üretilir.
+   - Boş `tr` alanı varsa uyarı verir: düzelt ve yeniden çalıştır.
+5. **Doğrula ve raporla**: Kısa kontrol (isteğe bağlı olarak okuyucuyu aç). Kullanıcıya hangi sayfaların çevrildiğini ve sıradaki sayfa numarasını bildir.
+6. **Commit ve push**: `git add -A && git commit -m "Sayfa N çevirisi eklendi — Chapter X: Title"` ardından `git push`. Bu adım her çeviri sonunda otomatik yapılır. (Git Commit Kuralı'na bak: yapay zeka imzası yok.)
+
+Yeni bir bölüme geçerken özel bir işlem gerekmez; `chapters` tablosu tüm bölümleri başlangıç sayfalarıyla zaten içerir.
+
+## Okuyucu (Reader) Özellikleri
+
+- **Kitap benzeri sayfa**: Basılı kitaptaki gibi koşu başlığı (bölüm / kesit) ve sayfa numarası taşıyan sayfa yaprağı.
+- **Üst bar**: Kitap adı, bölüm breadcrumb'ı, sayfa numarası girişi (Enter ile gider; çevrilmemiş sayfa için toast: "Sayfa N henüz çevrilmedi. '/cevir N' yazın veya 'sıradaki sayfa' deyin."), dil modu, yazı boyutu A- / A+, içindekiler çekmecesi, sözlük çekmecesi.
+- **Dil modu**: TR / EN / EN+TR. Varsayılan TR, tercih `localStorage`'da hatırlanır. Kod blokları dil değişiminden etkilenmez.
+- **Cümle eşleme**: Bir cümleye tıklanınca diğer dildeki karşılığı gösterilir.
+- **Kod listeleri**: Çerçeveli kutu, "Listing" caption'ı ve syntax highlighting ile çizilir.
+- **Kavram butonları**: Her sayfanın altında; tıklanınca kötü/iyi örnekli few-shot modal açılır.
+- **Navigasyon**: Önceki/sonraki oklar, klavye ← →, dokunmatik kaydırma (swipe). Derin bağlantı: `index.html#page-32`. Son okunan sayfa hatırlanır.
 
 ## Önemli Notlar
 
@@ -138,6 +140,8 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 - Kullanıcı sayfa sayfa ilerler, kendi hızında okur.
 - Her sohbette CLAUDE.md otomatik okunacağı için, kullanıcının uzun açıklamalar yapmasına gerek yoktur.
 - Kullanıcı sadece `/cevir 5` veya "sıradaki sayfa" demesi yeterlidir.
+- `data/toc.js`, `data/glossary.js` ve `progress.json` üretilen/yönetilen dosyalardır; elle düzenlenmez.
+- `legacy/` altındaki eski site güncellenmez; yeni sayfalar yalnız `data/pages/` altına eklenir.
 
 ## Git Commit Kuralı
 
@@ -148,7 +152,7 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 
 ## Türkçe Karakter Kuralı
 
-- **KRİTİK KURAL**: Bu projedeki tüm Türkçe içerikli dosyalar (`.md`, `.html` vb.) doğru Türkçe karakterlerle yazılmalıdır.
+- **KRİTİK KURAL**: Bu projedeki tüm Türkçe içerikli dosyalar (`.md`, `.html`, `.js`, `.json` vb.) doğru Türkçe karakterlerle yazılmalıdır.
 - ASCII karşılıkları (c, g, i, o, s, u) yerine her zaman doğru Türkçe harfler kullanılmalıdır:
   - `ç` (c değil), `ğ` (g değil), `ı` (i değil), `ö` (o değil), `ş` (s değil), `ü` (u değil)
   - `Ç`, `Ğ`, `İ`, `Ö`, `Ş`, `Ü` (büyük harfler)
@@ -157,14 +161,11 @@ Kullanıcı bir sayfa çevirisi istediğinde şu adımları takip et:
 
 ## AI Agent Team Kullanımı
 
-- Bu projede Claude Code'un **Task (subagent)** özelliği aktif olarak kullanılmalıdır.
+- Bu projede Claude Code'un **Agent (subagent)** özelliği aktif olarak kullanılmalıdır.
 - Uygun durumlarda birden fazla agent paralel çalıştırılarak verimlilik artırılmalıdır.
 - Agent kullanım senaryoları:
-  - **Explore agent**: Kod tabanı araştırması, dosya arama, bağlam toplama için
+  - **Çevirmen agent (general-purpose)**: Çeviri akışının çekirdeği. `prepare_page.py` ile hazırlanan her sayfa için ayrı bir agent, hepsi tek mesajda paralel başlatılır. Her agent `tools/FORMAT.md`, glossary ve `_work/in/page-N.json`'u okur, `_work/out/page-N.json` yazar.
+  - **Explore agent**: Kod tabanı araştırması, dosya arama, bağlam toplama, Türkçe karakter kontrolü için
   - **Bash agent**: Terminal komutları, git işlemleri için
-  - **General-purpose agent**: Çoklu adımlı karmaşık görevler için
   - **Plan agent**: Uygulama planlaması ve mimari kararlar için
-- Özellikle çeviri iş akışında:
-  - Glossary kontrolü ve PDF okuma paralel yapılabilir
-  - Türkçe karakter kontrolü için Explore agent kullanılabilir
-  - Birden fazla bağımsız dosya düzenlemesi gerektiğinde paralel agent'lar tercih edilmeli
+- Çevirmen agent'lar birbirinden bağımsızdır; `finalize_page.py` ise sayfa sayfa sırayla çalıştırılır (progress.json ve glossary.md'ye yazar).
