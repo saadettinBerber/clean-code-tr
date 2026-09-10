@@ -4,6 +4,7 @@ const Reader = (function () {
   const LAST_PAGE_KEY = "cleancode-last-page";
   const LAYOUT_KEY = "cleancode-layout";
   const SPREAD_MIN_WIDTH = 1100;
+  const TURN_ANIMATION_MS = 400;   // arka planda duraklayan animasyon yaprağı görünmez bırakmasın
   const state = { page: null, layout: "single", direction: "next" };
 
   function toc() { return window.TOC; }
@@ -89,6 +90,7 @@ const Reader = (function () {
     book.classList.remove("turn-next", "turn-prev");
     void book.offsetWidth;
     book.classList.add(state.direction === "prev" ? "turn-prev" : "turn-next");
+    setTimeout(() => book.classList.remove("turn-next", "turn-prev"), TURN_ANIMATION_MS);
   }
 
   function finishRender() {
