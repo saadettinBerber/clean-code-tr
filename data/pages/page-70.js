@@ -25,7 +25,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Yerel olmayan bilgi içeren Javadoc</span><span class=\"en-text\">Javadoc with nonlocal information</span></div>\n<pre\"><span class=\"comment\">/**\n                    * fitnesse'in çalışacağı port. Varsayılan &lt;b&gt;8082&lt;/b&gt;.\n                    *\n                    * @param fitnessePort\n                    */</span>\n<span class=\"kw\">public void</span> setFitnessePort(<span class=\"kw\">int</span> fitnessePort)\n                {\n                <span class=\"kw\">this</span>.fitnessePort = fitnessePort;\n                }\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Yerel olmayan bilgi içeren Javadoc</span><span class=\"en-text\">Javadoc with nonlocal information</span></div>\n<pre><span class=\"comment\">/**\n                    * fitnesse'in çalışacağı port. Varsayılan &lt;b&gt;8082&lt;/b&gt;.\n                    *\n                    * @param fitnessePort\n                    */</span>\n<span class=\"kw\">public void</span> setFitnessePort(<span class=\"kw\">int</span> fitnessePort)\n                {\n                <span class=\"kw\">this</span>.fitnessePort = fitnessePort;\n                }\n</pre\"></div>"
     },
     {
       "type": "heading",
@@ -46,7 +46,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Çok fazla bilgi içeren yorum (RFC metni)</span><span class=\"en-text\">Too much information (RFC text in comment)</span></div>\n<pre\"><span class=\"comment\">/*\n                    RFC 2045 - Multipurpose Internet Mail Extensions (MIME)\n                    Birinci Bölüm: İnternet Mesaj Gövdelerinin Biçimi\n                    Bölüm 6.8. Base64 İçerik-Transfer-Kodlama\n                    Kodlama işlemi, 24-bit giriş bit gruplarını 4 kodlanmış\n                    karakterden oluşan çıkış dizilerine dönüştürür. ...\n                    */</span>\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Çok fazla bilgi içeren yorum (RFC metni)</span><span class=\"en-text\">Too much information (RFC text in comment)</span></div>\n<pre><span class=\"comment\">/*\n                    RFC 2045 - Multipurpose Internet Mail Extensions (MIME)\n                    Birinci Bölüm: İnternet Mesaj Gövdelerinin Biçimi\n                    Bölüm 6.8. Base64 İçerik-Transfer-Kodlama\n                    Kodlama işlemi, 24-bit giriş bit gruplarını 4 kodlanmış\n                    karakterden oluşan çıkış dizilerine dönüştürür. ...\n                    */</span>\n</pre\"></div>"
     },
     {
       "type": "heading",
@@ -67,7 +67,7 @@ window.PAGE({
     },
     {
       "type": "html",
-      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Bağlantısız yorum — filtre byte nedir?</span><span class=\"en-text\">Inobvious connection — what is a filter byte?</span></div>\n<pre\"> <span class=\"comment\">/*\n                    * tüm pikselleri (ve filtre byte'larını) tutabilecek kadar büyük\n                    * bir array'la başlayın ve başlık bilgisi için 200 byte fazladan\n                    */</span>\n<span class=\"kw\">this</span>.pngBytes = <span class=\"kw\">new byte</span>[(((<span class=\"kw\">this</span>.width + 1) * <span class=\"kw\">this</span>.height * 3) + 200)];\n</pre\"></div>"
+      "html": "<div class=\"code-listing\">\n<div class=\"code-listing-header\"><span class=\"tr-text\">Bağlantısız yorum — filtre byte nedir?</span><span class=\"en-text\">Inobvious connection — what is a filter byte?</span></div>\n<pre> <span class=\"comment\">/*\n                    * tüm pikselleri (ve filtre byte'larını) tutabilecek kadar büyük\n                    * bir array'la başlayın ve başlık bilgisi için 200 byte fazladan\n                    */</span>\n<span class=\"kw\">this</span>.pngBytes = <span class=\"kw\">new byte</span>[(((<span class=\"kw\">this</span>.width + 1) * <span class=\"kw\">this</span>.height * 3) + 200)];\n</pre\"></div>"
     },
     {
       "type": "para",

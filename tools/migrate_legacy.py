@@ -345,12 +345,13 @@ def legacy_page_paths():
 
 
 _INLINE_HIDDEN = re.compile(r'\s*style="display:\s*none;?"')
+_BROKEN_PRE = re.compile(r'<pre"\s*>')   # bazı eski sayfalarda yazım hatası; tarayıcı pre olarak tanımaz
 
 
 def strip_inline_display(text):
     """Eski common.js'nin bıraktığı satır içi gizleme stili yeni okuyucuda
     EN modunda metni tamamen gizlerdi; dil görünürlüğünü artık CSS yönetir."""
-    return _INLINE_HIDDEN.sub("", text)
+    return _BROKEN_PRE.sub("<pre>", _INLINE_HIDDEN.sub("", text))
 
 
 def main():
