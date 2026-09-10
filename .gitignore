@@ -17,3 +17,7 @@ docs/
 
 # Çeviri çalışma dizini (geçici girdi/çıktı JSON)
 tools/_work/
+
+# Python derleme çıktıları
+__pycache__/
+*.py[cod]

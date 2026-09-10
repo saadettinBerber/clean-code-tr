@@ -9,7 +9,7 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 
 ## PDF Bilgileri
 
-- **PDF Dosya Yolu**: `/home/b920/Desktop/make_greater/Clean Code/[PROGRAMMING][Clean Code by Robert C Martin].pdf`
+- **PDF Dosya Yolu**: `progress.json` → `book_pdf` (depo köküne göreli; araçlar yolu buradan okur, elle yazılan mutlak yol kullanılmaz)
 - **Sayfa Offset**: PDF sayfa numarası = Kitap sayfa numarası + 31 (`progress.json` → `pdf_offset`)
   - Örnek: Kitap sayfa 1 = PDF sayfa 32
   - Örnek: Kitap sayfa 10 = PDF sayfa 41
