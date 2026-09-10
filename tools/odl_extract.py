@@ -26,7 +26,8 @@ CODE_OVERLAP_RATIO = 0.5
 DEFAULT_CODE_LANGUAGE = "java"
 _LISTING_CAPTION = re.compile(r"^Listing \d+-\d+")
 _CHAPTER_AUTHOR = re.compile(r"^(?:by|with) [A-Z]")
-_EDGE_PAGE_NUMBER = re.compile(r"^\d+\s+|\s+\d+$")
+_EDGE_PAGE_NUMBER = re.compile(r"^\d+\s*|\s+\d+$")   # koşu başlığında sayı bazen yapışıktır: "39Use Descriptive Names"
+CAPTION_MAX_GAP = 40           # caption alt kenarı ile kod üst kenarı arası (pt)
 _BIBLIOGRAPHY_ENTRY = re.compile(r"^\[[A-Za-z0-9]+\]:")
 
 
@@ -53,10 +54,20 @@ def _drop_footer(elements):
     return [e for e in elements if _bbox(e)[3] >= FOOTER_ZONE_TOP]
 
 
+def _caption_above(block, captions):
+    """Kod bloğunun hemen üstündeki listing başlığı (PyMuPDF koordinatı, üst-sol)."""
+    for caption in captions:
+        if 0 <= block["y0"] - caption["y1"] <= CAPTION_MAX_GAP:
+            return caption["text"]
+    return None
+
+
 def _code_regions(layout):
     height = layout["page_height"]
+    captions = layout.get("listing_captions", [])
     return [{"bottom": height - block["y1"], "top": height - block["y0"],
-             "code": block["code"]} for block in layout["code_blocks"]]
+             "code": block["code"], "caption": _caption_above(block, captions)}
+            for block in layout["code_blocks"]]
 
 
 def _region_index(element, regions):
@@ -157,6 +168,15 @@ def _element_blocks(element, fixer):
     return []
 
 
+def _caption_blocks(region, blocks):
+    """ODL başlığı zaten caption üretmişse (sayfa 32 gibi) tekrar eklenmez."""
+    if not region.get("caption"):
+        return []
+    if blocks and blocks[-1].get("type") == "caption" and blocks[-1].get("kind") == "listing":
+        return []
+    return [{"type": "caption", "kind": "listing", "en": region["caption"]}]
+
+
 def _build_blocks(elements, layout, fixer):
     regions, emitted, blocks = _code_regions(layout), set(), []
     for element in elements:
@@ -165,6 +185,7 @@ def _build_blocks(elements, layout, fixer):
             blocks.extend(_element_blocks(element, fixer))
         elif index not in emitted:
             emitted.add(index)
+            blocks.extend(_caption_blocks(regions[index], blocks))
             blocks.append(_code_block(regions[index]))
     return _merge_chapter_opener(blocks)
 

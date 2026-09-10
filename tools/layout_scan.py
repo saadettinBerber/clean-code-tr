@@ -13,6 +13,7 @@ CODE_MAX_FONT_SIZE = 9.5          # gövde kodu 8.1pt; 10pt+ Courier-Bold başl�
 MONO_CHAR_WIDTH_RATIO = 0.6       # Courier karakter genişliği / punto
 BLANK_LINE_GAP_RATIO = 1.6        # bu oranın üstündeki dikey boşluk = boş satır
 MIN_INLINE_TOKEN_LENGTH = 2
+_LISTING_LABEL = re.compile(r"^Listing \d+-\d+(?: \(continued\))?$")
 _PLAIN_LOWERCASE_WORD = re.compile(r"^[a-z]+$")
 _EDGE_PUNCTUATION = ".,;:()[]{}\"'“”‘’"
 
@@ -127,6 +128,26 @@ def _hyphenated_names(lines):
     return fixes
 
 
+def _is_bold(line):
+    return all("Bold" in span["font"] for span in line["spans"])
+
+
+def _listing_captions(lines):
+    """Kitaptaki listing başlığı iki satırdır: kalın 'Listing N-N' + altında
+    Courier-Bold dosya adı. ODL bu çifti gölgeli kutuyla birlikte boş bir
+    'table' sayabildiği için buradan PyMuPDF ile geri kazanılır."""
+    captions = []
+    for line, next_line in zip(lines, lines[1:] + [None]):
+        if not (_LISTING_LABEL.match(line["text"].strip()) and _is_bold(line)):
+            continue
+        text, y1 = line["text"].strip(), line["bbox"][3]
+        if next_line and _is_bold(next_line) and not _is_code_line(next_line) \
+                and next_line["bbox"][1] - y1 < line["bbox"][3] - line["bbox"][1]:
+            text, y1 = f"{text} {next_line['text'].strip()}", next_line["bbox"][3]
+        captions.append({"y0": line["bbox"][1], "y1": y1, "text": text})
+    return captions
+
+
 def scan_page(pdf_path, pdf_page):
     document = fitz.open(pdf_path)
     try:
@@ -137,6 +158,7 @@ def scan_page(pdf_path, pdf_page):
             "code_blocks": [_code_block(g) for g in _group_code_lines(lines)],
             "inline_code": _inline_code_tokens(lines),
             "hyphen_fixes": _hyphenated_names(lines),
+            "listing_captions": _listing_captions(lines),
         }
     finally:
         document.close()
