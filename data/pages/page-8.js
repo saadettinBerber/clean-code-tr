@@ -1,0 +1,149 @@
+window.PAGE({
+  "id": "page-8",
+  "page": 8,
+  "pdf_page": 39,
+  "chapter": {
+    "num": 1,
+    "en": "Clean Code",
+    "tr": "Temiz Kod"
+  },
+  "section": {
+    "en": "What Is Clean Code?",
+    "tr": "What Is Clean Code?"
+  },
+  "title": {
+    "en": "Broken Windows & Grady Booch",
+    "tr": "Kırık Pencereler & Grady Booch"
+  },
+  "blocks": [
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "[ Continued from page 7 ]",
+          "tr": "[ Sayfa 7'den devam ]",
+          "html": true
+        }
+      ],
+      "style": "continuation"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "to describe the consequence of that inelegance. He uses the word \"tempt.\" There is a deep truth here. Bad code <em>tempts</em> the mess to grow! When others change bad code, they tend to make it worse.",
+          "tr": "— bu zarafetsizliğin sonucunu tanımlamak için. \"Kışkırtmak\" (tempt) kelimesini kullanıyor. Burada derin bir gerçek var. Kötü kod (bad code), karmaşanın (mess) büyümesini <em>kışkırtır</em>! Başkaları kötü kodu değiştirdiğinde, onu daha da kötüleştirme eğilimindedirler.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Pragmatic Dave Thomas and Andy Hunt said this a different way. They used the metaphor of broken windows.<sup>3</sup> A building with broken windows looks like nobody cares about it. So other people stop caring. They allow more windows to become broken. Eventually they actively break them. They despoil the facade with graffiti and allow garbage to collect. One broken window starts the process toward decay.",
+          "tr": "Pragmatik Dave Thomas ve Andy Hunt bunu farklı bir şekilde ifade etmişlerdir. Kırık pencereler (broken windows) metaforunu kullandılar.<sup>3</sup> Kırık pencereleri olan bir bina, kimsenin umursamadığı izlenimini verir. Bu yüzden diğer insanlar da umursamayı bırakır. Daha fazla pencerenin kırılmasına izin verirler. Sonunda aktif olarak onları kırarlar. Cepheyi (facade) grafitiyle kirletir ve çöpün birikmesine izin verirler. Tek bir kırık pencere, çürüme (decay) sürecini başlatır.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Bjarne also mentions that error handling should be complete. This goes to the discipline of paying attention to details. Abbreviated error handling is just one way that programmers gloss over details. Memory leaks are another, race conditions still another. Inconsistent naming yet another. The upshot is that clean code exhibits close attention to detail.",
+          "tr": "Bjarne ayrıca hata yönetiminin (error handling) eksiksiz olması gerektiğinden bahsediyor. Bu, detaylara dikkat etme disiplinine dayanır. Kısaltılmış hata yönetimi, programcıların detayları geçiştirmesinin sadece bir yoludur. Bellek sızıntıları (memory leaks) bir diğeri, yarış durumları (race conditions) bir başkası. Tutarsız isimlendirme (inconsistent naming) ise bir diğeri. Sonuç olarak, temiz kod (clean code) detaylara yakın ilgi gösterir.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Bjarne closes with the assertion that clean code does one thing well. It is no accident that there are so many principles of software design that can be boiled down to this simple admonition. Writer after writer has tried to communicate this thought. Bad code tries to do too much, it has muddled intent and ambiguity of purpose. Clean code is <em>focused</em>. Each function, each class, each module exposes a single-minded attitude that remains entirely undistracted, and unpolluted, by the surrounding details.",
+          "tr": "Bjarne, temiz kodun bir şeyi iyi yaptığı iddiasıyla bitirir. Bu basit öğüde özetlenebilecek pek çok yazılım tasarım ilkesinin (software design principles) bulunması tesadüf değildir. Yazar üstüne yazar bu düşünceyi iletmeye çalışmıştır. Kötü kod çok fazla şey yapmaya çalışır, bulanık niyeti (muddled intent) ve belirsiz amacı vardır. Temiz kod <em>odaklanmıştır</em> (focused). Her fonksiyon (function), her sınıf (class), her modül (module), çevredeki detaylar tarafından tamamen dikkat dağıtılmamış ve kirletilmemiş, tek fikirli bir tutum sergiler.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "html": "<div class=\"author-intro\">\n<span class=\"tr-text\">Grady Booch, <em>Object Oriented Analysis and Design with Applications</em> kitabının yazarı</span>\n<span class=\"en-text\" style=\"display:none;\">Grady Booch, author of <em>Object Oriented Analysis and Design with Applications</em></span>\n</div>"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Clean code is simple and direct. Clean code reads like well-written prose. Clean code never obscures the designer's intent but rather is full of crisp abstractions and straightforward lines of control.",
+          "tr": "Temiz kod basit ve doğrudandır. Temiz kod, iyi yazılmış bir düzyazı (prose) gibi okunur. Temiz kod, tasarımcının amacını (designer's intent) asla gizlemez; aksine keskin soyutlamalar (crisp abstractions) ve açık denetim akışları (straightforward lines of control) ile doludur.",
+          "html": true
+        }
+      ],
+      "style": "quote"
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Grady makes some of the same points as Bjarne, but he takes a <em>readability</em> perspective. I especially like his view that clean code should read like well-written prose. Think back on a really good book that you've read. Remember how the words disappeared to be replaced by images! It was like watching a movie, wasn't it? Better! You saw the characters, you heard the sounds, you experienced the pathos and the humor.",
+          "tr": "Grady, Bjarne ile aynı noktaların bazılarını dile getirir, ancak bir <em>okunabilirlik</em> (readability) perspektifinden bakar. Özellikle temiz kodun iyi yazılmış bir düzyazı (prose) gibi okunması gerektiği görüşünü seviyorum. Okuduğunuz gerçekten iyi bir kitabı düşünün. Kelimelerin kaybolup yerini imgeler aldığını hatırlayın! Bir film izlemek gibiydi, değil mi? Daha da iyisi! Karakterleri gördünüz, sesleri duydunuz, duygulanmayı (pathos) ve mizahı deneyimlediniz.",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "Reading clean code will never be quite like reading <em>Lord of the Rings</em>. Still, the literary metaphor is not a bad one. Like a good novel, clean code should clearly expose the tensions in the problem to be solved. It should build those tensions to a climax and then give",
+          "tr": "Temiz kod okumak asla <em>Yüzüklerin Efendisi</em> okumak gibi olmayacaktır. Yine de edebi metafor kötü bir metafor değildir. İyi bir roman gibi, temiz kod çözülmesi gereken problemdeki gerilimleri açıkça ortaya koymalıdır. Bu gerilimleri bir doruk noktasına taşımalı ve ardından —",
+          "html": true
+        }
+      ]
+    },
+    {
+      "type": "footnote",
+      "en": "<sup>3</sup> http://www.pragmaticprogrammer.com/booksellers/2004-12.html",
+      "tr": "<sup>3</sup> http://www.pragmaticprogrammer.com/booksellers/2004-12.html",
+      "html": true
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "[ Continued on page 9 ]",
+          "tr": "[ Sayfa 9'a devam edilecek ]",
+          "html": true
+        }
+      ],
+      "style": "continuation"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "brokenwindows",
+      "title": {
+        "en": "Broken Windows Theory",
+        "tr": "Kırık Pencereler Teorisi (Broken Windows Theory)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Pragmatik Programcılar (Dave Thomas ve Andy Hunt) tarafından yazılıma uyarlanan bu metafor, bir binadaki tek bir kırık pencerenin tüm binayı çürümeye (decay) sürükleyebileceğini anlatır. Kodda da aynıdır: tek bir kötü kod parçası, \"zaten bozuk, biraz daha bozulsa ne olacak?\" zihniyetini tetikler. Kötü kod, daha fazla kötü kodu <em>kışkırtır</em>. Kimsenin umursamadığı izlenimi verir ve ekip standartları hızla erir.</span><span class=\"en-text\" style=\"display:none;\">Adapted to software by the Pragmatic Programmers (Dave Thomas and Andy Hunt), this metaphor explains that a single broken window in a building can drag the entire structure into decay. The same applies to code: one piece of bad code triggers the mindset of \"it's already broken, a little more won't matter.\" Bad code <em>tempts</em> more bad code. It gives the impression nobody cares, and team standards erode rapidly.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — İlk \"kırık pencere\" ve ardından gelen çürüme</span><span class=\"en-text\" style=\"display:none;\">BAD — The first \"broken window\" and the decay that follows</span></span>\n<pre>class OrderService:\n    def process(self, order):\n        # TODO: validasyon ekle (6 ay önce yazıldı)\n        \n        # Hızlı düzeltme: bazen None geliyor\n        if order is not None:\n            try:\n                total = 0\n                for item in order.items:\n                    total = total + item.price  # vergi? neyse...\n                \n                # Başka biri eklemiş, dokunma\n                if order.customer.vip:\n                    total = total * 0.9  # hardcoded indirim\n                \n                # Acil hotfix - müşteri şikayet etti\n                if order.country == \"DE\":\n                    total = total * 1.19  # Almanya KDV\n                elif order.country == \"FR\":\n                    total = total * 1.20  # Fransa KDV\n                # diğer ülkeler? sonra ekleriz...\n                \n                order.total = total\n                db.save(order)  # hata yönetimi? biri halletsin\n                send_email(order.customer.email, total)  # bazen patlar ama olsun\n            except:\n                pass  # hataları yut, kimse fark etmez\n</pre>\n<div class=\"explanation\"><span class=\"tr-text\">İlk TODO zaten bir kırık pencereydi. Sonra \"neyse\", \"dokunma\", \"sonra ekleriz\", \"biri halletsin\" ve son olarak <code>except: pass</code> geldi. Her yeni geliştirici \"zaten bozuk\" diyerek kendi kırık penceresini ekledi.</span><span class=\"en-text\" style=\"display:none;\">The first TODO was already a broken window. Then came \"whatever\", \"don't touch\", \"add later\", \"someone else will handle it\", and finally <code>except: pass</code>. Each new developer said \"it's already broken\" and added their own broken window.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Kırık pencere yok: her detay özenle ele alınmış</span><span class=\"en-text\" style=\"display:none;\">GOOD — No broken windows: every detail handled with care</span></span>\n<pre>class OrderService:\n    def __init__(self, validator, tax_calculator, repository, notifier):\n        self._validator = validator\n        self._tax_calculator = tax_calculator\n        self._repository = repository\n        self._notifier = notifier\n\n    def process(self, order: Order) -&gt; ProcessedOrder:\n        self._validator.validate(order)\n        \n        subtotal = order.calculate_subtotal()\n        discount = order.customer.discount_strategy.apply(subtotal)\n        tax = self._tax_calculator.calculate(order.country, subtotal - discount)\n        \n        processed = order.finalize(subtotal, discount, tax)\n        self._repository.save(processed)\n        self._notifier.send_confirmation(processed)\n        \n        return processed</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">\"İzci Kuralı\"nı (Boy Scout Rule) uygulayın: kodu bulduğunuzdan daha temiz bırakın. Bir dosyada çalışırken küçük bir kırık pencere görürseniz (belirsiz isimlendirme, eksik hata yönetimi, sihirli sayı), hemen düzeltin. Kırık pencerelerin birikmesine asla izin vermeyin — ilk kırık pencere en tehlikelisidir.</span><span class=\"en-text\" style=\"display:none;\">Apply the \"Boy Scout Rule\": leave the code cleaner than you found it. When working in a file and you spot a small broken window (unclear naming, missing error handling, magic number), fix it immediately. Never let broken windows accumulate — the first one is the most dangerous.</span></div>"
+    },
+    {
+      "id": "attention",
+      "title": {
+        "en": "Attention to Detail",
+        "tr": "Detaylara Dikkat (Attention to Detail)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Bjarne Stroustrup, hata yönetiminin (error handling) eksiksiz olması gerektiğini vurgular. Kısaltılmış hata yönetimi, bellek sızıntıları (memory leaks), yarış durumları (race conditions) ve tutarsız isimlendirme (inconsistent naming) — bunların hepsi detayları geçiştirmenin farklı biçimleridir. Temiz kod, detaylara yakın ilgi gösterir. Her hata durumu düşünülmüş, her sınır koşulu ele alınmış, her isimlendirme tutarlıdır.</span><span class=\"en-text\" style=\"display:none;\">Bjarne Stroustrup emphasizes that error handling should be complete. Abbreviated error handling, memory leaks, race conditions, and inconsistent naming — all are different forms of glossing over details. Clean code exhibits close attention to detail. Every error case is considered, every edge condition is handled, every naming convention is consistent.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Detaylar geçiştirilmiş: sızıntılar, yarış durumları, tutarsız isimlendirme</span><span class=\"en-text\" style=\"display:none;\">BAD — Details glossed over: leaks, race conditions, inconsistent naming</span></span>\n<pre>public class CacheManager {\n    private Map&lt;String, Object&gt; cache = new HashMap&lt;&gt;();\n    private Map&lt;String, Long&gt; TTL = new HashMap&lt;&gt;();  // tutarsız isimlendirme\n\n    public Object Get(String key) {  // tutarsız: Get vs put\n        return cache.get(key);  // TTL kontrolü yok = bellek sızıntısı\n    }\n\n    public void put(String k, Object v, long ttl) {  // k, v belirsiz\n        cache.put(k, v);\n        TTL.put(k, System.currentTimeMillis() + ttl);\n        // Thread-safe değil = yarış durumu\n    }\n\n    public void deleteOld() {  // ne zaman çağrılacak? kim çağıracak?\n        for (String key : TTL.keySet()) {  // ConcurrentModificationException riski\n            if (TTL.get(key) &lt; System.currentTimeMillis()) {\n                cache.remove(key);\n                TTL.remove(key);  // iterasyon sırasında silme!\n            }\n        }\n    }\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Dört farklı detay ihmali: (1) Tutarsız isimlendirme (<code>Get</code> vs <code>put</code>, <code>TTL</code> vs <code>cache</code>), (2) TTL kontrolsüz okuma = bellek sızıntısı, (3) Thread güvenliği yok = yarış durumu, (4) İterasyon sırasında koleksiyon değiştirme = çalışma zamanı hatası.</span><span class=\"en-text\" style=\"display:none;\">Four different detail oversights: (1) Inconsistent naming (<code>Get</code> vs <code>put</code>, <code>TTL</code> vs <code>cache</code>), (2) Reading without TTL check = memory leak, (3) No thread safety = race condition, (4) Modifying collection during iteration = runtime error.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Her detay özenle ele alınmış</span><span class=\"en-text\" style=\"display:none;\">GOOD — Every detail carefully handled</span></span>\n<pre>public class ExpiringCache&lt;T&gt; {\n    private final ConcurrentHashMap&lt;String, CacheEntry&lt;T&gt;&gt; entries;\n    private final ScheduledExecutorService cleaner;\n\n    public Optional&lt;T&gt; get(String key) {\n        CacheEntry&lt;T&gt; entry = entries.get(key);\n        if (entry == null || entry.isExpired()) {\n            entries.remove(key);\n            return Optional.empty();\n        }\n        return Optional.of(entry.value());\n    }\n\n    public void put(String key, T value, Duration timeToLive) {\n        entries.put(key, new CacheEntry&lt;&gt;(value, Instant.now().plus(timeToLive)));\n    }\n\n    private void evictExpiredEntries() {\n        entries.entrySet().removeIf(e -&gt; e.getValue().isExpired());\n    }\n\n    private record CacheEntry&lt;T&gt;(T value, Instant expiresAt) {\n        boolean isExpired() { return Instant.now().isAfter(expiresAt); }\n    }\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">Kod yazarken şu kontrol listesini uygulayın: (1) İsimlendirme tutarlı mı? (2) Her hata durumu ele alındı mı? (3) Kaynaklar düzgün serbest bırakılıyor mu? (4) Eşzamanlı erişim güvenli mi? (5) Sınır koşulları (null, boş koleksiyon, negatif değer) test edildi mi? Bir tane bile \"sonra hallederim\" cevabı varsa, o bir kırık penceredir.</span><span class=\"en-text\" style=\"display:none;\">Apply this checklist when coding: (1) Is naming consistent? (2) Is every error case handled? (3) Are resources properly released? (4) Is concurrent access safe? (5) Are edge cases (null, empty collection, negative value) tested? If even one answer is \"I'll handle it later\", that's a broken window.</span></div>"
+    },
+    {
+      "id": "prose",
+      "title": {
+        "en": "Code as Prose",
+        "tr": "Düzyazı Gibi Kod (Code as Prose)"
+      },
+      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\" style=\"display:none;\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Grady Booch, temiz kodun \"iyi yazılmış bir düzyazı (prose) gibi okunması\" gerektiğini söyler. Martin bu metaforu genişletir: iyi bir roman gibi, temiz kod da problemdeki gerilimleri ortaya koymalı, onları bir doruk noktasına taşımalı ve okuyucuya \"Aaa! Tabii ki!\" dedirtmelidir. Kod yazarken, okuyucunuzu bir hikâyede olduğu gibi yönlendirmelisiniz — her satır bir sonrakini doğal olarak izlemelidir.</span><span class=\"en-text\" style=\"display:none;\">Grady Booch says clean code should \"read like well-written prose.\" Martin extends this metaphor: like a good novel, clean code should expose the tensions in the problem, build them to a climax, and give the reader an \"Aha! Of course!\" moment. When writing code, you should guide your reader as in a story — each line should naturally follow the previous one.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\" style=\"display:none;\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Okunamayan \"şifreli\" kod: hikâye anlatmıyor</span><span class=\"en-text\" style=\"display:none;\">BAD — Unreadable \"cryptic\" code: tells no story</span></span>\n<pre>function proc(d, t) {\n    const r = [];\n    const n = new Date();\n    for (let i = 0; i &lt; d.length; i++) {\n        const x = d[i];\n        if (x.s === 1 &amp;&amp; x.e &gt; n) {\n            if (t === 1) {\n                if (x.p &gt; 100) r.push(x);\n            } else if (t === 2) {\n                if (x.c &gt;= 4.0) r.push(x);\n            }\n        }\n    }\n    r.sort((a, b) =&gt; b.p - a.p);\n    return r.slice(0, 10);\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Bu kodu okumak bir bulmacayı çözmek gibi. <code>d</code>, <code>t</code>, <code>x</code>, <code>s</code>, <code>e</code>, <code>p</code>, <code>c</code> — hiçbir değişkenin ne anlama geldiğini bilmiyorsunuz. Kod bir hikâye anlatmıyor; şifre çözmeye zorluyor.</span><span class=\"en-text\" style=\"display:none;\">Reading this code is like solving a puzzle. <code>d</code>, <code>t</code>, <code>x</code>, <code>s</code>, <code>e</code>, <code>p</code>, <code>c</code> — you have no idea what any variable means. The code doesn't tell a story; it forces you to decrypt.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\" style=\"display:none;\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Düzyazı gibi okunur: bir hikâye anlatır</span><span class=\"en-text\" style=\"display:none;\">GOOD — Reads like prose: tells a story</span></span>\n<pre>function findTopProducts(products, searchStrategy) {\n    const activeProducts = products\n        .filter(product =&gt; product.isActive() &amp;&amp; !product.isExpired());\n    \n    const matchingProducts = searchStrategy.apply(activeProducts);\n    \n    const topTen = matchingProducts\n        .sort(byPriceDescending)\n        .slice(0, 10);\n    \n    return topTen;\n}\n\nconst premiumProducts = findTopProducts(catalog, new PriceAbove(100));\nconst topRated = findTopProducts(catalog, new RatingAbove(4.0));</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\" style=\"display:none;\">Practical Tip</span></strong><span class=\"tr-text\">Kodunuzu sesli okuyun. Eğer İngilizce (veya Türkçe) bir cümle gibi akıyorsa, doğru yoldasınız: <code>findTopProducts(catalog, new PriceAbove(100))</code> → \"Fiyatı 100'ün üstünde olan en iyi ürünleri bul.\" Eğer sesli okuduğunuzda anlamsız geliyorsa (<code>proc(d, 1)</code> → ???), yeniden isimlendirin.</span><span class=\"en-text\" style=\"display:none;\">Read your code aloud. If it flows like an English (or Turkish) sentence, you're on the right track: <code>findTopProducts(catalog, new PriceAbove(100))</code> → \"Find top products in catalog with price above 100.\" If reading aloud makes no sense (<code>proc(d, 1)</code> → ???), rename.</span></div>"
+    }
+  ]
+});

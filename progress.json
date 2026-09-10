@@ -1,0 +1,532 @@
+{
+  "book_pdf": "[PROGRAMMING][Clean Code by Robert C Martin].pdf",
+  "pdf_offset": 31,
+  "book_total_pages": 431,
+  "pdf_total_pages": 462,
+  "pages_per_run": 3,
+  "last_translated_page": 52,
+  "chapters": [
+    {
+      "num": 1,
+      "en": "Clean Code",
+      "tr": "Temiz Kod",
+      "start": 1
+    },
+    {
+      "num": 2,
+      "en": "Meaningful Names",
+      "tr": "Anlamlı İsimler",
+      "start": 17
+    },
+    {
+      "num": 3,
+      "en": "Functions",
+      "tr": "Fonksiyonlar",
+      "start": 31
+    },
+    {
+      "num": 4,
+      "en": "Comments",
+      "tr": "Yorumlar",
+      "start": 53
+    },
+    {
+      "num": 5,
+      "en": "Formatting",
+      "tr": "Biçimlendirme",
+      "start": 75
+    },
+    {
+      "num": 6,
+      "en": "Objects and Data Structures",
+      "tr": "Nesneler ve Veri Yapıları",
+      "start": 93
+    },
+    {
+      "num": 7,
+      "en": "Error Handling",
+      "tr": "Hata Yönetimi",
+      "start": 103
+    },
+    {
+      "num": 8,
+      "en": "Boundaries",
+      "tr": "Sınırlar",
+      "start": 113
+    },
+    {
+      "num": 9,
+      "en": "Unit Tests",
+      "tr": "Birim Testleri",
+      "start": 121
+    },
+    {
+      "num": 10,
+      "en": "Classes",
+      "tr": "Sınıflar",
+      "start": 135
+    },
+    {
+      "num": 11,
+      "en": "Systems",
+      "tr": "Sistemler",
+      "start": 153
+    },
+    {
+      "num": 12,
+      "en": "Emergence",
+      "tr": "Ortaya Çıkış",
+      "start": 171
+    },
+    {
+      "num": 13,
+      "en": "Concurrency",
+      "tr": "Eşzamanlılık",
+      "start": 177
+    },
+    {
+      "num": 14,
+      "en": "Successive Refinement",
+      "tr": "Ardışık İyileştirme",
+      "start": 193
+    },
+    {
+      "num": 15,
+      "en": "JUnit Internals",
+      "tr": "JUnit'in İç Yapısı",
+      "start": 251
+    },
+    {
+      "num": 16,
+      "en": "Refactoring SerialDate",
+      "tr": "SerialDate'i Yeniden Düzenleme",
+      "start": 267
+    },
+    {
+      "num": 17,
+      "en": "Smells and Heuristics",
+      "tr": "Kokular ve Sezgisel Kurallar",
+      "start": 285
+    },
+    {
+      "num": 18,
+      "en": "Appendices",
+      "tr": "Ekler",
+      "start": 317
+    }
+  ],
+  "pages": {
+    "1": {
+      "pdf_page": 32,
+      "chapter": 1,
+      "title_en": "Clean Code",
+      "title_tr": "Temiz Kod",
+      "section_en": "Clean Code",
+      "section_tr": "Temiz Kod"
+    },
+    "2": {
+      "pdf_page": 33,
+      "chapter": 1,
+      "title_en": "There Will Be Code",
+      "title_tr": "Kod Her Zaman Var Olacak",
+      "section_en": "There Will Be Code",
+      "section_tr": "Kod Her Zaman Var Olacak"
+    },
+    "3": {
+      "pdf_page": 34,
+      "chapter": 1,
+      "title_en": "Bad Code",
+      "title_tr": "Kötü Kod",
+      "section_en": "Bad Code",
+      "section_tr": "Kötü Kod"
+    },
+    "4": {
+      "pdf_page": 35,
+      "chapter": 1,
+      "title_en": "The Total Cost of Owning a Mess",
+      "title_tr": "Karmaşanın Toplam Maliyeti",
+      "section_en": "The Total Cost of Owning a Mess",
+      "section_tr": "Karmaşanın Toplam Maliyeti"
+    },
+    "5": {
+      "pdf_page": 36,
+      "chapter": 1,
+      "title_en": "The Grand Redesign in the Sky",
+      "title_tr": "Gökyüzündeki Büyük Yeniden Tasarım",
+      "section_en": "The Grand Redesign in the Sky",
+      "section_tr": "Gökyüzündeki Büyük Yeniden Tasarım"
+    },
+    "6": {
+      "pdf_page": 37,
+      "chapter": 1,
+      "title_en": "The Primal Conundrum & The Art of Clean Code?",
+      "title_tr": "Temel İkilem & Temiz Kod Sanatı",
+      "section_en": "Attitude, The Primal Conundrum, The Art of Clean Code?",
+      "section_tr": "Attitude, The Primal Conundrum, The Art of Clean Code?"
+    },
+    "7": {
+      "pdf_page": 38,
+      "chapter": 1,
+      "title_en": "What Is Clean Code?",
+      "title_tr": "Temiz Kod Nedir? — Bjarne Stroustrup",
+      "section_en": "The Art of Clean Code?, What Is Clean Code?",
+      "section_tr": "The Art of Clean Code?, What Is Clean Code?"
+    },
+    "8": {
+      "pdf_page": 39,
+      "chapter": 1,
+      "title_en": "Broken Windows & Grady Booch",
+      "title_tr": "Kırık Pencereler & Grady Booch",
+      "section_en": "What Is Clean Code?",
+      "section_tr": "What Is Clean Code?"
+    },
+    "9": {
+      "pdf_page": 40,
+      "chapter": 1,
+      "title_en": "Crisp Abstraction & Dave Thomas",
+      "title_tr": "Keskin Soyutlama & \"Big\" Dave Thomas",
+      "section_en": "What Is Clean Code?",
+      "section_tr": "What Is Clean Code?"
+    },
+    "10": {
+      "pdf_page": 41,
+      "chapter": 1,
+      "title_en": "Michael Feathers & Ron Jeffries — Beck'in Basit Kod Kuralları",
+      "title_tr": "Michael Feathers & Ron Jeffries — Beck'in Basit Kod Kuralları",
+      "section_en": "What Is Clean Code?",
+      "section_tr": "What Is Clean Code?"
+    },
+    "11": {
+      "pdf_page": 42,
+      "chapter": 1,
+      "title_en": "Ron Jeffries (devam) & Ward Cunningham",
+      "title_tr": "Ron Jeffries (devam) & Ward Cunningham",
+      "section_en": "What Is Clean Code?",
+      "section_tr": "What Is Clean Code?"
+    },
+    "12": {
+      "pdf_page": 43,
+      "chapter": 1,
+      "title_en": "Ward Cunningham (devam) & Düşünce Okulları",
+      "title_tr": "Ward Cunningham (devam) & Düşünce Okulları",
+      "section_en": "What Is Clean Code? / Schools of Thought",
+      "section_tr": "What Is Clean Code? / Schools of Thought"
+    },
+    "13": {
+      "pdf_page": 44,
+      "chapter": 1,
+      "title_en": "Düşünce Okulları (devam) & Biz Yazarlarız",
+      "title_tr": "Düşünce Okulları (devam) & Biz Yazarlarız",
+      "section_en": "Schools of Thought / We Are Authors",
+      "section_tr": "Schools of Thought / We Are Authors"
+    },
+    "14": {
+      "pdf_page": 45,
+      "chapter": 1,
+      "title_en": "Okuma vs Yazma & İzci Kuralı",
+      "title_tr": "Okuma vs Yazma & İzci Kuralı",
+      "section_en": "We Are Authors / The Boy Scout Rule",
+      "section_tr": "We Are Authors / The Boy Scout Rule"
+    },
+    "15": {
+      "pdf_page": 46,
+      "chapter": 1,
+      "title_en": "Öncül ve İlkeler, Sonuç & Kaynakça",
+      "title_tr": "Öncül ve İlkeler, Sonuç & Kaynakça",
+      "section_en": "Prequel and Principles / Conclusion / Bibliography",
+      "section_tr": "Prequel and Principles / Conclusion / Bibliography"
+    },
+    "16": {
+      "blank": true,
+      "pdf_page": 47
+    },
+    "17": {
+      "pdf_page": 48,
+      "chapter": 2,
+      "title_en": "Meaningful Names — Introduction",
+      "title_tr": "Anlamlı İsimler — Giriş",
+      "section_en": "Introduction",
+      "section_tr": "Giriş"
+    },
+    "18": {
+      "pdf_page": 49,
+      "chapter": 2,
+      "title_en": "Use Intention-Revealing Names",
+      "title_tr": "Niyet Belirten İsimler Kullanın",
+      "section_en": "Use Intention-Revealing Names",
+      "section_tr": "Use Intention-Revealing Names"
+    },
+    "19": {
+      "pdf_page": 50,
+      "chapter": 2,
+      "title_en": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının",
+      "title_tr": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının",
+      "section_en": "Use Intention-Revealing Names (devam) / Avoid Disinformation",
+      "section_tr": "Use Intention-Revealing Names (devam) / Avoid Disinformation"
+    },
+    "20": {
+      "pdf_page": 51,
+      "chapter": 2,
+      "title_en": "Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın",
+      "title_tr": "Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın",
+      "section_en": "Avoid Disinformation (devam) / Make Meaningful Distinctions",
+      "section_tr": "Avoid Disinformation (devam) / Make Meaningful Distinctions"
+    },
+    "21": {
+      "pdf_page": 52,
+      "chapter": 2,
+      "title_en": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın",
+      "title_tr": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın",
+      "section_en": "Make Meaningful Distinctions (devam) / Use Pronounceable Names",
+      "section_tr": "Make Meaningful Distinctions (devam) / Use Pronounceable Names"
+    },
+    "22": {
+      "pdf_page": 53,
+      "chapter": 2,
+      "title_en": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın",
+      "title_tr": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın",
+      "section_en": "Use Pronounceable Names (devam) / Use Searchable Names",
+      "section_tr": "Use Pronounceable Names (devam) / Use Searchable Names"
+    },
+    "23": {
+      "pdf_page": 54,
+      "chapter": 2,
+      "title_en": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu",
+      "title_tr": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu",
+      "section_en": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation",
+      "section_tr": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation"
+    },
+    "24": {
+      "pdf_page": 55,
+      "chapter": 2,
+      "title_en": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar",
+      "title_tr": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar",
+      "section_en": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations",
+      "section_tr": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations"
+    },
+    "25": {
+      "pdf_page": 56,
+      "chapter": 2,
+      "title_en": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme",
+      "title_tr": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme",
+      "section_en": "Avoid Mental Mapping / Class Names / Method Names",
+      "section_tr": "Avoid Mental Mapping / Class Names / Method Names"
+    },
+    "26": {
+      "pdf_page": 57,
+      "chapter": 2,
+      "title_en": "Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının",
+      "title_tr": "Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının",
+      "section_en": "Don't Be Cute / Pick One Word per Concept / Don't Pun",
+      "section_tr": "Don't Be Cute / Pick One Word per Concept / Don't Pun"
+    },
+    "27": {
+      "pdf_page": 58,
+      "chapter": 2,
+      "title_en": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme",
+      "title_tr": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme",
+      "section_en": "Solution and Problem Domain Names / Meaningful Context",
+      "section_tr": "Solution and Problem Domain Names / Meaningful Context"
+    },
+    "28": {
+      "pdf_page": 59,
+      "chapter": 2,
+      "title_en": "Anlamlı Bağlam Ekleme (devam)",
+      "title_tr": "Anlamlı Bağlam Ekleme (devam)",
+      "section_en": "Add Meaningful Context",
+      "section_tr": "Anlamlı Bağlam Ekleme"
+    },
+    "29": {
+      "pdf_page": 60,
+      "chapter": 2,
+      "title_en": "Don't Add Gratuitous Context",
+      "title_tr": "Gereksiz Bağlam Eklemeyin",
+      "section_en": "Don't Add Gratuitous Context",
+      "section_tr": "Don't Add Gratuitous Context"
+    },
+    "30": {
+      "pdf_page": 61,
+      "chapter": 2,
+      "title_en": "Final Words",
+      "title_tr": "Son Sözler",
+      "section_en": "Final Words",
+      "section_tr": "Son Sözler"
+    },
+    "31": {
+      "pdf_page": 62,
+      "chapter": 3,
+      "title_en": "Functions — Introduction",
+      "title_tr": "Fonksiyonlar — Giriş",
+      "section_en": "Giriş",
+      "section_tr": "Giriş"
+    },
+    "32": {
+      "pdf_page": 63,
+      "chapter": 3,
+      "title_en": "Small!",
+      "title_tr": "Küçük Olmalı!",
+      "section_en": "Küçük Olmalı!",
+      "section_tr": "Küçük Olmalı!"
+    },
+    "33": {
+      "pdf_page": 64,
+      "chapter": 3,
+      "title_en": "Blocks and Indenting",
+      "title_tr": "Bloklar ve Girinti",
+      "section_en": "Küçük Olmalı!",
+      "section_tr": "Küçük Olmalı!"
+    },
+    "34": {
+      "pdf_page": 65,
+      "chapter": 3,
+      "title_en": "Do One Thing",
+      "title_tr": "Tek Şey Yapmalı",
+      "section_en": "Tek Şey Yapmalı",
+      "section_tr": "Tek Şey Yapmalı"
+    },
+    "35": {
+      "pdf_page": 66,
+      "chapter": 3,
+      "title_en": "Sections within Functions & One Level of Abstraction per Function",
+      "title_tr": "Fonksiyonlar İçinde Bölümler & Soyutlama Seviyesi",
+      "section_en": "Tek Şey Yapmalı",
+      "section_tr": "Tek Şey Yapmalı"
+    },
+    "36": {
+      "pdf_page": 67,
+      "chapter": 3,
+      "title_en": "One Level of Abstraction per Function & The Stepdown Rule",
+      "title_tr": "Fonksiyon Başına Bir Soyutlama Seviyesi & Basamak Kuralı",
+      "section_en": "Fonksiyon Başına Bir Soyutlama Seviyesi",
+      "section_tr": "Fonksiyon Başına Bir Soyutlama Seviyesi"
+    },
+    "37": {
+      "pdf_page": 68,
+      "chapter": 3,
+      "title_en": "Switch Statements & Use Descriptive Names",
+      "title_tr": "Switch İfadeleri & Açıklayıcı İsimler",
+      "section_en": "Switch İfadeleri",
+      "section_tr": "Switch İfadeleri"
+    },
+    "38": {
+      "pdf_page": 69,
+      "chapter": 3,
+      "title_en": "Consistent Lexicon & Function Arguments",
+      "title_tr": "Tutarlı Kelime Haznesi & Fonksiyon Argümanları",
+      "section_en": "Açıklayıcı İsimler",
+      "section_tr": "Açıklayıcı İsimler"
+    },
+    "39": {
+      "pdf_page": 70,
+      "chapter": 3,
+      "title_en": "Common Monadic Forms, Flag Arguments, Dyads",
+      "title_tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları, İkililer",
+      "section_en": "Fonksiyon Argümanları",
+      "section_tr": "Fonksiyon Argümanları"
+    },
+    "40": {
+      "pdf_page": 71,
+      "chapter": 3,
+      "title_en": "Function Arguments (cont.)",
+      "title_tr": "Fonksiyon Argümanları (devam)",
+      "section_en": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları",
+      "section_tr": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları"
+    },
+    "41": {
+      "pdf_page": 72,
+      "chapter": 3,
+      "title_en": "Common Monadic Forms, Flag Arguments",
+      "title_tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları",
+      "section_en": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları",
+      "section_tr": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları"
+    },
+    "42": {
+      "pdf_page": 73,
+      "chapter": 3,
+      "title_en": "Dyadic Functions, Triads",
+      "title_tr": "İkililer, Üçlüler",
+      "section_en": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri",
+      "section_tr": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri"
+    },
+    "43": {
+      "pdf_page": 74,
+      "chapter": 3,
+      "title_en": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler",
+      "title_tr": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler",
+      "section_en": "Fonksiyon Argümanları",
+      "section_tr": "Fonksiyon Argümanları"
+    },
+    "44": {
+      "pdf_page": 75,
+      "chapter": 3,
+      "title_en": "Have No Side Effects",
+      "title_tr": "Yan Etkilere Dikkat",
+      "section_en": "Yan Etkilere Dikkat",
+      "section_tr": "Yan Etkilere Dikkat"
+    },
+    "45": {
+      "pdf_page": 76,
+      "chapter": 3,
+      "title_en": "Output Arguments, Command Query Separation",
+      "title_tr": "Çıkış Argümanları, Komut Sorgu Ayrımı",
+      "section_en": "Çıkış Argümanları / Komut Sorgu Ayrımı",
+      "section_tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
+    },
+    "46": {
+      "pdf_page": 77,
+      "chapter": 3,
+      "title_en": "Prefer Exceptions, Extract Try/Catch",
+      "title_tr": "Hata Kodları Yerine İstisnalar, Try/Catch Blokları",
+      "section_en": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları",
+      "section_tr": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları"
+    },
+    "47": {
+      "pdf_page": 78,
+      "chapter": 3,
+      "title_en": "Dependency Magnet, DRY",
+      "title_tr": "Error.java Bağımlılık Mıknatısı, Kendini Tekrar Etme",
+      "section_en": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı",
+      "section_tr": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı"
+    },
+    "48": {
+      "pdf_page": 79,
+      "chapter": 3,
+      "title_en": "Structured Programming, Conclusion",
+      "title_tr": "Yapısal Programlama, Fonksiyonları Nasıl Yazarsınız?, Sonuç",
+      "section_en": "DRY & Yapısal Programlama",
+      "section_tr": "DRY & Yapısal Programlama"
+    },
+    "49": {
+      "pdf_page": 80,
+      "chapter": 3,
+      "title_en": "SetupTeardownIncluder (Listing 3-7)",
+      "title_tr": "SetupTeardownIncluder (Listing 3-7)",
+      "section_en": "SetupTeardownIncluder",
+      "section_tr": "SetupTeardownIncluder"
+    },
+    "50": {
+      "pdf_page": 81,
+      "chapter": 3,
+      "title_en": "SetupTeardownIncluder (devam)",
+      "title_tr": "SetupTeardownIncluder (devam)",
+      "section_en": "SetupTeardownIncluder (devam)",
+      "section_tr": "SetupTeardownIncluder (devam)"
+    },
+    "51": {
+      "pdf_page": 82,
+      "chapter": 3,
+      "title_en": "SetupTeardownIncluder (son) & Kaynakça",
+      "title_tr": "SetupTeardownIncluder (son) & Kaynakça",
+      "section_en": "SetupTeardownIncluder (son) & Kaynakça",
+      "section_tr": "SetupTeardownIncluder (son) & Kaynakça"
+    },
+    "52": {
+      "pdf_page": 83,
+      "chapter": 3,
+      "title_en": "Bibliography",
+      "title_tr": "Kaynakça",
+      "section_en": "Kaynakça (Bibliography)",
+      "section_tr": "Kaynakça (Bibliography)"
+    }
+  }
+}
