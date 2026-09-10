@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/reader.css?v=4">
+  <link rel="stylesheet" href="css/reader.css?v=6">
 </head>
 <body>
 
@@ -29,6 +29,7 @@
       <button data-lang="en">EN</button>
       <button data-lang="both">EN+TR</button>
     </div>
+    <button class="icon-btn layout-btn" id="layout-btn" title="Tek sayfa / çift sayfa (açık kitap)" aria-label="Çift sayfa görünümü"><span class="pg-icon"></span><span class="pg-icon"></span></button>
     <div class="font-controls">
       <button class="icon-btn" id="font-down" title="Yazıyı küçült">A−</button>
       <button class="icon-btn" id="font-up" title="Yazıyı büyüt">A+</button>
@@ -39,12 +40,20 @@
 
 <main class="desk">
   <button class="turn turn-prev" data-nav="prev" title="Önceki sayfa (←)" aria-label="Önceki sayfa">‹</button>
-  <article class="sheet" id="sheet">
-    <div class="running-head ui-pair" id="running-head"></div>
-    <div class="page-body" id="page-body"><p class="status">Yükleniyor…</p></div>
-    <section class="concepts ui-pair" id="concepts"></section>
-    <div class="folio" id="folio"></div>
-  </article>
+  <div class="book" id="book">
+    <article class="sheet" id="sheet-left">
+      <div class="running-head ui-pair"></div>
+      <div class="page-body"><p class="status">Yükleniyor…</p></div>
+      <section class="concepts ui-pair"></section>
+      <div class="folio"></div>
+    </article>
+    <article class="sheet" id="sheet-right" hidden>
+      <div class="running-head ui-pair"></div>
+      <div class="page-body"></div>
+      <section class="concepts ui-pair"></section>
+      <div class="folio"></div>
+    </article>
+  </div>
   <button class="turn turn-next" data-nav="next" title="Sonraki sayfa (→)" aria-label="Sonraki sayfa">›</button>
 </main>
 
@@ -73,14 +82,16 @@
 </div>
 <div id="word-tip"></div>
 
-<script src="data/toc.js?v=4"></script>
-<script src="data/glossary.js?v=4"></script>
-<script src="js/highlight.js?v=4"></script>
-<script src="js/blocks.js?v=4"></script>
-<script src="js/concepts.js?v=4"></script>
-<script src="js/panels.js?v=4"></script>
-<script src="js/cover.js?v=4"></script>
-<script src="js/controls.js?v=4"></script>
-<script src="js/reader.js?v=4"></script>
+<script src="data/toc.js?v=6"></script>
+<script src="data/glossary.js?v=6"></script>
+<script src="js/highlight.js?v=6"></script>
+<script src="js/blocks.js?v=6"></script>
+<script src="js/pages.js?v=6"></script>
+<script src="js/sheet.js?v=6"></script>
+<script src="js/concepts.js?v=6"></script>
+<script src="js/panels.js?v=6"></script>
+<script src="js/cover.js?v=6"></script>
+<script src="js/controls.js?v=6"></script>
+<script src="js/reader.js?v=6"></script>
 </body>
 </html>

@@ -66,8 +66,10 @@ Clean Code/
 ├── index.html                  Okuyucu uygulaması (tek sayfa, kitap benzeri arayüz)
 ├── css/reader.css              Okuyucu stili
 ├── js/
-│   ├── reader.js               Okuyucu motoru (sayfa yükleme, çizim, gezinme)
-│   ├── controls.js             Denetimler (dil modu, yazı boyutu, klavye, kaydırma)
+│   ├── reader.js               Okuyucu motoru (tek/çift sayfa görünümü, gezinme, adres yönlendirme)
+│   ├── pages.js                Sayfa verisi yükleyici (data/pages/page-N.js, önbellek)
+│   ├── sheet.js                Tek bir kitap yaprağını doldurur (koşu başlığı, gövde, kavramlar, folyo)
+│   ├── controls.js             Denetimler (dil modu, yazı boyutu, klavye, kaydırma, görünüm düğmesi)
 │   ├── blocks.js               Blok tiplerini HTML'e çizer
 │   ├── concepts.js             Kavram kartları (few-shot modal)
 │   ├── panels.js               İçindekiler ve sözlük çekmeceleri
@@ -131,6 +133,7 @@ Yeni bir bölüme geçerken özel bir işlem gerekmez; `chapters` tablosu tüm b
 ## Okuyucu (Reader) Özellikleri
 
 - **Kitap benzeri sayfa**: Basılı kitaptaki gibi koşu başlığı (bölüm / kesit) ve sayfa numarası taşıyan sayfa yaprağı.
+- **Çift sayfa (açık kitap) görünümü**: Üst bardaki çift sayfa düğmesi (≥1100px genişlikte) iki yaprağı yan yana, ortada sırt olacak şekilde gösterir. TR veya EN modunda kitaptaki gibi ardışık iki sayfa (solda çift, sağda tek numara; boş/çevrilmemiş sayfalar yer tutucu yaprak olur). EN+TR modunda ise **paralel kitap**: solda aynı sayfanın İngilizcesi, sağda Türkçesi; bir cümleye tıklanınca karşı yapraktaki cümle de vurgulanır. Tercih `localStorage`'da saklanır.
 - **Üst bar**: Kitap adı, bölüm breadcrumb'ı, sayfa numarası girişi (Enter ile gider; çevrilmemiş sayfa için toast: "Sayfa N henüz çevrilmedi. '/cevir N' yazın veya 'sıradaki sayfa' deyin."), dil modu, yazı boyutu A- / A+, içindekiler çekmecesi, sözlük çekmecesi.
 - **Dil modu**: TR / EN / EN+TR. Varsayılan TR, tercih `localStorage`'da hatırlanır. Kod blokları dil değişiminden etkilenmez.
 - **Cümle eşleme**: Bir cümleye tıklanınca diğer dildeki karşılığı gösterilir.
