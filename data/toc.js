@@ -763,12 +763,12 @@ window.TOC = {
     },
     "59": {
       "title": {
-        "en": "Warning of Consequences",
-        "tr": "Sonuçlara Dair Uyarı"
+        "en": "Amplification & Javadocs in Public APIs",
+        "tr": "Önem Belirtme ve Herkese Açık API'lerde Javadoc"
       },
       "section": {
-        "en": "Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük Yorumlar",
-        "tr": "Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük Yorumlar"
+        "en": "Amplification / Javadocs in Public APIs / Bad Comments",
+        "tr": "Önem Belirtme / Herkese Açık API'lerde Javadoc / Kötü Yorumlar"
       },
       "chapter": 4
     },
@@ -807,100 +807,100 @@ window.TOC = {
     },
     "63": {
       "title": {
-        "en": "Redundant Comments",
-        "tr": "Gereksiz Yorumlar"
+        "en": "Misleading, Mandated & Journal Comments",
+        "tr": "Yanıltıcı, Zorunlu ve Günlük Yorumlar"
       },
       "section": {
-        "en": "Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı, Yorum Satırındaki Kod devamı",
-        "tr": "Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı, Yorum Satırındaki Kod devamı"
+        "en": "Misleading, Mandated & Journal Comments",
+        "tr": "Yanıltıcı, Zorunlu ve Günlük Yorumlar"
       },
       "chapter": 4
     },
     "64": {
       "title": {
-        "en": "Misleading & Mandated",
-        "tr": "Yanıltıcı & Zorunlu"
+        "en": "Journal Comments & Noise Comments",
+        "tr": "Günlük ve Gürültü Yorumları"
       },
       "section": {
-        "en": "Örnek — GeneratePrimes.java (Listing 4-7)",
-        "tr": "Örnek — GeneratePrimes.java (Listing 4-7)"
+        "en": "Journal Comments / Noise Comments",
+        "tr": "Günlük Yorumlar / Gürültü Yorumları (Noise Comments)"
       },
       "chapter": 4
     },
     "65": {
       "title": {
-        "en": "Journal & Noise",
-        "tr": "Günlük & Gürültü Yorumları"
+        "en": "Noise Comments — Listing 4-4 & 4-5",
+        "tr": "Gürültü Yorumları — Listing 4-4 ve 4-5"
       },
       "section": {
-        "en": "Gürültü Yorumu Devamı — Listing 4-4 ve Refactored 4-5",
-        "tr": "Gürültü Yorumu Devamı — Listing 4-4 ve Refactored 4-5"
+        "en": "Noise Comments (continued)",
+        "tr": "Gürültü Yorumları (devam)"
       },
       "chapter": 4
     },
     "66": {
       "title": {
-        "en": "Scary Noise & By-lines",
-        "tr": "Korkunç Gürültü & İmzalar"
+        "en": "Scary Noise — Redundant Javadocs",
+        "tr": "Korkunç Gürültü — Gereksiz Javadoc'lar"
       },
       "section": {
-        "en": "Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma",
-        "tr": "Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma"
+        "en": "Scary Noise",
+        "tr": "Korkunç Gürültü (Scary Noise)"
       },
       "chapter": 4
     },
     "67": {
       "title": {
-        "en": "Konum İşaretçileri & Kapatma Parantezi",
-        "tr": "Konum İşaretçileri & Kapatma Parantezi"
+        "en": "Use a Function, Position Markers & Closing Braces",
+        "tr": "Fonksiyon Kullanın, Konum İşaretçileri ve Kapatma Parantezleri"
       },
       "section": {
-        "en": "wc.java Listing Devamı, Atıf, Yorum Satırındaki Kod",
-        "tr": "wc.java Listing Devamı, Atıf, Yorum Satırındaki Kod"
+        "en": "Position Markers & Closing Brace Comments",
+        "tr": "Konum İşaretçileri ve Kapatma Parantezi Yorumları"
       },
       "chapter": 4
     },
     "68": {
       "title": {
-        "en": "Commented-out Code",
-        "tr": "Yorum Satırına Alınmış Kod"
+        "en": "Attributions & Commented-Out Code",
+        "tr": "Atıflar ve Yorum Satırına Alınmış Kod"
       },
       "section": {
-        "en": "Listing 4-6 devamı (wc.java) ve Yorum Satırındaki Kod devamı",
-        "tr": "Listing 4-6 devamı (wc.java) ve Yorum Satırındaki Kod devamı"
+        "en": "Attributions, Bylines & Commented-Out Code",
+        "tr": "Atıflar, İmzalar ve Yorum Satırına Alınmış Kod"
       },
       "chapter": 4
     },
     "69": {
       "title": {
-        "en": "HTML Javadoc & Yerel Olmayan Bilgi",
-        "tr": "HTML Javadoc & Yerel Olmayan Bilgi"
+        "en": "Commented-Out Code & HTML Comments",
+        "tr": "Yorum Satırına Alınmış Kod ve HTML Yorumları"
       },
       "section": {
-        "en": "HTML Yorumu, Yerel Olmayan Bilgi devamı",
-        "tr": "HTML Yorumu, Yerel Olmayan Bilgi devamı"
+        "en": "Commented-Out Code (continued) & HTML Comments",
+        "tr": "Yorum Satırına Alınmış Kod (devam) ve HTML Yorumları"
       },
       "chapter": 4
     },
     "70": {
       "title": {
-        "en": "Çok Fazla Bilgi & Belirsiz Bağlantı",
-        "tr": "Çok Fazla Bilgi & Belirsiz Bağlantı"
+        "en": "Too Much Information & Inobvious Connection",
+        "tr": "Çok Fazla Bilgi ve Bariz Olmayan Bağlantı"
       },
       "section": {
-        "en": "Yerel Olmayan Bilgi, Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı",
-        "tr": "Yerel Olmayan Bilgi, Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı"
+        "en": "Too Much Information & Inobvious Connection",
+        "tr": "Çok Fazla Bilgi ve Bariz Olmayan Bağlantı"
       },
       "chapter": 4
     },
     "71": {
       "title": {
-        "en": "Function Headers",
-        "tr": "Fonksiyon Başlıkları"
+        "en": "Javadocs in Nonpublic Code & GeneratePrimes Example",
+        "tr": "Herkese Açık Olmayan Kodda Javadoc ve GeneratePrimes Örneği"
       },
       "section": {
-        "en": "Herkese Açık Olmayan Javadoc, Listing 4-7 Devamı — Bölüm 4 Sonu",
-        "tr": "Herkese Açık Olmayan Javadoc, Listing 4-7 Devamı — Bölüm 4 Sonu"
+        "en": "Javadocs in Nonpublic Code & Example",
+        "tr": "Herkese Açık Olmayan Kodda Javadoc ve Örnek"
       },
       "chapter": 4
     }
