@@ -70,6 +70,11 @@ window.GLOSSARY = [
     "note": "IDE'nin isim önerme özelliği"
   },
   {
+    "en": "Automated Tool",
+    "tr": "Otomatik Araç (Automated Tool)",
+    "note": "Biçimlendirme kurallarını geliştirici yerine uygulayan araç"
+  },
+  {
     "en": "Bad Code",
     "tr": "Kötü Kod (Bad Code)",
     "note": "Bakımı zor, okunması güç kod"
@@ -125,6 +130,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Class Size",
+    "tr": "Sınıf Boyutu (Class Size)",
+    "note": "Bir sınıfın kapladığı satır/sorumluluk büyüklüğü"
+  },
+  {
     "en": "Clean Code",
     "tr": "Temiz Kod (Clean Code)",
     "note": ""
@@ -135,6 +145,11 @@ window.GLOSSARY = [
     "note": "Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum"
   },
   {
+    "en": "Code Formatting",
+    "tr": "Kod Biçimlendirme (Code Formatting)",
+    "note": "Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır"
+  },
+  {
     "en": "Code Smell",
     "tr": "Kod Kokusu (Code Smell)",
     "note": "Koddaki potansiyel sorunların belirtisi"
@@ -143,6 +158,11 @@ window.GLOSSARY = [
     "en": "Code-Sense",
     "tr": "Kod Duygusu (Code-Sense)",
     "note": "Temiz kodu kirli koddan ayırt etme ve düzeltme yetisi"
+  },
+  {
+    "en": "Coding Style",
+    "tr": "Kodlama Biçemi (Coding Style)",
+    "note": "Bir geliştirici ya da ekibin kodu yazarken izlediği tutarlı biçim alışkanlıkları"
   },
   {
     "en": "Cognitive Break",
@@ -355,6 +375,11 @@ window.GLOSSARY = [
     "note": "Kodun tasarım fikirlerini açıkça iletmesi"
   },
   {
+    "en": "Extensibility",
+    "tr": "Genişletilebilirlik (Extensibility)",
+    "note": "Kodun yeni yeteneklerle genişletilebilme kolaylığı"
+  },
+  {
     "en": "Extract Method",
     "tr": "Metot Çıkarma (Extract Method)",
     "note": "Büyük bir metodu daha küçük parçalara bölme refactoring tekniği"
@@ -375,6 +400,16 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "File Length",
+    "tr": "Dosya Uzunluğu (File Length)",
+    "note": "Kaynak dosyanın satır sayısı; hedef ~200 satır, üst sınır 500 satır"
+  },
+  {
+    "en": "File Size",
+    "tr": "Dosya Boyutu (File Size)",
+    "note": "Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir"
+  },
+  {
     "en": "FitNesse",
     "tr": "FitNesse",
     "note": "Açık kaynaklı test aracı (www.fitnesse.org)"
@@ -393,6 +428,11 @@ window.GLOSSARY = [
     "en": "Focused",
     "tr": "Odaklanmış (Focused)",
     "note": "Temiz kodun tek amaca yönelik olması"
+  },
+  {
+    "en": "Formatting",
+    "tr": "Biçimlendirme (Formatting)",
+    "note": "Kodun görsel yerleşimi: girinti, boşluk, satır uzunluğu, dikey ayrım"
   },
   {
     "en": "Function",
@@ -420,6 +460,11 @@ window.GLOSSARY = [
     "note": "Sıfırdan başlanan proje"
   },
   {
+    "en": "Headline",
+    "tr": "Manşet (Headline)",
+    "note": "Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler"
+  },
+  {
     "en": "Heuristic",
     "tr": "Sezgisel Kural (Heuristic)",
     "note": ""
@@ -428,6 +473,11 @@ window.GLOSSARY = [
     "en": "Implicity",
     "tr": "Örtüklük (Implicity)",
     "note": "Bağlamın kodda açıkça belirtilmeme derecesi"
+  },
+  {
+    "en": "Inattention to Detail",
+    "tr": "Detay Özensizliği (Inattention to Detail)",
+    "note": "Detaylara Dikkat'in tersi; okuyucuya projenin geneline dair kötü izlenim verir"
   },
   {
     "en": "Include Directive",
@@ -520,9 +570,19 @@ window.GLOSSARY = [
     "note": "Knuth'un kavramı: kod önce insanlar için yazılmalı"
   },
   {
+    "en": "Log Scale",
+    "tr": "Logaritmik Ölçek (Log Scale)",
+    "note": "Dikey konumdaki küçük farkın mutlak boyutta büyük fark demek olduğu ölçek"
+  },
+  {
     "en": "Magic Number",
     "tr": "Sihirli Sayı (Magic Number)",
     "note": "Kodda açıklamasız kullanılan sabit değer"
+  },
+  {
+    "en": "Maintainability",
+    "tr": "Bakılabilirlik (Maintainability)",
+    "note": "Kodun zaman içinde bakımının yapılabilme kolaylığı"
   },
   {
     "en": "Management",
@@ -543,6 +603,11 @@ window.GLOSSARY = [
     "en": "Matter-of-fact",
     "tr": "Olgusal (Matter-of-fact)",
     "note": "Spekülatif olmayan, gerçeklere dayanan kod"
+  },
+  {
+    "en": "Mean",
+    "tr": "Ortalama (Mean)",
+    "note": "Şekil 5-1'deki kutuların ortasında gösterilen aritmetik ortalama"
   },
   {
     "en": "Meaningful Distinctions",
@@ -640,9 +705,19 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Neatness",
+    "tr": "Düzgünlük (Neatness)",
+    "note": "Kodun derli toplu, özenli görünmesi"
+  },
+  {
     "en": "Nesting Level",
     "tr": "İç İçe Geçme Seviyesi (Nesting Level)",
     "note": "Kod bloklarının derinlik seviyesi"
+  },
+  {
+    "en": "Newspaper Metaphor",
+    "tr": "Gazete Metaforu (Newspaper Metaphor)",
+    "note": "Kaynak dosya gazete makalesi gibi okunmalı: üstte manşet ve özet, aşağı indikçe artan ayrıntı"
   },
   {
     "en": "Niladic",
@@ -693,6 +768,11 @@ window.GLOSSARY = [
     "en": "Open/Closed Principle (OCP)",
     "tr": "Açık/Kapalı İlkesi (OCP)",
     "note": "Genişletmeye açık, değişikliğe kapalı prensibi"
+  },
+  {
+    "en": "Orderliness",
+    "tr": "Düzenlilik (Orderliness)",
+    "note": "Kodun tutarlı bir düzen içinde yerleşmiş olması"
   },
   {
     "en": "Output Argument",
@@ -800,6 +880,11 @@ window.GLOSSARY = [
     "note": "Eşzamanlı erişimden kaynaklanan hata"
   },
   {
+    "en": "Readability",
+    "tr": "Okunabilirlik (Readability)",
+    "note": "Kodun okunup anlaşılma kolaylığı; sonraki tüm değişiklikleri etkiler"
+  },
+  {
     "en": "Readable Code",
     "tr": "Okunabilir Kod (Readable Code)",
     "note": ""
@@ -828,6 +913,11 @@ window.GLOSSARY = [
     "en": "Refactoring",
     "tr": "Yeniden Düzenleme (Refactoring)",
     "note": ""
+  },
+  {
+    "en": "Release",
+    "tr": "Sürüm (Release)",
+    "note": "Yazılımın yayımlanan bir versiyonu"
   },
   {
     "en": "Release Cycle",
@@ -925,6 +1015,11 @@ window.GLOSSARY = [
     "note": "Biçimsel gereksinim tanımı"
   },
   {
+    "en": "Standard Deviation",
+    "tr": "Standart Sapma (Standard Deviation)",
+    "note": "Dağılımın yayılımını ölçen istatistiksel büyüklük"
+  },
+  {
     "en": "Status Value",
     "tr": "Durum Değeri (Status Value)",
     "note": "Bir öğenin mevcut durumunu temsil eden değer"
@@ -958,6 +1053,11 @@ window.GLOSSARY = [
     "en": "Subscript",
     "tr": "Alt İndis (Subscript)",
     "note": "Dizi veya koleksiyondaki öğeye erişim indeksi"
+  },
+  {
+    "en": "Synopsis",
+    "tr": "Özet (Synopsis)",
+    "note": "Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar"
   },
   {
     "en": "Technical Debt",
@@ -1005,6 +1105,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Under the Hood",
+    "tr": "Kaputun Altı (Under the Hood)",
+    "note": "Bir sistemin dışarıdan görünmeyen iç yapısına bakma metaforu"
+  },
+  {
     "en": "Unit Test",
     "tr": "Birim Testi (Unit Test)",
     "note": ""
@@ -1018,6 +1123,11 @@ window.GLOSSARY = [
     "en": "Variable",
     "tr": "Değişken (Variable)",
     "note": ""
+  },
+  {
+    "en": "Vertical Formatting",
+    "tr": "Dikey Biçimlendirme (Vertical Formatting)",
+    "note": "Dosya uzunluğu, satır sırası ve dikey boşluk ile ilgili biçimlendirme"
   },
   {
     "en": "Visitor Pattern",

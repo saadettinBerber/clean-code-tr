@@ -22,6 +22,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Attention to Detail | Detaylara Dikkat (Attention to Detail) | Temiz kodun temel özelliği |
 | Author | Yazar (Author) |  |
 | Autocomplete / Code Completion | Otomatik Kod Tamamlama (Autocomplete) | IDE'nin isim önerme özelliği |
+| Automated Tool | Otomatik Araç (Automated Tool) | Biçimlendirme kurallarını geliştirici yerine uygulayan araç |
 | Bad Code | Kötü Kod (Bad Code) | Bakımı zor, okunması güç kod |
 | Beautiful Code | Güzel Kod (Beautiful Code) |  |
 | Bibliography | Kaynakça (Bibliography) |  |
@@ -33,10 +34,13 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Clarity | Açıklık (Clarity) | Kodun anlaşılırlığı |
 | Class | Sınıf (Class) |  |
 | Class Name | Sınıf İsmi (Class Name) |  |
+| Class Size | Sınıf Boyutu (Class Size) | Bir sınıfın kapladığı satır/sorumluluk büyüklüğü |
 | Clean Code | Temiz Kod (Clean Code) |  |
 | Closing Brace | Kapatma Parantezi (Closing Brace) | Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum |
+| Code Formatting | Kod Biçimlendirme (Code Formatting) | Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır |
 | Code Smell | Kod Kokusu (Code Smell) | Koddaki potansiyel sorunların belirtisi |
 | Code-Sense | Kod Duygusu (Code-Sense) | Temiz kodu kirli koddan ayırt etme ve düzeltme yetisi |
+| Coding Style | Kodlama Biçemi (Coding Style) | Bir geliştirici ya da ekibin kodu yazarken izlediği tutarlı biçim alışkanlıkları |
 | Cognitive Break | Bilişsel Kesinti (Cognitive Break) | Fonksiyon imzasını kontrol etme gerekliliği |
 | Collection Abstraction | Koleksiyon Soyutlama (Collection Abstraction) |  |
 | Command Query Separation | Komut Sorgu Ayrımı (Command Query Separation) | Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil |
@@ -79,21 +83,27 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
 | Explicit | Açık (Explicit) | Bağlamın kodda doğrudan yer alması |
 | Expressiveness | İfade Gücü (Expressiveness) | Kodun tasarım fikirlerini açıkça iletmesi |
+| Extensibility | Genişletilebilirlik (Extensibility) | Kodun yeni yeteneklerle genişletilebilme kolaylığı |
 | Extract Method | Metot Çıkarma (Extract Method) | Büyük bir metodu daha küçük parçalara bölme refactoring tekniği |
 | Factory Method | Fabrika Metodu (Factory Method) | Nesne oluşturma mantığını kapsülleyen metot |
 | False Clue | Yanlış İpucu (False Clue) | Kodun anlamını bulanıklaştıran yanıltıcı isimler |
 | Feature | Özellik (Feature) |  |
+| File Length | Dosya Uzunluğu (File Length) | Kaynak dosyanın satır sayısı; hedef ~200 satır, üst sınır 500 satır |
+| File Size | Dosya Boyutu (File Size) | Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir |
 | FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
 | Flag | Bayrak (Flag) | Boolean kontrol parametresi |
 | Flag Argument | Bayrak Argümanı (Flag Argument) | Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir |
 | Focused | Odaklanmış (Focused) | Temiz kodun tek amaca yönelik olması |
+| Formatting | Biçimlendirme (Formatting) | Kodun görsel yerleşimi: girinti, boşluk, satır uzunluğu, dikey ayrım |
 | Function | Fonksiyon (Function) |  |
 | Function Header | Fonksiyon Başlığı (Function Header) | Fonksiyonun başına eklenen açıklama bloğu |
 | Function Sections | Fonksiyon Bölümleri (Function Sections) | Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.) |
 | Gratuitous Context | Gereksiz Bağlam (Gratuitous Context) | Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek |
 | Green-field Project | Yeşil Alan Projesi (Green-field Project) | Sıfırdan başlanan proje |
+| Headline | Manşet (Headline) | Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler |
 | Heuristic | Sezgisel Kural (Heuristic) |  |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
+| Inattention to Detail | Detay Özensizliği (Inattention to Detail) | Detaylara Dikkat'in tersi; okuyucuya projenin geneline dair kötü izlenim verir |
 | Include Directive | Dahil Etme Yönergesi (Include Directive) | FitNesse'de sayfa dahil etme komutu |
 | Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
 | Informative Comment | Bilgilendirici Yorum (Informative Comment) | Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum |
@@ -112,11 +122,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Level of Abstraction | Soyutlama Seviyesi (Level of Abstraction) | Kodun genelden özele doğru soyutluk derecesi |
 | Lexicon | Sözlük (Lexicon) | Bir projedeki tutarlı terimler bütünü |
 | Literate Programming | Okuryazar Programlama (Literate Programming) | Knuth'un kavramı: kod önce insanlar için yazılmalı |
+| Log Scale | Logaritmik Ölçek (Log Scale) | Dikey konumdaki küçük farkın mutlak boyutta büyük fark demek olduğu ölçek |
 | Magic Number | Sihirli Sayı (Magic Number) | Kodda açıklamasız kullanılan sabit değer |
+| Maintainability | Bakılabilirlik (Maintainability) | Kodun zaman içinde bakımının yapılabilme kolaylığı |
 | Management | Yönetim (Management) |  |
 | Mandated Comment | Zorunlu Yorum (Mandated Comment) | Şirket politikası veya kurallar gereği zorla eklenen yorum |
 | Marketer | Pazarlamacı (Marketer) |  |
 | Matter-of-fact | Olgusal (Matter-of-fact) | Spekülatif olmayan, gerçeklere dayanan kod |
+| Mean | Ortalama (Mean) | Şekil 5-1'deki kutuların ortasında gösterilen aritmetik ortalama |
 | Meaningful Distinctions | Anlamlı Ayrımlar (Meaningful Distinctions) | İsimlerin gerçekten farklı anlamlar taşıyacak şekilde farklılaştırılması |
 | Meaningful Names | Anlamlı İsimler (Meaningful Names) | Niyet ifade eden değişken/fonksiyon isimleri |
 | Mental Burden | Zihinsel Yük (Mental Burden) | Kod okurken harcanan bilişsel çaba |
@@ -136,7 +149,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Mutator | Değiştirici (Mutator) | JavaBean standardında set metotları |
 | Namespace | Ad Alanı (Namespace) |  |
 | Naming Convention | İsimlendirme Kuralı (Naming Convention) |  |
+| Neatness | Düzgünlük (Neatness) | Kodun derli toplu, özenli görünmesi |
 | Nesting Level | İç İçe Geçme Seviyesi (Nesting Level) | Kod bloklarının derinlik seviyesi |
+| Newspaper Metaphor | Gazete Metaforu (Newspaper Metaphor) | Kaynak dosya gazete makalesi gibi okunmalı: üstte manşet ve özet, aşağı indikçe artan ayrıntı |
 | Niladic | Sıfırlı (Niladic) | Argümansız fonksiyon |
 | Noise Comment | Gürültü Yorumu (Noise Comment) | Hiçbir değer katmayan, bariz olanı tekrar eden yorum |
 | Noise Word | Gürültü Kelimesi (Noise Word) | İsme anlam katmayan ek (Info, Data, the, a) |
@@ -147,6 +162,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Object-Oriented Design | Nesne Yönelimli Tasarım (Object-Oriented Design) |  |
 | Open Closed Principle (OCP) | Açık Kapalı İlkesi (OCP) | Sınıflar genişlemeye açık, değişikliğe kapalı olmalı |
 | Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
+| Orderliness | Düzenlilik (Orderliness) | Kodun tutarlı bir düzen içinde yerleşmiş olması |
 | Output Argument | Çıkış Argümanı (Output Argument) | Değer döndürmek için kullanılan argüman |
 | Oxymoron | Oksimoron (Oxymoron) | Birbirine zıt kavramların birleşimi (ör. "keskin soyutlama") |
 | Package | Paket (Package) | Kod organizasyon birimi |
@@ -168,12 +184,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Prose | Düzyazı (Prose) | Grady Booch: "Temiz kod iyi yazılmış bir düzyazı gibi okunur" |
 | Pun | Kelime Oyunu (Pun) | Bir kelimenin iki farklı anlamda kullanılması |
 | Race Condition | Yarış Durumu (Race Condition) | Eşzamanlı erişimden kaynaklanan hata |
+| Readability | Okunabilirlik (Readability) | Kodun okunup anlaşılma kolaylığı; sonraki tüm değişiklikleri etkiler |
 | Readable Code | Okunabilir Kod (Readable Code) |  |
 | Recompilation | Yeniden Derleme (Recompilation) | Değişiklik sonrası kodun tekrar derlenmesi |
 | Redeployment | Yeniden Dağıtım (Redeployment) | Değişiklik sonrası kodun tekrar dağıtılması |
 | Redesign | Yeniden Tasarım (Redesign) |  |
 | Redundant Comment | Gereksiz Yorum (Redundant Comment) | Koddan daha fazla bilgi vermeyen, fazlalık yorum |
 | Refactoring | Yeniden Düzenleme (Refactoring) |  |
+| Release | Sürüm (Release) | Yazılımın yayımlanan bir versiyonu |
 | Release Cycle | Yayın Döngüsü (Release Cycle) | Ürün sürüm yayınlama süreci |
 | Renaming | Yeniden Adlandırma (Renaming) | Değişken/fonksiyon/sınıf adını değiştirme |
 | Requirement | Gereksinim (Requirement) |  |
@@ -193,6 +211,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Solution Domain | Çözüm Alanı (Solution Domain) |  |
 | Source File | Kaynak Dosyası (Source File) | Programın kaynak kodunu içeren dosya |
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
+| Standard Deviation | Standart Sapma (Standard Deviation) | Dağılımın yayılımını ölçen istatistiksel büyüklük |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
 | Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
 | StringBuffer | StringBuffer | Java'da değiştirilebilir dizgi nesnesi |
@@ -200,6 +219,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Subprogram | Alt Program (Subprogram) | Fortran/PL1 döneminde kullanılan program parçası |
 | Subroutine | Alt Rutin (Subroutine) | Programlamanın ilk günlerindeki alt program yapısı |
 | Subscript | Alt İndis (Subscript) | Dizi veya koleksiyondaki öğeye erişim indeksi |
+| Synopsis | Özet (Synopsis) | Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar |
 | Technical Debt | Teknik Borç (Technical Debt) | Hızlı çözümlerden kaynaklanan birikmiş kod sorunları |
 | Temporal Coupling | Zamansal Bağımlılık (Temporal Coupling) | Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu |
 | Test | Test | Çevrilmez |
@@ -209,9 +229,11 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Transformation | Dönüşüm (Transformation) | Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi |
 | Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
 | Type System | Tür Sistemi (Type System) |  |
+| Under the Hood | Kaputun Altı (Under the Hood) | Bir sistemin dışarıdan görünmeyen iç yapısına bakma metaforu |
 | Unit Test | Birim Testi (Unit Test) |  |
 | Unprofessional | Profesyonel Olmayan (Unprofessional) | Mesleğin gerekliliklerini yerine getirmemek |
 | Variable | Değişken (Variable) |  |
+| Vertical Formatting | Dikey Biçimlendirme (Vertical Formatting) | Dosya uzunluğu, satır sırası ve dikey boşluk ile ilgili biçimlendirme |
 | Visitor Pattern | Ziyaretçi Deseni (Visitor Pattern) |  |
 | Wading | Çamura Batma (Wading) | Kötü kodda ilerlerken hissedilen zorluk metaforu |
 | Warning of Consequences | Sonuçlara Dair Uyarı (Warning of Consequences) | Belirli bir işlemin etkileri hakkında diğer programcıları uyaran yorum |
