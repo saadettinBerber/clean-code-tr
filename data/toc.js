@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 31,
-  "lastTranslatedPage": 71,
+  "lastTranslatedPage": 74,
   "chapters": [
     {
       "num": 1,
@@ -901,6 +901,39 @@ window.TOC = {
       "section": {
         "en": "Javadocs in Nonpublic Code & Example",
         "tr": "Herkese Açık Olmayan Kodda Javadoc ve Örnek"
+      },
+      "chapter": 4
+    },
+    "72": {
+      "title": {
+        "en": "Listing 4-7 (cont.) & Listing 4-8 PrimeGenerator",
+        "tr": "Listing 4-7 (devam) ve Listing 4-8 PrimeGenerator"
+      },
+      "section": {
+        "en": "GeneratePrimes → PrimeGenerator (Refactored)",
+        "tr": "GeneratePrimes → PrimeGenerator (Yeniden Düzenlenmiş)"
+      },
+      "chapter": 4
+    },
+    "73": {
+      "title": {
+        "en": "Listing 4-8 PrimeGenerator (refactored) continued",
+        "tr": "Listing 4-8 PrimeGenerator (yeniden düzenlenmiş) devamı"
+      },
+      "section": {
+        "en": "PrimeGenerator (refactored) — Listing 4-8 continued",
+        "tr": "PrimeGenerator (yeniden düzenlenmiş) — Listing 4-8 devamı"
+      },
+      "chapter": 4
+    },
+    "74": {
+      "title": {
+        "en": "PrimeGenerator comments & Bibliography",
+        "tr": "PrimeGenerator yorumları ve Kaynakça"
+      },
+      "section": {
+        "en": "PrimeGenerator comments & Bibliography",
+        "tr": "PrimeGenerator yorumları ve Kaynakça"
       },
       "chapter": 4
     }

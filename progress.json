@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 462,
   "pages_per_run": 3,
-  "last_translated_page": 71,
+  "last_translated_page": 74,
   "chapters": [
     {
       "num": 1,
@@ -679,6 +679,30 @@
       "title_tr": "Herkese Açık Olmayan Kodda Javadoc ve GeneratePrimes Örneği",
       "section_en": "Javadocs in Nonpublic Code & Example",
       "section_tr": "Herkese Açık Olmayan Kodda Javadoc ve Örnek"
+    },
+    "72": {
+      "pdf_page": 103,
+      "chapter": 4,
+      "title_en": "Listing 4-7 (cont.) & Listing 4-8 PrimeGenerator",
+      "title_tr": "Listing 4-7 (devam) ve Listing 4-8 PrimeGenerator",
+      "section_en": "GeneratePrimes → PrimeGenerator (Refactored)",
+      "section_tr": "GeneratePrimes → PrimeGenerator (Yeniden Düzenlenmiş)"
+    },
+    "73": {
+      "pdf_page": 104,
+      "chapter": 4,
+      "title_en": "Listing 4-8 PrimeGenerator (refactored) continued",
+      "title_tr": "Listing 4-8 PrimeGenerator (yeniden düzenlenmiş) devamı",
+      "section_en": "PrimeGenerator (refactored) — Listing 4-8 continued",
+      "section_tr": "PrimeGenerator (yeniden düzenlenmiş) — Listing 4-8 devamı"
+    },
+    "74": {
+      "pdf_page": 105,
+      "chapter": 4,
+      "title_en": "PrimeGenerator comments & Bibliography",
+      "title_tr": "PrimeGenerator yorumları ve Kaynakça",
+      "section_en": "PrimeGenerator comments & Bibliography",
+      "section_tr": "PrimeGenerator yorumları ve Kaynakça"
     }
   }
 }
