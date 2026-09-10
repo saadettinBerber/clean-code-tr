@@ -1,19 +1,18 @@
-// Kavram kartları: sayfa altındaki düğmeler ve modal.
+// Kavram kartları: her yaprağın altındaki düğmeler ve ortak modal.
 const Concepts = (function () {
-  const escapeHtml = Blocks.escapeHtml;
-  let current = [];
+  const byPage = {};
 
-  function chip(concept, index) {
-    return `<button class="chip" data-concept="${index}">${Blocks.pair(concept.title)}</button>`;
+  function chip(pageNum, concept, index) {
+    return `<button class="chip" data-page="${pageNum}" data-concept="${index}">${Blocks.pair(concept.title)}</button>`;
   }
 
-  function renderButtons(concepts) {
-    current = concepts || [];
-    const root = document.getElementById("concepts");
-    if (!current.length) { root.innerHTML = ""; return; }
+  function renderButtons(root, concepts, pageNum) {
+    const list = concepts || [];
+    if (pageNum !== null) byPage[pageNum] = list;
+    if (!list.length) { root.innerHTML = ""; return; }
     root.innerHTML = `<h3 class="concepts-title"><span class="en-text">Concepts on this page</span>` +
       `<span class="tr-text">Bu sayfadaki kavramlar</span></h3>` +
-      `<div class="chips">${current.map(chip).join("")}</div>`;
+      `<div class="chips">${list.map((c, i) => chip(pageNum, c, i)).join("")}</div>`;
   }
 
   function label(en, tr) {
@@ -49,11 +48,15 @@ const Concepts = (function () {
     document.body.style.overflow = "";
   }
 
+  function onChipClick(event) {
+    const button = event.target.closest(".chip");
+    if (!button) return;
+    const concepts = byPage[button.dataset.page] || [];
+    if (concepts[Number(button.dataset.concept)]) open(concepts[Number(button.dataset.concept)]);
+  }
+
   function init() {
-    document.getElementById("concepts").addEventListener("click", (event) => {
-      const button = event.target.closest(".chip");
-      if (button) open(current[Number(button.dataset.concept)]);
-    });
+    document.getElementById("book").addEventListener("click", onChipClick);
     document.getElementById("modal-close").addEventListener("click", close);
     document.getElementById("modal").addEventListener("click", (event) => {
       if (event.target.id === "modal") close();
@@ -61,5 +64,5 @@ const Concepts = (function () {
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") close(); });
   }
 
-  return { init, renderButtons, close, escapeHtml };
+  return { init, renderButtons, close };
 })();

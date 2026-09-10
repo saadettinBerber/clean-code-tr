@@ -27,6 +27,8 @@
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
   --sheet-width: 780px;
+  --spread-sheet-width: 640px;
+  --body-font: 1.05rem;
   --topbar-h: 58px;
 }
 
@@ -105,8 +107,10 @@ a { color: var(--navy); }
 .turn:hover { transform: scale(1.06); }
 .turn:disabled { opacity: 0.25; cursor: default; transform: none; }
 
+.book { display: flex; align-items: stretch; flex: 1 1 auto; min-width: 0; max-width: var(--sheet-width); }
+.sheet[hidden] { display: none; }
 .sheet {
-  position: relative; flex: 1 1 auto; min-width: 0; max-width: var(--sheet-width); min-height: 82vh;
+  position: relative; flex: 1 1 auto; min-width: 0; min-height: 82vh;
   background: var(--paper); border-radius: 2px; padding: 46px 64px 54px;
   box-shadow:
     0 0 0 1px var(--paper-edge),
@@ -116,11 +120,11 @@ a { color: var(--navy); }
   background-image: linear-gradient(90deg, rgba(0,0,0,.035), transparent 5%, transparent 95%, rgba(0,0,0,.025));
   display: flex; flex-direction: column;
 }
-.sheet.turn-next { animation: turnNext .32s ease-out; }
-.sheet.turn-prev { animation: turnPrev .32s ease-out; }
+.book.turn-next { animation: turnNext .32s ease-out; }
+.book.turn-prev { animation: turnPrev .32s ease-out; }
 @keyframes turnNext { from { opacity: 0; transform: translateX(26px) } to { opacity: 1; transform: none } }
 @keyframes turnPrev { from { opacity: 0; transform: translateX(-26px) } to { opacity: 1; transform: none } }
-@media (prefers-reduced-motion: reduce) { .sheet.turn-next, .sheet.turn-prev { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .book.turn-next, .book.turn-prev { animation: none; } }
 
 .running-head {
   display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
@@ -130,10 +134,43 @@ a { color: var(--navy); }
 }
 .running-head .folio-num { font-weight: 700; color: var(--ink); font-variant-caps: normal; font-size: .9rem; }
 .running-head .head-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.page-body { flex: 1; font-size: 1.05rem; }
+.page-body { flex: 1; font-size: var(--body-font); }
 .folio { text-align: center; margin-top: 44px; font-size: .85rem; color: var(--ink-soft); }
 .folio b { color: var(--ink); }
 .folio small { display: block; font-family: var(--font-sans); font-size: .68rem; color: var(--ink-faint); }
+
+/* Açık kitap: iki yaprak yan yana, ortada sırt */
+.book.spread { max-width: calc(var(--spread-sheet-width) * 2); --body-font-spread: .98rem; }
+.book.spread .sheet { flex: 1 1 0; padding: 40px 44px 46px; min-height: 84vh; }
+.book.spread .page-body { font-size: calc(var(--body-font) * .94); }
+.book.spread .sheet.left, .book.spread .sheet:first-child {
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 0 0 1px var(--paper-edge), -3px 3px 0 -1px var(--paper-stack), -3px 3px 0 0 var(--paper-edge),
+    -6px 6px 0 -1px var(--paper-stack), -6px 6px 0 0 var(--paper-edge), 0 22px 48px rgba(60, 40, 20, .22);
+  background-image: linear-gradient(90deg, rgba(0,0,0,.03), transparent 6%, transparent 86%, rgba(0,0,0,.09));
+}
+.book.spread .sheet:last-child {
+  border-radius: 0 4px 4px 0; border-left: 1px solid rgba(60, 40, 20, .18);
+  box-shadow: 0 0 0 1px var(--paper-edge), 3px 3px 0 -1px var(--paper-stack), 3px 3px 0 0 var(--paper-edge),
+    6px 6px 0 -1px var(--paper-stack), 6px 6px 0 0 var(--paper-edge), 0 22px 48px rgba(60, 40, 20, .22);
+  background-image: linear-gradient(270deg, rgba(0,0,0,.03), transparent 6%, transparent 86%, rgba(0,0,0,.09));
+}
+.sheet.placeholder .page-body { display: flex; align-items: center; justify-content: center; }
+.placeholder-body { text-align: center; font-family: var(--font-sans); color: var(--ink-faint); font-size: .95rem; line-height: 1.6; }
+.placeholder-body .ph-num { display: block; font-family: var(--font-serif); font-size: 3rem; color: var(--paper-edge); font-weight: 700; margin-bottom: 8px; }
+.placeholder-body small { color: var(--ink-faint); }
+.layout-btn { display: inline-flex; gap: 3px; align-items: center; justify-content: center; }
+.layout-btn .pg-icon { width: 9px; height: 13px; border: 1.5px solid currentColor; border-radius: 1px; }
+.layout-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+@media (max-width: 1099px) { .layout-btn { display: none; } }
+[data-lang="parallel"] .sheet[data-lang="en"] .tr-text, [data-lang="parallel"] .sheet[data-lang="tr"] .en-text { display: none; }
+[data-lang="parallel"] .sheet[data-lang="tr"] .legacy .tr-text { display: inline; }
+[data-lang="parallel"] .sentence.revealed > .en-text, [data-lang="parallel"] .sentence.revealed > .tr-text { background: rgba(179, 139, 42, .22); }
+[data-lang="parallel"] .ui-pair .en-text { display: none; }
+[data-lang="parallel"] .running-head .en-text { display: inline; }
+[data-lang="parallel"] .sheet[data-lang="en"] .running-head .tr-text { display: none; }
+[data-lang="parallel"] .sheet[data-lang="en"] .running-head .en-text { display: inline; }
+[data-lang="parallel"] .sheet[data-lang="tr"] .running-head .en-text { display: none; }
 
 .status { text-align: center; color: var(--ink-soft); font-family: var(--font-sans); padding: 80px 0; }
 

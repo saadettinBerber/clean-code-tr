@@ -4,25 +4,39 @@ const Controls = (function () {
   const FONT_KEY = "cleancode-font-scale";
   const FONT_STEP = 0.1, FONT_MIN = 0.8, FONT_MAX = 1.6, BASE_FONT_REM = 1.05;
   const SWIPE_MIN_PX = 60;
+  const DEBOUNCE_MS = 150;
   const LANGS = ["tr", "en", "both"];
   const state = { lang: "tr", scale: 1 };
   let nav = null;
 
-  function setLang(lang) {
-    state.lang = LANGS.includes(lang) ? lang : "tr";
+  function applyLang() {
     document.documentElement.dataset.lang = state.lang;
     document.querySelectorAll(".lang-switch button").forEach((b) => b.classList.toggle("active", b.dataset.lang === state.lang));
+  }
+
+  function setLang(lang) {
+    state.lang = LANGS.includes(lang) ? lang : "tr";
+    applyLang();
     localStorage.setItem(LANG_KEY, state.lang);
+    if (nav && nav.currentPage() !== null) nav.refresh();
+  }
+
+  function currentLang() { return state.lang; }
+
+  function debounce(fn) {
+    let timer = null;
+    return () => { clearTimeout(timer); timer = setTimeout(fn, DEBOUNCE_MS); };
   }
 
   function setScale(scale) {
     state.scale = Math.min(FONT_MAX, Math.max(FONT_MIN, scale));
-    document.getElementById("page-body").style.fontSize = `${(BASE_FONT_REM * state.scale).toFixed(3)}rem`;
+    document.documentElement.style.setProperty("--body-font", `${(BASE_FONT_REM * state.scale).toFixed(3)}rem`);
     localStorage.setItem(FONT_KEY, String(state.scale));
   }
 
   function restorePreferences() {
-    setLang(localStorage.getItem(LANG_KEY) || "tr");
+    state.lang = LANGS.includes(localStorage.getItem(LANG_KEY)) ? localStorage.getItem(LANG_KEY) : "tr";
+    applyLang();
     setScale(Number(localStorage.getItem(FONT_KEY)) || 1);
   }
 
@@ -42,12 +56,22 @@ const Controls = (function () {
     document.querySelectorAll(".word.active").forEach((el) => el.classList.remove("active"));
   }
 
+  // Çift sayfada aynı cümle iki yaprakta da (data-sid) birlikte vurgulanır.
+  function toggleSentence(sentence) {
+    const sheet = sentence.closest(".sheet");
+    const sid = sentence.dataset.sid;
+    const isParallel = document.documentElement.dataset.lang === "parallel";
+    const targets = isParallel && sid ? document.querySelectorAll(`.sentence[data-sid="${sid}"]`) : [sentence];
+    const reveal = !sentence.classList.contains("revealed");
+    targets.forEach((el) => { if (el.closest(".sheet") === sheet || isParallel) el.classList.toggle("revealed", reveal); });
+  }
+
   function bindSentenceClicks() {
-    document.getElementById("page-body").addEventListener("click", (event) => {
+    document.getElementById("book").addEventListener("click", (event) => {
       const word = event.target.closest(".word");
       if (word) { showWordTip(word); event.stopPropagation(); return; }
       const sentence = event.target.closest(".sentence");
-      if (sentence && !event.target.closest("a, button")) sentence.classList.toggle("revealed");
+      if (sentence && !event.target.closest("a, button")) toggleSentence(sentence);
       const coverButton = event.target.closest(".cover [data-page]");
       if (coverButton) nav.goTo(coverButton.dataset.page, "next");
     });
@@ -81,7 +105,7 @@ const Controls = (function () {
 
   function bindSwipe() {
     let startX = null;
-    const sheet = document.getElementById("sheet");
+    const sheet = document.getElementById("book");
     sheet.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
     sheet.addEventListener("touchend", (e) => {
       if (startX === null) return;
@@ -98,6 +122,7 @@ const Controls = (function () {
     document.querySelectorAll(".lang-switch button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
     document.getElementById("font-up").addEventListener("click", () => setScale(state.scale + FONT_STEP));
     document.getElementById("font-down").addEventListener("click", () => setScale(state.scale - FONT_STEP));
+    document.getElementById("layout-btn").addEventListener("click", nav.toggleLayout);
   }
 
   function init(navigation) {
@@ -106,5 +131,5 @@ const Controls = (function () {
     bindSentenceClicks(); bindPageInput(); bindKeyboard(); bindSwipe(); bindToolbar();
   }
 
-  return { init, setLang, setScale };
+  return { init, setLang, applyLang, currentLang, setScale, debounce };
 })();
