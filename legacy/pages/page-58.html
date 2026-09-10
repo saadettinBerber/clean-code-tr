@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 58 | Bölüm 4: Kötü Yorumlar — Mırıldanma, Gereksiz Yorum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .bad-badge {
+            display: inline-block;
+            background: #ff4757;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-listing-header .listing-label {
+            opacity: 0.7;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .question-list {
+            background: #fff3cd;
+            border-left: 5px solid #e8d44d;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .question-list p {
+            margin: 0 0 8px;
+            font-weight: 600;
+            color: #664d03;
+        }
+
+        .question-list ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #664d03;
+        }
+
+        .question-list ul li {
+            margin: 4px 0;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Kötü Yorumlar: Mırıldanma, Gereksiz Yorum
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="58" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="bad-badge">
+            <span class="tr-text">⚠ Kötü Yorumlar</span>
+            <span class="en-text" style="display:none;">⚠ Bad Comments</span>
+        </div>
+
+        <!-- Kötü Yorumlar Girişi -->
+        <div class="section-title">
+            <span class="tr-text">Kötü Yorumlar / Bad Comments</span>
+            <span class="en-text" style="display:none;">Bad Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Yorumların büyük çoğunluğu bu kategoriye girer. Genellikle kötü kodun koltuk
+                değnekleri ya da bahaneleridir; yetersiz kararların meşrulaştırılma çabasıdır. Özetle, programcının
+                kendi kendine bağıra bağıra konuşmasıdır.</span>
+            <span class="en-text" style="display:none;">Most comments fall into this category. Usually they are crutches
+                or excuses for poor code or justifications for insufficient decisions, amounting to little more than the
+                programmer talking to himself.</span>
+        </div>
+
+        <!-- Mırıldanma -->
+        <div class="section-title">
+            <span class="tr-text">Mırıldanma / Mumbling</span>
+            <span class="en-text" style="display:none;">Mumbling</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Sırf "yapmalıyım" hissiyle ya da süreç gerektirdiği için bir yorum eklemek, yamaya
+                çekmektir. Bir yorum yazmaya karar verdikten sonra, onu yazabileceğiniz en iyi yorum haline getirmek
+                için gereken zamanı harcayın.</span>
+            <span class="en-text" style="display:none;">Plopping in a comment just because you feel you should or
+                because the process requires it, is a hack. If you decide to write a comment, then spend the time
+                necessary to make sure it is the best comment you can write.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Örneğin FitNesse'de bulduğum şu duruma bakın; bir yorum gerçekten faydalı olabilirdi.
+                Ama yazar acelede ya da yeterince dikkatli değildi. Bu mırıldanması geride bir bulmaca bıraktı:</span>
+            <span class="en-text" style="display:none;">Here, for example, is a case I found in FitNesse, where a
+                comment might indeed have been useful. But the author was in a hurry or just not paying much attention.
+                His mumbling left behind an enigma:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Mırıldanan yorum örneği</span>
+                <span class="en-text" style="display:none;">Mumbling comment example</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="kw">public void</span> loadProperties()
+{
+  <span class="kw">try</span>
+  {
+    String propertiesPath = propertiesLocation + <span class="str">"/"</span> + PROPERTIES_FILE;
+    FileInputStream propertiesStream = <span class="kw">new</span> FileInputStream(propertiesPath);
+    loadedProperties.load(propertiesStream);
+  }
+  <span class="kw">catch</span>(IOException e)
+  {
+    <span class="comment">// Properties dosyası yoksa tüm varsayılanlar yüklenir</span>
+  }
+}</pre>
+        </div>
+
+        <div class="question-list">
+            <p><span class="tr-text">Bu catch bloğundaki yorum ne anlama gelir? Yazar için bir anlam ifade etmiş
+                    olabilir; ancak o anlam bize yeterince aktarılmıyor. Aklımıza pek çok soru geliyor:</span>
+                <span class="en-text" style="display:none;">What does that comment in the catch block mean? Clearly it
+                    meant something to the author, but the meaning does not come through all that well. Many questions
+                    arise:</span>
+            </p>
+            <ul>
+                <li><span class="tr-text">Tüm varsayılanları kim yüklüyor? <code
+                            class="inline">loadProperties.load</code> çağrısından önce mi yüklendi?</span><span
+                        class="en-text" style="display:none;">Who loads all the defaults? Were they loaded before the
+                        call to loadProperties.load?</span></li>
+                <li><span class="tr-text">Yoksa <code class="inline">loadProperties.load</code> istisnayı yakalayıp
+                        varsayılanları yükleyip ardından istisnayı mı iletdi?</span><span class="en-text"
+                        style="display:none;">Or did loadProperties.load catch the exception, load the defaults, and
+                        then pass the exception on for us to ignore?</span></li>
+                <li><span class="tr-text">Yazar boş catch bloğu bırakmaktan vicdan rahatlatmak için mi
+                        yazdı?</span><span class="en-text" style="display:none;">Was the author trying to comfort
+                        himself about the fact that he was leaving the catch block empty?</span></li>
+                <li><span class="tr-text">Ya da en ürkütücü ihtimal: varsayılanları yükleyecek kodu daha sonra yazmak
+                        için kendine hatırlatma mıydı bu?</span><span class="en-text" style="display:none;">Or was the
+                        author trying to tell himself to come back here later and write the code that would load the
+                        defaults?</span></li>
+            </ul>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Tek çözüm, ne olduğunu anlamak için sistemin diğer bölümlerindeki kodu incelemektir.
+                Sizi başka bir modüle bakmaya zorlayan her yorum, size iletişim kuramadığı için başarısız olmuştur ve
+                harcadığı bitleri hak etmez.</span>
+            <span class="en-text" style="display:none;">Our only recourse is to examine the code in other parts of the
+                system to find out what's going on. Any comment that forces you to look in another module for the
+                meaning of that comment has failed to communicate to you and is not worth the bits it consumes.</span>
+        </div>
+
+        <!-- Gereksiz Yorum -->
+        <div class="section-title">
+            <span class="tr-text">Gereksiz Yorum / Redundant Comments</span>
+            <span class="en-text" style="display:none;">Redundant Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Listing 4-1, tamamen gereksiz bir başlık yorumuna sahip basit bir işlev gösteriyor.
+                Yorum muhtemelen kodun kendisinden daha uzun süre okunuyor.</span>
+            <span class="en-text" style="display:none;">Listing 4-1 shows a simple function with a header comment that
+                is completely redundant. The comment probably takes longer to read than the code itself.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span>Listing 4-1 — waitForClose</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="comment">// this.closed true olduğunda dönen yardımcı metot.
+// Zaman aşımına ulaşılırsa istisna fırlatır.</span>
+<span class="kw">public synchronized void</span> waitForClose(<span class="kw">final long</span> timeoutMillis)
+  <span class="kw">throws</span> Exception
+{
+  <span class="kw">if</span>(!closed)
+  {
+    wait(timeoutMillis);
+    <span class="kw">if</span>(!closed)
+      <span class="kw">throw new</span> Exception(<span class="str">"MockResponseSender could not be closed"</span>);
+  }
+}</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu yorumun ne işlevi var? Kesinlikle koddan daha bilgilendirici değil. Kodu ne
+                meşrulaştırıyor ne de niyet ya da gerekçe sunuyor. Koddan daha kolay okunmuyor. Tam tersine, koddan daha
+                az kesin ve okuyucuyu gerçek anlamayı bırakıp bu belirsizliği kabullenmesine davet ediyor. Sizi arabaya
+                gülen, "kaputun altına bakmanıza gerek yok" diyen bir ikinci el araba satıcısına benziyor.</span>
+            <span class="en-text" style="display:none;">What purpose does this comment serve? It's certainly not more
+                informative than the code. It does not justify the code, or provide intent or rationale. It is not
+                easier to read than the code. Indeed, it is less precise than the code and entices the reader to accept
+                that lack of precision in lieu of true understanding. It is rather like a gladhanding used-car salesman
+                assuring you that you don't need to look under the hood.</span>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('mumbling')">
+                    <span class="tr-text">Mırıldanma Yorumu</span>
+                    <span class="en-text" style="display:none;">Mumbling Comment</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('redundant-comment')">
+                    <span class="tr-text">Gereksiz Yorum</span>
+                    <span class="en-text" style="display:none;">Redundant Comment</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Mırıldanma -->
+    <div class="modal-overlay" id="modal-mumbling">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Mırıldanma Yorumu (Mumbling)</span><span class="en-text"
+                        style="display:none;">Mumbling Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('mumbling')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Mırıldanma, yazarın kendine yönelik yazdığı, okuyana hiçbir şey aktarmayan,
+                        birden fazla soruya yol açan yorumdur. Yazar için anlamlıyken okuyucu için bulmacaya
+                        dönüşür.</span>
+                    <span class="en-text" style="display:none;">Mumbling is a comment written for the author,
+                        communicating nothing to the reader, leading to multiple questions. While meaningful to the
+                        author, it becomes a puzzle for the reader.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Mırıldanan yorum</span><span class="en-text"
+                        style="display:none;">BAD — Mumbling comment</span></span>
+                <pre><span class="kw">catch</span>(FileNotFoundException e) {
+    <span class="comment">// config yoksa varsayılanlar kullanılır</span>
+    <span class="comment">// (kim yükler? ne zaman? bilinmiyor)</span>
+}</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — İşlem açık, yorum gereksiz</span><span
+                        class="en-text" style="display:none;">GOOD — Action clear, comment unnecessary</span></span>
+                <pre><span class="kw">catch</span>(FileNotFoundException e) {
+    config = ConfigFactory.loadDefaults();
+    logger.info(<span class="str">"Config bulunamadı, varsayılanlar yüklendi"</span>);
+}</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Yazdığınız yorumu bir meslektaşınıza okuyun. "Peki kim bunu yapıyor?" sorusu
+                        gelirse, yorum mırıldanmaya dönmüştür — kodu konuşturun.</span>
+                    <span class="en-text" style="display:none;">Read your comment to a colleague. If they say "OK, but
+                        who does that?", the comment has become a mumble — let the code speak.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Gereksiz Yorum -->
+    <div class="modal-overlay" id="modal-redundant-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Gereksiz Yorum (Redundant Comment)</span><span class="en-text"
+                        style="display:none;">Redundant Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('redundant-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Gereksiz yorum, kodun yaptığını kelimesi kelimesine tekrar eden yorumdur.
+                        Okuyucuya hiçbir ek değer katmaz, aksine zihinsel yükü artırır. Bazen yorumu okumak koddan daha
+                        uzun sürer.</span>
+                    <span class="en-text" style="display:none;">A redundant comment repeats word for word what the code
+                        does. It adds no value to the reader, in fact it increases cognitive load. Sometimes reading the
+                        comment takes longer than reading the code.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum kodu tekrar söylüyor</span><span
+                        class="en-text" style="display:none;">BAD — Comment repeats the code</span></span>
+                <pre><span class="comment">// Kullanıcı listesi boşsa boş liste döndür</span>
+<span class="kw">if</span> (users.isEmpty()) <span class="kw">return</span> Collections.emptyList();
+
+<span class="comment">// kullanıcı sayısını döndür</span>
+<span class="kw">return</span> users.size();</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Yorum yok, kod zaten açık</span><span
+                        class="en-text" style="display:none;">GOOD — No comment, code already clear</span></span>
+                <pre><span class="kw">if</span> (users.isEmpty()) <span class="kw">return</span> Collections.emptyList();
+<span class="kw">return</span> users.size();</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir yorumu okuduktan sonra kendinize sorun: "Yorumu okumadan önce kodu
+                        anlamıyor muyduk?" Eğer kod zaten açıksa, yorum gereksizdir — silin.</span>
+                    <span class="en-text" style="display:none;">After reading a comment ask yourself: "Didn't we already
+                        understand the code without reading the comment?" If the code is already clear, the comment is
+                        redundant — delete it.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-57.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 57 — Uyarı, TODO, Önem Vurgulama</span><span
+                    class="en-text" style="display:none;">Page 57 — Warning, TODO, Amplification</span></div>
+        </a>
+        <a href="page-59.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 59 — Gereksiz Javadoc, Yanıltıcı Yorum, Zorunlu
+                    Yorum</span><span class="en-text" style="display:none;">Page 59 — Redundant Javadoc, Misleading,
+                    Mandated</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 58;</script>
+    <script src="../js/common.js"></script>
+
+</body>
+
+</html>

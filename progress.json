@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 462,
   "pages_per_run": 3,
-  "last_translated_page": 52,
+  "last_translated_page": 71,
   "chapters": [
     {
       "num": 1,
@@ -527,6 +527,158 @@
       "title_tr": "Kaynakça",
       "section_en": "Kaynakça (Bibliography)",
       "section_tr": "Kaynakça (Bibliography)"
+    },
+    "53": {
+      "pdf_page": 84,
+      "chapter": 4,
+      "title_en": "Comments — Introduction",
+      "title_tr": "Yorumlar — Giriş",
+      "section_en": "Giriş",
+      "section_tr": "Giriş"
+    },
+    "54": {
+      "pdf_page": 85,
+      "chapter": 4,
+      "title_en": "Not for Bad Code",
+      "title_tr": "Kötü Kodun Telafisi Değildir",
+      "section_en": "Yorumlar Neden Yalan Söyler?",
+      "section_tr": "Yorumlar Neden Yalan Söyler?"
+    },
+    "55": {
+      "pdf_page": 86,
+      "chapter": 4,
+      "title_en": "Explain Yourself in Code",
+      "title_tr": "Kendinizi Kodla Açıklayın",
+      "section_en": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar",
+      "section_tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
+    },
+    "56": {
+      "pdf_page": 87,
+      "chapter": 4,
+      "title_en": "Good Comments",
+      "title_tr": "İyi Yorumlar (Yasal & Bilgilendirici)",
+      "section_en": "Bilgilendirici, Niyet Açıklaması, Netleştirme",
+      "section_tr": "Bilgilendirici, Niyet Açıklaması, Netleştirme"
+    },
+    "57": {
+      "pdf_page": 88,
+      "chapter": 4,
+      "title_en": "Explanation of Intent",
+      "title_tr": "Niyetin Açıklanması",
+      "section_en": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API",
+      "section_tr": "Sonuçlara Dair Uyarı, TODO, Önem Vurgulama, Herkese Açık API"
+    },
+    "58": {
+      "pdf_page": 89,
+      "chapter": 4,
+      "title_en": "Clarification",
+      "title_tr": "Netleştirme",
+      "section_en": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum",
+      "section_tr": "Kötü Yorumlar: Mırıldanma, Gereksiz Yorum"
+    },
+    "59": {
+      "pdf_page": 90,
+      "chapter": 4,
+      "title_en": "Warning of Consequences",
+      "title_tr": "Sonuçlara Dair Uyarı",
+      "section_en": "Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük Yorumlar",
+      "section_tr": "Gereksiz Javadoc, Yanıltıcı, Zorunlu, Günlük Yorumlar"
+    },
+    "60": {
+      "pdf_page": 91,
+      "chapter": 4,
+      "title_en": "TODO Comments",
+      "title_tr": "TODO Yorumları",
+      "section_en": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları",
+      "section_tr": "Gürültü, Konum İşaretçisi, Kapatma Parantezi Yorumları"
+    },
+    "61": {
+      "pdf_page": 92,
+      "chapter": 4,
+      "title_en": "Amplification & Javadoc",
+      "title_tr": "Önem Belirtme & Javadoc",
+      "section_en": "Atıf ve Yazarlık, Yorum Satırındaki Kod",
+      "section_tr": "Atıf ve Yazarlık, Yorum Satırındaki Kod"
+    },
+    "62": {
+      "pdf_page": 93,
+      "chapter": 4,
+      "title_en": "Bad Comments: Mumbling",
+      "title_tr": "Kötü Yorumlar: Mırıldanma",
+      "section_en": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi",
+      "section_tr": "HTML Yorumu, Yerel Olmayan Bilgi, Çok Fazla Bilgi"
+    },
+    "63": {
+      "pdf_page": 94,
+      "chapter": 4,
+      "title_en": "Redundant Comments",
+      "title_tr": "Gereksiz Yorumlar",
+      "section_en": "Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı, Yorum Satırındaki Kod devamı",
+      "section_tr": "Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı, Yorum Satırındaki Kod devamı"
+    },
+    "64": {
+      "pdf_page": 95,
+      "chapter": 4,
+      "title_en": "Misleading & Mandated",
+      "title_tr": "Yanıltıcı & Zorunlu",
+      "section_en": "Örnek — GeneratePrimes.java (Listing 4-7)",
+      "section_tr": "Örnek — GeneratePrimes.java (Listing 4-7)"
+    },
+    "65": {
+      "pdf_page": 96,
+      "chapter": 4,
+      "title_en": "Journal & Noise",
+      "title_tr": "Günlük & Gürültü Yorumları",
+      "section_en": "Gürültü Yorumu Devamı — Listing 4-4 ve Refactored 4-5",
+      "section_tr": "Gürültü Yorumu Devamı — Listing 4-4 ve Refactored 4-5"
+    },
+    "66": {
+      "pdf_page": 97,
+      "chapter": 4,
+      "title_en": "Scary Noise & By-lines",
+      "title_tr": "Korkunç Gürültü & İmzalar",
+      "section_en": "Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma",
+      "section_tr": "Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma"
+    },
+    "67": {
+      "pdf_page": 98,
+      "chapter": 4,
+      "title_en": "Konum İşaretçileri & Kapatma Parantezi",
+      "title_tr": "Konum İşaretçileri & Kapatma Parantezi",
+      "section_en": "wc.java Listing Devamı, Atıf, Yorum Satırındaki Kod",
+      "section_tr": "wc.java Listing Devamı, Atıf, Yorum Satırındaki Kod"
+    },
+    "68": {
+      "pdf_page": 99,
+      "chapter": 4,
+      "title_en": "Commented-out Code",
+      "title_tr": "Yorum Satırına Alınmış Kod",
+      "section_en": "Listing 4-6 devamı (wc.java) ve Yorum Satırındaki Kod devamı",
+      "section_tr": "Listing 4-6 devamı (wc.java) ve Yorum Satırındaki Kod devamı"
+    },
+    "69": {
+      "pdf_page": 100,
+      "chapter": 4,
+      "title_en": "HTML Javadoc & Yerel Olmayan Bilgi",
+      "title_tr": "HTML Javadoc & Yerel Olmayan Bilgi",
+      "section_en": "HTML Yorumu, Yerel Olmayan Bilgi devamı",
+      "section_tr": "HTML Yorumu, Yerel Olmayan Bilgi devamı"
+    },
+    "70": {
+      "pdf_page": 101,
+      "chapter": 4,
+      "title_en": "Çok Fazla Bilgi & Belirsiz Bağlantı",
+      "title_tr": "Çok Fazla Bilgi & Belirsiz Bağlantı",
+      "section_en": "Yerel Olmayan Bilgi, Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı",
+      "section_tr": "Yerel Olmayan Bilgi, Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon Başlığı"
+    },
+    "71": {
+      "pdf_page": 102,
+      "chapter": 4,
+      "title_en": "Function Headers",
+      "title_tr": "Fonksiyon Başlıkları",
+      "section_en": "Herkese Açık Olmayan Javadoc, Listing 4-7 Devamı — Bölüm 4 Sonu",
+      "section_tr": "Herkese Açık Olmayan Javadoc, Listing 4-7 Devamı — Bölüm 4 Sonu"
     }
   }
 }

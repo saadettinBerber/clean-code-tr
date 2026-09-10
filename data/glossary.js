@@ -30,6 +30,11 @@ window.GLOSSARY = [
     "note": "Çevik yazılım geliştirme"
   },
   {
+    "en": "Amplification",
+    "tr": "Önem Belirtme (Amplification)",
+    "note": "Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum"
+  },
+  {
     "en": "Argument",
     "tr": "Argüman (Argument)",
     "note": "Fonksiyona geçirilen parametre"
@@ -100,6 +105,11 @@ window.GLOSSARY = [
     "note": "Zanaata ve koda duyulan özen"
   },
   {
+    "en": "Clarification",
+    "tr": "Netleştirme (Clarification)",
+    "note": "Karmaşık kütüphane çağrılarını veya dönüş değerlerini açıklayan yorum"
+  },
+  {
     "en": "Clarity",
     "tr": "Açıklık (Clarity)",
     "note": "Kodun anlaşılırlığı"
@@ -118,6 +128,11 @@ window.GLOSSARY = [
     "en": "Clean Code",
     "tr": "Temiz Kod (Clean Code)",
     "note": ""
+  },
+  {
+    "en": "Closing Brace",
+    "tr": "Kapatma Parantezi (Closing Brace)",
+    "note": "Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum"
   },
   {
     "en": "Code Smell",
@@ -143,6 +158,11 @@ window.GLOSSARY = [
     "en": "Command Query Separation",
     "tr": "Komut Sorgu Ayrımı (Command Query Separation)",
     "note": "Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil"
+  },
+  {
+    "en": "Commented-out Code",
+    "tr": "Yorum Satırına Alınmış Kod (Commented-out Code)",
+    "note": "Silinmesi gereken, artık kullanılmayan kod blokları"
   },
   {
     "en": "Commit",
@@ -320,6 +340,11 @@ window.GLOSSARY = [
     "note": "Hata yönetimi bağlamında"
   },
   {
+    "en": "Explanation of Intent",
+    "tr": "Niyetin Açıklanması (Explanation of Intent)",
+    "note": "Kodun neden o şekilde yazıldığını açıklayan yorum"
+  },
+  {
     "en": "Explicit",
     "tr": "Açık (Explicit)",
     "note": "Bağlamın kodda doğrudan yer alması"
@@ -375,6 +400,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Function Header",
+    "tr": "Fonksiyon Başlığı (Function Header)",
+    "note": "Fonksiyonun başına eklenen açıklama bloğu"
+  },
+  {
     "en": "Function Sections",
     "tr": "Fonksiyon Bölümleri (Function Sections)",
     "note": "Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.)"
@@ -410,6 +440,11 @@ window.GLOSSARY = [
     "note": "Kod bloklarının iç içe geçme derinliği"
   },
   {
+    "en": "Informative Comment",
+    "tr": "Bilgilendirici Yorum (Informative Comment)",
+    "note": "Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum"
+  },
+  {
     "en": "Inheritance",
     "tr": "Kalıtım (Inheritance)",
     "note": ""
@@ -435,9 +470,19 @@ window.GLOSSARY = [
     "note": "Kaynak kodu satır satır çalıştıran program"
   },
   {
+    "en": "Javadoc",
+    "tr": "Javadoc",
+    "note": "Java API dokümantasyon formatı"
+  },
+  {
     "en": "JobQueue",
     "tr": "İş Kuyruğu (JobQueue)",
     "note": ""
+  },
+  {
+    "en": "Journal Comment",
+    "tr": "Günlük Yorumu (Journal Comment)",
+    "note": "Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum"
   },
   {
     "en": "Keyword Form",
@@ -453,6 +498,11 @@ window.GLOSSARY = [
     "en": "LeBlanc's Law",
     "tr": "LeBlanc Yasası (LeBlanc's Law)",
     "note": "\"Sonra asla demektir\" (Later equals never)"
+  },
+  {
+    "en": "Legal Comment",
+    "tr": "Yasal Yorum (Legal Comment)",
+    "note": "Telif hakkı, lisans gibi yasal zorunlulukları belirten yorum"
   },
   {
     "en": "Level of Abstraction",
@@ -478,6 +528,11 @@ window.GLOSSARY = [
     "en": "Management",
     "tr": "Yönetim (Management)",
     "note": ""
+  },
+  {
+    "en": "Mandated Comment",
+    "tr": "Zorunlu Yorum (Mandated Comment)",
+    "note": "Şirket politikası veya kurallar gereği zorla eklenen yorum"
   },
   {
     "en": "Marketer",
@@ -545,6 +600,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Misleading Comment",
+    "tr": "Yanıltıcı Yorum (Misleading Comment)",
+    "note": "Kodun gerçekte yaptığından farklı bir şey söyleyen hatalı yorum"
+  },
+  {
     "en": "Misspelling",
     "tr": "Kasıtlı Yazım Hatası (Misspelling)",
     "note": "Derleyiciyi tatmin etmek için yapılan yanlış yazım (ör. klass)"
@@ -558,6 +618,11 @@ window.GLOSSARY = [
     "en": "Monadic",
     "tr": "Tekli (Monadic)",
     "note": "Bir argümanlı fonksiyon"
+  },
+  {
+    "en": "Mumbling",
+    "tr": "Mırıldanma (Mumbling)",
+    "note": "Belirsiz, özensiz veya ne dediği anlaşılmayan yorum"
   },
   {
     "en": "Mutator",
@@ -585,9 +650,19 @@ window.GLOSSARY = [
     "note": "Argümansız fonksiyon"
   },
   {
+    "en": "Noise Comment",
+    "tr": "Gürültü Yorumu (Noise Comment)",
+    "note": "Hiçbir değer katmayan, bariz olanı tekrar eden yorum"
+  },
+  {
     "en": "Noise Word",
     "tr": "Gürültü Kelimesi (Noise Word)",
     "note": "İsme anlam katmayan ek (Info, Data, the, a)"
+  },
+  {
+    "en": "Nonlocal Information",
+    "tr": "Yerel Olmayan Bilgi (Nonlocal Information)",
+    "note": "Bulunduğu yerle doğrudan ilgili olmayan sistem bilgisi"
   },
   {
     "en": "Normal Forms",
@@ -648,6 +723,11 @@ window.GLOSSARY = [
     "en": "Polymorphism",
     "tr": "Çok Biçimlilik (Polymorphism)",
     "note": ""
+  },
+  {
+    "en": "Position Marker",
+    "tr": "Konum İşaretçisi (Position Marker)",
+    "note": "Kod bloklarını ayırmak için kullanılan görsel banner'lar"
   },
   {
     "en": "Precision",
@@ -740,6 +820,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Redundant Comment",
+    "tr": "Gereksiz Yorum (Redundant Comment)",
+    "note": "Koddan daha fazla bilgi vermeyen, fazlalık yorum"
+  },
+  {
     "en": "Refactoring",
     "tr": "Yeniden Düzenleme (Refactoring)",
     "note": ""
@@ -763,6 +848,11 @@ window.GLOSSARY = [
     "en": "Routine",
     "tr": "Rutin (Routine)",
     "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
+  },
+  {
+    "en": "Scary Noise",
+    "tr": "Korkunç Gürültü (Scary Noise)",
+    "note": "Bariz olanı karmaşık Javadoc formatında tekrar eden sinir bozucu yorum"
   },
   {
     "en": "Schedule",
@@ -895,6 +985,11 @@ window.GLOSSARY = [
     "note": "En yetenekli geliştiricilerden oluşan ekip"
   },
   {
+    "en": "TODO",
+    "tr": "TODO / Yapılacaklar (TODO)",
+    "note": "Gelecek için bırakılan notlar ve hatırlatıcılar"
+  },
+  {
     "en": "Transformation",
     "tr": "Dönüşüm (Transformation)",
     "note": "Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi"
@@ -933,6 +1028,11 @@ window.GLOSSARY = [
     "en": "Wading",
     "tr": "Çamura Batma (Wading)",
     "note": "Kötü kodda ilerlerken hissedilen zorluk metaforu"
+  },
+  {
+    "en": "Warning of Consequences",
+    "tr": "Sonuçlara Dair Uyarı (Warning of Consequences)",
+    "note": "Belirli bir işlemin etkileri hakkında diğer programcıları uyaran yorum"
   },
   {
     "en": "Wrapper",

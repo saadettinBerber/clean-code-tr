@@ -1,5 +1,8 @@
 # Clean Code Kitap Çeviri Projesi
 
+> **Not**: Bu dosya Antigravity IDE için CLAUDE.md'nin birebir aynasıdır; kaynak dosya CLAUDE.md'dir. Skill: `.agent/skills/cevir/SKILL.md`, stil kuralları: `.agent/rules/translation-style.md`, glossary: `.claude/skills/cevir/glossary.md` (paylaşılan tek kaynak).
+
+
 ## Proje Amacı
 
 Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsmanship" kitabını sayfa sayfa Türkçeye çevirmeyi ve kitap benzeri, iki dilli, interaktif bir okuyucuda (reader) sunmayı amaçlar. Kullanıcı her seferinde bir ya da birkaç sayfa çeviri ister. Çeviriler `data/pages/page-N.js` veri dosyaları olarak saklanır; tek sayfalık `index.html` okuyucusu bu verileri çizer.

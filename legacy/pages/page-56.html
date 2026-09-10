@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 56 | Bölüm 4: Yorumlar — Bilgilendirici, Niyet, Netleştirme</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e8d44d;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-listing-header .listing-label {
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .note-box {
+            background: #e8f4fd;
+            border-left: 5px solid #3498db;
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 15px;
+            color: #1a5276;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Bilgilendirici, Niyet Açıklaması,
+                Netleştirme</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="56" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Bilgilendirici Yorumlar -->
+        <div class="section-title">
+            <span class="tr-text">Bilgilendirici Yorumlar / Informative Comments</span>
+            <span class="en-text" style="display:none;">Informative Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen bir yorumla temel bilgi vermek faydalı olabilir. Örneğin şu yorum, soyut bir
+                metodun dönüş değerini açıklar:</span>
+            <span class="en-text" style="display:none;">It is sometimes useful to provide basic information with a
+                comment. For example, consider this comment that explains the return value of an abstract method:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Temel bilgi yorumu</span><span class="en-text"
+                    style="display:none;">Basic informative comment</span></div>
+            <pre><span class="comment">// Test edilen Responder örneğini döner.</span>
+<span class="kw">protected abstract</span> Responder responderInstance();</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu tür bir yorum bazen yararlı olabilir; ancak mümkünse bilgiyi fonksiyon adına
+                taşımak daha iyidir. Örneğin bu durumda yorum, metodun <code class="inline">responderBeingTested</code>
+                olarak yeniden adlandırılmasıyla gereksiz hale gelirdi.</span>
+            <span class="en-text" style="display:none;">A comment like this can sometimes be useful, but it is better to
+                use the name of the function to convey the information where possible. For example, in this case the
+                comment could be made redundant by renaming the function: responderBeingTested.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">İşte biraz daha iyi bir örnek:</span>
+            <span class="en-text" style="display:none;">Here's a case that's a bit better:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Regex formatı açıklayan yorum</span><span
+                    class="en-text" style="display:none;">Comment explaining regex format</span></div>
+            <pre><span class="comment">// format matched kk:mm:ss EEE, MMM dd, yyyy</span>
+Pattern timeMatcher = Pattern.compile(
+       <span class="str">"\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*"</span>);</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu durumda yorum, regex ifadesinin <code class="inline">SimpleDateFormat.format</code>
+                fonksiyonu ile belirtilen format dizgisi kullanılarak biçimlendirilmiş bir tarih ve saati eşleştirmeye
+                yönelik olduğunu bize bildiriyor. Yine de bu kod, tarihleri ve saatleri dönüştüren özel bir sınıfa
+                taşınsaydı hem daha iyi hem de daha açık olurdu — o zaman yorum da büyük olasılıkla gereksiz
+                kalırdı.</span>
+            <span class="en-text" style="display:none;">In this case the comment lets us know that the regular
+                expression is intended to match a time and date that were formatted with the SimpleDateFormat.format
+                function using the specified format string. Still, it might have been better, and clearer, if this code
+                had been moved to a special class that converted the formats of dates and times. Then the comment would
+                likely have been superfluous.</span>
+        </div>
+
+        <!-- Niyetin Açıklaması -->
+        <div class="section-title">
+            <span class="tr-text">Niyetin Açıklaması / Explanation of Intent</span>
+            <span class="en-text" style="display:none;">Explanation of Intent</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen bir yorum, uygulamaya ilişkin yararlı bilgilerin ötesine geçerek bir kararın
+                arkasındaki niyeti ortaya koyar. Aşağıdaki örnekte ilginç bir karar bir yorumla belgelenmiştir. İki
+                nesneyi karşılaştırırken yazar, kendi sınıfından nesneleri sıralamada diğer her tür nesnenin önüne
+                geçirmek istediğine karar vermiştir:</span>
+            <span class="en-text" style="display:none;">Sometimes a comment goes beyond just useful information about
+                the implementation and provides the intent behind a decision. In the following case we see an
+                interesting decision documented by a comment. When comparing two objects, the author decided that he
+                wanted to sort objects of his class higher than objects of any other.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Niyetin açıklandığı yorum</span><span class="en-text"
+                    style="display:none;">Comment explaining intent</span></div>
+            <pre><span class="kw">public int</span> compareTo(Object o)
+{
+  <span class="kw">if</span>(o <span class="kw">instanceof</span> WikiPagePath)
+  {
+    WikiPagePath p = (WikiPagePath) o;
+    String compressedName = StringUtil.join(names, <span class="str">""</span>);
+    String compressedArgumentName = StringUtil.join(p.names, <span class="str">""</span>);
+    <span class="kw">return</span> compressedName.compareTo(compressedArgumentName);
+  }
+  <span class="kw">return</span> 1; <span class="comment">// doğru türden olduğumuz için daha büyüğüz.</span>
+}</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">İşte daha da iyi bir örnek. Programcının probleme yaklaşımına katılmıyor
+                olabilirsiniz; ama en azından ne yapmaya çalıştığını anlıyorsunuzdur:</span>
+            <span class="en-text" style="display:none;">Here's an even better example. You might not agree with the
+                programmer's solution to the problem, but at least you know what he was trying to do.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Yarış koşulunu test etme niyeti</span><span
+                    class="en-text" style="display:none;">Race condition test intent</span></div>
+            <pre><span class="kw">public void</span> testConcurrentAddWidgets() <span class="kw">throws</span> Exception {
+  WidgetBuilder widgetBuilder =
+    <span class="kw">new</span> WidgetBuilder(<span class="kw">new</span> Class[]{BoldWidget.class});
+  String text = <span class="str">"'''bold text'''"</span>;
+  ParentWidget parent =
+    <span class="kw">new</span> BoldWidget(<span class="kw">new</span> MockWidgetRoot(), <span class="str">"'''bold text'''"</span>);
+  AtomicBoolean failFlag = <span class="kw">new</span> AtomicBoolean();
+  failFlag.set(<span class="kw">false</span>);
+  <span class="comment">//Bu yarış koşulunu elde etmek için en iyi girişimimiz:
+  //çok sayıda thread oluşturuyoruz.</span>
+  <span class="kw">for</span> (<span class="kw">int</span> i = 0; i &lt; 25000; i++) {
+    WidgetBuilderThread widgetBuilderThread =
+      <span class="kw">new</span> WidgetBuilderThread(widgetBuilder, text, parent, failFlag);
+    Thread thread = <span class="kw">new</span> Thread(widgetBuilderThread);
+    thread.start();
+  }
+  assertEquals(<span class="kw">false</span>, failFlag.get());
+}</pre>
+        </div>
+
+        <!-- Netleştirme -->
+        <div class="section-title">
+            <span class="tr-text">Netleştirme / Clarification</span>
+            <span class="en-text" style="display:none;">Clarification</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen belirsiz bir argümanın ya da dönüş değerinin anlamını okunabilir bir şeye
+                çevirmek faydalıdır. Genel olarak, o argümanı ya da dönüş değerini kendi başına açık hale getirmenin bir
+                yolunu bulmak daha iyidir; ancak bu standart bir kütüphanenin parçasıysa ya da değiştiremediğiniz bir
+                kodsa, yararlı bir netleştirme yorumu işe yarayabilir:</span>
+            <span class="en-text" style="display:none;">Sometimes it is just helpful to translate the meaning of some
+                obscure argument or return value into something that's readable. In general it is better to find a way
+                to make that argument or return value clear in its own right; but when it's part of the standard
+                library, or in code that you cannot alter, then a helpful clarifying comment can be useful.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Netleştirici yorumlar örneği</span><span
+                    class="en-text" style="display:none;">Clarifying comment example</span></div>
+            <pre>assertTrue(a.compareTo(a) == 0);    <span class="comment">// a == a</span>
+assertTrue(a.compareTo(b) != 0);    <span class="comment">// a != b</span>
+assertTrue(ab.compareTo(ab) == 0);  <span class="comment">// ab == ab</span>
+assertTrue(a.compareTo(b) == -1);   <span class="comment">// a &lt; b</span>
+assertTrue(aa.compareTo(ab) == -1); <span class="comment">// aa &lt; ab</span>
+assertTrue(ba.compareTo(bb) == -1); <span class="comment">// ba &lt; bb</span>
+assertTrue(b.compareTo(a) == 1);    <span class="comment">// b &gt; a</span>
+assertTrue(ab.compareTo(aa) == 1);  <span class="comment">// ab &gt; aa</span>
+assertTrue(bb.compareTo(ba) == 1);  <span class="comment">// bb &gt; ba</span></pre>
+        </div>
+
+        <div class="note-box">
+            <span class="tr-text">⚠️ <strong>Uyarı:</strong> Netleştirici bir yorumun yanlış olma riski ciddi biçimde
+                yüksektir. Önceki örneği inceleyin ve yorumların doğruluğunu doğrulamanın ne kadar zor olduğuna bakın.
+                Bu durum hem netleştirmenin neden gerekli olduğunu hem de neden riskli olduğunu açıklar. Bu tür
+                yorumları yazmadan önce daha iyi bir yol olmadığından emin olun; ardından doğrulukları konusunda çok
+                daha dikkatli olun.</span>
+            <span class="en-text" style="display:none;">⚠️ <strong>Warning:</strong> There is a substantial risk that a
+                clarifying comment is incorrect. Go through the previous example and see how difficult it is to verify
+                that they are correct. This explains both why the clarification is necessary and why it's risky. So
+                before writing comments like this, take care that there is no better way, and then take even more care
+                that they are accurate.</span>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('informative-comment')">
+                    <span class="tr-text">Bilgilendirici Yorum</span>
+                    <span class="en-text" style="display:none;">Informative Comment</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('explanation-of-intent')">
+                    <span class="tr-text">Niyetin Açıklaması</span>
+                    <span class="en-text" style="display:none;">Explanation of Intent</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('clarification')">
+                    <span class="tr-text">Netleştirme Yorumu</span>
+                    <span class="en-text" style="display:none;">Clarification Comment</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Bilgilendirici Yorum -->
+    <div class="modal-overlay" id="modal-informative-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Bilgilendirici Yorum (Informative Comment)</span><span class="en-text"
+                        style="display:none;">Informative Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('informative-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Regex gibi karmaşık dönüş değerlerini veya soyut metot imzalarını açıklayan
+                        yorumlar zaman zaman gerçekten yardımcı olabilir. Ancak önce ismi daha açık hale getirip
+                        getiremeyeceğinizi deneyin.</span>
+                    <span class="en-text" style="display:none;">Comments explaining complex return values like regex or
+                        abstract method signatures can sometimes be genuinely helpful. But first try whether you can
+                        make the name more explicit.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — İsim belirsiz, yorum zorunlu</span><span
+                        class="en-text" style="display:none;">BAD — Vague name, comment required</span></span>
+                <pre><span class="comment">// e-posta regex'i</span>
+Pattern p = Pattern.compile(<span class="str">"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"</span>);</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — İsim açık, yorum gereksiz</span><span
+                        class="en-text" style="display:none;">GOOD — Clear name, no comment needed</span></span>
+                <pre>Pattern emailAddressPattern = Pattern.compile(
+    <span class="str">"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"</span>);</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir yorumu sildiğinizde kodu hâlâ anlıyor musunuz? Evet ise yorum zaten
+                        gereksizdi. Hayır ise — ismi veya yapıyı iyileştirin.</span>
+                    <span class="en-text" style="display:none;">When you delete a comment, can you still understand the
+                        code? If yes, the comment was already unnecessary. If no — improve the name or structure.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Niyetin Açıklaması -->
+    <div class="modal-overlay" id="modal-explanation-of-intent">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Niyetin Açıklaması (Explanation of Intent)</span><span class="en-text"
+                        style="display:none;">Explanation of Intent</span></h3>
+                <button class="modal-close" onclick="closeModal('explanation-of-intent')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Bazen bir karar neden alındığını koda yansıtmak olanaksızdır. "Neden böyle
+                        yaptım?" sorusunu yanıtlayan yorumlar, gelecekteki geliştiricilere o kodu değiştirmeden önce ne
+                        düşünmeleri gerektiğini söyler.</span>
+                    <span class="en-text" style="display:none;">Sometimes it is impossible to reflect why a decision was
+                        made in the code. Comments that answer "why did I do this?" tell future developers what they
+                        need to think about before changing that code.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Niyet belirsiz</span><span class="en-text"
+                        style="display:none;">BAD — Intent unclear</span></span>
+                <pre>Collections.sort(items, (a, b) -> b.priority - a.priority);</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Neden bu sıralama? Yorum açıklıyor</span><span
+                        class="en-text" style="display:none;">GOOD — Why this sort? Comment explains</span></span>
+                <pre><span class="comment">// Yüksek öncelikli işler önce işlensin;
+// SLA gereksinimi: kritik görevler 5dk içinde başlamalı.</span>
+Collections.sort(items, (a, b) -> b.priority - a.priority);</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">"Ne yapıyor?" sorusu koda bırakılmalıdır. "Neden böyle yapıyor?" sorusu cevap
+                        bulunamamadıysa yoruma düşebilir.</span>
+                    <span class="en-text" style="display:none;">"What does it do?" should be left to the code. "Why does
+                        it do it this way?" can go into a comment if no better answer can be found.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Netleştirme Yorumu -->
+    <div class="modal-overlay" id="modal-clarification">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Netleştirme Yorumu (Clarification)</span><span class="en-text"
+                        style="display:none;">Clarification Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('clarification')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Değiştiremedeğiniz kütüphane kodlarında, belirsiz argümanların veya dönüş
+                        değerlerinin anlamını netleştiren yorumlar yararlı olabilir. Ancak bu tür yorumlar kolayca
+                        eskiyip yanlış bilgi verebileceğinden çok dikkatli olunmalıdır.</span>
+                    <span class="en-text" style="display:none;">In library code you cannot change, comments that clarify
+                        the meaning of obscure arguments or return values can be useful. However, great care must be
+                        taken since such comments can easily become outdated and misinform.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Anlamsız argümanlar, yorum yok</span><span
+                        class="en-text" style="display:none;">BAD — Unclear args, no clarification</span></span>
+                <pre>resize(image, 800, 600, <span class="kw">true</span>, <span class="kw">false</span>);</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Netleştirici yorum veya isimli argüman</span><span
+                        class="en-text" style="display:none;">GOOD — Clarifying comment or named arg</span></span>
+                <pre>resize(image,
+    800,           <span class="comment">// maxWidth</span>
+    600,           <span class="comment">// maxHeight</span>
+    <span class="kw">true</span>,          <span class="comment">// preserveAspectRatio</span>
+    <span class="kw">false</span>);        <span class="comment">// allowUpscaling</span></pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Kendi yazdığınız kodda netleştirici yorum yerine isimli sabitler veya Builder
+                        deseni kullanın. Üçüncü parti kütüphanelerde ise yorum kabul edilebilir.</span>
+                    <span class="en-text" style="display:none;">For your own code, use named constants or the Builder
+                        pattern instead of clarifying comments. For third-party libraries, a comment is
+                        acceptable.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-55.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 55 — Yorumlar Kötü Kodu Telafi Etmez &amp; İyi
+                    Yorumlar</span><span class="en-text" style="display:none;">Page 55 — Comments Don't Make Up for Bad
+                    Code &amp; Good Comments</span></div>
+        </a>
+        <a href="page-57.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 57 — İyi Yorumlar: Sonuç Uyarısı, TODO, Önem
+                    Vurgulama</span><span class="en-text" style="display:none;">Page 57 — Good Comments: Warning, TODO,
+                    Amplification</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 56;</script>
+    <script src="../js/common.js"></script>
+
+</body>
+
+</html>

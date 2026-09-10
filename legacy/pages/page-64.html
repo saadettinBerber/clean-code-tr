@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 64 | Bölüm 4: Örnek — GeneratePrimes.java (Listing 4-7)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e8d44d;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .challenge-box {
+            background: #fff3cd;
+            border-left: 5px solid #e8d44d;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+            font-size: 16px;
+            color: #664d03;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        .annot {
+            color: #fab387;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Örnek — GeneratePrimes.java (Listing 4-7)
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="64" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="section-title">
+            <span class="tr-text">Örnek / Example</span>
+            <span class="en-text" style="display:none;">Example</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Listing 4-7'deki modülü ilk XP Immersion için yazdım. Amacı kötü kodlama ve yorum
+                yazma tarzına bir örnek teşkil etmekti. Kent Beck ardından bu kodu birkaç düzine hevesli öğrencinin
+                önünde çok daha hoş bir forma geri dönüştürdü. Daha sonra bu örneği "Agile Software Development,
+                Principles, Patterns, and Practices" kitabım ve Software Development dergisinde yayımlanan ilk Craftsman
+                makalem için uyarladım.</span>
+            <span class="en-text" style="display:none;">I wrote the module in Listing 4-7 for the first XP Immersion. It
+                was intended to be an example of bad coding and commenting style. Kent Beck then refactored this code
+                into a much more pleasant form in front of several dozen enthusiastic students. Later I adapted the
+                example for my book Agile Software Development, Principles, Patterns, and Practices and the first of my
+                Craftsman articles published in Software Development magazine.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu modülde beni büyüleyен şey, bir zamanlar pek çoğumuzun onu "iyi belgelenmiş"
+                saydığıdır. Şimdi ise küçük bir karmaşa olarak görüyoruz. Ne kadar farklı yorum sorununu bulabildiğinize
+                bakın:</span>
+            <span class="en-text" style="display:none;">What I find fascinating about this module is that there was a
+                time when many of us would have considered it "well documented." Now we see it as a small mess. See how
+                many different comment problems you can find.</span>
+        </div>
+
+        <div class="challenge-box">
+            <strong><span class="tr-text">Kendinize meydan okuyun:</span><span class="en-text"
+                    style="display:none;">Challenge yourself:</span></strong>
+            <span class="tr-text"> Aşağıdaki kodda kaç farklı yorum sorununu tespit edebilirsiniz? Tüm sorun
+                kategorilerini (mırıldanma, gereksiz, yanıltıcı, zorunlu, günlük, gürültü, HTML, yerel olmayan, çok
+                fazla bilgi, bağlantısız bağlam, fonksiyon başlığı, herkese açık olmayan Javadoc) listeleyin.</span>
+            <span class="en-text" style="display:none;"> How many different comment problems can you identify in the
+                code below? Try to list all problem categories (mumbling, redundant, misleading, mandated, journal,
+                noise, HTML, nonlocal, too much info, inobvious connection, function header, Javadoc in nonpublic
+                code).</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">Listing 4-7 — GeneratePrimes.java</div>
+            <pre><span class="comment">/**
+ * Bu sınıf, kullanıcı tarafından belirtilen bir üst sınıra kadar
+ * asal sayılar üretir. Kullanılan algoritma Eratosthenes Kalburu'dur.
+ * &lt;p&gt;
+ * Kireneli Eratosthenes, MÖ 276 civarı, Kirene, Libya --
+ * MS 194, İskenderiye. Dünya çevresini hesaplayan ilk insan.
+ * Artık yıllı takvimler üzerinde çalışması ve İskenderiye
+ * Kütüphanesi'ni yönetmesiyle de tanınır.
+ * &lt;p&gt;
+ * Algoritma oldukça basittir. 2'den başlayan bir tam sayı dizisi verilmiş.
+ * 2'nin tüm katlarını çizin. Çizilmemiş bir sonraki tam sayıyı bulun ve
+ * onun tüm katlarını çizin. En büyük değerin karekökünü geçene kadar
+ * tekrarlayın.
+ *
+ * @author Alphonse
+ * @version 13 Feb 2002 atp
+ */</span>
+<span class="kw">import</span> java.util.*;
+<span class="kw">public class</span> GeneratePrimes
+{
+  <span class="comment">/**
+   * @param maxValue üretim limitidir.
+   */</span>
+  <span class="kw">public static int</span>[] generatePrimes(<span class="kw">int</span> maxValue)
+  {
+    <span class="kw">if</span> (maxValue &gt;= 2) <span class="comment">// tek geçerli durum</span>
+    {
+      <span class="comment">// bildirimler</span>
+      <span class="kw">int</span> s = maxValue + 1; <span class="comment">// dizi boyutu</span>
+      <span class="kw">boolean</span>[] f = <span class="kw">new boolean</span>[s];
+      <span class="kw">int</span> i;
+      <span class="comment">// diziyi doğruya başlat</span>
+      <span class="kw">for</span> (i = 0; i &lt; s; i++)
+        f[i] = <span class="kw">true</span>;
+
+      <span class="comment">// 0 ve 1 asal değildir</span>
+      f[0] = f[1] = <span class="kw">false</span>;
+
+      <span class="comment">// kalbur</span>
+      <span class="kw">int</span> j;
+      <span class="kw">for</span> (i = 2; i &lt; Math.sqrt(s) + 1; i++)
+      {
+        <span class="kw">if</span> (f[i]) <span class="comment">// eğer i çizilmemişse,</span>
+        {  <span class="comment">// katlarını çiz</span>
+          <span class="kw">for</span> (j = 2 * i; j &lt; s; j += i)
+            f[j] = <span class="kw">false</span>; <span class="comment">// birden fazla i katı asal değildir</span>
+        }
+      }
+      <span class="comment">// kaç tane asal sayı var?</span>
+      <span class="kw">int</span> count = 0;
+      <span class="kw">for</span> (i = 0; i &lt; s; i++)
+      {
+        <span class="kw">if</span> (f[i])
+          count++; <span class="comment">// sayacı artır</span>
+      }
+      <span class="kw">int</span>[] primes = <span class="kw">new int</span>[count];
+      <span class="comment">// asalları sonuç dizisine taşı</span>
+      <span class="kw">for</span> (i = 0, j = 0; i &lt; s; i++)
+      {
+        <span class="kw">if</span> (f[i])        <span class="comment">// eğer asal ise...</span>
+          primes[j++] = i;
+      }
+      <span class="kw">return</span> primes; <span class="comment">// asalları döndür</span>
+    }
+    <span class="kw">else</span> <span class="comment">// maxValue < 2</span>
+      <span class="kw">return new int</span>[0]; <span class="comment">// girdi hatalı; boş dizi döndür</span>
+  }
+}</pre>
+        </div>
+
+    </div>
+
+    <div class="page-nav">
+        <a href="page-63.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 63 — Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon
+                    Başlığı</span><span class="en-text" style="display:none;">Page 63 — Too Much Info, Inobvious,
+                    Function Headers</span></div>
+        </a>
+        <a href="page-65.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 65 — Bölüm 5: Biçimlendirme (Formatting)</span><span
+                    class="en-text" style="display:none;">Page 65 — Chapter 5: Formatting</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 64;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>

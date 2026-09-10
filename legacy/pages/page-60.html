@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 60 | Bölüm 4: Kötü Yorumlar — Gürültü, Konum İşaretçisi, Kapatma Parantezi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-listing-header .listing-label {
+            opacity: 0.7;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Gürültü, Konum İşaretçisi, Kapatma
+                Parantezi Yorumları</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="60" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Gürültü Yorumu -->
+        <div class="section-title">
+            <span class="tr-text">Gürültü Yorumu / Noise Comments</span>
+            <span class="en-text" style="display:none;">Noise Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen yorumlar hiçbir şey söylememektedir. Yalnızca gürültüdürler. Aşağıdaki yorumlar
+                o kadar aşikar ki hiç sorgulanmadan geçilirler. Ve geçilmeleri gerekir:</span>
+            <span class="en-text" style="display:none;">Sometimes you see comments that are nothing but noise. They
+                restate the obvious and provide no new information. These comments are so noisy that we learn to ignore
+                them. The further we ignore them, the more likely we are to miss real information among them.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Gürültü yorum örnekleri</span>
+                <span class="en-text" style="display:none;">Noise comment examples</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="comment">/**
+ * Varsayılan kurucu
+ */</span>
+<span class="kw">protected</span> AnnualDateRule() {
+}
+
+<span class="comment">/** Gün */</span>
+<span class="kw">private int</span> dayOfMonth;
+
+<span class="comment">/**
+ * Gün içi ay değeri döndürür.
+ * @return gün içi ay değeri
+ */</span>
+<span class="kw">public int</span> getDayOfMonth() {
+  <span class="kw">return</span> dayOfMonth;
+}</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu tür yorumlar o kadar anlamsız ki programcılar onları okumayı öğrenir — tıpkı
+                görmezden geldikleri reklamlar gibi. Sonunda gerçek yorumların da aynı şekilde görmezden gelinmesine yol
+                açarlar. Aşağıdakine ne diyorsunuz:</span>
+            <span class="en-text" style="display:none;">These comments are so noisy that programmers learn to ignore
+                them. As they learn to ignore irrelevant comments, they eventually ignore all comments—and there is real
+                damage done. The following comment is so redundant it borders on absurdity:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">En absürd gürültü yorumu</span>
+                <span class="en-text" style="display:none;">Most absurd noise comment</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="kw">private void</span> startSending()
+{
+  <span class="kw">try</span>
+  {
+    doSending();
+  }
+  <span class="kw">catch</span>(SocketException e)
+  {
+    <span class="comment">// Gönderme iptal edildi. Bu normal.</span>
+  }
+  <span class="kw">catch</span>(Exception e)
+  {
+    <span class="kw">try</span>
+    {
+      response.add(ErrorResponder.makeExceptionString(e));
+      response.closeAll();
+    }
+    <span class="kw">catch</span>(Exception e1)
+    {
+      <span class="comment">//Artık ne yapabiliriz ki?</span>
+    }
+  }
+}</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">İkinci catch bloğundaki yorum muhtemelen bir sinirlenme anında yazılmıştır. Programcı
+                gerçekten o catch bloğunu boş bırakmaktan rahatsız olmuş; ama bir şeyler yazmak istememiş. Boş bir catch
+                bloğunu anlamlı şekilde adlandırılmış bir metoda dönüştürmek yerine yorum bırakmıştır.</span>
+            <span class="en-text" style="display:none;">The second catch block was authored in a moment of frustration.
+                The programmer was apparently displeased about leaving the catch block empty but didn't want to take the
+                time to create an appropriate exception class. So he vented his frustration in a comment. Better to have
+                replaced the catch block with a named function or handled the exception appropriately.</span>
+        </div>
+
+        <!-- Konum İşaretçisi -->
+        <div class="section-title">
+            <span class="tr-text">Konum İşaretçisi / Position Markers</span>
+            <span class="en-text" style="display:none;">Position Markers</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen programcılar bir kaynak dosyada belirli bir konumu işaretlemek ister. Şunun
+                gibi:</span>
+            <span class="en-text" style="display:none;">Sometimes programmers like to mark a particular position in a
+                source file. For example, I recently found this in a program I was browsing:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Konum işaretçisi örneği</span>
+                <span class="en-text" style="display:none;">Position marker example</span>
+            </div>
+            <pre><span class="comment">// Actions //////////////////////////////////</span></pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen belirli bir fonksiyonlar topluluğunu bu tür bir banner altında gruplamak anlamlı
+                olabilir. Ama genellikle bunlar gereksiz gürültüdür ve görmezden gelinmelidir. Bunları nadiren ve
+                yalnızca faydası açıkça görülen yerlerde kullanın. Bu tür banner'ları sık kullandığınızda arka plan
+                gürültüsü haline gelirler ve görmezden gelinirler.</span>
+            <span class="en-text" style="display:none;">There are rare times when it makes sense to gather certain
+                functions together beneath a banner like this. But in general they are clutter that should be
+                eliminated—especially the noisy train of slashes at the end. Think of it this way. A banner is startling
+                and obvious if you don't see banners very often. So use them very sparingly, and only when the benefit
+                is significant. If you overuse banners, they'll fall into the background noise and be ignored.</span>
+        </div>
+
+        <!-- Kapatma Parantezi Yorumu -->
+        <div class="section-title">
+            <span class="tr-text">Kapatma Parantezi Yorumu / Closing Brace Comments</span>
+            <span class="en-text" style="display:none;">Closing Brace Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen programcılar kapanan parantezlerin yanına özel yorumlar ekler. Bu, uzun ve derin
+                iç içe geçmiş yapılarda anlam taşıyabilir; ancak yalnızca küçük ve kapsüllü fonksiyonlar yazdığımız için
+                tercih ettiğimiz durumlarda bu yorumlar yalnızca dağınıklıktır. Kapatma parantezi yorumlarına ihtiyaç
+                duyuyorsanız, bunu fonksiyonlarınızı kısaltmak için bir sinyal olarak değerlendirin:</span>
+            <span class="en-text" style="display:none;">Sometimes programmers will put special comments on closing
+                braces. Although this might make sense for long functions with deeply nested structures, it serves only
+                to clutter the kind of small and encapsulated functions that we prefer. So if you find yourself wanting
+                to mark your closing braces, try to shorten your functions instead.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Kapatma parantezi yorumları — kötü örnek</span>
+                <span class="en-text" style="display:none;">Closing brace comments — bad example</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre><span class="kw">public class</span> wc {
+  <span class="kw">public static void</span> main(String[] args) {
+    BufferedReader in = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> InputStreamReader(System.in));
+    String line;
+    <span class="kw">int</span> lineCount = 0;
+    <span class="kw">int</span> charCount = 0;
+    <span class="kw">int</span> wordCount = 0;
+    <span class="kw">try</span> {
+      <span class="kw">while</span> ((line = in.readLine()) != <span class="kw">null</span>) {
+        lineCount++;
+        charCount += line.length();
+        String words[] = line.split(<span class="str">"\\W"</span>);
+        wordCount += words.length;
+      } <span class="comment">//while</span>
+      System.out.println(<span class="str">"wordCount = "</span> + wordCount);
+      System.out.println(<span class="str">"lineCount = "</span> + lineCount);
+      System.out.println(<span class="str">"charCount = "</span> + charCount);
+    } <span class="comment">// try</span>
+    <span class="kw">catch</span> (IOException e) {
+      System.err.println(<span class="str">"Error:"</span> + e.getMessage());
+    } <span class="comment">//catch</span>
+  } <span class="comment">//main</span>
+}</pre>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('noise-comment')">
+                    <span class="tr-text">Gürültü Yorumu</span>
+                    <span class="en-text" style="display:none;">Noise Comment</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('position-marker')">
+                    <span class="tr-text">Konum İşaretçisi</span>
+                    <span class="en-text" style="display:none;">Position Marker</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('closing-brace')">
+                    <span class="tr-text">Kapatma Parantezi Yorumu</span>
+                    <span class="en-text" style="display:none;">Closing Brace Comment</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Gürültü Yorumu -->
+    <div class="modal-overlay" id="modal-noise-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Gürültü Yorumu (Noise Comment)</span><span class="en-text"
+                        style="display:none;">Noise Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('noise-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Gürültü yorumları apaçık olanı tekrarlar ve okuyucuya hiçbir yeni bilgi vermez.
+                        Zamanla görmezden gelinen bu yorumlar, aralarına sıkışmış gerçek ve önemli yorumların da
+                        görmezden gelmesine yol açar.</span>
+                    <span class="en-text" style="display:none;">Noise comments repeat the obvious and provide no new
+                        information to the reader. Over time these ignored comments lead to real and important comments
+                        interspersed among them also being ignored.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Her satır yorumlanmış, hiçbiri değer
+                        katmıyor</span><span class="en-text" style="display:none;">BAD — Every line commented, none
+                        adding value</span></span>
+                <pre><span class="comment">/** Kullanıcı adı */</span>
+String username;
+
+<span class="comment">/** Yaş */</span>
+<span class="kw">int</span> age;
+
+<span class="comment">/** Kullanıcı adını döndürür */</span>
+String getUsername() { <span class="kw">return</span> username; }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Yorum yok, isimler açık</span><span class="en-text"
+                        style="display:none;">GOOD — No comments, names are clear</span></span>
+                <pre>String username;
+<span class="kw">int</span> age;
+String getUsername() { <span class="kw">return</span> username; }</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir yorum yazmadan önce kendinize "Bu yorum olmasaydı kodu anlamak güçleşir
+                        miydi?" sorusunu sorun. Hayırsa — silmeyin, yazmayın.</span>
+                    <span class="en-text" style="display:none;">Before writing a comment, ask yourself "Would the code
+                        be harder to understand without this comment?" If no — don't write it.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Konum İşaretçisi -->
+    <div class="modal-overlay" id="modal-position-marker">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Konum İşaretçisi (Position Marker)</span><span class="en-text"
+                        style="display:none;">Position Marker</span></h3>
+                <button class="modal-close" onclick="closeModal('position-marker')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Dosyada bölüm ayıracı olarak kullanılan <code
+                            style="background:#e9ecef;padding:2px 6px;border-radius:4px;font-family:monospace;">// ======</code>
+                        benzeri satırlar başlangıçta dikkat çekiciyken, alışıla gelince arka plan gürültüsüne
+                        dönüşürler. İyi kod organizasyonu ve küçük fonksiyonlar bu işaretçilere olan ihtiyacı ortadan
+                        kaldırır.</span>
+                    <span class="en-text" style="display:none;">Lines like <code>// ======</code> used as section
+                        dividers in files are eye-catching at first but turn into background noise once they become
+                        commonplace. Good code organization and small functions eliminate the need for these
+                        markers.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Orman gibi bir dosyada işaretçiler</span><span
+                        class="en-text" style="display:none;">BAD — Markers in a forest-like file</span></span>
+                <pre><span class="comment">// ==================== INIT ====================</span>
+<span class="kw">public void</span> init() { ... }
+
+<span class="comment">// =================== ACTIONS ==================</span>
+<span class="kw">public void</span> processOrder() { ... }
+<span class="kw">public void</span> cancelOrder() { ... }
+
+<span class="comment">// =================== HELPERS ==================</span>
+<span class="kw">private void</span> validate() { ... }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Ayrı küçük sınıflar, işaretçi gereksiz</span><span
+                        class="en-text" style="display:none;">GOOD — Separate small classes, no markers
+                        needed</span></span>
+                <pre><span class="kw">class</span> OrderInitializer { <span class="kw">public void</span> init() { ... } }
+<span class="kw">class</span> OrderProcessor { <span class="kw">public void</span> process() { ... } }
+<span class="kw">class</span> OrderValidator { <span class="kw">public void</span> validate() { ... } }</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Dosyanız konum işaretçisi olmadan okunamıyorsa, bu dosyanın çok büyük ve tek
+                        sorumluluk ilkesini ihlal ettiğinin işaretidir.</span>
+                    <span class="en-text" style="display:none;">If your file can't be read without position markers,
+                        it's a sign that the file is too large and violating the single responsibility principle.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Kapatma Parantezi Yorumu -->
+    <div class="modal-overlay" id="modal-closing-brace">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Kapatma Parantezi Yorumu (Closing Brace Comment)</span><span class="en-text"
+                        style="display:none;">Closing Brace Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('closing-brace')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Kapanan süslü parantezlerin yanında <code
+                            style="background:#e9ecef;padding:2px 6px;border-radius:4px;font-family:monospace;">// while</code>
+                        veya <code
+                            style="background:#e9ecef;padding:2px 6px;border-radius:4px;font-family:monospace;">// try</code>
+                        gibi yorumlar yazmak, fonksiyonun çok uzun ve karmaşık olduğunun belirtisidir. Çözüm yorum
+                        değil, fonksiyonu küçültmektir.</span>
+                    <span class="en-text" style="display:none;">Writing comments like <code>// while</code> or
+                        <code>// try</code> next to closing braces is a sign that the function is too long and complex.
+                        The solution is not a comment, but shortening the function.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Kapatma parantezi yorumları</span><span
+                        class="en-text" style="display:none;">BAD — Closing brace comments</span></span>
+                <pre"><span class="kw">while</span> (hasNext()) {
+                    <span class="kw">if</span> (isValid()) {
+                    process();
+                    } <span class="comment">// if isValid</span>
+                    } <span class="comment">// while hasNext</span></pre>
+                    <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                            Example (After)</span></h4>
+                    <span class="label-good"><span class="tr-text">İYİ — Küçük fonksiyon, yorum gereksiz</span><span
+                            class="en-text" style="display:none;">GOOD — Small function, no comment needed</span></span>
+                    <pre"><span class="kw">while</span> (hasNext()) {
+                        processNextValidItem();
+                        }
+
+                        <span class="kw">private void</span> processNextValidItem() {
+                        <span class="kw">if</span> (isValid()) process();
+                        }</pre>
+                        <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                                    style="display:none;">Practical Tip</span></strong>
+                            <span class="tr-text">Kapatma parantezine yorum ekleme ihtiyacı hissediyorsanız, durdurun ve
+                                o döngünün gövdesini ayrı bir metoda çıkarın. İsimleyin ve yorumdan daha iyi bir
+                                belgeleme sağlayın.</span>
+                            <span class="en-text" style="display:none;">If you feel the need to add a comment to a
+                                closing brace, stop and extract the loop body into a separate method. Name it and
+                                provide better documentation than a comment.</span>
+                        </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-59.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 59 — Gereksiz Javadoc, Yanıltıcı, Zorunlu,
+                    Günlük</span><span class="en-text" style="display:none;">Page 59 — Redundant Javadoc, Misleading,
+                    Mandated, Journal</span></div>
+        </a>
+        <a href="page-61.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 61 — Atıf ve Yazarlık, Yorum Satırındaki
+                    Kod</span><span class="en-text" style="display:none;">Page 61 — Attributions and Bylines,
+                    Commented-Out Code</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 60;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>
