@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları",
+    "en": "Prefer Exceptions to Returning Error Codes & Extract Try/Catch Blocks",
     "tr": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları"
   },
   "title": {
@@ -31,8 +31,8 @@ window.PAGE({
       "lang": "java",
       "code": "if (attributeExists(\"username\")) {\n    setAttribute(\"username\", \"unclebob\");\n    ...\n}",
       "caption": {
-        "en": "Komut-Sorgu Ayrımı Çözümü",
-        "tr": "Komut-Sorgu Ayrımı Çözümü"
+        "en": "Command Query Separation Fix",
+        "tr": "Komut Sorgu Ayrımı Çözümü"
       }
     },
     {
@@ -47,7 +47,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Returning error codes from command functions is a subtle violation of command query separation. It promotes commands being used as expressions in the predicates of <code>if</code> statements.",
-          "tr": "Komut fonksiyonlarından hata kodları (error codes) döndürmek, komut-sorgu ayrımının (Command Query Separation) ince bir ihlalidir. Komutların <code>if</code> ifadelerinin yüklemlerinde (predicates) birer ifade olarak kullanılmasını teşvik eder.",
+          "tr": "Komut fonksiyonlarından hata kodları (error codes) döndürmek, komut sorgu ayrımının (Command Query Separation) ince bir ihlalidir. Komutların <code>if</code> deyimlerinin yüklemlerinde (predicates) birer ifade (expression) olarak kullanılmasını teşvik eder.",
           "html": true
         }
       ]
@@ -57,7 +57,7 @@ window.PAGE({
       "lang": "java",
       "code": "if (deletePage(page) == E_OK)",
       "caption": {
-        "en": "Hata Kodu Kontrolü",
+        "en": "Error Code Check",
         "tr": "Hata Kodu Kontrolü"
       }
     },
@@ -66,7 +66,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "This does not suffer from verb/adjective confusion but does lead to deeply nested structures. When you return an error code, you create the problem that the caller must deal with the error immediately.",
-          "tr": "Bu ifade fiil/sıfat karışıklığından mustarip değildir, ancak derinlemesine iç içe geçmiş yapılara (deeply nested structures) yol açar. Bir hata kodu döndürdüğünüzde, çağıranın hatayla hemen ilgilenmesi gereken bir sorun yaratırsınız.",
+          "tr": "Bu ifadede fiil/sıfat karışıklığı yoktur, ancak derinlemesine iç içe geçmiş yapılara (deeply nested structures) yol açar. Bir hata kodu döndürdüğünüzde, çağıranın hatayla hemen ilgilenmek zorunda kalması sorununu yaratırsınız.",
           "html": true
         }
       ]
@@ -103,7 +103,7 @@ window.PAGE({
       "type": "heading",
       "level": 1,
       "en": "Extract Try/Catch Blocks",
-      "tr": "Try/Catch Bloklarını Ayırın / Extract Try/Catch Blocks",
+      "tr": "Try/Catch Bloklarını Çıkarın / Extract Try/Catch Blocks",
       "html": true
     },
     {
@@ -111,7 +111,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "<code>Try/catch</code> blocks are ugly in their own right. They confuse the structure of the code and mix error processing with normal processing. So it is better to extract the bodies of the <code>try</code> and <code>catch</code> blocks out into functions of their own.",
-          "tr": "<code>Try/catch</code> blokları kendi başlarına çirkindir. Kodun yapısını karıştırır ve hata işlemeyi normal işleme ile birbirine geçirir. Bu nedenle <code>try</code> ve <code>catch</code> bloklarının gövdelerini kendi fonksiyonlarına çıkarmak daha iyidir.",
+          "tr": "<code>Try/catch</code> blokları kendi başlarına çirkindir. Kodun yapısını karmaşıklaştırır ve hata işlemeyi normal işlemle birbirine karıştırır. Bu nedenle <code>try</code> ve <code>catch</code> bloklarının gövdelerini kendi fonksiyonlarına çıkarmak daha iyidir.",
           "html": true
         }
       ]
@@ -130,7 +130,7 @@ window.PAGE({
       "id": "extract-try-catch",
       "title": {
         "en": "Extract Try/Catch Blocks",
-        "tr": "Try/Catch Bloklarını Ayırma (Extract Try/Catch)"
+        "tr": "Try/Catch Bloklarını Çıkarma (Extract Try/Catch)"
       },
       "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Try/catch blokları hata yönetimini normal iş mantığıyla karıştırır. En iyi uygulama, try bloğunun gövdesini ayrı bir fonksiyona, catch bloğunun gövdesini de ayrı bir fonksiyona çıkarmaktır. Böylece her fonksiyon tek bir şey yapar.</span><span class=\"en-text\">Try/catch blocks mix error handling with normal business logic. The best practice is to extract the try body into a separate function and the catch body into another. This way each function does one thing.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Karışık hata yönetimi</span><span class=\"en-text\">BAD — Mixed error handling</span></span>\n<pre><span class=\"kw\">function</span> <span class=\"method\">updateUser</span>(userId, data) {\n    <span class=\"kw\">try</span> {\n        <span class=\"kw\">const</span> user = <span class=\"kw\">await</span> db.<span class=\"method\">findById</span>(userId);\n        user.name = data.name;\n        user.email = data.email;\n        <span class=\"kw\">await</span> user.<span class=\"method\">save</span>();\n        <span class=\"kw\">await</span> cache.<span class=\"method\">invalidate</span>(<span class=\"str\">`user:</span>${userId}<span class=\"str\">`</span>);\n        <span class=\"kw\">await</span> <span class=\"method\">sendNotification</span>(user, <span class=\"str\">\"Profile updated\"</span>);\n    } <span class=\"kw\">catch</span> (err) {\n        logger.<span class=\"method\">error</span>(<span class=\"str\">\"Update failed\"</span>, err);\n        metrics.<span class=\"method\">increment</span>(<span class=\"str\">\"user.update.failure\"</span>);\n        <span class=\"kw\">throw new</span> <span class=\"type\">ServiceError</span>(<span class=\"str\">\"Update failed\"</span>);\n    }\n}</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Ayrılmış sorumluluklar</span><span class=\"en-text\">GOOD — Separated responsibilities</span></span>\n<pre><span class=\"kw\">function</span> <span class=\"method\">updateUser</span>(userId, data) {\n    <span class=\"kw\">try</span> {\n        <span class=\"method\">performUserUpdate</span>(userId, data);\n    } <span class=\"kw\">catch</span> (err) {\n        <span class=\"method\">handleUpdateFailure</span>(err);\n    }\n}\n\n<span class=\"kw\">async function</span> <span class=\"method\">performUserUpdate</span>(userId, data) {\n    <span class=\"kw\">const</span> user = <span class=\"kw\">await</span> db.<span class=\"method\">findById</span>(userId);\n    user.name = data.name;\n    user.email = data.email;\n    <span class=\"kw\">await</span> user.<span class=\"method\">save</span>();\n    <span class=\"kw\">await</span> cache.<span class=\"method\">invalidate</span>(<span class=\"str\">`user:</span>${userId}<span class=\"str\">`</span>);\n    <span class=\"kw\">await</span> <span class=\"method\">sendNotification</span>(user, <span class=\"str\">\"Profile updated\"</span>);\n}\n\n<span class=\"kw\">function</span> <span class=\"method\">handleUpdateFailure</span>(err) {\n    logger.<span class=\"method\">error</span>(<span class=\"str\">\"Update failed\"</span>, err);\n    metrics.<span class=\"method\">increment</span>(<span class=\"str\">\"user.update.failure\"</span>);\n    <span class=\"kw\">throw new</span> <span class=\"type\">ServiceError</span>(<span class=\"str\">\"Update failed\"</span>);\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Try/catch gördüğünüzde \"Metot Çıkarma (Extract Method)\" refactoring tekniğini uygulayın. Try gövdesi ve catch gövdesi ayrı fonksiyonlar olmalıdır. Böylece ana fonksiyon sadece hata akışının koordinasyonunu yapar.</span><span class=\"en-text\">When you see try/catch, apply the \"Extract Method\" refactoring technique. The try body and catch body should be separate functions. The main function then only coordinates the error flow.</span></div>"
     },
