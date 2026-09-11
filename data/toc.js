@@ -624,7 +624,7 @@ window.TOC = {
         "tr": "Hata Kodları Yerine İstisnalar, Try/Catch Blokları"
       },
       "section": {
-        "en": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları",
+        "en": "Prefer Exceptions to Returning Error Codes & Extract Try/Catch Blocks",
         "tr": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları"
       },
       "chapter": 3

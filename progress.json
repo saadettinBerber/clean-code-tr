@@ -477,7 +477,7 @@
       "chapter": 3,
       "title_en": "Prefer Exceptions, Extract Try/Catch",
       "title_tr": "Hata Kodları Yerine İstisnalar, Try/Catch Blokları",
-      "section_en": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları",
+      "section_en": "Prefer Exceptions to Returning Error Codes & Extract Try/Catch Blocks",
       "section_tr": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları"
     },
     "47": {
