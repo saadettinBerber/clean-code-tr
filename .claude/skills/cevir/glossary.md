@@ -42,6 +42,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Code-Sense | Kod Duygusu (Code-Sense) | Temiz kodu kirli koddan ayırt etme ve düzeltme yetisi |
 | Coding Style | Kodlama Biçemi (Coding Style) | Bir geliştirici ya da ekibin kodu yazarken izlediği tutarlı biçim alışkanlıkları |
 | Cognitive Break | Bilişsel Kesinti (Cognitive Break) | Fonksiyon imzasını kontrol etme gerekliliği |
+| Cohesion | Bütünlük (Cohesion) | Bir grup argümanın ya da elemanın birbiriyle ne kadar doğal biçimde ilişkili olduğu; ör. bir noktanın x ve y bileşenleri |
 | Collection Abstraction | Koleksiyon Soyutlama (Collection Abstraction) |  |
 | Command Query Separation | Komut Sorgu Ayrımı (Command Query Separation) | Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil |
 | Commented-out Code | Yorum Satırına Alınmış Kod (Commented-out Code) | Silinmesi gereken, artık kullanılmayan kod blokları |
@@ -74,13 +75,16 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Disinformation | Yanlış Bilgi (Disinformation) | İsimlerin okuyucuyu yanlış yönlendirmesi |
 | Domain Expert | Alan Uzmanı (Domain Expert) | İş alanına (problem alanına) hakim uzman kişi |
 | Domain-Specific Language | Alana Özgü Dil (Domain-Specific Language) |  |
+| Don't Repeat Yourself (DRY) | Kendini Tekrar Etme (Don't Repeat Yourself / DRY) | Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı |
 | Duplication | Tekrar (Duplication) | DRY ilkesi: Don't Repeat Yourself |
 | Dyadic | İkili (Dyadic) | İki argümanlı fonksiyon |
 | Efficiency | Verimlilik (Efficiency) | Kodun performans ve kaynak kullanımı açısından etkinliği |
 | Elegant | Zarif (Elegant) | Hoş derecede zarif, şık ve basit kod |
 | Encapsulation | Kapsülleme (Encapsulation) |  |
 | Entity | Varlık (Entity) | Sınıf, metot, fonksiyon gibi yapı |
+| Error Code | Hata Kodu (Error Code) | Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi |
 | Error Handling | Hata Yönetimi (Error Handling) | Hataları yakalama ve işleme stratejisi |
+| Event (argument form) | Olay (Event) | Tek argümanlı fonksiyonların üçüncü ortak formu: bir girdi argümanı alır ama çıktı döndürmez, çağrının bir olay olarak yorumlanmasını ve sistemin durumunu değiştirmesini amaçlar. |
 | Exception | İstisna (Exception) | Hata yönetimi bağlamında |
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
 | Explicit | Açık (Explicit) | Bağlamın kodda doğrudan yer alması |
@@ -95,6 +99,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
 | Flag | Bayrak (Flag) | Boolean kontrol parametresi |
 | Flag Argument | Bayrak Argümanı (Flag Argument) | Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir |
+| Floating Point | Kayan Nokta (Floating Point) | Ondalıklı sayıların ikili gösterim biçimi; eşitlik karşılaştırmaları hassasiyet payı gerektirir (göreceli eşitlik) |
 | Focused | Odaklanmış (Focused) | Temiz kodun tek amaca yönelik olması |
 | Formatting | Biçimlendirme (Formatting) | Kodun görsel yerleşimi: girinti, boşluk, satır uzunluğu, dikey ayrım |
 | Function | Fonksiyon (Function) |  |
@@ -102,6 +107,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Function Sections | Fonksiyon Bölümleri (Function Sections) | Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.) |
 | Gratuitous Context | Gereksiz Bağlam (Gratuitous Context) | Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek |
 | Green-field Project | Yeşil Alan Projesi (Green-field Project) | Sıfırdan başlanan proje |
+| Happy Path | Mutlu Yol (Happy Path) | Hiçbir hatanın oluşmadığı, kodun normal akışta izlediği yol |
 | Headline | Manşet (Headline) | Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler |
 | Heuristic | Sezgisel Kural (Heuristic) |  |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
@@ -109,6 +115,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
 | Informative Comment | Bilgilendirici Yorum (Informative Comment) | Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum |
 | Inheritance | Kalıtım (Inheritance) |  |
+| Instance Variable | Örnek Değişkeni (Instance Variable) | Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken |
 | Integer Handle | Tamsayı Tanıtıcısı (Integer Handle) |  |
 | Intention-Revealing Names | Niyet Belirten İsimler (Intention-Revealing Names) | Amacı açıkça ortaya koyan isimler |
 | Interface | Arayüz (Interface) |  |
@@ -148,6 +155,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Mutator | Değiştirici (Mutator) | JavaBean standardında set metotları |
 | Namespace | Ad Alanı (Namespace) |  |
 | Naming Convention | İsimlendirme Kuralı (Naming Convention) |  |
+| Necessary Evil | Zorunlu Kötülük (Necessary Evil) | Yorumların en iyi ihtimalle kaçınılmaz ama asla övülmemesi gereken bir kötülük olduğu fikri; Bölüm 4'ün açılış temasıdır |
 | Nesting Level | İç İçe Geçme Seviyesi (Nesting Level) | Kod bloklarının derinlik seviyesi |
 | Newspaper Metaphor | Gazete Metaforu (Newspaper Metaphor) | Kaynak dosya gazete makalesi gibi okunmalı: üstte manşet ve özet, aşağı indikçe artan ayrıntı |
 | Niladic | Sıfırlı (Niladic) | Argümansız fonksiyon |
@@ -161,6 +169,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Open Closed Principle (OCP) | Açık Kapalı İlkesi (OCP) | Sınıflar genişlemeye açık, değişikliğe kapalı olmalı |
 | Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
 | Output Argument | Çıkış Argümanı (Output Argument) | Değer döndürmek için kullanılan argüman |
+| Overload | Aşırı Yükleme (Overload) | Aynı isimli fonksiyon/metodun farklı parametre listeleriyle birden fazla kez tanımlanması |
 | Oxymoron | Oksimoron (Oxymoron) | Birbirine zıt kavramların birleşimi (ör. "keskin soyutlama") |
 | Package | Paket (Package) | Kod organizasyon birimi |
 | Point of Declaration | Tanımlama Noktası (Point of Declaration) | Değişkenin tanımlandığı yer |
@@ -189,6 +198,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Redesign | Yeniden Tasarım (Redesign) |  |
 | Redundant Comment | Gereksiz Yorum (Redundant Comment) | Koddan daha fazla bilgi vermeyen, fazlalık yorum |
 | Refactoring | Yeniden Düzenleme (Refactoring) |  |
+| Regular Expression | Düzenli İfade (Regular Expression) | Metin desenlerini eşleştirmek için kullanılan söz dizimi; regex olarak da bilinir |
 | Release | Sürüm (Release) | Yazılımın yayımlanan bir versiyonu |
 | Release Cycle | Yayın Döngüsü (Release Cycle) | Ürün sürüm yayınlama süreci |
 | Renaming | Yeniden Adlandırma (Renaming) | Değişken/fonksiyon/sınıf adını değiştirme |

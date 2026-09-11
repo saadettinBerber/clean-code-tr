@@ -170,6 +170,11 @@ window.GLOSSARY = [
     "note": "Fonksiyon imzasını kontrol etme gerekliliği"
   },
   {
+    "en": "Cohesion",
+    "tr": "Bütünlük (Cohesion)",
+    "note": "Bir grup argümanın ya da elemanın birbiriyle ne kadar doğal biçimde ilişkili olduğu; ör. bir noktanın x ve y bileşenleri"
+  },
+  {
     "en": "Collection Abstraction",
     "tr": "Koleksiyon Soyutlama (Collection Abstraction)",
     "note": ""
@@ -330,6 +335,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Don't Repeat Yourself (DRY)",
+    "tr": "Kendini Tekrar Etme (Don't Repeat Yourself / DRY)",
+    "note": "Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı"
+  },
+  {
     "en": "Duplication",
     "tr": "Tekrar (Duplication)",
     "note": "DRY ilkesi: Don't Repeat Yourself"
@@ -360,9 +370,19 @@ window.GLOSSARY = [
     "note": "Sınıf, metot, fonksiyon gibi yapı"
   },
   {
+    "en": "Error Code",
+    "tr": "Hata Kodu (Error Code)",
+    "note": "Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi"
+  },
+  {
     "en": "Error Handling",
     "tr": "Hata Yönetimi (Error Handling)",
     "note": "Hataları yakalama ve işleme stratejisi"
+  },
+  {
+    "en": "Event (argument form)",
+    "tr": "Olay (Event)",
+    "note": "Tek argümanlı fonksiyonların üçüncü ortak formu: bir girdi argümanı alır ama çıktı döndürmez, çağrının bir olay olarak yorumlanmasını ve sistemin durumunu değiştirmesini amaçlar."
   },
   {
     "en": "Exception",
@@ -435,6 +455,11 @@ window.GLOSSARY = [
     "note": "Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir"
   },
   {
+    "en": "Floating Point",
+    "tr": "Kayan Nokta (Floating Point)",
+    "note": "Ondalıklı sayıların ikili gösterim biçimi; eşitlik karşılaştırmaları hassasiyet payı gerektirir (göreceli eşitlik)"
+  },
+  {
     "en": "Focused",
     "tr": "Odaklanmış (Focused)",
     "note": "Temiz kodun tek amaca yönelik olması"
@@ -470,6 +495,11 @@ window.GLOSSARY = [
     "note": "Sıfırdan başlanan proje"
   },
   {
+    "en": "Happy Path",
+    "tr": "Mutlu Yol (Happy Path)",
+    "note": "Hiçbir hatanın oluşmadığı, kodun normal akışta izlediği yol"
+  },
+  {
     "en": "Headline",
     "tr": "Manşet (Headline)",
     "note": "Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler"
@@ -503,6 +533,11 @@ window.GLOSSARY = [
     "en": "Inheritance",
     "tr": "Kalıtım (Inheritance)",
     "note": ""
+  },
+  {
+    "en": "Instance Variable",
+    "tr": "Örnek Değişkeni (Instance Variable)",
+    "note": "Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken"
   },
   {
     "en": "Integer Handle",
@@ -700,6 +735,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Necessary Evil",
+    "tr": "Zorunlu Kötülük (Necessary Evil)",
+    "note": "Yorumların en iyi ihtimalle kaçınılmaz ama asla övülmemesi gereken bir kötülük olduğu fikri; Bölüm 4'ün açılış temasıdır"
+  },
+  {
     "en": "Nesting Level",
     "tr": "İç İçe Geçme Seviyesi (Nesting Level)",
     "note": "Kod bloklarının derinlik seviyesi"
@@ -763,6 +803,11 @@ window.GLOSSARY = [
     "en": "Output Argument",
     "tr": "Çıkış Argümanı (Output Argument)",
     "note": "Değer döndürmek için kullanılan argüman"
+  },
+  {
+    "en": "Overload",
+    "tr": "Aşırı Yükleme (Overload)",
+    "note": "Aynı isimli fonksiyon/metodun farklı parametre listeleriyle birden fazla kez tanımlanması"
   },
   {
     "en": "Oxymoron",
@@ -903,6 +948,11 @@ window.GLOSSARY = [
     "en": "Refactoring",
     "tr": "Yeniden Düzenleme (Refactoring)",
     "note": ""
+  },
+  {
+    "en": "Regular Expression",
+    "tr": "Düzenli İfade (Regular Expression)",
+    "note": "Metin desenlerini eşleştirmek için kullanılan söz dizimi; regex olarak da bilinir"
   },
   {
     "en": "Release",
