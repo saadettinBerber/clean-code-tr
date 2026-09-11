@@ -554,12 +554,12 @@ window.TOC = {
     },
     "40": {
       "title": {
-        "en": "Function Arguments (cont.)",
-        "tr": "Fonksiyon Argümanları (devam)"
+        "en": "Function Arguments",
+        "tr": "Fonksiyon Argümanları"
       },
       "section": {
-        "en": "Use Descriptive Names & Function Arguments",
-        "tr": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları"
+        "en": "Use Descriptive Names",
+        "tr": "Betimleyici İsimler Kullanın"
       },
       "chapter": 3
     },
@@ -569,19 +569,19 @@ window.TOC = {
         "tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları"
       },
       "section": {
-        "en": "Output Arguments, Common Monadic Forms & Flag Arguments",
-        "tr": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları"
+        "en": "Function Arguments",
+        "tr": "Fonksiyon Argümanları"
       },
       "chapter": 3
     },
     "42": {
       "title": {
-        "en": "Dyadic Functions, Triads",
-        "tr": "İkililer, Üçlüler"
+        "en": "Dyadic Functions & Triads",
+        "tr": "İkili Fonksiyonlar & Üçlüler"
       },
       "section": {
-        "en": "Dyadic Functions, Triads & Argument Objects",
-        "tr": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri"
+        "en": "Dyadic Functions & Triads",
+        "tr": "İkili Fonksiyonlar & Üçlüler"
       },
       "chapter": 3
     },
@@ -599,11 +599,11 @@ window.TOC = {
     "44": {
       "title": {
         "en": "Have No Side Effects",
-        "tr": "Yan Etkilere Dikkat"
+        "tr": "Yan Etki Yaratmayın"
       },
       "section": {
         "en": "Have No Side Effects",
-        "tr": "Yan Etkilere Dikkat"
+        "tr": "Yan Etki Yaratmayın"
       },
       "chapter": 3
     },
@@ -613,41 +613,41 @@ window.TOC = {
         "tr": "Çıkış Argümanları, Komut Sorgu Ayrımı"
       },
       "section": {
-        "en": "Output Arguments / Command Query Separation",
-        "tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
+        "en": "Command Query Separation",
+        "tr": "Komut Sorgu Ayrımı"
       },
       "chapter": 3
     },
     "46": {
       "title": {
-        "en": "Prefer Exceptions, Extract Try/Catch",
-        "tr": "Hata Kodları Yerine İstisnalar, Try/Catch Blokları"
+        "en": "Prefer Exceptions to Returning Error Codes",
+        "tr": "Hata Kodları Yerine İstisnalar"
       },
       "section": {
-        "en": "Prefer Exceptions to Returning Error Codes & Extract Try/Catch Blocks",
-        "tr": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları"
+        "en": "Output Arguments / Command Query Separation",
+        "tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
       },
       "chapter": 3
     },
     "47": {
       "title": {
-        "en": "Dependency Magnet, DRY",
-        "tr": "Error.java Bağımlılık Mıknatısı, Kendini Tekrar Etme"
+        "en": "Error Handling & The Error.java Dependency Magnet",
+        "tr": "Hata Yönetimi ve Error.java Bağımlılık Mıknatısı"
       },
       "section": {
-        "en": "Error Handling & The Error.java Dependency Magnet",
-        "tr": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı"
+        "en": "Prefer Exceptions to Returning Error Codes",
+        "tr": "Hata Kodları Döndürmek Yerine İstisnaları Tercih Edin"
       },
       "chapter": 3
     },
     "48": {
       "title": {
-        "en": "Structured Programming, Conclusion",
-        "tr": "Yapısal Programlama, Fonksiyonları Nasıl Yazarsınız?, Sonuç"
+        "en": "Don't Repeat Yourself, Structured Programming",
+        "tr": "Kendini Tekrar Etme, Yapısal Programlama"
       },
       "section": {
         "en": "Don't Repeat Yourself & Structured Programming",
-        "tr": "DRY & Yapısal Programlama"
+        "tr": "Kendini Tekrar Etme (DRY) & Yapısal Programlama"
       },
       "chapter": 3
     },
@@ -697,19 +697,19 @@ window.TOC = {
     },
     "53": {
       "title": {
-        "en": "Comments — Introduction",
-        "tr": "Yorumlar — Giriş"
+        "en": "Comments",
+        "tr": "Yorumlar"
       },
       "section": {
-        "en": "Introduction",
-        "tr": "Giriş"
+        "en": "",
+        "tr": ""
       },
       "chapter": 4
     },
     "54": {
       "title": {
-        "en": "Not for Bad Code",
-        "tr": "Kötü Kodun Telafisi Değildir"
+        "en": "Comments Are Always Failures",
+        "tr": "Yorumlar Her Zaman Bir Başarısızlıktır"
       },
       "section": {
         "en": "Introduction",
@@ -719,23 +719,23 @@ window.TOC = {
     },
     "55": {
       "title": {
-        "en": "Explain Yourself in Code",
-        "tr": "Kendinizi Kodla Açıklayın"
+        "en": "Comments Do Not Make Up for Bad Code",
+        "tr": "Yorumlar Kötü Kodu Telafi Etmez"
       },
       "section": {
-        "en": "Comments Do Not Make Up for Bad Code & Good Comments",
-        "tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
+        "en": "Good Comments",
+        "tr": "İyi Yorumlar"
       },
       "chapter": 4
     },
     "56": {
       "title": {
-        "en": "Good Comments",
-        "tr": "İyi Yorumlar (Yasal & Bilgilendirici)"
+        "en": "Informative Comments & Explanation of Intent",
+        "tr": "Bilgilendirici Yorumlar ve Niyetin Açıklanması"
       },
       "section": {
-        "en": "Informative Comments, Explanation of Intent, Clarification",
-        "tr": "Bilgilendirici Yorumlar, Niyetin Açıklanması, Netleştirme"
+        "en": "Comments Do Not Make Up for Bad Code & Good Comments",
+        "tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
       },
       "chapter": 4
     },

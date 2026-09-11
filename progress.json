@@ -427,26 +427,26 @@
     "40": {
       "pdf_page": 71,
       "chapter": 3,
-      "title_en": "Function Arguments (cont.)",
-      "title_tr": "Fonksiyon Argümanları (devam)",
-      "section_en": "Use Descriptive Names & Function Arguments",
-      "section_tr": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları"
+      "title_en": "Function Arguments",
+      "title_tr": "Fonksiyon Argümanları",
+      "section_en": "Use Descriptive Names",
+      "section_tr": "Betimleyici İsimler Kullanın"
     },
     "41": {
       "pdf_page": 72,
       "chapter": 3,
       "title_en": "Common Monadic Forms, Flag Arguments",
       "title_tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları",
-      "section_en": "Output Arguments, Common Monadic Forms & Flag Arguments",
-      "section_tr": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları"
+      "section_en": "Function Arguments",
+      "section_tr": "Fonksiyon Argümanları"
     },
     "42": {
       "pdf_page": 73,
       "chapter": 3,
-      "title_en": "Dyadic Functions, Triads",
-      "title_tr": "İkililer, Üçlüler",
-      "section_en": "Dyadic Functions, Triads & Argument Objects",
-      "section_tr": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri"
+      "title_en": "Dyadic Functions & Triads",
+      "title_tr": "İkili Fonksiyonlar & Üçlüler",
+      "section_en": "Dyadic Functions & Triads",
+      "section_tr": "İkili Fonksiyonlar & Üçlüler"
     },
     "43": {
       "pdf_page": 74,
@@ -460,41 +460,41 @@
       "pdf_page": 75,
       "chapter": 3,
       "title_en": "Have No Side Effects",
-      "title_tr": "Yan Etkilere Dikkat",
+      "title_tr": "Yan Etki Yaratmayın",
       "section_en": "Have No Side Effects",
-      "section_tr": "Yan Etkilere Dikkat"
+      "section_tr": "Yan Etki Yaratmayın"
     },
     "45": {
       "pdf_page": 76,
       "chapter": 3,
       "title_en": "Output Arguments, Command Query Separation",
       "title_tr": "Çıkış Argümanları, Komut Sorgu Ayrımı",
-      "section_en": "Output Arguments / Command Query Separation",
-      "section_tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
+      "section_en": "Command Query Separation",
+      "section_tr": "Komut Sorgu Ayrımı"
     },
     "46": {
       "pdf_page": 77,
       "chapter": 3,
-      "title_en": "Prefer Exceptions, Extract Try/Catch",
-      "title_tr": "Hata Kodları Yerine İstisnalar, Try/Catch Blokları",
-      "section_en": "Prefer Exceptions to Returning Error Codes & Extract Try/Catch Blocks",
-      "section_tr": "Hata Kodları Yerine İstisnalar & Try/Catch Blokları"
+      "title_en": "Prefer Exceptions to Returning Error Codes",
+      "title_tr": "Hata Kodları Yerine İstisnalar",
+      "section_en": "Output Arguments / Command Query Separation",
+      "section_tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
     },
     "47": {
       "pdf_page": 78,
       "chapter": 3,
-      "title_en": "Dependency Magnet, DRY",
-      "title_tr": "Error.java Bağımlılık Mıknatısı, Kendini Tekrar Etme",
-      "section_en": "Error Handling & The Error.java Dependency Magnet",
-      "section_tr": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı"
+      "title_en": "Error Handling & The Error.java Dependency Magnet",
+      "title_tr": "Hata Yönetimi ve Error.java Bağımlılık Mıknatısı",
+      "section_en": "Prefer Exceptions to Returning Error Codes",
+      "section_tr": "Hata Kodları Döndürmek Yerine İstisnaları Tercih Edin"
     },
     "48": {
       "pdf_page": 79,
       "chapter": 3,
-      "title_en": "Structured Programming, Conclusion",
-      "title_tr": "Yapısal Programlama, Fonksiyonları Nasıl Yazarsınız?, Sonuç",
+      "title_en": "Don't Repeat Yourself, Structured Programming",
+      "title_tr": "Kendini Tekrar Etme, Yapısal Programlama",
       "section_en": "Don't Repeat Yourself & Structured Programming",
-      "section_tr": "DRY & Yapısal Programlama"
+      "section_tr": "Kendini Tekrar Etme (DRY) & Yapısal Programlama"
     },
     "49": {
       "pdf_page": 80,
@@ -531,34 +531,34 @@
     "53": {
       "pdf_page": 84,
       "chapter": 4,
-      "title_en": "Comments — Introduction",
-      "title_tr": "Yorumlar — Giriş",
-      "section_en": "Introduction",
-      "section_tr": "Giriş"
+      "title_en": "Comments",
+      "title_tr": "Yorumlar",
+      "section_en": "",
+      "section_tr": ""
     },
     "54": {
       "pdf_page": 85,
       "chapter": 4,
-      "title_en": "Not for Bad Code",
-      "title_tr": "Kötü Kodun Telafisi Değildir",
+      "title_en": "Comments Are Always Failures",
+      "title_tr": "Yorumlar Her Zaman Bir Başarısızlıktır",
       "section_en": "Introduction",
       "section_tr": "Giriş"
     },
     "55": {
       "pdf_page": 86,
       "chapter": 4,
-      "title_en": "Explain Yourself in Code",
-      "title_tr": "Kendinizi Kodla Açıklayın",
-      "section_en": "Comments Do Not Make Up for Bad Code & Good Comments",
-      "section_tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
+      "title_en": "Comments Do Not Make Up for Bad Code",
+      "title_tr": "Yorumlar Kötü Kodu Telafi Etmez",
+      "section_en": "Good Comments",
+      "section_tr": "İyi Yorumlar"
     },
     "56": {
       "pdf_page": 87,
       "chapter": 4,
-      "title_en": "Good Comments",
-      "title_tr": "İyi Yorumlar (Yasal & Bilgilendirici)",
-      "section_en": "Informative Comments, Explanation of Intent, Clarification",
-      "section_tr": "Bilgilendirici Yorumlar, Niyetin Açıklanması, Netleştirme"
+      "title_en": "Informative Comments & Explanation of Intent",
+      "title_tr": "Bilgilendirici Yorumlar ve Niyetin Açıklanması",
+      "section_en": "Comments Do Not Make Up for Bad Code & Good Comments",
+      "section_tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
     },
     "57": {
       "pdf_page": 88,
