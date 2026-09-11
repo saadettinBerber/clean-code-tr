@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri",
+    "en": "Dyadic Functions, Triads & Argument Objects",
     "tr": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri"
   },
   "title": {
@@ -75,7 +75,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Functions that take three arguments are significantly harder to understand than dyads. The issues of ordering, pausing, and ignoring are more than doubled. I suggest you think very carefully before creating a triad.",
-          "tr": "Üç argüman alan fonksiyonlar, ikililere göre önemli ölçüde daha zor anlaşılır. Sıralama, duraklatma ve görmezden gelme sorunları ikiye katlanmanın ötesindedir. Bir üçlü (triad) oluşturmadan önce çok dikkatli düşünmenizi öneririm.",
+          "tr": "Üç argüman alan fonksiyonlar, ikililere göre önemli ölçüde daha zor anlaşılır. Sıralama, duraksama ve görmezden gelme sorunları ikiye katlanmanın ötesindedir. Bir üçlü (triad) oluşturmadan önce çok dikkatli düşünmenizi öneririm.",
           "html": true
         }
       ]

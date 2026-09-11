@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "We Are Authors / The Boy Scout Rule",
-    "tr": "We Are Authors / The Boy Scout Rule"
+    "tr": "Biz Yazarlarız / İzci Kuralı"
   },
   "title": {
-    "en": "Okuma vs Yazma & İzci Kuralı",
+    "en": "Reading vs. Writing & The Boy Scout Rule",
     "tr": "Okuma vs Yazma & İzci Kuralı"
   },
   "blocks": [

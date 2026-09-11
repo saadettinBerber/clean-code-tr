@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "Yan Etkilere Dikkat",
+    "en": "Have No Side Effects",
     "tr": "Yan Etkilere Dikkat"
   },
   "title": {
@@ -28,7 +28,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Side effects are lies. Your function promises to do one thing, but it also does other <em>hidden</em> things. Sometimes it will make unexpected changes to the variables of its own class. Sometimes it will make them to the parameters passed into the function or to system globals. In either case they are devious and damaging mistruths that often result in strange temporal couplings and order dependencies.",
-          "tr": "Yan etkiler (side effects) yalandır. Fonksiyonunuz tek bir şey yapma sözü verir, ama aynı zamanda başka <em>gizli</em> şeyler de yapar. Bazen kendi sınıfının değişkenlerinde beklenmedik değişiklikler yapabilir. Bazen fonksiyona geçirilen parametrelerde veya sistem genelindeki değişkenlerde (system globals) değişiklik yapabilir. Her iki durumda da bunlar sinsi ve zarar verici, garip zamansal bağımlılıklara (temporal couplings) ve sıra bağımlılıklarına (order dependencies) yol açan yanlış yönlendirmelerdir.",
+          "tr": "Yan etkiler (side effects) yalandır. Fonksiyonunuz tek bir şey yapma sözü verir, ama aynı zamanda başka <em>gizli</em> şeyler de yapar. Bazen kendi sınıfının değişkenlerinde beklenmedik değişiklikler yapabilir. Bazen fonksiyona geçirilen parametrelerde veya sistem genelindeki değişkenlerde (system globals) değişiklik yapabilir. Her iki durumda da bunlar sinsi ve zarar verici, çoğu zaman garip zamansal bağımlılıklara (temporal couplings) ve sıra bağımlılıklarına (order dependencies) yol açan yalanlardır.",
           "html": true
         }
       ]
@@ -67,7 +67,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "This side effect creates a temporal coupling. That is, <code>checkPassword</code> can only be called at certain times (in other words, when it is safe to initialize the session). If it is called out of order, session data may be inadvertently lost. Temporal couplings are confusing, especially when hidden as a side effect. If you must have a temporal coupling, you should make it clear in the name of the function. In this case we might rename the function <code>checkPasswordAndInitializeSession</code>, though that certainly violates \"Do one thing.\"",
-          "tr": "Bu yan etki bir zamansal bağımlılık (temporal coupling) yaratır. Yani <code>checkPassword</code> yalnızca belirli zamanlarda (başka bir deyişle, oturumu başlatmanın güvenli olduğu zamanlarda) çağrılabilir. Sıra dışı çağrılırsa oturum verileri istemeden kaybolabilir. Zamansal bağımlılıklar kafa karıştırıcıdır, özellikle yan etki olarak gizlendiğinde. Eğer zamansal bir bağımlılığınız olması gerekiyorsa, bunu fonksiyonun adında açıkça belirtmelisiniz. Bu durumda fonksiyonu <code>checkPasswordAndInitializeSession</code> olarak yeniden adlandırabilirdik, ancak bu da \"Tek Bir Şey Yap\" kuralını ihlal eder.",
+          "tr": "Bu yan etki bir zamansal bağımlılık (temporal coupling) yaratır. Yani <code>checkPassword</code> yalnızca belirli zamanlarda (başka bir deyişle, oturumu başlatmanın güvenli olduğu zamanlarda) çağrılabilir. Yanlış sırada çağrılırsa oturum verileri istemeden kaybolabilir. Zamansal bağımlılıklar kafa karıştırıcıdır, özellikle yan etki olarak gizlendiğinde. Eğer zamansal bir bağımlılığınız olması gerekiyorsa, bunu fonksiyonun adında açıkça belirtmelisiniz. Bu durumda fonksiyonu <code>checkPasswordAndInitializeSession</code> olarak yeniden adlandırabilirdik, ancak bu da \"Tek Bir Şey Yap\" kuralını kesinlikle ihlal eder.",
           "html": true
         }
       ]

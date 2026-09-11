@@ -9,7 +9,7 @@ window.PAGE({
   },
   "section": {
     "en": "Use Intention-Revealing Names",
-    "tr": "Use Intention-Revealing Names"
+    "tr": "Niyet Belirten İsimler Kullanın"
   },
   "title": {
     "en": "Use Intention-Revealing Names",

@@ -8,11 +8,11 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "Fonksiyon Argümanları",
+    "en": "Function Arguments",
     "tr": "Fonksiyon Argümanları"
   },
   "title": {
-    "en": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler",
+    "en": "Argument Objects, Argument Lists, Verbs and Keywords",
     "tr": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler"
   },
   "blocks": [
@@ -38,7 +38,7 @@ window.PAGE({
       "lang": "java",
       "code": "Circle makeCircle(double x, double y, double radius);\nCircle makeCircle(Point center, double radius);",
       "caption": {
-        "en": "Argüman Nesnesi Karşılaştırması",
+        "en": "Argument Object Comparison",
         "tr": "Argüman Nesnesi Karşılaştırması"
       }
     },
@@ -74,7 +74,7 @@ window.PAGE({
       "lang": "java",
       "code": "String.format(\"%s worked %.2f hours.\", name, hours);",
       "caption": {
-        "en": "String.format Örneği",
+        "en": "String.format Example",
         "tr": "String.format Örneği"
       }
     },
@@ -83,7 +83,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "If the variable arguments are all treated identically, as they are in the example above, then they are equivalent to a single argument of type <code>List</code>. By that reasoning, <code>String.format</code> is actually dyadic. Indeed, the declaration of <code>String.format</code> as shown below is clearly dyadic.",
-          "tr": "Eğer değişken argümanlar —yukarıdaki örnekte olduğu gibi— hepsi aynı şekilde işleniyorsa, bunlar <code>List</code> türünde tek bir argümana eşdeğerdir. Bu mantıkla <code>String.format</code> aslında ikili (dyadic) bir fonksiyondur. Gerçekten de aşağıdaki bildirim açıkça ikiliye işaret eder.",
+          "tr": "Eğer değişken argümanların hepsi —yukarıdaki örnekte olduğu gibi— aynı şekilde işleniyorsa, bunlar <code>List</code> türünde tek bir argümana eşdeğerdir. Bu mantıkla <code>String.format</code> aslında ikili (dyadic) bir fonksiyondur. Gerçekten de aşağıdaki bildirim açıkça ikiliye işaret eder.",
           "html": true
         }
       ]
@@ -93,7 +93,7 @@ window.PAGE({
       "lang": "java",
       "code": "public String format(String format, Object... args)",
       "caption": {
-        "en": "String.format Bildirimi",
+        "en": "String.format Declaration",
         "tr": "String.format Bildirimi"
       }
     },
@@ -112,7 +112,7 @@ window.PAGE({
       "lang": "java",
       "code": "void monad(Integer... args);\nvoid dyad(String name, Integer... args);\nvoid triad(String name, int count, Integer... args);",
       "caption": {
-        "en": "Değişken Argümanlı Fonksiyon Türleri",
+        "en": "Variadic Function Forms",
         "tr": "Değişken Argümanlı Fonksiyon Türleri"
       }
     },
@@ -138,7 +138,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "This last is an example of the <em>keyword</em> form of a function name. Using this form we encode the names of the arguments into the function name. For example, <code>assertEquals</code> might be better written as <code>assertExpectedEqualsActual(expected, actual)</code>. This strongly mitigates the problem of having to remember the ordering of the arguments.",
-          "tr": "Bu son örnek, fonksiyon isminin <em>anahtar kelime</em> (keyword) formuna bir örnektir. Bu formda argüman isimlerini fonksiyon isminin içine kodlarız. Örneğin, <code>assertEquals</code> yerine <code>assertExpectedEqualsActual(expected, actual)</code> yazmak, argüman sırasını hatırlama sorununu büyük ölçüde ortadan kaldırır.",
+          "tr": "Bu son örnek, fonksiyon isminin <em>anahtar kelime</em> (keyword) formuna bir örnektir. Bu formda argüman isimlerini fonksiyon isminin içine kodlarız. Örneğin, <code>assertEquals</code>, <code>assertExpectedEqualsActual(expected, actual)</code> biçiminde yazılsa daha iyi olabilir. Bu, argüman sırasını hatırlamak zorunda kalma sorununu büyük ölçüde hafifletir.",
           "html": true
         }
       ]

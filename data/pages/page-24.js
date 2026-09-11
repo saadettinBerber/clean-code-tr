@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations",
-    "tr": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations"
+    "tr": "Kodlamalardan Kaçının (devam) / Üye Önekleri / Arayüzler ve Uygulamalar"
   },
   "title": {
-    "en": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar",
+    "en": "Avoid Encodings (cont.), Member Prefixes, Interfaces and Implementations",
     "tr": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar"
   },
   "blocks": [

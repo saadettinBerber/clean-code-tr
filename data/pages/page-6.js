@@ -9,7 +9,7 @@ window.PAGE({
   },
   "section": {
     "en": "Attitude, The Primal Conundrum, The Art of Clean Code?",
-    "tr": "Attitude, The Primal Conundrum, The Art of Clean Code?"
+    "tr": "Tutum, Temel İkilem, Temiz Kod Sanatı mı?"
   },
   "title": {
     "en": "The Primal Conundrum & The Art of Clean Code?",

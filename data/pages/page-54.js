@@ -8,21 +8,14 @@ window.PAGE({
     "tr": "Yorumlar"
   },
   "section": {
-    "en": "Yorumlar Neden Yalan Söyler?",
-    "tr": "Yorumlar Neden Yalan Söyler?"
+    "en": "Introduction",
+    "tr": "Giriş"
   },
   "title": {
     "en": "Not for Bad Code",
     "tr": "Kötü Kodun Telafisi Değildir"
   },
   "blocks": [
-    {
-      "type": "heading",
-      "level": 1,
-      "en": "Why Comments Lie",
-      "tr": "Yorumlar Neden Yalan Söyler? / Why Comments Lie",
-      "html": true
-    },
     {
       "type": "para",
       "sentences": [
@@ -58,7 +51,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Code changes and evolves. Chunks of it move from here to there. Those chunks bifurcate and reproduce and come together again to form chimeras. Unfortunately the comments don't always follow them—can't always follow them. And all too often the comments get separated from the code they describe and become orphaned blurbs of ever-decreasing accuracy. For example, look what has happened to this comment and the line it was intended to describe:",
-          "tr": "Kod değişir ve evrim geçirir. Parçalar bir yerden başka bir yere taşınır. O parçalar ikiye bölünür, çoğalır ve tekrar bir araya gelerek melez yapılar oluşturur. Ne yazık ki yorumlar onlara her zaman eşlik edemez — hiç edemezler de. Çoğu zaman yorumlar, açıkladıkları koddan kopar ve giderek azalan doğrulukla asılsız açıklamalar haline gelirler. Örneğin şu yoruma ve açıklanmak istediği satıra bakın:",
+          "tr": "Kod değişir ve evrim geçirir. Parçalar bir yerden başka bir yere taşınır. O parçalar ikiye bölünür, çoğalır ve tekrar bir araya gelerek melez yapılar oluşturur. Ne yazık ki yorumlar onlara her zaman eşlik etmez — her zaman edemez de. Çoğu zaman yorumlar, açıkladıkları koddan kopar ve doğruluğu giderek azalan, sahipsiz kalmış açıklamalar haline gelirler. Örneğin şu yoruma ve açıklaması amaçlanan satıra ne olduğuna bakın:",
           "html": true
         }
       ]
@@ -66,9 +59,9 @@ window.PAGE({
     {
       "type": "code",
       "lang": "java",
-      "code": "MockRequest request;\nprivate final String HTTP_DATE_REGEXP =\n    \"[SMTWF][a-z]{2}\\\\,\\\\s[0-9]{2}\\\\s[JFMASOND][a-z]{2}\\\\s\"+\n    \"[0-9]{4}\\\\s[0-9]{2}\\\\:[0-9]{2}\\\\:[0-9]{2}\\\\sGMT\";\nprivate Response response;\nprivate FitNesseContext context;\nprivate FileResponder responder;\nprivate Locale saveLocale;\n// Örnek: \"Tue, 02 Apr 2003 22:18:49 GMT\"",
+      "code": "  MockRequest request;\n  private final String HTTP_DATE_REGEXP =\n    \"[SMTWF][a-z]{2}\\\\,\\\\s[0-9]{2}\\\\s[JFMASOND][a-z]{2}\\\\s\"+\n    \"[0-9]{4}\\\\s[0-9]{2}\\\\:[0-9]{2}\\\\:[0-9]{2}\\\\sGMT\";\n  private Response response;\n  private FitNesseContext context;\n  private FileResponder responder;\n  private Locale saveLocale;\n  // Example: \"Tue, 02 Apr 2003 22:18:49 GMT\"",
       "caption": {
-        "en": "Yorum ile kodun birbirinden uzaklaşması örneği",
+        "en": "Example of a Comment Drifting Away from the Code",
         "tr": "Yorum ile kodun birbirinden uzaklaşması örneği"
       }
     },
@@ -77,7 +70,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Other instance variables that were probably added later were interposed between the HTTP_DATE_REGEXP constant and its explanatory comment.",
-          "tr": "Sonradan eklenen diğer örnek değişkenler, <code>HTTP_DATE_REGEXP</code> sabiti ile ona ait açıklama yorumu arasına sıkışmıştır. Yorum artık doğrudan kendi açıkladığı satırın yanında değildir.",
+          "tr": "Muhtemelen sonradan eklenen diğer örnek değişkenleri (instance variables), <code>HTTP_DATE_REGEXP</code> sabiti ile ona ait açıklayıcı yorumun arasına girmiştir.",
           "html": true
         }
       ]
@@ -97,14 +90,14 @@ window.PAGE({
       "sentences": [
         {
           "en": "Inaccurate comments are far worse than no comments at all. They delude and mislead. They set expectations that will never be fulfilled. They lay down old rules that need not, or should not, be followed any longer.",
-          "tr": "Hatalı yorumlar, hiç yorum olmamaktan çok daha kötüdür. Yanıltırlar ve aldatırlar. Hiçbir zaman karşılanmayacak beklentiler yaratırlar. Artık geçerli olmayan eski kuralları dayatırlar.",
+          "tr": "Hatalı yorumlar, hiç yorum olmamaktan çok daha kötüdür. Yanıltırlar ve aldatırlar. Hiçbir zaman karşılanmayacak beklentiler yaratırlar. Artık uyulması gerekmeyen, hatta uyulmaması gereken eski kuralları dayatırlar.",
           "html": true
         }
       ]
     },
     {
       "type": "html",
-      "html": "<div class=\"highlight-box\">\n<p>\n<span class=\"tr-text\">Gerçek yalnızca tek bir yerde bulunabilir: <strong>kodun içinde</strong>. Yalnızca\n                    kod ne yaptığını gerçekten anlatır. Codun gerçek anlamda doğru bilginin tek kaynağıdır. Bu yüzden,\n                    yorumlar zaman zaman zorunlu olsa da, onları en aza indirmek için önemli bir çaba\n                    harcamalıyız.</span>\n<span class=\"en-text\">Truth can only be found in one place: <strong>the\n                        code</strong>. Only the code can truly tell you what it does. It is the only source of truly\n                    accurate information. Therefore, though comments are sometimes necessary, we will expend significant\n                    energy to minimize them.</span>\n</p>\n</div>"
+      "html": "<div class=\"highlight-box\">\n<p>\n<span class=\"tr-text\">Gerçek yalnızca tek bir yerde bulunabilir: <strong>kodun içinde</strong>. Yalnızca\n                    kod ne yaptığını gerçekten anlatır. Kod, gerçek anlamda doğru bilginin tek kaynağıdır. Bu yüzden,\n                    yorumlar zaman zaman zorunlu olsa da, onları en aza indirmek için önemli bir çaba\n                    harcamalıyız.</span>\n<span class=\"en-text\">Truth can only be found in one place: <strong>the\n                        code</strong>. Only the code can truly tell you what it does. It is the only source of truly\n                    accurate information. Therefore, though comments are sometimes necessary, we will expend significant\n                    energy to minimize them.</span>\n</p>\n</div>"
     }
   ],
   "concepts": [

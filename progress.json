@@ -162,7 +162,7 @@
       "title_en": "The Primal Conundrum & The Art of Clean Code?",
       "title_tr": "Temel İkilem & Temiz Kod Sanatı",
       "section_en": "Attitude, The Primal Conundrum, The Art of Clean Code?",
-      "section_tr": "Attitude, The Primal Conundrum, The Art of Clean Code?"
+      "section_tr": "Tutum, Temel İkilem, Temiz Kod Sanatı mı?"
     },
     "7": {
       "pdf_page": 38,
@@ -170,7 +170,7 @@
       "title_en": "What Is Clean Code?",
       "title_tr": "Temiz Kod Nedir? — Bjarne Stroustrup",
       "section_en": "The Art of Clean Code?, What Is Clean Code?",
-      "section_tr": "The Art of Clean Code?, What Is Clean Code?"
+      "section_tr": "Temiz Kod Sanatı mı?, Temiz Kod Nedir?"
     },
     "8": {
       "pdf_page": 39,
@@ -178,7 +178,7 @@
       "title_en": "Broken Windows & Grady Booch",
       "title_tr": "Kırık Pencereler & Grady Booch",
       "section_en": "What Is Clean Code?",
-      "section_tr": "What Is Clean Code?"
+      "section_tr": "Temiz Kod Nedir?"
     },
     "9": {
       "pdf_page": 40,
@@ -186,55 +186,55 @@
       "title_en": "Crisp Abstraction & Dave Thomas",
       "title_tr": "Keskin Soyutlama & \"Big\" Dave Thomas",
       "section_en": "What Is Clean Code?",
-      "section_tr": "What Is Clean Code?"
+      "section_tr": "Temiz Kod Nedir?"
     },
     "10": {
       "pdf_page": 41,
       "chapter": 1,
-      "title_en": "Michael Feathers & Ron Jeffries — Beck'in Basit Kod Kuralları",
+      "title_en": "Michael Feathers & Ron Jeffries, Beck's Rules of Simple Code",
       "title_tr": "Michael Feathers & Ron Jeffries — Beck'in Basit Kod Kuralları",
       "section_en": "What Is Clean Code?",
-      "section_tr": "What Is Clean Code?"
+      "section_tr": "Temiz Kod Nedir?"
     },
     "11": {
       "pdf_page": 42,
       "chapter": 1,
-      "title_en": "Ron Jeffries (devam) & Ward Cunningham",
+      "title_en": "Ron Jeffries (cont.) & Ward Cunningham",
       "title_tr": "Ron Jeffries (devam) & Ward Cunningham",
       "section_en": "What Is Clean Code?",
-      "section_tr": "What Is Clean Code?"
+      "section_tr": "Temiz Kod Nedir?"
     },
     "12": {
       "pdf_page": 43,
       "chapter": 1,
-      "title_en": "Ward Cunningham (devam) & Düşünce Okulları",
+      "title_en": "Ward Cunningham (cont.) & Schools of Thought",
       "title_tr": "Ward Cunningham (devam) & Düşünce Okulları",
       "section_en": "What Is Clean Code? / Schools of Thought",
-      "section_tr": "What Is Clean Code? / Schools of Thought"
+      "section_tr": "Temiz Kod Nedir? / Düşünce Okulları"
     },
     "13": {
       "pdf_page": 44,
       "chapter": 1,
-      "title_en": "Düşünce Okulları (devam) & Biz Yazarlarız",
+      "title_en": "Schools of Thought (cont.) & We Are Authors",
       "title_tr": "Düşünce Okulları (devam) & Biz Yazarlarız",
       "section_en": "Schools of Thought / We Are Authors",
-      "section_tr": "Schools of Thought / We Are Authors"
+      "section_tr": "Düşünce Okulları / Biz Yazarlarız"
     },
     "14": {
       "pdf_page": 45,
       "chapter": 1,
-      "title_en": "Okuma vs Yazma & İzci Kuralı",
+      "title_en": "Reading vs. Writing & The Boy Scout Rule",
       "title_tr": "Okuma vs Yazma & İzci Kuralı",
       "section_en": "We Are Authors / The Boy Scout Rule",
-      "section_tr": "We Are Authors / The Boy Scout Rule"
+      "section_tr": "Biz Yazarlarız / İzci Kuralı"
     },
     "15": {
       "pdf_page": 46,
       "chapter": 1,
-      "title_en": "Öncül ve İlkeler, Sonuç & Kaynakça",
+      "title_en": "Prequel and Principles, Conclusion & Bibliography",
       "title_tr": "Öncül ve İlkeler, Sonuç & Kaynakça",
       "section_en": "Prequel and Principles / Conclusion / Bibliography",
-      "section_tr": "Prequel and Principles / Conclusion / Bibliography"
+      "section_tr": "Öncül ve İlkeler / Sonuç / Kaynakça"
     },
     "16": {
       "blank": true,
@@ -254,84 +254,84 @@
       "title_en": "Use Intention-Revealing Names",
       "title_tr": "Niyet Belirten İsimler Kullanın",
       "section_en": "Use Intention-Revealing Names",
-      "section_tr": "Use Intention-Revealing Names"
+      "section_tr": "Niyet Belirten İsimler Kullanın"
     },
     "19": {
       "pdf_page": 50,
       "chapter": 2,
-      "title_en": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının",
+      "title_en": "Use Intention-Revealing Names (cont.) & Avoid Disinformation",
       "title_tr": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının",
-      "section_en": "Use Intention-Revealing Names (devam) / Avoid Disinformation",
-      "section_tr": "Use Intention-Revealing Names (devam) / Avoid Disinformation"
+      "section_en": "Use Intention-Revealing Names (cont.) / Avoid Disinformation",
+      "section_tr": "Niyet Belirten İsimler Kullanın (devam) / Yanlış Bilgi Vermekten Kaçının"
     },
     "20": {
       "pdf_page": 51,
       "chapter": 2,
-      "title_en": "Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın",
+      "title_en": "Avoid Disinformation (cont.) & Make Meaningful Distinctions",
       "title_tr": "Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın",
-      "section_en": "Avoid Disinformation (devam) / Make Meaningful Distinctions",
-      "section_tr": "Avoid Disinformation (devam) / Make Meaningful Distinctions"
+      "section_en": "Avoid Disinformation (cont.) / Make Meaningful Distinctions",
+      "section_tr": "Yanlış Bilgi Vermekten Kaçının (devam) / Anlamlı Ayrımlar Yapın"
     },
     "21": {
       "pdf_page": 52,
       "chapter": 2,
-      "title_en": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın",
+      "title_en": "Meaningful Distinctions (cont.) & Use Pronounceable Names",
       "title_tr": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın",
-      "section_en": "Make Meaningful Distinctions (devam) / Use Pronounceable Names",
-      "section_tr": "Make Meaningful Distinctions (devam) / Use Pronounceable Names"
+      "section_en": "Make Meaningful Distinctions (cont.) / Use Pronounceable Names",
+      "section_tr": "Anlamlı Ayrımlar Yapın (devam) / Telaffuz Edilebilir İsimler Kullanın"
     },
     "22": {
       "pdf_page": 53,
       "chapter": 2,
-      "title_en": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın",
+      "title_en": "Pronounceable Names (cont.) & Use Searchable Names",
       "title_tr": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın",
-      "section_en": "Use Pronounceable Names (devam) / Use Searchable Names",
-      "section_tr": "Use Pronounceable Names (devam) / Use Searchable Names"
+      "section_en": "Use Pronounceable Names (cont.) / Use Searchable Names",
+      "section_tr": "Telaffuz Edilebilir İsimler Kullanın (devam) / Aranabilir İsimler Kullanın"
     },
     "23": {
       "pdf_page": 54,
       "chapter": 2,
-      "title_en": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu",
+      "title_en": "Searchable Names (cont.), Avoid Encodings & Hungarian Notation",
       "title_tr": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu",
       "section_en": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation",
-      "section_tr": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation"
+      "section_tr": "Aranabilir İsimler (devam) / Kodlamalardan Kaçının / Macar Notasyonu"
     },
     "24": {
       "pdf_page": 55,
       "chapter": 2,
-      "title_en": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar",
+      "title_en": "Avoid Encodings (cont.), Member Prefixes, Interfaces and Implementations",
       "title_tr": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar",
       "section_en": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations",
-      "section_tr": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations"
+      "section_tr": "Kodlamalardan Kaçının (devam) / Üye Önekleri / Arayüzler ve Uygulamalar"
     },
     "25": {
       "pdf_page": 56,
       "chapter": 2,
-      "title_en": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme",
+      "title_en": "Avoid Mental Mapping, Class Names, Method Names",
       "title_tr": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme",
       "section_en": "Avoid Mental Mapping / Class Names / Method Names",
-      "section_tr": "Avoid Mental Mapping / Class Names / Method Names"
+      "section_tr": "Zihinsel Eşleştirmeden Kaçının / Sınıf İsimleri / Metot İsimleri"
     },
     "26": {
       "pdf_page": 57,
       "chapter": 2,
-      "title_en": "Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının",
+      "title_en": "Don't Be Cute, Pick One Word per Concept, Don't Pun",
       "title_tr": "Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının",
       "section_en": "Don't Be Cute / Pick One Word per Concept / Don't Pun",
-      "section_tr": "Don't Be Cute / Pick One Word per Concept / Don't Pun"
+      "section_tr": "Şirinlik Yapmayın / Her Kavram İçin Tek Kelime Seçin / Kelime Oyunlarından Kaçının"
     },
     "27": {
       "pdf_page": 58,
       "chapter": 2,
-      "title_en": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme",
+      "title_en": "Use Solution Domain Names, Use Problem Domain Names, Add Meaningful Context",
       "title_tr": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme",
       "section_en": "Solution and Problem Domain Names / Meaningful Context",
-      "section_tr": "Solution and Problem Domain Names / Meaningful Context"
+      "section_tr": "Çözüm ve Problem Alanı İsimleri / Anlamlı Bağlam"
     },
     "28": {
       "pdf_page": 59,
       "chapter": 2,
-      "title_en": "Anlamlı Bağlam Ekleme (devam)",
+      "title_en": "Add Meaningful Context (cont.)",
       "title_tr": "Anlamlı Bağlam Ekleme (devam)",
       "section_en": "Add Meaningful Context",
       "section_tr": "Anlamlı Bağlam Ekleme"
@@ -342,7 +342,7 @@
       "title_en": "Don't Add Gratuitous Context",
       "title_tr": "Gereksiz Bağlam Eklemeyin",
       "section_en": "Don't Add Gratuitous Context",
-      "section_tr": "Don't Add Gratuitous Context"
+      "section_tr": "Gereksiz Bağlam Eklemeyin"
     },
     "30": {
       "pdf_page": 61,
@@ -429,7 +429,7 @@
       "chapter": 3,
       "title_en": "Function Arguments (cont.)",
       "title_tr": "Fonksiyon Argümanları (devam)",
-      "section_en": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları",
+      "section_en": "Use Descriptive Names & Function Arguments",
       "section_tr": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları"
     },
     "41": {
@@ -437,7 +437,7 @@
       "chapter": 3,
       "title_en": "Common Monadic Forms, Flag Arguments",
       "title_tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları",
-      "section_en": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları",
+      "section_en": "Output Arguments, Common Monadic Forms & Flag Arguments",
       "section_tr": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları"
     },
     "42": {
@@ -445,15 +445,15 @@
       "chapter": 3,
       "title_en": "Dyadic Functions, Triads",
       "title_tr": "İkililer, Üçlüler",
-      "section_en": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri",
+      "section_en": "Dyadic Functions, Triads & Argument Objects",
       "section_tr": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri"
     },
     "43": {
       "pdf_page": 74,
       "chapter": 3,
-      "title_en": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler",
+      "title_en": "Argument Objects, Argument Lists, Verbs and Keywords",
       "title_tr": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler",
-      "section_en": "Fonksiyon Argümanları",
+      "section_en": "Function Arguments",
       "section_tr": "Fonksiyon Argümanları"
     },
     "44": {
@@ -461,7 +461,7 @@
       "chapter": 3,
       "title_en": "Have No Side Effects",
       "title_tr": "Yan Etkilere Dikkat",
-      "section_en": "Yan Etkilere Dikkat",
+      "section_en": "Have No Side Effects",
       "section_tr": "Yan Etkilere Dikkat"
     },
     "45": {
@@ -469,7 +469,7 @@
       "chapter": 3,
       "title_en": "Output Arguments, Command Query Separation",
       "title_tr": "Çıkış Argümanları, Komut Sorgu Ayrımı",
-      "section_en": "Çıkış Argümanları / Komut Sorgu Ayrımı",
+      "section_en": "Output Arguments / Command Query Separation",
       "section_tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
     },
     "46": {
@@ -485,7 +485,7 @@
       "chapter": 3,
       "title_en": "Dependency Magnet, DRY",
       "title_tr": "Error.java Bağımlılık Mıknatısı, Kendini Tekrar Etme",
-      "section_en": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı",
+      "section_en": "Error Handling & The Error.java Dependency Magnet",
       "section_tr": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı"
     },
     "48": {
@@ -493,7 +493,7 @@
       "chapter": 3,
       "title_en": "Structured Programming, Conclusion",
       "title_tr": "Yapısal Programlama, Fonksiyonları Nasıl Yazarsınız?, Sonuç",
-      "section_en": "DRY & Yapısal Programlama",
+      "section_en": "Don't Repeat Yourself & Structured Programming",
       "section_tr": "DRY & Yapısal Programlama"
     },
     "49": {
@@ -533,7 +533,7 @@
       "chapter": 4,
       "title_en": "Comments — Introduction",
       "title_tr": "Yorumlar — Giriş",
-      "section_en": "Giriş",
+      "section_en": "Introduction",
       "section_tr": "Giriş"
     },
     "54": {
@@ -541,15 +541,15 @@
       "chapter": 4,
       "title_en": "Not for Bad Code",
       "title_tr": "Kötü Kodun Telafisi Değildir",
-      "section_en": "Yorumlar Neden Yalan Söyler?",
-      "section_tr": "Yorumlar Neden Yalan Söyler?"
+      "section_en": "Introduction",
+      "section_tr": "Giriş"
     },
     "55": {
       "pdf_page": 86,
       "chapter": 4,
       "title_en": "Explain Yourself in Code",
       "title_tr": "Kendinizi Kodla Açıklayın",
-      "section_en": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar",
+      "section_en": "Comments Do Not Make Up for Bad Code & Good Comments",
       "section_tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
     },
     "56": {
@@ -557,8 +557,8 @@
       "chapter": 4,
       "title_en": "Good Comments",
       "title_tr": "İyi Yorumlar (Yasal & Bilgilendirici)",
-      "section_en": "Bilgilendirici, Niyet Açıklaması, Netleştirme",
-      "section_tr": "Bilgilendirici, Niyet Açıklaması, Netleştirme"
+      "section_en": "Informative Comments, Explanation of Intent, Clarification",
+      "section_tr": "Bilgilendirici Yorumlar, Niyetin Açıklanması, Netleştirme"
     },
     "57": {
       "pdf_page": 88,

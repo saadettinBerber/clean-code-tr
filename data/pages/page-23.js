@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation",
-    "tr": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation"
+    "tr": "Aranabilir İsimler (devam) / Kodlamalardan Kaçının / Macar Notasyonu"
   },
   "title": {
-    "en": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu",
+    "en": "Searchable Names (cont.), Avoid Encodings & Hungarian Notation",
     "tr": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu"
   },
   "blocks": [

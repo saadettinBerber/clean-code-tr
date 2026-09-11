@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "Çıkış Argümanları / Komut Sorgu Ayrımı",
+    "en": "Output Arguments / Command Query Separation",
     "tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
   },
   "title": {
@@ -38,7 +38,7 @@ window.PAGE({
       "lang": "java",
       "code": "appendFooter(s);",
       "caption": {
-        "en": "appendFooter Belirsizliği",
+        "en": "appendFooter Ambiguity",
         "tr": "appendFooter Belirsizliği"
       }
     },
@@ -57,7 +57,7 @@ window.PAGE({
       "lang": "java",
       "code": "public void appendFooter(StringBuffer report)",
       "caption": {
-        "en": "Fonksiyon İmzası",
+        "en": "Function Signature",
         "tr": "Fonksiyon İmzası"
       }
     },
@@ -66,7 +66,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "This clarifies the issue, but only at the expense of checking the declaration of the function. Anything that forces you to check the function signature is equivalent to a double-take. It's a cognitive break and should be avoided.",
-          "tr": "Bu, konuyu açıklığa kavuşturur, ama fonksiyonun bildirimini kontrol etmek pahasına. Fonksiyon imzasını kontrol etmeye zorlayan her şey bilişsel bir kesinti (cognitive break) yaratır ve bundan kaçınılmalıdır.",
+          "tr": "Bu, konuyu açıklığa kavuşturur, ama yalnızca fonksiyonun bildirimini kontrol etmek pahasına. Sizi fonksiyon imzasını kontrol etmeye zorlayan her şey, bir an duraksamaya eşdeğerdir. Bu bilişsel bir kesintidir (cognitive break) ve bundan kaçınılmalıdır.",
           "html": true
         }
       ]
@@ -86,7 +86,7 @@ window.PAGE({
       "lang": "java",
       "code": "report.appendFooter();",
       "caption": {
-        "en": "Nesne Yönelimli Yaklaşım",
+        "en": "Object-Oriented Approach",
         "tr": "Nesne Yönelimli Yaklaşım"
       }
     },
@@ -122,7 +122,7 @@ window.PAGE({
       "lang": "java",
       "code": "public boolean set(String attribute, String value);",
       "caption": {
-        "en": "Belirsiz set Fonksiyonu",
+        "en": "Ambiguous set Function",
         "tr": "Belirsiz set Fonksiyonu"
       }
     },
@@ -141,7 +141,7 @@ window.PAGE({
       "lang": "java",
       "code": "if (set(\"username\", \"unclebob\"))...",
       "caption": {
-        "en": "Kafa Karıştırıcı Kullanım",
+        "en": "Confusing Usage",
         "tr": "Kafa Karıştırıcı Kullanım"
       }
     },
@@ -170,7 +170,7 @@ window.PAGE({
       "lang": "java",
       "code": "if (attributeExists(\"username\")) {\n    setAttribute(\"username\", \"unclebob\");\n    ...\n}",
       "caption": {
-        "en": "Komut ve Sorgu Ayrılmış",
+        "en": "Command and Query Separated",
         "tr": "Komut ve Sorgu Ayrılmış"
       }
     }
