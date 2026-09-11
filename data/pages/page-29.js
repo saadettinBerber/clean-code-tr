@@ -9,7 +9,7 @@ window.PAGE({
   },
   "section": {
     "en": "Don't Add Gratuitous Context",
-    "tr": "Don't Add Gratuitous Context"
+    "tr": "Gereksiz Bağlam Eklemeyin"
   },
   "title": {
     "en": "Don't Add Gratuitous Context",

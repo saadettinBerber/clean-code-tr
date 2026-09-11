@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Yorumlar"
   },
   "section": {
-    "en": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar",
+    "en": "Comments Do Not Make Up for Bad Code & Good Comments",
     "tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
   },
   "title": {
@@ -38,7 +38,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Clear and expressive code with few comments is far superior to cluttered and complex code with lots of comments. Rather than spend your time writing the comments that explain the mess you've made, spend it cleaning that mess.",
-          "tr": "Az yorumlu, net ve ifade gücü yüksek bir kod; çok yorumlu, karmaşık ve dağınık bir koddan çok daha üstündür. Yarattığın karmaşayı açıklamak için zaman harcamak yerine, o karmaşayı temizlemek için zaman harca.",
+          "tr": "Az yorumlu, net ve ifade gücü yüksek bir kod; çok yorumlu, karmaşık ve dağınık bir koddan çok daha üstündür. Yarattığın karmaşayı açıklayan yorumları yazmak için zaman harcamak yerine, o karmaşayı temizlemek için zaman harca.",
           "html": true
         }
       ]
@@ -55,7 +55,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "There are certainly times when code makes a poor vehicle for explanation. Unfortunately, many programmers have taken this to mean that code is seldom, if ever, a good means for explanation. This is patently false. Which would you rather see? This:",
-          "tr": "Elbette kodun açıklama için yetersiz kaldığı zamanlar olur. Ne yazık ki pek çok programcı bunu, kodun hiçbir zaman iyi bir açıklama aracı olmadığı anlamında yorumlamıştır. Bu açıkça yanlıştır. Hangisini görmek isterdiniz? Bunu mu:",
+          "tr": "Elbette kodun açıklama için yetersiz kaldığı zamanlar olur. Ne yazık ki pek çok programcı bunu, kodun neredeyse hiçbir zaman iyi bir açıklama aracı olmadığı anlamında yorumlamıştır. Bu açıkça yanlıştır. Hangisini görmek isterdiniz? Bunu mu:",
           "html": true
         }
       ]

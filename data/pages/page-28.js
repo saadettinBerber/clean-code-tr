@@ -12,7 +12,7 @@ window.PAGE({
     "tr": "Anlamlı Bağlam Ekleme"
   },
   "title": {
-    "en": "Anlamlı Bağlam Ekleme (devam)",
+    "en": "Add Meaningful Context (cont.)",
     "tr": "Anlamlı Bağlam Ekleme (devam)"
   },
   "blocks": [

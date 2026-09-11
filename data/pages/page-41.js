@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları",
+    "en": "Output Arguments, Common Monadic Forms & Flag Arguments",
     "tr": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları"
   },
   "title": {
@@ -55,7 +55,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "There are two very common reasons to pass a single argument into a function. You may be asking a question about that argument, as in <code>boolean fileExists(\"MyFile\")</code>. Or you may be operating on that argument, transforming it into something else and <em>returning it</em>. For example, <code>InputStream fileOpen(\"MyFile\")</code> transforms a file name <code>String</code> into an <code>InputStream</code> return value. These two uses are what readers expect when they see a function. You should choose names that make the distinction clear, and always use the two forms in a consistent context. (See Command Query Separation below.)",
-          "tr": "Tek bir argümanı bir fonksiyona geçirmek için iki çok yaygın neden vardır. Argüman hakkında bir soru soruyor olabilirsiniz, örneğin: <code>boolean fileExists(\"MyFile\")</code>. Ya da argüman üzerinde bir işlem yapıp onu başka bir şeye dönüştürüp <em>geri döndürüyor</em> olabilirsiniz. Örneğin, <code>InputStream fileOpen(\"MyFile\")</code>, bir dosya adı olan <code>String</code>'i bir <code>InputStream</code>'e dönüştürür. Bu iki kullanım, okuyucuların bir fonksiyon gördüklerinde beklediği şeylerdir. Ayrımı netleştiren isimler seçmeli ve iki formu her zaman tutarlı bir bağlamda kullanmalısınız. (Aşağıdaki Komut Sorgu Ayrımı bölümüne bakın.)",
+          "tr": "Tek bir argümanı bir fonksiyona geçirmek için iki çok yaygın neden vardır. Argüman hakkında bir soru soruyor olabilirsiniz, örneğin: <code>boolean fileExists(\"MyFile\")</code>. Ya da argüman üzerinde bir işlem yapıp onu başka bir şeye dönüştürüp <em>geri döndürüyor</em> olabilirsiniz. Örneğin, <code>InputStream fileOpen(\"MyFile\")</code>, bir dosya adı olan <code>String</code>'i bir <code>InputStream</code> dönüş değerine dönüştürür. Bu iki kullanım, okuyucuların bir fonksiyon gördüklerinde beklediği şeylerdir. Ayrımı netleştiren isimler seçmeli ve iki formu her zaman tutarlı bir bağlamda kullanmalısınız. (Aşağıdaki Komut Sorgu Ayrımı bölümüne bakın.)",
           "html": true
         }
       ]
@@ -65,7 +65,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "A somewhat less common, but still very useful form for a single argument function, is an <em>event</em>. In this form there is an input argument but no output argument. The overall program is meant to interpret the function call as an event and use the argument to alter the state of the system, for example, <code>void passwordAttemptFailedNtimes(int attempts)</code>. Use this form with care. It should be very clear to the reader that this is an event. Choose names and contexts carefully.",
-          "tr": "Tek argümanlı bir fonksiyonun biraz daha az yaygın ama yine de çok kullanışlı bir formu daha vardır: olay (event) formu. Bu formda bir girdi argümanı vardır ama çıkış argümanı yoktur. Programın genel amacı, fonksiyon çağrısını bir olay olarak yorumlamak ve argümanı sistemin durumunu değiştirmek için kullanmaktır. Örneğin: <code>void passwordAttemptFailedNtimes(int attempts)</code>. Bu formu dikkatli kullanın. Okuyucuya bunun bir olay olduğu çok açık olmalıdır. İsimleri ve bağlamları dikkatli seçin.",
+          "tr": "Tek argümanlı bir fonksiyonun biraz daha az yaygın ama yine de çok kullanışlı bir formu daha vardır: olay (event) formu. Bu formda bir girdi argümanı vardır ama çıkış argümanı yoktur. Programın bütününün, fonksiyon çağrısını bir olay olarak yorumlaması ve argümanı sistemin durumunu değiştirmek için kullanması beklenir. Örneğin: <code>void passwordAttemptFailedNtimes(int attempts)</code>. Bu formu dikkatli kullanın. Okuyucuya bunun bir olay olduğu çok açık olmalıdır. İsimleri ve bağlamları dikkatli seçin.",
           "html": true
         }
       ]
@@ -102,7 +102,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "In Listing 3-7 we had no choice because the callers were already passing that flag in, and I wanted to limit the scope of refactoring to the function and below. Still, the method call <code>render(true)</code> is just plain confusing to a poor reader. Mousing over the call and seeing <code>render(boolean isSuite)</code> helps a little, but not that much. We should have split the function into two: <code>renderForSuite()</code> and <code>renderForSingleTest()</code>.",
-          "tr": "Liste 3-7'de çağıranlar zaten bu bayrağı geçiyordu ve ben yeniden düzenlemenin (refactoring) kapsamını fonksiyon ve altıyla sınırlı tutmak istedim, bu yüzden başka seçeneğimiz yoktu. Yine de, <code>render(true)</code> metot çağrısı sıradan bir okuyucu için son derece kafa karıştırıcıdır. Çağrının üzerine gelip <code>render(boolean isSuite)</code> ifadesini görmek biraz yardımcı olur, ama çok da fazla değil. Fonksiyonu ikiye bölmeliydik: <code>renderForSuite()</code> ve <code>renderForSingleTest()</code>.",
+          "tr": "Listing 3-7'de çağıranlar zaten bu bayrağı geçiyordu ve ben yeniden düzenlemenin (refactoring) kapsamını fonksiyon ve altıyla sınırlı tutmak istedim, bu yüzden başka seçeneğimiz yoktu. Yine de, <code>render(true)</code> metot çağrısı sıradan bir okuyucu için son derece kafa karıştırıcıdır. Çağrının üzerine gelip <code>render(boolean isSuite)</code> ifadesini görmek biraz yardımcı olur, ama çok da fazla değil. Fonksiyonu ikiye bölmeliydik: <code>renderForSuite()</code> ve <code>renderForSingleTest()</code>.",
           "html": true
         }
       ]

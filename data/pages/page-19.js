@@ -8,11 +8,11 @@ window.PAGE({
     "tr": "Anlamlı İsimler"
   },
   "section": {
-    "en": "Use Intention-Revealing Names (devam) / Avoid Disinformation",
-    "tr": "Use Intention-Revealing Names (devam) / Avoid Disinformation"
+    "en": "Use Intention-Revealing Names (cont.) / Avoid Disinformation",
+    "tr": "Niyet Belirten İsimler Kullanın (devam) / Yanlış Bilgi Vermekten Kaçının"
   },
   "title": {
-    "en": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının",
+    "en": "Use Intention-Revealing Names (cont.) & Avoid Disinformation",
     "tr": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının"
   },
   "blocks": [

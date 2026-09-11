@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "Schools of Thought / We Are Authors",
-    "tr": "Schools of Thought / We Are Authors"
+    "tr": "Düşünce Okulları / Biz Yazarlarız"
   },
   "title": {
-    "en": "Düşünce Okulları (devam) & Biz Yazarlarız",
+    "en": "Schools of Thought (cont.) & We Are Authors",
     "tr": "Düşünce Okulları (devam) & Biz Yazarlarız"
   },
   "blocks": [

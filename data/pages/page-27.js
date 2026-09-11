@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "Solution and Problem Domain Names / Meaningful Context",
-    "tr": "Solution and Problem Domain Names / Meaningful Context"
+    "tr": "Çözüm ve Problem Alanı İsimleri / Anlamlı Bağlam"
   },
   "title": {
-    "en": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme",
+    "en": "Use Solution Domain Names, Use Problem Domain Names, Add Meaningful Context",
     "tr": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme"
   },
   "blocks": [

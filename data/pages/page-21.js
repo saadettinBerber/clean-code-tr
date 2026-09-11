@@ -8,11 +8,11 @@ window.PAGE({
     "tr": "Anlamlı İsimler"
   },
   "section": {
-    "en": "Make Meaningful Distinctions (devam) / Use Pronounceable Names",
-    "tr": "Make Meaningful Distinctions (devam) / Use Pronounceable Names"
+    "en": "Make Meaningful Distinctions (cont.) / Use Pronounceable Names",
+    "tr": "Anlamlı Ayrımlar Yapın (devam) / Telaffuz Edilebilir İsimler Kullanın"
   },
   "title": {
-    "en": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın",
+    "en": "Meaningful Distinctions (cont.) & Use Pronounceable Names",
     "tr": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın"
   },
   "blocks": [

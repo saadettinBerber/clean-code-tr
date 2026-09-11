@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "Avoid Mental Mapping / Class Names / Method Names",
-    "tr": "Avoid Mental Mapping / Class Names / Method Names"
+    "tr": "Zihinsel Eşleştirmeden Kaçının / Sınıf İsimleri / Metot İsimleri"
   },
   "title": {
-    "en": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme",
+    "en": "Avoid Mental Mapping, Class Names, Method Names",
     "tr": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme"
   },
   "blocks": [

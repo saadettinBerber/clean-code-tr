@@ -9,10 +9,10 @@ window.PAGE({
   },
   "section": {
     "en": "Prequel and Principles / Conclusion / Bibliography",
-    "tr": "Prequel and Principles / Conclusion / Bibliography"
+    "tr": "Öncül ve İlkeler / Sonuç / Kaynakça"
   },
   "title": {
-    "en": "Öncül ve İlkeler, Sonuç & Kaynakça",
+    "en": "Prequel and Principles, Conclusion & Bibliography",
     "tr": "Öncül ve İlkeler, Sonuç & Kaynakça"
   },
   "blocks": [

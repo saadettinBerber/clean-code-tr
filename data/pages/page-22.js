@@ -8,11 +8,11 @@ window.PAGE({
     "tr": "Anlamlı İsimler"
   },
   "section": {
-    "en": "Use Pronounceable Names (devam) / Use Searchable Names",
-    "tr": "Use Pronounceable Names (devam) / Use Searchable Names"
+    "en": "Use Pronounceable Names (cont.) / Use Searchable Names",
+    "tr": "Telaffuz Edilebilir İsimler Kullanın (devam) / Aranabilir İsimler Kullanın"
   },
   "title": {
-    "en": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın",
+    "en": "Pronounceable Names (cont.) & Use Searchable Names",
     "tr": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın"
   },
   "blocks": [

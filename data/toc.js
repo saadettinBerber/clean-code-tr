@@ -193,7 +193,7 @@ window.TOC = {
       },
       "section": {
         "en": "Attitude, The Primal Conundrum, The Art of Clean Code?",
-        "tr": "Attitude, The Primal Conundrum, The Art of Clean Code?"
+        "tr": "Tutum, Temel İkilem, Temiz Kod Sanatı mı?"
       },
       "chapter": 1
     },
@@ -204,7 +204,7 @@ window.TOC = {
       },
       "section": {
         "en": "The Art of Clean Code?, What Is Clean Code?",
-        "tr": "The Art of Clean Code?, What Is Clean Code?"
+        "tr": "Temiz Kod Sanatı mı?, Temiz Kod Nedir?"
       },
       "chapter": 1
     },
@@ -215,7 +215,7 @@ window.TOC = {
       },
       "section": {
         "en": "What Is Clean Code?",
-        "tr": "What Is Clean Code?"
+        "tr": "Temiz Kod Nedir?"
       },
       "chapter": 1
     },
@@ -226,73 +226,73 @@ window.TOC = {
       },
       "section": {
         "en": "What Is Clean Code?",
-        "tr": "What Is Clean Code?"
+        "tr": "Temiz Kod Nedir?"
       },
       "chapter": 1
     },
     "10": {
       "title": {
-        "en": "Michael Feathers & Ron Jeffries — Beck'in Basit Kod Kuralları",
+        "en": "Michael Feathers & Ron Jeffries, Beck's Rules of Simple Code",
         "tr": "Michael Feathers & Ron Jeffries — Beck'in Basit Kod Kuralları"
       },
       "section": {
         "en": "What Is Clean Code?",
-        "tr": "What Is Clean Code?"
+        "tr": "Temiz Kod Nedir?"
       },
       "chapter": 1
     },
     "11": {
       "title": {
-        "en": "Ron Jeffries (devam) & Ward Cunningham",
+        "en": "Ron Jeffries (cont.) & Ward Cunningham",
         "tr": "Ron Jeffries (devam) & Ward Cunningham"
       },
       "section": {
         "en": "What Is Clean Code?",
-        "tr": "What Is Clean Code?"
+        "tr": "Temiz Kod Nedir?"
       },
       "chapter": 1
     },
     "12": {
       "title": {
-        "en": "Ward Cunningham (devam) & Düşünce Okulları",
+        "en": "Ward Cunningham (cont.) & Schools of Thought",
         "tr": "Ward Cunningham (devam) & Düşünce Okulları"
       },
       "section": {
         "en": "What Is Clean Code? / Schools of Thought",
-        "tr": "What Is Clean Code? / Schools of Thought"
+        "tr": "Temiz Kod Nedir? / Düşünce Okulları"
       },
       "chapter": 1
     },
     "13": {
       "title": {
-        "en": "Düşünce Okulları (devam) & Biz Yazarlarız",
+        "en": "Schools of Thought (cont.) & We Are Authors",
         "tr": "Düşünce Okulları (devam) & Biz Yazarlarız"
       },
       "section": {
         "en": "Schools of Thought / We Are Authors",
-        "tr": "Schools of Thought / We Are Authors"
+        "tr": "Düşünce Okulları / Biz Yazarlarız"
       },
       "chapter": 1
     },
     "14": {
       "title": {
-        "en": "Okuma vs Yazma & İzci Kuralı",
+        "en": "Reading vs. Writing & The Boy Scout Rule",
         "tr": "Okuma vs Yazma & İzci Kuralı"
       },
       "section": {
         "en": "We Are Authors / The Boy Scout Rule",
-        "tr": "We Are Authors / The Boy Scout Rule"
+        "tr": "Biz Yazarlarız / İzci Kuralı"
       },
       "chapter": 1
     },
     "15": {
       "title": {
-        "en": "Öncül ve İlkeler, Sonuç & Kaynakça",
+        "en": "Prequel and Principles, Conclusion & Bibliography",
         "tr": "Öncül ve İlkeler, Sonuç & Kaynakça"
       },
       "section": {
         "en": "Prequel and Principles / Conclusion / Bibliography",
-        "tr": "Prequel and Principles / Conclusion / Bibliography"
+        "tr": "Öncül ve İlkeler / Sonuç / Kaynakça"
       },
       "chapter": 1
     },
@@ -317,112 +317,112 @@ window.TOC = {
       },
       "section": {
         "en": "Use Intention-Revealing Names",
-        "tr": "Use Intention-Revealing Names"
+        "tr": "Niyet Belirten İsimler Kullanın"
       },
       "chapter": 2
     },
     "19": {
       "title": {
-        "en": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının",
+        "en": "Use Intention-Revealing Names (cont.) & Avoid Disinformation",
         "tr": "Niyet Belirten İsimler (devam) & Yanlış Bilgi Vermekten Kaçının"
       },
       "section": {
-        "en": "Use Intention-Revealing Names (devam) / Avoid Disinformation",
-        "tr": "Use Intention-Revealing Names (devam) / Avoid Disinformation"
+        "en": "Use Intention-Revealing Names (cont.) / Avoid Disinformation",
+        "tr": "Niyet Belirten İsimler Kullanın (devam) / Yanlış Bilgi Vermekten Kaçının"
       },
       "chapter": 2
     },
     "20": {
       "title": {
-        "en": "Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın",
+        "en": "Avoid Disinformation (cont.) & Make Meaningful Distinctions",
         "tr": "Yanlış Bilgi Vermekten Kaçının (devam) & Anlamlı Ayrımlar Yapın"
       },
       "section": {
-        "en": "Avoid Disinformation (devam) / Make Meaningful Distinctions",
-        "tr": "Avoid Disinformation (devam) / Make Meaningful Distinctions"
+        "en": "Avoid Disinformation (cont.) / Make Meaningful Distinctions",
+        "tr": "Yanlış Bilgi Vermekten Kaçının (devam) / Anlamlı Ayrımlar Yapın"
       },
       "chapter": 2
     },
     "21": {
       "title": {
-        "en": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın",
+        "en": "Meaningful Distinctions (cont.) & Use Pronounceable Names",
         "tr": "Anlamlı Ayrımlar (devam) & Telaffuz Edilebilir İsimler Kullanın"
       },
       "section": {
-        "en": "Make Meaningful Distinctions (devam) / Use Pronounceable Names",
-        "tr": "Make Meaningful Distinctions (devam) / Use Pronounceable Names"
+        "en": "Make Meaningful Distinctions (cont.) / Use Pronounceable Names",
+        "tr": "Anlamlı Ayrımlar Yapın (devam) / Telaffuz Edilebilir İsimler Kullanın"
       },
       "chapter": 2
     },
     "22": {
       "title": {
-        "en": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın",
+        "en": "Pronounceable Names (cont.) & Use Searchable Names",
         "tr": "Telaffuz Edilebilir İsimler (devam) & Aranabilir İsimler Kullanın"
       },
       "section": {
-        "en": "Use Pronounceable Names (devam) / Use Searchable Names",
-        "tr": "Use Pronounceable Names (devam) / Use Searchable Names"
+        "en": "Use Pronounceable Names (cont.) / Use Searchable Names",
+        "tr": "Telaffuz Edilebilir İsimler Kullanın (devam) / Aranabilir İsimler Kullanın"
       },
       "chapter": 2
     },
     "23": {
       "title": {
-        "en": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu",
+        "en": "Searchable Names (cont.), Avoid Encodings & Hungarian Notation",
         "tr": "Aranabilir İsimler (devam), Kodlamalardan Kaçının & Macar Notasyonu"
       },
       "section": {
         "en": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation",
-        "tr": "Searchable Names (cont.) / Avoid Encodings / Hungarian Notation"
+        "tr": "Aranabilir İsimler (devam) / Kodlamalardan Kaçının / Macar Notasyonu"
       },
       "chapter": 2
     },
     "24": {
       "title": {
-        "en": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar",
+        "en": "Avoid Encodings (cont.), Member Prefixes, Interfaces and Implementations",
         "tr": "Kodlamalardan Kaçının (devam), Üye Önekleri, Arayüzler ve Uygulamalar"
       },
       "section": {
         "en": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations",
-        "tr": "Avoid Encodings (cont.) / Member Prefixes / Interfaces and Implementations"
+        "tr": "Kodlamalardan Kaçının (devam) / Üye Önekleri / Arayüzler ve Uygulamalar"
       },
       "chapter": 2
     },
     "25": {
       "title": {
-        "en": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme",
+        "en": "Avoid Mental Mapping, Class Names, Method Names",
         "tr": "Zihinsel Eşleştirmeden Kaçının, Sınıf ve Metot İsimlendirme"
       },
       "section": {
         "en": "Avoid Mental Mapping / Class Names / Method Names",
-        "tr": "Avoid Mental Mapping / Class Names / Method Names"
+        "tr": "Zihinsel Eşleştirmeden Kaçının / Sınıf İsimleri / Metot İsimleri"
       },
       "chapter": 2
     },
     "26": {
       "title": {
-        "en": "Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının",
+        "en": "Don't Be Cute, Pick One Word per Concept, Don't Pun",
         "tr": "Şirinlik Yapmayın, Her Kavram İçin Tek Kelime Seçin, Kelime Oyunlarından Kaçının"
       },
       "section": {
         "en": "Don't Be Cute / Pick One Word per Concept / Don't Pun",
-        "tr": "Don't Be Cute / Pick One Word per Concept / Don't Pun"
+        "tr": "Şirinlik Yapmayın / Her Kavram İçin Tek Kelime Seçin / Kelime Oyunlarından Kaçının"
       },
       "chapter": 2
     },
     "27": {
       "title": {
-        "en": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme",
+        "en": "Use Solution Domain Names, Use Problem Domain Names, Add Meaningful Context",
         "tr": "Çözüm ve Problem Alanı İsimlerini Kullanma, Anlamlı Bağlam Ekleme"
       },
       "section": {
         "en": "Solution and Problem Domain Names / Meaningful Context",
-        "tr": "Solution and Problem Domain Names / Meaningful Context"
+        "tr": "Çözüm ve Problem Alanı İsimleri / Anlamlı Bağlam"
       },
       "chapter": 2
     },
     "28": {
       "title": {
-        "en": "Anlamlı Bağlam Ekleme (devam)",
+        "en": "Add Meaningful Context (cont.)",
         "tr": "Anlamlı Bağlam Ekleme (devam)"
       },
       "section": {
@@ -438,7 +438,7 @@ window.TOC = {
       },
       "section": {
         "en": "Don't Add Gratuitous Context",
-        "tr": "Don't Add Gratuitous Context"
+        "tr": "Gereksiz Bağlam Eklemeyin"
       },
       "chapter": 2
     },
@@ -558,7 +558,7 @@ window.TOC = {
         "tr": "Fonksiyon Argümanları (devam)"
       },
       "section": {
-        "en": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları",
+        "en": "Use Descriptive Names & Function Arguments",
         "tr": "Betimleyici İsimler Kullanın & Fonksiyon Argümanları"
       },
       "chapter": 3
@@ -569,7 +569,7 @@ window.TOC = {
         "tr": "Sık Görülen Tekli Formlar, Bayrak Argümanları"
       },
       "section": {
-        "en": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları",
+        "en": "Output Arguments, Common Monadic Forms & Flag Arguments",
         "tr": "Çıkış Argümanları, Tekli Formlar & Bayrak Argümanları"
       },
       "chapter": 3
@@ -580,18 +580,18 @@ window.TOC = {
         "tr": "İkililer, Üçlüler"
       },
       "section": {
-        "en": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri",
+        "en": "Dyadic Functions, Triads & Argument Objects",
         "tr": "İkili Fonksiyonlar, Üçlüler & Argüman Nesneleri"
       },
       "chapter": 3
     },
     "43": {
       "title": {
-        "en": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler",
+        "en": "Argument Objects, Argument Lists, Verbs and Keywords",
         "tr": "Argüman Nesneleri, Argüman Listeleri, Fiiller ve Anahtar Kelimeler"
       },
       "section": {
-        "en": "Fonksiyon Argümanları",
+        "en": "Function Arguments",
         "tr": "Fonksiyon Argümanları"
       },
       "chapter": 3
@@ -602,7 +602,7 @@ window.TOC = {
         "tr": "Yan Etkilere Dikkat"
       },
       "section": {
-        "en": "Yan Etkilere Dikkat",
+        "en": "Have No Side Effects",
         "tr": "Yan Etkilere Dikkat"
       },
       "chapter": 3
@@ -613,7 +613,7 @@ window.TOC = {
         "tr": "Çıkış Argümanları, Komut Sorgu Ayrımı"
       },
       "section": {
-        "en": "Çıkış Argümanları / Komut Sorgu Ayrımı",
+        "en": "Output Arguments / Command Query Separation",
         "tr": "Çıkış Argümanları / Komut Sorgu Ayrımı"
       },
       "chapter": 3
@@ -635,7 +635,7 @@ window.TOC = {
         "tr": "Error.java Bağımlılık Mıknatısı, Kendini Tekrar Etme"
       },
       "section": {
-        "en": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı",
+        "en": "Error Handling & The Error.java Dependency Magnet",
         "tr": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı"
       },
       "chapter": 3
@@ -646,7 +646,7 @@ window.TOC = {
         "tr": "Yapısal Programlama, Fonksiyonları Nasıl Yazarsınız?, Sonuç"
       },
       "section": {
-        "en": "DRY & Yapısal Programlama",
+        "en": "Don't Repeat Yourself & Structured Programming",
         "tr": "DRY & Yapısal Programlama"
       },
       "chapter": 3
@@ -701,7 +701,7 @@ window.TOC = {
         "tr": "Yorumlar — Giriş"
       },
       "section": {
-        "en": "Giriş",
+        "en": "Introduction",
         "tr": "Giriş"
       },
       "chapter": 4
@@ -712,8 +712,8 @@ window.TOC = {
         "tr": "Kötü Kodun Telafisi Değildir"
       },
       "section": {
-        "en": "Yorumlar Neden Yalan Söyler?",
-        "tr": "Yorumlar Neden Yalan Söyler?"
+        "en": "Introduction",
+        "tr": "Giriş"
       },
       "chapter": 4
     },
@@ -723,7 +723,7 @@ window.TOC = {
         "tr": "Kendinizi Kodla Açıklayın"
       },
       "section": {
-        "en": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar",
+        "en": "Comments Do Not Make Up for Bad Code & Good Comments",
         "tr": "Yorumlar Kötü Kodu Telafi Etmez & İyi Yorumlar"
       },
       "chapter": 4
@@ -734,8 +734,8 @@ window.TOC = {
         "tr": "İyi Yorumlar (Yasal & Bilgilendirici)"
       },
       "section": {
-        "en": "Bilgilendirici, Niyet Açıklaması, Netleştirme",
-        "tr": "Bilgilendirici, Niyet Açıklaması, Netleştirme"
+        "en": "Informative Comments, Explanation of Intent, Clarification",
+        "tr": "Bilgilendirici Yorumlar, Niyetin Açıklanması, Netleştirme"
       },
       "chapter": 4
     },

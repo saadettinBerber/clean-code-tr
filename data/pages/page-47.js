@@ -8,7 +8,7 @@ window.PAGE({
     "tr": "Fonksiyonlar"
   },
   "section": {
-    "en": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı",
+    "en": "Error Handling & The Error.java Dependency Magnet",
     "tr": "Hata Yönetimi & Error.java Bağımlılık Mıknatısı"
   },
   "title": {
@@ -17,23 +17,23 @@ window.PAGE({
   },
   "blocks": [
     {
-      "type": "para",
-      "sentences": [
-        {
-          "en": "(Continued from page 46) In the above, the <code>delete</code> function is all about error processing. It is easy to understand and then ignore. The <code>deletePageAndAllReferences</code> function is all about the processes of fully deleting a page. Error handling can be ignored. This provides a nice separation that makes the code easier to understand and modify.",
-          "tr": "(Sayfa 46'dan devam) Aşağıdaki örnekte <code>delete</code> fonksiyonu tamamen hata işlemeyle (error processing) ilgilidir. Anlaması kolaydır ve görmezden gelebilirsiniz. <code>deletePageAndAllReferences</code> fonksiyonu ise tamamen bir sayfayı silme süreçleriyle ilgilidir. Hata yönetimi görmezden gelinebilir. Bu güzel bir ayrım sağlar ve kodun anlaşılmasını ve değiştirilmesini kolaylaştırır.",
-          "html": true
-        }
-      ]
-    },
-    {
       "type": "code",
       "lang": "java",
       "code": "public void delete(Page page) {\n    try {\n        deletePageAndAllReferences(page);\n    }\n    catch (Exception e) {\n        logError(e);\n    }\n}\n\nprivate void deletePageAndAllReferences(Page page) throws Exception {\n    deletePage(page);\n    registry.deleteReference(page.name);\n    configKeys.deleteKey(page.name.makeKey());\n}\n\nprivate void logError(Exception e) {\n    logger.log(e.getMessage());\n}",
       "caption": {
         "en": "Extracted Try/Catch Structure",
-        "tr": "Try/Catch Ayrılmış Yapı"
+        "tr": "Çıkarılmış Try/Catch Yapısı"
       }
+    },
+    {
+      "type": "para",
+      "sentences": [
+        {
+          "en": "(Continued from page 46) In the above, the <code>delete</code> function is all about error processing. It is easy to understand and then ignore. The <code>deletePageAndAllReferences</code> function is all about the processes of fully deleting a page. Error handling can be ignored. This provides a nice separation that makes the code easier to understand and modify.",
+          "tr": "(Sayfa 46'dan devam) Bu örnekte <code>delete</code> fonksiyonu tamamen hata işlemeyle (error processing) ilgilidir. Anlaması kolaydır ve görmezden gelebilirsiniz. <code>deletePageAndAllReferences</code> fonksiyonu ise tamamen bir sayfanın eksiksiz biçimde silinmesi süreçleriyle ilgilidir. Hata yönetimi görmezden gelinebilir. Bu güzel bir ayrım sağlar ve kodun anlaşılmasını ve değiştirilmesini kolaylaştırır.",
+          "html": true
+        }
+      ]
     },
     {
       "type": "heading",
@@ -100,8 +100,8 @@ window.PAGE({
     },
     {
       "type": "footnote",
-      "en": "11. Yeniden derleme ve yeniden dağıtım yapmadan idare edebileceklerini düşünenler bulunmuş — ve cezalandırılmıştır.Those who felt that they could get away without recompiling and redeploying have been found — and dealt with. 12. Bu, Açık/Kapalı İlkesinin (OCP) [PPP02] bir örneğidir.This is an example of the Open Closed Principle (OCP) [PPP02]. Those who felt that they could get away without recompiling and redeploying have been found — and dealt with.",
-      "tr": "11. Yeniden derleme ve yeniden dağıtım yapmadan idare edebileceklerini düşünenler bulunmuş — ve cezalandırılmıştır.Those who felt that they could get away without recompiling and redeploying have been found — and dealt with. 12. Bu, Açık/Kapalı İlkesinin (OCP) [PPP02] bir örneğidir.This is an example of the Open Closed Principle (OCP) [PPP02]. Yeniden derleme ve yeniden dağıtım yapmadan idare edebileceklerini düşünenler bulunmuş — ve cezalandırılmıştır.",
+      "en": "11. Those who felt that they could get away without recompiling and redeploying have been found — and dealt with. 12. This is an example of the Open Closed Principle (OCP) [PPP02].",
+      "tr": "11. Yeniden derleme ve yeniden dağıtım yapmadan idare edebileceklerini düşünenler bulunmuş — ve cezalandırılmıştır. 12. Bu, Açık/Kapalı İlkesinin (OCP) [PPP02] bir örneğidir.",
       "html": true
     }
   ],

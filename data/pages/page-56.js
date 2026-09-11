@@ -8,8 +8,8 @@ window.PAGE({
     "tr": "Yorumlar"
   },
   "section": {
-    "en": "Bilgilendirici, Niyet Açıklaması, Netleştirme",
-    "tr": "Bilgilendirici, Niyet Açıklaması, Netleştirme"
+    "en": "Informative Comments, Explanation of Intent, Clarification",
+    "tr": "Bilgilendirici Yorumlar, Niyetin Açıklanması, Netleştirme"
   },
   "title": {
     "en": "Good Comments",
@@ -36,10 +36,10 @@ window.PAGE({
     {
       "type": "code",
       "lang": "java",
-      "code": "// Test edilen Responder örneğini döner.\nprotected abstract Responder responderInstance();",
+      "code": "// Returns an instance of the Responder being tested.\nprotected abstract Responder responderInstance();",
       "caption": {
         "en": "Basic informative comment",
-        "tr": "Temel bilgi yorumu"
+        "tr": "Temel bilgilendirici yorum"
       }
     },
     {
@@ -47,7 +47,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "A comment like this can sometimes be useful, but it is better to use the name of the function to convey the information where possible. For example, in this case the comment could be made redundant by renaming the function: responderBeingTested.",
-          "tr": "Bu tür bir yorum bazen yararlı olabilir; ancak mümkünse bilgiyi fonksiyon adına taşımak daha iyidir. Örneğin bu durumda yorum, metodun <code>responderBeingTested</code> olarak yeniden adlandırılmasıyla gereksiz hale gelirdi.",
+          "tr": "Bu tür bir yorum bazen yararlı olabilir; ancak mümkünse bilgiyi fonksiyon adına taşımak daha iyidir. Örneğin bu durumda yorum, fonksiyonun <code>responderBeingTested</code> olarak yeniden adlandırılmasıyla gereksiz hale gelirdi.",
           "html": true
         }
       ]
@@ -68,7 +68,7 @@ window.PAGE({
       "code": "// format matched kk:mm:ss EEE, MMM dd, yyyy\nPattern timeMatcher = Pattern.compile(\n       \"\\\\d*:\\\\d*:\\\\d* \\\\w*, \\\\w* \\\\d*, \\\\d*\");",
       "caption": {
         "en": "Comment explaining regex format",
-        "tr": "Regex formatı açıklayan yorum"
+        "tr": "Regex formatını açıklayan yorum"
       }
     },
     {
@@ -76,7 +76,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "In this case the comment lets us know that the regular expression is intended to match a time and date that were formatted with the SimpleDateFormat.format function using the specified format string. Still, it might have been better, and clearer, if this code had been moved to a special class that converted the formats of dates and times. Then the comment would likely have been superfluous.",
-          "tr": "Bu durumda yorum, regex ifadesinin <code>SimpleDateFormat.format</code> fonksiyonu ile belirtilen format dizgisi kullanılarak biçimlendirilmiş bir tarih ve saati eşleştirmeye yönelik olduğunu bize bildiriyor. Yine de bu kod, tarihleri ve saatleri dönüştüren özel bir sınıfa taşınsaydı hem daha iyi hem de daha açık olurdu — o zaman yorum da büyük olasılıkla gereksiz kalırdı.",
+          "tr": "Bu durumda yorum, regex ifadesinin <code>SimpleDateFormat.format</code> fonksiyonu ile belirtilen format dizgisi kullanılarak biçimlendirilmiş bir tarih ve saati eşleştirmeye yönelik olduğunu bize bildiriyor. Yine de bu kod, tarih ve saat formatlarını dönüştüren özel bir sınıfa taşınsaydı hem daha iyi hem de daha açık olurdu — o zaman yorum da büyük olasılıkla gereksiz kalırdı.",
           "html": true
         }
       ]
@@ -85,7 +85,7 @@ window.PAGE({
       "type": "heading",
       "level": 1,
       "en": "Explanation of Intent",
-      "tr": "Niyetin Açıklaması / Explanation of Intent",
+      "tr": "Niyetin Açıklanması / Explanation of Intent",
       "html": true
     },
     {
@@ -93,7 +93,7 @@ window.PAGE({
       "sentences": [
         {
           "en": "Sometimes a comment goes beyond just useful information about the implementation and provides the intent behind a decision. In the following case we see an interesting decision documented by a comment. When comparing two objects, the author decided that he wanted to sort objects of his class higher than objects of any other.",
-          "tr": "Bazen bir yorum, uygulamaya ilişkin yararlı bilgilerin ötesine geçerek bir kararın arkasındaki niyeti ortaya koyar. Aşağıdaki örnekte ilginç bir karar bir yorumla belgelenmiştir. İki nesneyi karşılaştırırken yazar, kendi sınıfından nesneleri sıralamada diğer her tür nesnenin önüne geçirmek istediğine karar vermiştir:",
+          "tr": "Bazen bir yorum, uygulamaya ilişkin yararlı bilgilerin ötesine geçerek bir kararın arkasındaki niyeti ortaya koyar. Aşağıdaki örnekte ilginç bir karar bir yorumla belgelenmiştir. İki nesneyi karşılaştırırken yazar, kendi sınıfından nesnelerin sıralamada diğer her türden nesneden daha yüksekte (daha büyük) yer almasını istediğine karar vermiştir:",
           "html": true
         }
       ]
@@ -101,7 +101,7 @@ window.PAGE({
     {
       "type": "code",
       "lang": "java",
-      "code": "public int compareTo(Object o)\n{\n  if(o instanceof WikiPagePath)\n  {\n    WikiPagePath p = (WikiPagePath) o;\n    String compressedName = StringUtil.join(names, \"\");\n    String compressedArgumentName = StringUtil.join(p.names, \"\");\n    return compressedName.compareTo(compressedArgumentName);\n  }\n  return 1; // doğru türden olduğumuz için daha büyüğüz.\n}",
+      "code": "public int compareTo(Object o)\n{\n  if(o instanceof WikiPagePath)\n  {\n    WikiPagePath p = (WikiPagePath) o;\n    String compressedName = StringUtil.join(names, \"\");\n    String compressedArgumentName = StringUtil.join(p.names, \"\");\n    return compressedName.compareTo(compressedArgumentName);\n  }\n  return 1; // we are greater because we are the right type.\n}",
       "caption": {
         "en": "Comment explaining intent",
         "tr": "Niyetin açıklandığı yorum"
@@ -120,10 +120,10 @@ window.PAGE({
     {
       "type": "code",
       "lang": "java",
-      "code": "public void testConcurrentAddWidgets() throws Exception {\n  WidgetBuilder widgetBuilder =\n    new WidgetBuilder(new Class[]{BoldWidget.class});\n  String text = \"'''bold text'''\";\n  ParentWidget parent =\n    new BoldWidget(new MockWidgetRoot(), \"'''bold text'''\");\n  AtomicBoolean failFlag = new AtomicBoolean();\n  failFlag.set(false);\n  //Bu yarış koşulunu elde etmek için en iyi girişimimiz:\n  //çok sayıda thread oluşturuyoruz.\n  for (int i = 0; i < 25000; i++) {\n    WidgetBuilderThread widgetBuilderThread =\n      new WidgetBuilderThread(widgetBuilder, text, parent, failFlag);\n    Thread thread = new Thread(widgetBuilderThread);\n    thread.start();\n  }\n  assertEquals(false, failFlag.get());\n}",
+      "code": "public void testConcurrentAddWidgets() throws Exception {\n  WidgetBuilder widgetBuilder =\n    new WidgetBuilder(new Class[]{BoldWidget.class});\n  String text = \"'''bold text'''\";\n  ParentWidget parent =\n    new BoldWidget(new MockWidgetRoot(), \"'''bold text'''\");\n  AtomicBoolean failFlag = new AtomicBoolean();\n  failFlag.set(false);\n  //This is our best attempt to get a race condition\n  //by creating large number of threads.\n  for (int i = 0; i < 25000; i++) {\n    WidgetBuilderThread widgetBuilderThread =\n      new WidgetBuilderThread(widgetBuilder, text, parent, failFlag);\n    Thread thread = new Thread(widgetBuilderThread);\n    thread.start();\n  }\n  assertEquals(false, failFlag.get());\n}",
       "caption": {
         "en": "Race condition test intent",
-        "tr": "Yarış koşulunu test etme niyeti"
+        "tr": "Yarış durumunu (Race Condition) test etme niyeti"
       }
     },
     {
