@@ -15,9 +15,19 @@ window.GLOSSARY = [
     "note": "Kullanıcı gereksinimlerini doğrulayan test"
   },
   {
+    "en": "Access Policy",
+    "tr": "Erişim Politikası (Access Policy)",
+    "note": "Bir arayüzün metotlarıyla verinin nasıl okunup değiştirilebileceğine dair dayattığı kurallar; ör. koordinatları ayrı oku, birlikte ayarla"
+  },
+  {
     "en": "Accessor",
     "tr": "Erişimci (Accessor)",
     "note": "JavaBean standardında get metotları"
+  },
+  {
+    "en": "Active Record",
+    "tr": "Aktif Kayıt (Active Record)",
+    "note": "Veritabanı tablosunu doğrudan yansıtan, save/find gibi gezinme metotları olan özel DTO biçimi"
   },
   {
     "en": "Address",
@@ -70,6 +80,11 @@ window.GLOSSARY = [
     "note": "Bir değişkene değer atayan ifade"
   },
   {
+    "en": "Atomic Operation",
+    "tr": "Atomik İşlem (Atomic Operation)",
+    "note": "Bölünemeyen, tek adımda bütün olarak gerçekleşen işlem; birlikte anlam taşıyan değerlerin tek çağrıyla ayarlanması"
+  },
+  {
     "en": "Attention to Detail",
     "tr": "Detaylara Dikkat (Attention to Detail)",
     "note": "Temiz kodun temel özelliği"
@@ -93,6 +108,11 @@ window.GLOSSARY = [
     "en": "Bad Code",
     "tr": "Kötü Kod (Bad Code)",
     "note": "Bakımı zor, okunması güç kod"
+  },
+  {
+    "en": "Bean",
+    "tr": "Bean",
+    "note": "Private alanlarına getter ve setter ile erişilen veri sınıfı (JavaBean); terim çevrilmez"
   },
   {
     "en": "Beautiful Code",
@@ -123,6 +143,11 @@ window.GLOSSARY = [
     "en": "Bug",
     "tr": "Hata (Bug)",
     "note": "Sektörde \"bug\" olarak da kullanılır"
+  },
+  {
+    "en": "Business Rule",
+    "tr": "İş Kuralı (Business Rule)",
+    "note": "Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir"
   },
   {
     "en": "Callee",
@@ -318,6 +343,11 @@ window.GLOSSARY = [
     "en": "Data Structure",
     "tr": "Veri Yapısı (Data Structure)",
     "note": "Verisini açıkça gösteren, anlamlı davranışı olmayan yapı"
+  },
+  {
+    "en": "Data Transfer Object (DTO)",
+    "tr": "Veri Aktarım Nesnesi (Data Transfer Object / DTO)",
+    "note": "Public değişkenleri olan, fonksiyonu olmayan saf veri yapısı; veritabanı ve soket sınırlarında kullanılır"
   },
   {
     "en": "Data Type",
@@ -755,6 +785,11 @@ window.GLOSSARY = [
     "note": "Kodun genelden özele doğru soyutluk derecesi"
   },
   {
+    "en": "Level of Detail",
+    "tr": "Ayrıntı Seviyesi (Level of Detail)",
+    "note": "Kodun ne kadar alt seviye ayrıntı (nokta, eğik çizgi, dosya uzantısı vb.) içerdiği; farklı ayrıntı seviyeleri aynı kodda karıştırılmamalıdır [G34][G6]"
+  },
+  {
     "en": "Lexicon",
     "tr": "Sözlük (Lexicon)",
     "note": "Bir projedeki tutarlı terimler bütünü"
@@ -955,6 +990,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Object-Oriented Code",
+    "tr": "Nesne Yönelimli Kod (Object-Oriented Code)",
+    "note": "Davranışı nesnelere dağıtan kod; yeni sınıf eklemeyi kolaylaştırır, yeni fonksiyon eklemeyi zorlaştırır (sayfa 97)"
+  },
+  {
     "en": "Object-Oriented Design",
     "tr": "Nesne Yönelimli Tasarım (Object-Oriented Design)",
     "note": ""
@@ -1088,6 +1128,11 @@ window.GLOSSARY = [
     "en": "Pun",
     "tr": "Kelime Oyunu (Pun)",
     "note": "Bir kelimenin iki farklı anlamda kullanılması"
+  },
+  {
+    "en": "Quasi-Encapsulation",
+    "tr": "Yarı Kapsülleme (Quasi-Encapsulation)",
+    "note": "Bean'lerin getter/setter ile sağladığı, pratikte hiçbir şeyi gizlemeyen görünüşte kapsülleme"
   },
   {
     "en": "Race Condition",
@@ -1318,6 +1363,11 @@ window.GLOSSARY = [
     "en": "Synopsis",
     "tr": "Özet (Synopsis)",
     "note": "Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar"
+  },
+  {
+    "en": "Talk to Friends, Not to Strangers",
+    "tr": "Yabancılarla Değil, Arkadaşlarla Konuş (Talk to Friends, Not to Strangers)",
+    "note": "Demeter Yasası'nın özlü ifadesi: metot yalnızca doğrudan tanıdığı nesnelerle konuşmalı, onların döndürdüğü nesnelerin metotlarını çağırmamalıdır"
   },
   {
     "en": "Teardown",

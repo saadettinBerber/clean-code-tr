@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 93,
+  "last_translated_page": 102,
   "chapters": [
     {
       "num": 1,
@@ -855,6 +855,74 @@
       "title_tr": "Veri Soyutlama (Data Abstraction)",
       "section_en": "Data Abstraction",
       "section_tr": "Veri Soyutlama (Data Abstraction)"
+    },
+    "94": {
+      "pdf_page": 94,
+      "chapter": 6,
+      "title_en": "Concrete vs. Abstract Point and Vehicle",
+      "title_tr": "Somut ve Soyut Nokta ile Araç",
+      "section_en": "Data Abstraction",
+      "section_tr": "Veri Soyutlama (Data Abstraction)"
+    },
+    "95": {
+      "pdf_page": 95,
+      "chapter": 6,
+      "title_en": "Data/Object Anti-Symmetry",
+      "title_tr": "Veri/Nesne Karşı Simetrisi",
+      "section_en": "Data Abstraction",
+      "section_tr": "Veri Soyutlama (Data Abstraction)"
+    },
+    "96": {
+      "pdf_page": 96,
+      "chapter": 6,
+      "title_en": "Procedural vs. Polymorphic Shapes",
+      "title_tr": "Prosedürel ve Çok Biçimli Şekiller",
+      "section_en": "Data/Object Anti-Symmetry",
+      "section_tr": "Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry)"
+    },
+    "97": {
+      "pdf_page": 97,
+      "chapter": 6,
+      "title_en": "Objects vs. Procedures and the Law of Demeter",
+      "title_tr": "Nesneler ve Prosedürler, Demeter Yasası",
+      "section_en": "Data/Object Anti-Symmetry",
+      "section_tr": "Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry)"
+    },
+    "98": {
+      "pdf_page": 98,
+      "chapter": 6,
+      "title_en": "Train Wrecks",
+      "title_tr": "Tren Kazaları (Train Wrecks)",
+      "section_en": "The Law of Demeter",
+      "section_tr": "Demeter Yasası (Law of Demeter)"
+    },
+    "99": {
+      "pdf_page": 99,
+      "chapter": 6,
+      "title_en": "Hybrids and Hiding Structure",
+      "title_tr": "Melez Yapılar ve Yapıyı Gizleme",
+      "section_en": "The Law of Demeter",
+      "section_tr": "Demeter Yasası (Law of Demeter)"
+    },
+    "100": {
+      "pdf_page": 100,
+      "chapter": 6,
+      "title_en": "Hiding Structure and Data Transfer Objects",
+      "title_tr": "Yapıyı Gizleme ve Veri Aktarım Nesneleri",
+      "section_en": "The Law of Demeter",
+      "section_tr": "Demeter Yasası (Law of Demeter)"
+    },
+    "101": {
+      "pdf_page": 101,
+      "chapter": 6,
+      "title_en": "Active Record and Conclusion",
+      "title_tr": "Aktif Kayıt ve Sonuç",
+      "section_en": "Data Transfer Objects",
+      "section_tr": "Veri Aktarım Nesneleri (Data Transfer Objects)"
+    },
+    "102": {
+      "blank": true,
+      "pdf_page": 102
     }
   }
 }
