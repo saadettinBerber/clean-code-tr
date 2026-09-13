@@ -295,9 +295,24 @@ window.GLOSSARY = [
     "note": "Grady Booch'un temiz kod tanımından; net ve öz soyutlama"
   },
   {
+    "en": "Data Abstraction",
+    "tr": "Veri Soyutlama (Data Abstraction)",
+    "note": "Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma"
+  },
+  {
+    "en": "Data Structure",
+    "tr": "Veri Yapısı (Data Structure)",
+    "note": "Verisini açıkça gösteren, anlamlı davranışı olmayan yapı"
+  },
+  {
     "en": "Data Type",
     "tr": "Veri Türü (Data Type)",
     "note": "Bir değişkenin veya değerin türünü belirten kavram"
+  },
+  {
+    "en": "Data/Object Anti-Symmetry",
+    "tr": "Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry)",
+    "note": "Nesneler yeni türü, veri yapıları yeni işlemi kolaylaştırır"
   },
   {
     "en": "Deadline",
@@ -388,6 +403,11 @@ window.GLOSSARY = [
     "en": "Don't Repeat Yourself (DRY)",
     "tr": "Kendini Tekrar Etme (Don't Repeat Yourself / DRY)",
     "note": "Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı"
+  },
+  {
+    "en": "Double Dispatch",
+    "tr": "Çift Gönderim (Double Dispatch)",
+    "note": "Çağrılacak metodu iki nesnenin türüne göre seçme tekniği"
   },
   {
     "en": "Duplication",
@@ -663,6 +683,11 @@ window.GLOSSARY = [
     "en": "Language Bigot",
     "tr": "Dil Bağnazı (Language Bigot)",
     "note": ""
+  },
+  {
+    "en": "Law of Demeter",
+    "tr": "Demeter Yasası (Law of Demeter)",
+    "note": "Bir modül üzerinde çalıştığı nesnelerin iç yapısını bilmemelidir"
   },
   {
     "en": "LeBlanc's Law",
@@ -973,6 +998,11 @@ window.GLOSSARY = [
     "en": "Problem Domain",
     "tr": "Problem Alanı (Problem Domain)",
     "note": ""
+  },
+  {
+    "en": "Procedural Code",
+    "tr": "Prosedürel Kod (Procedural Code)",
+    "note": "Veri yapıları üzerinde çalışan fonksiyonlarla yazılan kod"
   },
   {
     "en": "Productivity",

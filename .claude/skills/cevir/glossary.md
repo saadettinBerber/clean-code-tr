@@ -67,7 +67,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Coupling | Bağımlılık (Coupling) | Bileşenlerin birbirine bağımlılığı |
 | Craftsmanship | Zanaat / Ustalık (Craftsmanship) | Yazılım zanaatı |
 | Crisp Abstraction | Keskin Soyutlama (Crisp Abstraction) | Grady Booch'un temiz kod tanımından; net ve öz soyutlama |
+| Data Abstraction | Veri Soyutlama (Data Abstraction) | Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma |
+| Data Structure | Veri Yapısı (Data Structure) | Verisini açıkça gösteren, anlamlı davranışı olmayan yapı |
 | Data Type | Veri Türü (Data Type) | Bir değişkenin veya değerin türünü belirten kavram |
+| Data/Object Anti-Symmetry | Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry) | Nesneler yeni türü, veri yapıları yeni işlemi kolaylaştırır |
 | Deadline | Son Teslim Tarihi (Deadline) | Projenin teslim edilmesi gereken tarih |
 | Decay | Çürüme (Decay) | Kırık pencereler metaforunda kodun giderek kötüleşmesi |
 | Decisive | Kararlı (Decisive) | Kodun tereddütsüz ve kesin olması |
@@ -86,6 +89,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Domain Expert | Alan Uzmanı (Domain Expert) | İş alanına (problem alanına) hakim uzman kişi |
 | Domain-Specific Language | Alana Özgü Dil (Domain-Specific Language) |  |
 | Don't Repeat Yourself (DRY) | Kendini Tekrar Etme (Don't Repeat Yourself / DRY) | Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı |
+| Double Dispatch | Çift Gönderim (Double Dispatch) | Çağrılacak metodu iki nesnenin türüne göre seçme tekniği |
 | Duplication | Tekrar (Duplication) | DRY ilkesi: Don't Repeat Yourself |
 | Dyadic | İkili (Dyadic) | İki argümanlı fonksiyon |
 | Efficiency | Verimlilik (Efficiency) | Kodun performans ve kaynak kullanımı açısından etkinliği |
@@ -141,6 +145,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Journal Comment | Günlük Yorumu (Journal Comment) | Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum |
 | Keyword Form | Anahtar Kelime Formu (Keyword Form) | Argüman isimlerini fonksiyon adına kodlama tekniği |
 | Language Bigot | Dil Bağnazı (Language Bigot) |  |
+| Law of Demeter | Demeter Yasası (Law of Demeter) | Bir modül üzerinde çalıştığı nesnelerin iç yapısını bilmemelidir |
 | LeBlanc's Law | LeBlanc Yasası (LeBlanc's Law) | "Sonra asla demektir" (Later equals never) |
 | Legal Comment | Yasal Yorum (Legal Comment) | Telif hakkı, lisans gibi yasal zorunlulukları belirten yorum |
 | Level of Abstraction | Soyutlama Seviyesi (Level of Abstraction) | Kodun genelden özele doğru soyutluk derecesi |
@@ -203,6 +208,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Principle | İlke (Principle) |  |
 | Principle of Least Surprise | En Az Şaşırtma İlkesi (Principle of Least Surprise) |  |
 | Problem Domain | Problem Alanı (Problem Domain) |  |
+| Procedural Code | Prosedürel Kod (Procedural Code) | Veri yapıları üzerinde çalışan fonksiyonlarla yazılan kod |
 | Productivity | Verimlilik (Productivity) |  |
 | Professional | Profesyonel (Professional) |  |
 | Programmer-eese | Programcı Dili (Programmer-eese) | Programcıların kendi aralarında kullandığı teknik jargon |
