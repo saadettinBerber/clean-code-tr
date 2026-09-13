@@ -1,6 +1,6 @@
 window.TOC = {
   "bookTotalPages": 431,
-  "pdfOffset": 31,
+  "pdfOffset": 0,
   "lastTranslatedPage": 87,
   "chapters": [
     {
@@ -1076,7 +1076,7 @@ window.TOC = {
       },
       "section": {
         "en": "Horizontal Formatting",
-        "tr": "Yatay Biçimlendirme (Horizontal Formatting)"
+        "tr": "Yatay Biçimlendirme"
       },
       "chapter": 5
     }

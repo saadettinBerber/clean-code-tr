@@ -1,8 +1,8 @@
 {
-  "book_pdf": "[PROGRAMMING][Clean Code by Robert C Martin].pdf",
-  "pdf_offset": 31,
+  "book_pdf": "my_book.pdf",
+  "pdf_offset": 0,
   "book_total_pages": 431,
-  "pdf_total_pages": 462,
+  "pdf_total_pages": 431,
   "pages_per_run": 3,
   "last_translated_page": 87,
   "chapters": [
@@ -801,12 +801,12 @@
       "section_tr": "Yatay Biçimlendirme"
     },
     "87": {
-      "pdf_page": 118,
+      "pdf_page": 87,
       "chapter": 5,
       "title_en": "Horizontal Alignment",
       "title_tr": "Yatay Hizalama",
       "section_en": "Horizontal Formatting",
-      "section_tr": "Yatay Biçimlendirme (Horizontal Formatting)"
+      "section_tr": "Yatay Biçimlendirme"
     }
   }
 }
