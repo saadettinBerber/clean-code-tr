@@ -55,6 +55,21 @@ window.GLOSSARY = [
     "note": "Tekrarı kaldırma stratejilerinden biri"
   },
   {
+    "en": "Assembly Language",
+    "tr": "Assembly Dili (Assembly Language)",
+    "note": "Makine koduna çok yakın, düşük seviyeli programlama dili"
+  },
+  {
+    "en": "Assignment Operator",
+    "tr": "Atama Operatörü (Assignment Operator)",
+    "note": "Sağ taraftaki değeri sol taraftaki değişkene atayan operatör (=)"
+  },
+  {
+    "en": "Assignment Statement",
+    "tr": "Atama İfadesi (Assignment Statement)",
+    "note": "Bir değişkene değer atayan ifade"
+  },
+  {
     "en": "Attention to Detail",
     "tr": "Detaylara Dikkat (Attention to Detail)",
     "note": "Temiz kodun temel özelliği"
@@ -230,9 +245,19 @@ window.GLOSSARY = [
     "note": "Metodu küçük adımlara bölerek oluşturma"
   },
   {
+    "en": "Conceptual Affinity",
+    "tr": "Kavramsal Yakınlık (Conceptual Affinity)",
+    "note": "Kod parçalarının kavramsal olarak birbirine yakın olması; doğrudan bağımlılık ya da benzer işlem yapma nedeniyle olabilir; yakınlık arttıkça dikey mesafe azalmalı"
+  },
+  {
     "en": "Consistent Lexicon",
     "tr": "Tutarlı Kelime Haznesi (Consistent Lexicon)",
     "note": "Kod tabanında tutarlı terimler kullanma prensibi"
+  },
+  {
+    "en": "Constant",
+    "tr": "Sabit (Constant)",
+    "note": "Programın çalışması boyunca değişmeyen, adlandırılmış değer; uygun soyutlama seviyesinde tutulmalıdır [G35]"
   },
   {
     "en": "Container",
@@ -500,6 +525,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Function Call Dependency",
+    "tr": "Fonksiyon Çağrı Bağımlılığı (Function Call Dependency)",
+    "note": "Bir fonksiyonun başka bir fonksiyonu çağırmasından doğan bağımlılık; aşağı yönü göstermelidir"
+  },
+  {
     "en": "Function Header",
     "tr": "Fonksiyon Başlığı (Function Header)",
     "note": "Fonksiyonun başına eklenen açıklama bloğu"
@@ -533,6 +563,31 @@ window.GLOSSARY = [
     "en": "Heuristic",
     "tr": "Sezgisel Kural (Heuristic)",
     "note": ""
+  },
+  {
+    "en": "Hollerith Limit",
+    "tr": "Hollerith Sınırı (Hollerith Limit)",
+    "note": "Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir"
+  },
+  {
+    "en": "Horizontal Alignment",
+    "tr": "Yatay Hizalama (Horizontal Alignment)",
+    "note": "Tanımlamalardaki isimleri ya da atamalardaki değerleri boşluklarla aynı sütuna dizme; yanlış şeyleri vurguladığı için önerilmez"
+  },
+  {
+    "en": "Horizontal Formatting",
+    "tr": "Yatay Biçimlendirme (Horizontal Formatting)",
+    "note": "Satır genişliği ve satır içi boşluklarla ilgili biçimlendirme; kısa satırlar tercih edilir (en fazla ~120 karakter)"
+  },
+  {
+    "en": "Horizontal Openness and Density",
+    "tr": "Yatay Açıklık ve Yoğunluk (Horizontal Openness and Density)",
+    "note": "İlişkili öğeleri bitişik yazma, zayıf ilişkili öğeleri yatay boşlukla ayırma"
+  },
+  {
+    "en": "Horizontal White Space",
+    "tr": "Yatay Boşluk (Horizontal White Space)",
+    "note": "Satır içindeki boşluklar; güçlü ilişkiyi birleştirmek, zayıf ilişkiyi ayırmak için kullanılır"
   },
   {
     "en": "Implicity",
@@ -643,6 +698,11 @@ window.GLOSSARY = [
     "en": "Loop Control Variable",
     "tr": "Döngü Kontrol Değişkeni (Loop Control Variable)",
     "note": "Döngünün yinelemesini yöneten değişken; genellikle döngü ifadesinin içinde tanımlanır"
+  },
+  {
+    "en": "Low-Level",
+    "tr": "Alt Seviye (Low-Level)",
+    "note": "Ayrıntılara ve mekanizmaya yakın kod; üst seviye (high-level) kodun çağırdığı katman"
   },
   {
     "en": "Magic Number",
@@ -835,6 +895,11 @@ window.GLOSSARY = [
     "note": "Genişletmeye açık, değişikliğe kapalı prensibi"
   },
   {
+    "en": "Operator Precedence",
+    "tr": "Operatör Önceliği (Operator Precedence)",
+    "note": "Bir ifadede operatörlerin hangi sırayla değerlendirileceği; ör. çarpma toplamadan önce"
+  },
+  {
     "en": "Output Argument",
     "tr": "Çıkış Argümanı (Output Argument)",
     "note": "Değer döndürmek için kullanılan argüman"
@@ -1018,6 +1083,11 @@ window.GLOSSARY = [
     "en": "Routine",
     "tr": "Rutin (Routine)",
     "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
+  },
+  {
+    "en": "rvalue",
+    "tr": "Sağ Taraf Değeri (rvalue)",
+    "note": "Bir atama ifadesinde eşittir işaretinin sağında kalan değer"
   },
   {
     "en": "Scary Noise",
@@ -1263,6 +1333,11 @@ window.GLOSSARY = [
     "en": "Vertical Openness",
     "tr": "Dikey Açıklık (Vertical Openness)",
     "note": "Kavramları birbirinden boş satırlarla ayırma; her satır grubu tam bir düşünceyi temsil eder"
+  },
+  {
+    "en": "Vertical Ordering",
+    "tr": "Dikey Sıralama (Vertical Ordering)",
+    "note": "Çağrılan fonksiyonun çağıranın altında yer alması; kaynak dosya üst seviyeden alt seviyeye akar"
   },
   {
     "en": "Visitor Pattern",

@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 31,
-  "lastTranslatedPage": 82,
+  "lastTranslatedPage": 87,
   "chapters": [
     {
       "num": 1,
@@ -1022,6 +1022,61 @@ window.TOC = {
       "section": {
         "en": "Vertical Formatting",
         "tr": "Dikey Biçimlendirme (Vertical Formatting)"
+      },
+      "chapter": 5
+    },
+    "83": {
+      "title": {
+        "en": "Dependent Functions (continued): Constants at the Right Level",
+        "tr": "Bağımlı Fonksiyonlar (devam): Sabitler Doğru Seviyede"
+      },
+      "section": {
+        "en": "Vertical Formatting",
+        "tr": "Dikey Biçimlendirme (Vertical Formatting)"
+      },
+      "chapter": 5
+    },
+    "84": {
+      "title": {
+        "en": "Conceptual Affinity and Vertical Ordering",
+        "tr": "Kavramsal Yakınlık ve Dikey Sıralama"
+      },
+      "section": {
+        "en": "Vertical Formatting",
+        "tr": "Dikey Biçimlendirme (Vertical Formatting)"
+      },
+      "chapter": 5
+    },
+    "85": {
+      "title": {
+        "en": "Horizontal Formatting: How Wide Should a Line Be?",
+        "tr": "Yatay Biçimlendirme: Bir Satır Ne Kadar Geniş Olmalı?"
+      },
+      "section": {
+        "en": "Horizontal Formatting",
+        "tr": "Yatay Biçimlendirme (Horizontal Formatting)"
+      },
+      "chapter": 5
+    },
+    "86": {
+      "title": {
+        "en": "Horizontal Openness and Density",
+        "tr": "Yatay Açıklık ve Yoğunluk"
+      },
+      "section": {
+        "en": "Horizontal Formatting",
+        "tr": "Yatay Biçimlendirme"
+      },
+      "chapter": 5
+    },
+    "87": {
+      "title": {
+        "en": "Horizontal Alignment",
+        "tr": "Yatay Hizalama"
+      },
+      "section": {
+        "en": "Horizontal Formatting",
+        "tr": "Yatay Biçimlendirme (Horizontal Formatting)"
       },
       "chapter": 5
     }
