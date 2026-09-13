@@ -6,14 +6,13 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 
 ## PDF Bilgileri
 
-- **PDF Dosya Yolu**: `progress.json` → `book_pdf` (depo köküne göreli; araçlar yolu buradan okur, elle yazılan mutlak yol kullanılmaz)
-- **Sayfa Offset**: PDF sayfa numarası = Kitap sayfa numarası + 31 (`progress.json` → `pdf_offset`)
-  - Örnek: Kitap sayfa 1 = PDF sayfa 32
-  - Örnek: Kitap sayfa 10 = PDF sayfa 41
+- **PDF Dosya Yolu**: `progress.json` → `book_pdf` (depo köküne göreli; araçlar yolu buradan okur, elle yazılan mutlak yol kullanılmaz). Güncel dosya: `my_book.pdf` — bu sürümde ön kısım (kapak, Foreword, Introduction) yok, PDF doğrudan Chapter 1 ile başlıyor.
+- **Sayfa Offset**: PDF sayfa numarası = Kitap sayfa numarası (offset 0, `progress.json` → `pdf_offset`)
+  - Örnek: Kitap sayfa 1 = PDF sayfa 1
+  - Örnek: Kitap sayfa 10 = PDF sayfa 10
 - **Kitap Yapısı**:
-  - Foreword: PDF sayfa 20-22
-  - Introduction: PDF sayfa 26-28
-  - Chapter 1 (Clean Code): PDF sayfa 32'den başlar (kitap sayfa 1)
+  - Foreword / Introduction: bu PDF'te yok (araçlar bu bölümleri atlamalı)
+  - Chapter 1 (Clean Code): PDF sayfa 1'den başlar (kitap sayfa 1)
   - Tüm bölümlerin (17 bölüm + Ekler) başlangıç sayfaları `progress.json` → `chapters` tablosundadır.
 
 ## İlerleme Takibi (progress.json)
@@ -61,7 +60,6 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ```
 Clean Code/
 ├── index.html                  Okuyucu uygulaması (tek sayfa, kitap benzeri arayüz)
-├── notes.html                  Çalışma notları görünümü (notes.html#chapter-N)
 ├── css/reader.css              Okuyucu stili
 ├── js/
 │   ├── reader.js               Okuyucu motoru (tek/çift sayfa görünümü, gezinme, adres yönlendirme)
@@ -72,12 +70,10 @@ Clean Code/
 │   ├── concepts.js             Kavram kartları (few-shot modal)
 │   ├── panels.js               İçindekiler ve sözlük çekmeceleri
 │   ├── cover.js                Kapak görünümü (ilerleme, bölüm listesi)
-│   ├── notes.js                Çalışma notlarını yükler ve çizer (Blocks + Concepts yeniden kullanılır)
 │   └── highlight.js            Kod vurgulama (syntax highlighting)
 ├── data/
 │   ├── toc.js                  window.TOC — ÜRETİLİR (tools/toc_builder.py), elle düzenlenmez
 │   ├── glossary.js             window.GLOSSARY — ÜRETİLİR (glossary.md'den), elle düzenlenmez
-│   ├── notes/chapter-N.js      window.NOTES({chapter, sets}) — bölüm çalışma notları + kavram kartları
 │   └── pages/
 │       ├── page-N.js           Çevrilmiş sayfa: window.PAGE({...}) — format: tools/FORMAT.md
 │       └── page-N_images/      Sayfadan çıkarılan PNG görseller
@@ -138,13 +134,6 @@ Kullanıcı `/cevir N`, `/cevir next`, "sıradaki sayfa", "devam et" vb. dediği
 
 Yeni bir bölüme geçerken özel bir işlem gerekmez; `chapters` tablosu tüm bölümleri başlangıç sayfalarıyla zaten içerir.
 
-## Çalışma Notları (Sayfa 88 ve sonrası)
-
-- Sayfa 87'den sonrası tam çeviri olarak eklenmez (kitabın metni ve kod listeleri birebir kopyalanmaz). Bunun yerine her bölüm için `data/notes/chapter-N.js` dosyasına kendi cümlelerimizle yazılmış iki dilli çalışma notları eklenir.
-- Bir not seti (`sets[]`): `id`, `pages: [ilk, son]`, `title {en, tr}`, `blocks` (yalnız `heading`, `para`, `list`; şema `tools/FORMAT.md` ile aynı) ve `concepts` (2-4 yapılı kart, kitaptakinden FARKLI özgün örneklerle).
-- Notlar ana fikirleri, gerekçeleri ve kuralları anlatır; kitaptaki cümleler yakın biçimde yeniden yazılmaz, kod listeleri kopyalanmaz (gerekirse yalnız adıyla anılır, ör. Listing 5-6 `CodeAnalyzer`).
-- Görüntüleme: `notes.html#chapter-N` (dil modu okuyucuyla ortak `localStorage` anahtarını kullanır). Not dosyası değişince `js/notes.js` içindeki `ASSET_VERSION` artırılır.
-
 ## Okuyucu (Reader) Özellikleri
 
 - **Kitap benzeri sayfa**: Basılı kitaptaki gibi koşu başlığı (bölüm / kesit) ve sayfa numarası taşıyan sayfa yaprağı.
@@ -155,11 +144,6 @@ Yeni bir bölüme geçerken özel bir işlem gerekmez; `chapters` tablosu tüm b
 - **Kod listeleri**: Çerçeveli kutu, "Listing" caption'ı ve syntax highlighting ile çizilir.
 - **Kavram butonları**: Her sayfanın altında; tıklanınca kötü/iyi örnekli few-shot modal açılır.
 - **Navigasyon**: Önceki/sonraki oklar, klavye ← →, dokunmatik kaydırma (swipe). Derin bağlantı: `index.html#page-32`. Son okunan sayfa hatırlanır.
-
-## Antigravity IDE Aynası (AGENTS.md)
-
-- `AGENTS.md` ve `.agent/skills/cevir/SKILL.md`, Antigravity IDE için `CLAUDE.md` ve `.claude/skills/cevir/SKILL.md` dosyalarının birebir kopyasıdır; `.agent/rules/translation-style.md` de `.claude/rules/translation-style.md` ile aynıdır.
-- Bu dosyalardan biri değişince aynası da güncellenir (`cp CLAUDE.md AGENTS.md` vb.). Kaynak her zaman `.claude/` tarafıdır.
 
 ## Önemli Notlar
 
