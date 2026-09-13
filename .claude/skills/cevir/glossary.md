@@ -22,6 +22,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Argument Object | Argüman Nesnesi (Argument Object) | Birden fazla argümanı bir sınıfa sarma tekniği |
 | Aspect Oriented Programming | Görünüm Yönelimli Programlama (AOP) | Tekrarı kaldırma stratejilerinden biri |
 | Assembly Language | Assembly Dili (Assembly Language) | Makine koduna çok yakın, düşük seviyeli programlama dili |
+| Assertion | Doğrulama İfadesi (Assertion) | Doğru olması gereken bir koşulu çalışma anında denetleyen ifade (assert); iyi bir belgelemedir ama null sorununu çözmez |
 | Assignment Operator | Atama Operatörü (Assignment Operator) | Sağ taraftaki değeri sol taraftaki değişkene atayan operatör (=) |
 | Assignment Statement | Atama İfadesi (Assignment Statement) | Bir değişkene değer atayan ifade |
 | Atomic Operation | Atomik İşlem (Atomic Operation) | Bölünemeyen, tek adımda bütün olarak gerçekleşen işlem; birlikte anlam taşıyan değerlerin tek çağrıyla ayarlanması |
@@ -42,6 +43,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Caller | Çağıran Fonksiyon (Caller) | Başka bir fonksiyonu çağıran fonksiyon |
 | Care | Önemseme (Care) | Zanaata ve koda duyulan özen |
 | Chain of Inheritance | Kalıtım Zinciri (Chain of Inheritance) | Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi |
+| Checked Exception | Denetlenen İstisna (Checked Exception) | Java'da metot imzasında throws ile bildirilmesi derleyici tarafından zorunlu tutulan istisna |
 | Clarification | Netleştirme (Clarification) | Karmaşık kütüphane çağrılarını veya dönüş değerlerini açıklayan yorum |
 | Clarity | Açıklık (Clarity) | Kodun anlaşılırlığı |
 | Class | Sınıf (Class) |  |
@@ -107,9 +109,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Encapsulation | Kapsülleme (Encapsulation) |  |
 | Entity | Varlık (Entity) | Sınıf, metot, fonksiyon gibi yapı |
 | Error Code | Hata Kodu (Error Code) | Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi |
+| Error Flag | Hata Bayrağı (Error Flag) | Hata oluştuğunu belirtmek için ayarlanan ve çağıranın kontrol etmesi gereken değişken; istisnaların eski alternatifi |
 | Error Handling | Hata Yönetimi (Error Handling) | Hataları yakalama ve işleme stratejisi |
 | Event (argument form) | Olay (Event) | Tek argümanlı fonksiyonların üçüncü ortak formu: bir girdi argümanı alır ama çıktı döndürmez, çağrının bir olay olarak yorumlanmasını ve sistemin durumunu değiştirmesini amaçlar. |
 | Exception | İstisna (Exception) | Hata yönetimi bağlamında |
+| Exception Class | İstisna Sınıfı (Exception Class) | Hatayı temsil eden sınıf; en önemli ölçüt, çağıranın onu nasıl yakalayacağıdır |
+| Exception Classification | İstisna Sınıflandırması (Exception Classification) | İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı |
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
 | Explicit | Açık (Explicit) | Bağlamın kodda doğrudan yer alması |
 | Expressiveness | İfade Gücü (Expressiveness) | Kodun tasarım fikirlerini açıkça iletmesi |
@@ -144,6 +149,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Horizontal Openness and Density | Yatay Açıklık ve Yoğunluk (Horizontal Openness and Density) | İlişkili öğeleri bitişik yazma, zayıf ilişkili öğeleri yatay boşlukla ayırma |
 | Horizontal White Space | Yatay Boşluk (Horizontal White Space) | Satır içindeki boşluklar; güçlü ilişkiyi birleştirmek, zayıf ilişkiyi ayırmak için kullanılır |
 | Hybrid | Melez Yapı (Hybrid) | Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı |
+| Immutable | Değiştirilemez (Immutable) | Oluşturulduktan sonra durumu değiştirilemeyen nesne/koleksiyon; ör. Collections.emptyList() |
 | Implementation | Gerçekleştirim (Implementation) | Bir arayüzün ya da soyutlamanın somut kod karşılığı; Bölüm 6'da veri soyutlama ve gizleme bağlamında sürekli geçer |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
 | Include Directive | Dahil Etme Yönergesi (Include Directive) | FitNesse'de sayfa dahil etme komutu |
@@ -190,6 +196,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Mis-type | Yanlış Yazım (Mis-type) |  |
 | Misleading Comment | Yanıltıcı Yorum (Misleading Comment) | Kodun gerçekte yaptığından farklı bir şey söyleyen hatalı yorum |
 | Misspelling | Kasıtlı Yazım Hatası (Misspelling) | Derleyiciyi tatmin etmek için yapılan yanlış yazım (ör. klass) |
+| Mock | Taklit (Mock) | Test sırasında gerçek bağımlılığın yerine geçen sahte uygulama; 'mock out' = taklit etmek |
 | Module | Modül (Module) |  |
 | Monadic | Tekli (Monadic) | Bir argümanlı fonksiyon |
 | Mumbling | Mırıldanma (Mumbling) | Belirsiz, özensiz veya ne dediği anlaşılmayan yorum |
@@ -203,7 +210,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Noise Comment | Gürültü Yorumu (Noise Comment) | Hiçbir değer katmayan, bariz olanı tekrar eden yorum |
 | Noise Word | Gürültü Kelimesi (Noise Word) | İsme anlam katmayan ek (Info, Data, the, a) |
 | Nonlocal Information | Yerel Olmayan Bilgi (Nonlocal Information) | Bulunduğu yerle doğrudan ilgili olmayan sistem bilgisi |
+| Normal Flow | Normal Akış (Normal Flow) | Hata durumlarıyla kesintiye uğramayan, asıl iş akışı |
 | Normal Forms | Normal Formlar (Normal Forms) | Codd'un veritabanı tekrar kaldırma stratejisi |
+| Null Check | null Kontrolü (Null Check) | Bir değerin null olup olmadığını denetleyen koşul; çoğalması null döndürmenin belirtisidir |
 | Number-Series Naming | Numara Serili İsimlendirme (Number-Series Naming) | a1, a2, aN şeklinde anlamsız numara ekleme |
 | Object | Nesne (Object) |  |
 | Object-Oriented Code | Nesne Yönelimli Kod (Object-Oriented Code) | Davranışı nesnelere dağıtan kod; yeni sınıf eklemeyi kolaylaştırır, yeni fonksiyon eklemeyi zorlaştırır (sayfa 97) |
@@ -249,7 +258,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Release Cycle | Yayın Döngüsü (Release Cycle) | Ürün sürüm yayınlama süreci |
 | Renaming | Yeniden Adlandırma (Renaming) | Değişken/fonksiyon/sınıf adını değiştirme |
 | Requirement | Gereksinim (Requirement) |  |
+| Return Code | Dönüş Kodu (Return Code) | Fonksiyonun başarı/hata durumunu dönüş değeriyle bildirmesi; Bölüm 7 bunun yerine istisna kullanmayı önerir |
 | Routine | Rutin (Routine) | Programlamanın ilk günlerindeki fonksiyon benzeri yapı |
+| Runtime Error | Çalışma Zamanı Hatası (Runtime Error) | Derleme sırasında değil, program çalışırken ortaya çıkan hata |
 | rvalue | Sağ Taraf Değeri (rvalue) | Bir atama ifadesinde eşittir işaretinin sağında kalan değer |
 | Scary Noise | Korkunç Gürültü (Scary Noise) | Bariz olanı karmaşık Javadoc formatında tekrar eden sinir bozucu yorum |
 | Schedule | Takvim / Zamanlama (Schedule) |  |
@@ -269,12 +280,16 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship) |  |
 | Solution Domain | Çözüm Alanı (Solution Domain) |  |
 | Source File | Kaynak Dosyası (Source File) | Programın kaynak kodunu içeren dosya |
+| Special Case Object | Özel Durum Nesnesi (Special Case Object) | Null yerine döndürülen, eksik durum için makul varsayılan davranışı kapsülleyen nesne (SPECIAL CASE deseni) |
+| Special Case Pattern | Özel Durum Deseni (Special Case Pattern) | Özel durumu kendisi ele alan bir sınıf/nesne döndürerek istemci kodu istisna yönetiminden kurtaran desen [Fowler] |
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
+| Stack Trace | Yığın İzi (Stack Trace) | İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez |
 | Static Initializer | Statik Başlatıcı (Static Initializer) | Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
 | Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
 | StringBuffer | StringBuffer | Java'da değiştirilebilir dizgi nesnesi |
 | Structured Programming | Yapısal Programlama (Structured Programming) | Dijkstra'nın tek giriş / tek çıkış kuralları |
+| Stub | Geçici Gövde (Stub) | Gerçek gerçekleştirim yazılana kadar yer tutan, sahte değer döndüren asgari kod |
 | Subprogram | Alt Program (Subprogram) | Fortran/PL1 döneminde kullanılan program parçası |
 | Subroutine | Alt Rutin (Subroutine) | Programlamanın ilk günlerindeki alt program yapısı |
 | Subscript | Alt İndis (Subscript) | Dizi veya koleksiyondaki öğeye erişim indeksi |
@@ -287,13 +302,16 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Temporal Coupling | Zamansal Bağımlılık (Temporal Coupling) | Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu |
 | Test | Test | Çevrilmez |
 | Test Driven Development | Test Güdümlü Geliştirme (Test Driven Development / TDD) | Önce test yaz, sonra kodu yaz disiplini |
+| Third-Party API | Üçüncü Taraf API (Third-Party API) | Başka bir satıcı ya da ekip tarafından sağlanan API; sarmalanarak bağımlılık azaltılır |
 | Tiger Team | Kaplan Ekibi (Tiger Team) | En yetenekli geliştiricilerden oluşan ekip |
 | TO Paragraph | TO Paragrafı | Fonksiyonun ne yaptığını "Bunu yapmak için (TO)..." kalıbıyla anlatan cümle; LOGO dilindeki TO anahtar kelimesinden esinlenilmiştir |
 | TODO | TODO / Yapılacaklar (TODO) | Gelecek için bırakılan notlar ve hatırlatıcılar |
 | Train Wreck | Tren Kazası (Train Wreck) | Birbirine noktayla bağlanmış çağrı zinciri; Demeter Yasası ihlalinin tipik görüntüsü |
+| Transaction | İşlem (Transaction) | Ya bütünüyle gerçekleşen ya da hiç gerçekleşmemiş sayılan iş birimi; try blokları buna benzetilir |
 | Transformation | Dönüşüm (Transformation) | Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi |
 | Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
 | Type System | Tür Sistemi (Type System) |  |
+| Unchecked Exception | Denetlenmeyen İstisna (Unchecked Exception) | Bildirilmesi zorunlu olmayan istisna (Java'da RuntimeException alt sınıfları) |
 | Uncle Bob's Formatting Rules | Uncle Bob'un Biçimlendirme Kuralları | Bölüm 5'te yazarın kişisel biçimlendirme kurallarını CodeAnalyzer.java örneğiyle gösterdiği alt başlık (sayfa 91 ve devamı). |
 | Unit Test | Birim Testi (Unit Test) |  |
 | Unprofessional | Profesyonel Olmayan (Unprofessional) | Mesleğin gerekliliklerini yerine getirmemek |

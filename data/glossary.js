@@ -70,6 +70,11 @@ window.GLOSSARY = [
     "note": "Makine koduna çok yakın, düşük seviyeli programlama dili"
   },
   {
+    "en": "Assertion",
+    "tr": "Doğrulama İfadesi (Assertion)",
+    "note": "Doğru olması gereken bir koşulu çalışma anında denetleyen ifade (assert); iyi bir belgelemedir ama null sorununu çözmez"
+  },
+  {
     "en": "Assignment Operator",
     "tr": "Atama Operatörü (Assignment Operator)",
     "note": "Sağ taraftaki değeri sol taraftaki değişkene atayan operatör (=)"
@@ -168,6 +173,11 @@ window.GLOSSARY = [
     "en": "Chain of Inheritance",
     "tr": "Kalıtım Zinciri (Chain of Inheritance)",
     "note": "Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi"
+  },
+  {
+    "en": "Checked Exception",
+    "tr": "Denetlenen İstisna (Checked Exception)",
+    "note": "Java'da metot imzasında throws ile bildirilmesi derleyici tarafından zorunlu tutulan istisna"
   },
   {
     "en": "Clarification",
@@ -495,6 +505,11 @@ window.GLOSSARY = [
     "note": "Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi"
   },
   {
+    "en": "Error Flag",
+    "tr": "Hata Bayrağı (Error Flag)",
+    "note": "Hata oluştuğunu belirtmek için ayarlanan ve çağıranın kontrol etmesi gereken değişken; istisnaların eski alternatifi"
+  },
+  {
     "en": "Error Handling",
     "tr": "Hata Yönetimi (Error Handling)",
     "note": "Hataları yakalama ve işleme stratejisi"
@@ -508,6 +523,16 @@ window.GLOSSARY = [
     "en": "Exception",
     "tr": "İstisna (Exception)",
     "note": "Hata yönetimi bağlamında"
+  },
+  {
+    "en": "Exception Class",
+    "tr": "İstisna Sınıfı (Exception Class)",
+    "note": "Hatayı temsil eden sınıf; en önemli ölçüt, çağıranın onu nasıl yakalayacağıdır"
+  },
+  {
+    "en": "Exception Classification",
+    "tr": "İstisna Sınıflandırması (Exception Classification)",
+    "note": "İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı"
   },
   {
     "en": "Explanation of Intent",
@@ -678,6 +703,11 @@ window.GLOSSARY = [
     "en": "Hybrid",
     "tr": "Melez Yapı (Hybrid)",
     "note": "Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı"
+  },
+  {
+    "en": "Immutable",
+    "tr": "Değiştirilemez (Immutable)",
+    "note": "Oluşturulduktan sonra durumu değiştirilemeyen nesne/koleksiyon; ör. Collections.emptyList()"
   },
   {
     "en": "Implementation",
@@ -910,6 +940,11 @@ window.GLOSSARY = [
     "note": "Derleyiciyi tatmin etmek için yapılan yanlış yazım (ör. klass)"
   },
   {
+    "en": "Mock",
+    "tr": "Taklit (Mock)",
+    "note": "Test sırasında gerçek bağımlılığın yerine geçen sahte uygulama; 'mock out' = taklit etmek"
+  },
+  {
     "en": "Module",
     "tr": "Modül (Module)",
     "note": ""
@@ -975,9 +1010,19 @@ window.GLOSSARY = [
     "note": "Bulunduğu yerle doğrudan ilgili olmayan sistem bilgisi"
   },
   {
+    "en": "Normal Flow",
+    "tr": "Normal Akış (Normal Flow)",
+    "note": "Hata durumlarıyla kesintiye uğramayan, asıl iş akışı"
+  },
+  {
     "en": "Normal Forms",
     "tr": "Normal Formlar (Normal Forms)",
     "note": "Codd'un veritabanı tekrar kaldırma stratejisi"
+  },
+  {
+    "en": "Null Check",
+    "tr": "null Kontrolü (Null Check)",
+    "note": "Bir değerin null olup olmadığını denetleyen koşul; çoğalması null döndürmenin belirtisidir"
   },
   {
     "en": "Number-Series Naming",
@@ -1205,9 +1250,19 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Return Code",
+    "tr": "Dönüş Kodu (Return Code)",
+    "note": "Fonksiyonun başarı/hata durumunu dönüş değeriyle bildirmesi; Bölüm 7 bunun yerine istisna kullanmayı önerir"
+  },
+  {
     "en": "Routine",
     "tr": "Rutin (Routine)",
     "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
+  },
+  {
+    "en": "Runtime Error",
+    "tr": "Çalışma Zamanı Hatası (Runtime Error)",
+    "note": "Derleme sırasında değil, program çalışırken ortaya çıkan hata"
   },
   {
     "en": "rvalue",
@@ -1305,9 +1360,24 @@ window.GLOSSARY = [
     "note": "Programın kaynak kodunu içeren dosya"
   },
   {
+    "en": "Special Case Object",
+    "tr": "Özel Durum Nesnesi (Special Case Object)",
+    "note": "Null yerine döndürülen, eksik durum için makul varsayılan davranışı kapsülleyen nesne (SPECIAL CASE deseni)"
+  },
+  {
+    "en": "Special Case Pattern",
+    "tr": "Özel Durum Deseni (Special Case Pattern)",
+    "note": "Özel durumu kendisi ele alan bir sınıf/nesne döndürerek istemci kodu istisna yönetiminden kurtaran desen [Fowler]"
+  },
+  {
     "en": "Specification",
     "tr": "Spesifikasyon (Specification)",
     "note": "Biçimsel gereksinim tanımı"
+  },
+  {
+    "en": "Stack Trace",
+    "tr": "Yığın İzi (Stack Trace)",
+    "note": "İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez"
   },
   {
     "en": "Static Initializer",
@@ -1333,6 +1403,11 @@ window.GLOSSARY = [
     "en": "Structured Programming",
     "tr": "Yapısal Programlama (Structured Programming)",
     "note": "Dijkstra'nın tek giriş / tek çıkış kuralları"
+  },
+  {
+    "en": "Stub",
+    "tr": "Geçici Gövde (Stub)",
+    "note": "Gerçek gerçekleştirim yazılana kadar yer tutan, sahte değer döndüren asgari kod"
   },
   {
     "en": "Subprogram",
@@ -1395,6 +1470,11 @@ window.GLOSSARY = [
     "note": "Önce test yaz, sonra kodu yaz disiplini"
   },
   {
+    "en": "Third-Party API",
+    "tr": "Üçüncü Taraf API (Third-Party API)",
+    "note": "Başka bir satıcı ya da ekip tarafından sağlanan API; sarmalanarak bağımlılık azaltılır"
+  },
+  {
     "en": "Tiger Team",
     "tr": "Kaplan Ekibi (Tiger Team)",
     "note": "En yetenekli geliştiricilerden oluşan ekip"
@@ -1415,6 +1495,11 @@ window.GLOSSARY = [
     "note": "Birbirine noktayla bağlanmış çağrı zinciri; Demeter Yasası ihlalinin tipik görüntüsü"
   },
   {
+    "en": "Transaction",
+    "tr": "İşlem (Transaction)",
+    "note": "Ya bütünüyle gerçekleşen ya da hiç gerçekleşmemiş sayılan iş birimi; try blokları buna benzetilir"
+  },
+  {
     "en": "Transformation",
     "tr": "Dönüşüm (Transformation)",
     "note": "Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi"
@@ -1428,6 +1513,11 @@ window.GLOSSARY = [
     "en": "Type System",
     "tr": "Tür Sistemi (Type System)",
     "note": ""
+  },
+  {
+    "en": "Unchecked Exception",
+    "tr": "Denetlenmeyen İstisna (Unchecked Exception)",
+    "note": "Bildirilmesi zorunlu olmayan istisna (Java'da RuntimeException alt sınıfları)"
   },
   {
     "en": "Uncle Bob's Formatting Rules",

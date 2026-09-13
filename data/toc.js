@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 102,
+  "lastTranslatedPage": 112,
   "chapters": [
     {
       "num": 1,
@@ -1236,6 +1236,116 @@ window.TOC = {
     },
     "102": {
       "blank": true
+    },
+    "103": {
+      "title": {
+        "en": "Error Handling",
+        "tr": "Hata Yönetimi"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 7
+    },
+    "104": {
+      "title": {
+        "en": "Use Exceptions Rather Than Return Codes",
+        "tr": "Dönüş Kodları Yerine İstisnalar Kullanın"
+      },
+      "section": {
+        "en": "Use Exceptions Rather Than Return Codes",
+        "tr": "Dönüş Kodları Yerine İstisnaları Kullanın"
+      },
+      "chapter": 7
+    },
+    "105": {
+      "title": {
+        "en": "Write Your Try-Catch-Finally Statement First",
+        "tr": "Önce Try-Catch-Finally İfadenizi Yazın"
+      },
+      "section": {
+        "en": "Use Exceptions Rather Than Return Codes",
+        "tr": "Dönüş Kodları Yerine İstisnaları Kullanın"
+      },
+      "chapter": 7
+    },
+    "106": {
+      "title": {
+        "en": "Narrowing the Catch and Unchecked Exceptions",
+        "tr": "Catch'i Daraltmak ve Denetlenmeyen İstisnalar"
+      },
+      "section": {
+        "en": "Write Your Try-Catch-Finally Statement First",
+        "tr": "Önce Try-Catch-Finally İfadenizi Yazın"
+      },
+      "chapter": 7
+    },
+    "107": {
+      "title": {
+        "en": "The Price of Checked Exceptions and Providing Context",
+        "tr": "Denetlenen İstisnaların Bedeli ve Bağlam Sağlamak"
+      },
+      "section": {
+        "en": "Use Unchecked Exceptions",
+        "tr": "Denetlenmeyen İstisnaları Kullanın"
+      },
+      "chapter": 7
+    },
+    "108": {
+      "title": {
+        "en": "Wrapping a Third-Party API",
+        "tr": "Üçüncü Taraf API'yi Sarmalamak"
+      },
+      "section": {
+        "en": "Define Exception Classes in Terms of a Caller's Needs",
+        "tr": "İstisna Sınıflarını Çağıranın İhtiyaçlarına Göre Tanımlayın"
+      },
+      "chapter": 7
+    },
+    "109": {
+      "title": {
+        "en": "Wrapping Third-Party APIs and Defining the Normal Flow",
+        "tr": "Üçüncü Taraf API'leri Sarmalamak ve Normal Akışı Tanımlamak"
+      },
+      "section": {
+        "en": "Define Exception Classes in Terms of a Caller's Needs",
+        "tr": "İstisna Sınıflarını Çağıranın İhtiyaçlarına Göre Tanımlayın"
+      },
+      "chapter": 7
+    },
+    "110": {
+      "title": {
+        "en": "Special Case Pattern and Don’t Return Null",
+        "tr": "Özel Durum Deseni ve null Döndürmeyin"
+      },
+      "section": {
+        "en": "Define the Normal Flow",
+        "tr": "Normal Akışı Tanımlayın"
+      },
+      "chapter": 7
+    },
+    "111": {
+      "title": {
+        "en": "Empty Lists Instead of Null; Don't Pass Null",
+        "tr": "Null Yerine Boş Liste; Null Geçirmeyin"
+      },
+      "section": {
+        "en": "Don't Return Null",
+        "tr": "Null Döndürmeyin"
+      },
+      "chapter": 7
+    },
+    "112": {
+      "title": {
+        "en": "Don't Pass Null, Conclusion and Bibliography",
+        "tr": "Null Geçirmeyin, Sonuç ve Kaynakça"
+      },
+      "section": {
+        "en": "Don't Pass Null",
+        "tr": "Null Geçirmeyin"
+      },
+      "chapter": 7
     }
   }
 };
