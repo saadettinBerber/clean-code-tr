@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 87,
+  "lastTranslatedPage": 93,
   "chapters": [
     {
       "num": 1,
@@ -1079,6 +1079,72 @@ window.TOC = {
         "tr": "Yatay Biçimlendirme"
       },
       "chapter": 5
+    },
+    "88": {
+      "title": {
+        "en": "Indentation",
+        "tr": "Girinti"
+      },
+      "section": {
+        "en": "Horizontal Formatting",
+        "tr": "Yatay Biçimlendirme"
+      },
+      "chapter": 5
+    },
+    "89": {
+      "title": {
+        "en": "Breaking Indentation",
+        "tr": "Girintiyi Bozma (Breaking Indentation)"
+      },
+      "section": {
+        "en": "Horizontal Formatting",
+        "tr": "Yatay Biçimlendirme"
+      },
+      "chapter": 5
+    },
+    "90": {
+      "title": {
+        "en": "Team Rules",
+        "tr": "Takım Kuralları (Team Rules)"
+      },
+      "section": {
+        "en": "Horizontal Formatting",
+        "tr": "Yatay Biçimlendirme"
+      },
+      "chapter": 5
+    },
+    "91": {
+      "title": {
+        "en": "Listing 5-6: CodeAnalyzer.java",
+        "tr": "Listing 5-6: CodeAnalyzer.java"
+      },
+      "section": {
+        "en": "Uncle Bob's Formatting Rules",
+        "tr": "Uncle Bob'un Biçimlendirme Kuralları"
+      },
+      "chapter": 5
+    },
+    "92": {
+      "title": {
+        "en": "Uncle Bob's Formatting Rules (continued)",
+        "tr": "Uncle Bob'un Biçimlendirme Kuralları (devam)"
+      },
+      "section": {
+        "en": "Uncle Bob's Formatting Rules",
+        "tr": "Uncle Bob'un Biçimlendirme Kuralları"
+      },
+      "chapter": 5
+    },
+    "93": {
+      "title": {
+        "en": "Data Abstraction",
+        "tr": "Veri Soyutlama (Data Abstraction)"
+      },
+      "section": {
+        "en": "Data Abstraction",
+        "tr": "Veri Soyutlama (Data Abstraction)"
+      },
+      "chapter": 6
     }
   }
 };

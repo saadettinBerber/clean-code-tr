@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 87,
+  "last_translated_page": 93,
   "chapters": [
     {
       "num": 1,
@@ -807,6 +807,54 @@
       "title_tr": "Yatay Hizalama",
       "section_en": "Horizontal Formatting",
       "section_tr": "Yatay Biçimlendirme"
+    },
+    "88": {
+      "pdf_page": 88,
+      "chapter": 5,
+      "title_en": "Indentation",
+      "title_tr": "Girinti",
+      "section_en": "Horizontal Formatting",
+      "section_tr": "Yatay Biçimlendirme"
+    },
+    "89": {
+      "pdf_page": 89,
+      "chapter": 5,
+      "title_en": "Breaking Indentation",
+      "title_tr": "Girintiyi Bozma (Breaking Indentation)",
+      "section_en": "Horizontal Formatting",
+      "section_tr": "Yatay Biçimlendirme"
+    },
+    "90": {
+      "pdf_page": 90,
+      "chapter": 5,
+      "title_en": "Team Rules",
+      "title_tr": "Takım Kuralları (Team Rules)",
+      "section_en": "Horizontal Formatting",
+      "section_tr": "Yatay Biçimlendirme"
+    },
+    "91": {
+      "pdf_page": 91,
+      "chapter": 5,
+      "title_en": "Listing 5-6: CodeAnalyzer.java",
+      "title_tr": "Listing 5-6: CodeAnalyzer.java",
+      "section_en": "Uncle Bob's Formatting Rules",
+      "section_tr": "Uncle Bob'un Biçimlendirme Kuralları"
+    },
+    "92": {
+      "pdf_page": 92,
+      "chapter": 5,
+      "title_en": "Uncle Bob's Formatting Rules (continued)",
+      "title_tr": "Uncle Bob'un Biçimlendirme Kuralları (devam)",
+      "section_en": "Uncle Bob's Formatting Rules",
+      "section_tr": "Uncle Bob'un Biçimlendirme Kuralları"
+    },
+    "93": {
+      "pdf_page": 93,
+      "chapter": 6,
+      "title_en": "Data Abstraction",
+      "title_tr": "Veri Soyutlama (Data Abstraction)",
+      "section_en": "Data Abstraction",
+      "section_tr": "Veri Soyutlama (Data Abstraction)"
     }
   }
 }

@@ -110,6 +110,11 @@ window.GLOSSARY = [
     "note": "Kamp alanını bulduğundan daha temiz bırak prensibi"
   },
   {
+    "en": "Breaking Indentation",
+    "tr": "Girintiyi Bozma (Breaking Indentation)",
+    "note": "Kısa if/while/fonksiyon bloklarını tek satıra sıkıştırarak girinti kuralının çiğnenmesi; kaçınılması gereken bir alışkanlık"
+  },
+  {
     "en": "Broken Windows",
     "tr": "Kırık Pencereler (Broken Windows)",
     "note": "Pragmatik Programcılar metaforu: bir kırık pencere tüm binayı çürütür"
@@ -190,6 +195,11 @@ window.GLOSSARY = [
     "note": "Temiz kodu kirli koddan ayırt etme ve düzeltme yetisi"
   },
   {
+    "en": "Coding Standard",
+    "tr": "Kodlama Standardı (Coding Standard)",
+    "note": "Bir takımın uyduğu biçimlendirme/kodlama kurallarının yazılı ya da örnek kod hâlindeki tanımı"
+  },
+  {
     "en": "Coding Style",
     "tr": "Kodlama Biçemi (Coding Style)",
     "note": "Bir geliştirici ya da ekibin kodu yazarken izlediği tutarlı biçim alışkanlıkları"
@@ -258,6 +268,11 @@ window.GLOSSARY = [
     "en": "Constant",
     "tr": "Sabit (Constant)",
     "note": "Programın çalışması boyunca değişmeyen, adlandırılmış değer; uygun soyutlama seviyesinde tutulmalıdır [G35]"
+  },
+  {
+    "en": "Constructor",
+    "tr": "Kurucu (Constructor)",
+    "note": "Bir nesne oluşturulurken çağrılan, ilklendirme yapan özel metot"
   },
   {
     "en": "Container",
@@ -408,6 +423,11 @@ window.GLOSSARY = [
     "en": "Double Dispatch",
     "tr": "Çift Gönderim (Double Dispatch)",
     "note": "Çağrılacak metodu iki nesnenin türüne göre seçme tekniği"
+  },
+  {
+    "en": "Dummy Scope",
+    "tr": "Boş Kapsam (Dummy Scope)",
+    "note": "While/for gövdesinin kasıtlı olarak boş bırakıldığı, dikkatli biçimlendirme (parantez + girinti) gerektiren yapı"
   },
   {
     "en": "Duplication",
@@ -595,6 +615,11 @@ window.GLOSSARY = [
     "note": "Nesnenin iç yapısını sormak yerine ondan iş yapmasını istemek"
   },
   {
+    "en": "Hierarchy",
+    "tr": "Hiyerarşi (Hierarchy)",
+    "note": "Kaynak dosyanın taslak benzeri iç içe yapısı; dosya, sınıf, metot ve blok seviyelerinden oluşur"
+  },
+  {
     "en": "Hollerith Limit",
     "tr": "Hollerith Sınırı (Hollerith Limit)",
     "note": "Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir"
@@ -625,6 +650,11 @@ window.GLOSSARY = [
     "note": "Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı"
   },
   {
+    "en": "Implementation",
+    "tr": "Gerçekleştirim (Implementation)",
+    "note": "Bir arayüzün ya da soyutlamanın somut kod karşılığı; Bölüm 6'da veri soyutlama ve gizleme bağlamında sürekli geçer"
+  },
+  {
     "en": "Implicity",
     "tr": "Örtüklük (Implicity)",
     "note": "Bağlamın kodda açıkça belirtilmeme derecesi"
@@ -638,6 +668,11 @@ window.GLOSSARY = [
     "en": "Indent Level",
     "tr": "Girinti Seviyesi (Indent Level)",
     "note": "Kod bloklarının iç içe geçme derinliği"
+  },
+  {
+    "en": "Indentation",
+    "tr": "Girinti (Indentation)",
+    "note": "Kod satırlarının hiyerarşideki konumlarına göre sağa kaydırılması; kapsam hiyerarşisini görünür kılar"
   },
   {
     "en": "Informative Comment",
@@ -1343,6 +1378,11 @@ window.GLOSSARY = [
     "en": "Type System",
     "tr": "Tür Sistemi (Type System)",
     "note": ""
+  },
+  {
+    "en": "Uncle Bob's Formatting Rules",
+    "tr": "Uncle Bob'un Biçimlendirme Kuralları",
+    "note": "Bölüm 5'te yazarın kişisel biçimlendirme kurallarını CodeAnalyzer.java örneğiyle gösterdiği alt başlık (sayfa 91 ve devamı)."
   },
   {
     "en": "Unit Test",
