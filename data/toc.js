@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 31,
-  "lastTranslatedPage": 77,
+  "lastTranslatedPage": 82,
   "chapters": [
     {
       "num": 1,
@@ -963,6 +963,61 @@ window.TOC = {
       "title": {
         "en": "File Size and The Newspaper Metaphor",
         "tr": "Dosya Boyutu ve Gazete Metaforu"
+      },
+      "section": {
+        "en": "Vertical Formatting",
+        "tr": "Dikey Biçimlendirme (Vertical Formatting)"
+      },
+      "chapter": 5
+    },
+    "78": {
+      "title": {
+        "en": "Vertical Openness Between Concepts",
+        "tr": "Kavramlar Arasında Dikey Açıklık"
+      },
+      "section": {
+        "en": "Vertical Formatting",
+        "tr": "Dikey Biçimlendirme (Vertical Formatting)"
+      },
+      "chapter": 5
+    },
+    "79": {
+      "title": {
+        "en": "Vertical Openness & Density",
+        "tr": "Dikey Açıklık ve Yoğunluk"
+      },
+      "section": {
+        "en": "Vertical Openness Between Concepts & Vertical Density",
+        "tr": "Kavramlar Arasındaki Dikey Açıklık ve Dikey Yoğunluk"
+      },
+      "chapter": 5
+    },
+    "80": {
+      "title": {
+        "en": "Vertical Distance and Variable Declarations",
+        "tr": "Dikey Mesafe ve Değişken Tanımlamaları"
+      },
+      "section": {
+        "en": "Vertical Formatting",
+        "tr": "Dikey Biçimlendirme (Vertical Formatting)"
+      },
+      "chapter": 5
+    },
+    "81": {
+      "title": {
+        "en": "Instance Variables",
+        "tr": "Örnek Değişkenleri"
+      },
+      "section": {
+        "en": "Vertical Formatting",
+        "tr": "Dikey Biçimlendirme"
+      },
+      "chapter": 5
+    },
+    "82": {
+      "title": {
+        "en": "Dependent Functions",
+        "tr": "Bağımlı Fonksiyonlar"
       },
       "section": {
         "en": "Vertical Formatting",

@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 462,
   "pages_per_run": 3,
-  "last_translated_page": 77,
+  "last_translated_page": 82,
   "chapters": [
     {
       "num": 1,
@@ -725,6 +725,46 @@
       "chapter": 5,
       "title_en": "File Size and The Newspaper Metaphor",
       "title_tr": "Dosya Boyutu ve Gazete Metaforu",
+      "section_en": "Vertical Formatting",
+      "section_tr": "Dikey Biçimlendirme (Vertical Formatting)"
+    },
+    "78": {
+      "pdf_page": 109,
+      "chapter": 5,
+      "title_en": "Vertical Openness Between Concepts",
+      "title_tr": "Kavramlar Arasında Dikey Açıklık",
+      "section_en": "Vertical Formatting",
+      "section_tr": "Dikey Biçimlendirme (Vertical Formatting)"
+    },
+    "79": {
+      "pdf_page": 110,
+      "chapter": 5,
+      "title_en": "Vertical Openness & Density",
+      "title_tr": "Dikey Açıklık ve Yoğunluk",
+      "section_en": "Vertical Openness Between Concepts & Vertical Density",
+      "section_tr": "Kavramlar Arasındaki Dikey Açıklık ve Dikey Yoğunluk"
+    },
+    "80": {
+      "pdf_page": 111,
+      "chapter": 5,
+      "title_en": "Vertical Distance and Variable Declarations",
+      "title_tr": "Dikey Mesafe ve Değişken Tanımlamaları",
+      "section_en": "Vertical Formatting",
+      "section_tr": "Dikey Biçimlendirme (Vertical Formatting)"
+    },
+    "81": {
+      "pdf_page": 112,
+      "chapter": 5,
+      "title_en": "Instance Variables",
+      "title_tr": "Örnek Değişkenleri",
+      "section_en": "Vertical Formatting",
+      "section_tr": "Dikey Biçimlendirme"
+    },
+    "82": {
+      "pdf_page": 113,
+      "chapter": 5,
+      "title_en": "Dependent Functions",
+      "title_tr": "Bağımlı Fonksiyonlar",
       "section_en": "Vertical Formatting",
       "section_tr": "Dikey Biçimlendirme (Vertical Formatting)"
     }

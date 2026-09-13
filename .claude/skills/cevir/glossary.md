@@ -29,7 +29,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Boy Scout Rule | İzci Kuralı (Boy Scout Rule) | Kamp alanını bulduğundan daha temiz bırak prensibi |
 | Broken Windows | Kırık Pencereler (Broken Windows) | Pragmatik Programcılar metaforu: bir kırık pencere tüm binayı çürütür |
 | Bug | Hata (Bug) | Sektörde "bug" olarak da kullanılır |
+| Callee | Çağrılan Fonksiyon (Callee) | Başka bir fonksiyon tarafından çağrılan fonksiyon |
+| Caller | Çağıran Fonksiyon (Caller) | Başka bir fonksiyonu çağıran fonksiyon |
 | Care | Önemseme (Care) | Zanaata ve koda duyulan özen |
+| Chain of Inheritance | Kalıtım Zinciri (Chain of Inheritance) | Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi |
 | Clarification | Netleştirme (Clarification) | Karmaşık kütüphane çağrılarını veya dönüş değerlerini açıklayan yorum |
 | Clarity | Açıklık (Clarity) | Kodun anlaşılırlığı |
 | Class | Sınıf (Class) |  |
@@ -63,11 +66,13 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Deadline | Son Teslim Tarihi (Deadline) | Projenin teslim edilmesi gereken tarih |
 | Decay | Çürüme (Decay) | Kırık pencereler metaforunda kodun giderek kötüleşmesi |
 | Decisive | Kararlı (Decisive) | Kodun tereddütsüz ve kesin olması |
+| Declaration | Tanımlama (Declaration) | Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi |
 | Delegation | Delege Etme (Delegation) | Sorumluluğu başka bir nesneye devretme |
 | Dependency | Bağımlılık (Dependency) |  |
 | Dependency Injection | Bağımlılık Enjeksiyonu (Dependency Injection) |  |
 | Dependency Inversion Principle (DIP) | Bağımlılık Tersine Çevirme İlkesi (DIP) | Üst seviye modüller alt seviye modüllere değil, soyutlamalara bağımlı olmalı |
 | Dependency Magnet | Bağımlılık Mıknatısı (Dependency Magnet) | Birçok sınıfın bağımlı olduğu merkezi yapı (ör. Error enum) |
+| Dependent Functions | Bağımlı Fonksiyonlar (Dependent Functions) | Biri diğerini çağıran fonksiyonlar; dikey olarak yakın durmalı, çağıran çağrılanın üstünde olmalı |
 | Descriptive Names | Betimleyici İsimler (Descriptive Names) | Fonksiyonun ne yaptığını açıkça anlatan, gerekirse uzun tutulan isimlendirme ilkesi |
 | Design Intent | Tasarım Amacı (Design Intent) | Sistemin amaçlanan mimari yapısı |
 | Design Pattern | Tasarım Deseni (Design Pattern) |  |
@@ -130,6 +135,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Level of Abstraction | Soyutlama Seviyesi (Level of Abstraction) | Kodun genelden özele doğru soyutluk derecesi |
 | Lexicon | Sözlük (Lexicon) | Bir projedeki tutarlı terimler bütünü |
 | Literate Programming | Okuryazar Programlama (Literate Programming) | Knuth'un kavramı: kod önce insanlar için yazılmalı |
+| Local Variable | Yerel Değişken (Local Variable) | Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken |
+| Loop Control Variable | Döngü Kontrol Değişkeni (Loop Control Variable) | Döngünün yinelemesini yöneten değişken; genellikle döngü ifadesinin içinde tanımlanır |
 | Magic Number | Sihirli Sayı (Magic Number) | Kodda açıklamasız kullanılan sabit değer |
 | Maintainability | Bakılabilirlik (Maintainability) | Kodun zaman içinde bakımının yapılabilme kolaylığı |
 | Management | Yönetim (Management) |  |
@@ -188,6 +195,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Programmer-eese | Programcı Dili (Programmer-eese) | Programcıların kendi aralarında kullandığı teknik jargon |
 | Pronounceable Names | Telaffuz Edilebilir İsimler (Pronounceable Names) | İsimlerin sesli okunabilir olması gerektiği ilkesi |
 | Prose | Düzyazı (Prose) | Grady Booch: "Temiz kod iyi yazılmış bir düzyazı gibi okunur" |
+| Protected Variable | Korumalı Değişken (Protected Variable) | Alt sınıflardan erişilebilen değişken; ilişkili kavramları dosyalara dağıttığı için kaçınılmalıdır |
 | Pun | Kelime Oyunu (Pun) | Bir kelimenin iki farklı anlamda kullanılması |
 | Race Condition | Yarış Durumu (Race Condition) | Eşzamanlı erişimden kaynaklanan hata |
 | Readability | Okunabilirlik (Readability) | Kodun okunup anlaşılma kolaylığı; sonraki tüm değişiklikleri etkiler |
@@ -207,6 +215,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Scary Noise | Korkunç Gürültü (Scary Noise) | Bariz olanı karmaşık Javadoc formatında tekrar eden sinir bozucu yorum |
 | Schedule | Takvim / Zamanlama (Schedule) |  |
 | School of Thought | Düşünce Okulu (School of Thought) |  |
+| Scissors Rule | Makas Kuralı (Scissors Rule) | C++'ta örnek değişkenlerini sınıfın en altına koyma geleneği |
 | Scope | Kapsam (Scope) | Bir değişkenin geçerli olduğu kod alanı |
 | Search-friendly name | Arama Dostu İsim (Search-friendly name) |  |
 | Searchable Names | Aranabilir İsimler (Searchable Names) |  |
@@ -247,8 +256,13 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Unit Test | Birim Testi (Unit Test) |  |
 | Unprofessional | Profesyonel Olmayan (Unprofessional) | Mesleğin gerekliliklerini yerine getirmemek |
 | Variable | Değişken (Variable) |  |
+| Variable Declaration | Değişken Tanımlaması (Variable Declaration) | Değişkenler kullanıldıkları yere mümkün olduğunca yakın tanımlanmalıdır |
+| Vertical Density | Dikey Yoğunluk (Vertical Density) | Sıkı ilişkili kod satırlarının dikey olarak bitişik yazılması; yakın ilişkiyi gösterir |
+| Vertical Distance | Dikey Mesafe (Vertical Distance) | Yakından ilişkili kavramlar arasındaki satır mesafesi; anlaşılabilirlik açısından birbirlerine ne kadar önemli olduklarını yansıtmalıdır |
 | Vertical Formatting | Dikey Biçimlendirme (Vertical Formatting) | Dosya uzunluğu, satır sırası ve dikey boşluk ile ilgili biçimlendirme |
+| Vertical Openness | Dikey Açıklık (Vertical Openness) | Kavramları birbirinden boş satırlarla ayırma; her satır grubu tam bir düşünceyi temsil eder |
 | Visitor Pattern | Ziyaretçi Deseni (Visitor Pattern) |  |
+| Visual Cue | Görsel İpucu (Visual Cue) | Okuyucunun gözüne yeni ve ayrı bir kavramın başladığını belirten işaret; ör. boş satır |
 | Wading | Çamura Batma (Wading) | Kötü kodda ilerlerken hissedilen zorluk metaforu |
 | Ward's Principle | Ward'ın İlkesi (Ward's Principle) | Ward Cunningham'ın temiz kod tanımı: her rutin, tam olarak beklediğiniz gibi çıkar |
 | Warning of Consequences | Sonuçlara Dair Uyarı (Warning of Consequences) | Belirli bir işlemin etkileri hakkında diğer programcıları uyaran yorum |

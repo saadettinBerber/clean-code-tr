@@ -105,9 +105,24 @@ window.GLOSSARY = [
     "note": "Sektörde \"bug\" olarak da kullanılır"
   },
   {
+    "en": "Callee",
+    "tr": "Çağrılan Fonksiyon (Callee)",
+    "note": "Başka bir fonksiyon tarafından çağrılan fonksiyon"
+  },
+  {
+    "en": "Caller",
+    "tr": "Çağıran Fonksiyon (Caller)",
+    "note": "Başka bir fonksiyonu çağıran fonksiyon"
+  },
+  {
     "en": "Care",
     "tr": "Önemseme (Care)",
     "note": "Zanaata ve koda duyulan özen"
+  },
+  {
+    "en": "Chain of Inheritance",
+    "tr": "Kalıtım Zinciri (Chain of Inheritance)",
+    "note": "Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi"
   },
   {
     "en": "Clarification",
@@ -275,6 +290,11 @@ window.GLOSSARY = [
     "note": "Kodun tereddütsüz ve kesin olması"
   },
   {
+    "en": "Declaration",
+    "tr": "Tanımlama (Declaration)",
+    "note": "Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi"
+  },
+  {
     "en": "Delegation",
     "tr": "Delege Etme (Delegation)",
     "note": "Sorumluluğu başka bir nesneye devretme"
@@ -298,6 +318,11 @@ window.GLOSSARY = [
     "en": "Dependency Magnet",
     "tr": "Bağımlılık Mıknatısı (Dependency Magnet)",
     "note": "Birçok sınıfın bağımlı olduğu merkezi yapı (ör. Error enum)"
+  },
+  {
+    "en": "Dependent Functions",
+    "tr": "Bağımlı Fonksiyonlar (Dependent Functions)",
+    "note": "Biri diğerini çağıran fonksiyonlar; dikey olarak yakın durmalı, çağıran çağrılanın üstünde olmalı"
   },
   {
     "en": "Descriptive Names",
@@ -610,6 +635,16 @@ window.GLOSSARY = [
     "note": "Knuth'un kavramı: kod önce insanlar için yazılmalı"
   },
   {
+    "en": "Local Variable",
+    "tr": "Yerel Değişken (Local Variable)",
+    "note": "Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken"
+  },
+  {
+    "en": "Loop Control Variable",
+    "tr": "Döngü Kontrol Değişkeni (Loop Control Variable)",
+    "note": "Döngünün yinelemesini yöneten değişken; genellikle döngü ifadesinin içinde tanımlanır"
+  },
+  {
     "en": "Magic Number",
     "tr": "Sihirli Sayı (Magic Number)",
     "note": "Kodda açıklamasız kullanılan sabit değer"
@@ -900,6 +935,11 @@ window.GLOSSARY = [
     "note": "Grady Booch: \"Temiz kod iyi yazılmış bir düzyazı gibi okunur\""
   },
   {
+    "en": "Protected Variable",
+    "tr": "Korumalı Değişken (Protected Variable)",
+    "note": "Alt sınıflardan erişilebilen değişken; ilişkili kavramları dosyalara dağıttığı için kaçınılmalıdır"
+  },
+  {
     "en": "Pun",
     "tr": "Kelime Oyunu (Pun)",
     "note": "Bir kelimenin iki farklı anlamda kullanılması"
@@ -993,6 +1033,11 @@ window.GLOSSARY = [
     "en": "School of Thought",
     "tr": "Düşünce Okulu (School of Thought)",
     "note": ""
+  },
+  {
+    "en": "Scissors Rule",
+    "tr": "Makas Kuralı (Scissors Rule)",
+    "note": "C++'ta örnek değişkenlerini sınıfın en altına koyma geleneği"
   },
   {
     "en": "Scope",
@@ -1195,14 +1240,39 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Variable Declaration",
+    "tr": "Değişken Tanımlaması (Variable Declaration)",
+    "note": "Değişkenler kullanıldıkları yere mümkün olduğunca yakın tanımlanmalıdır"
+  },
+  {
+    "en": "Vertical Density",
+    "tr": "Dikey Yoğunluk (Vertical Density)",
+    "note": "Sıkı ilişkili kod satırlarının dikey olarak bitişik yazılması; yakın ilişkiyi gösterir"
+  },
+  {
+    "en": "Vertical Distance",
+    "tr": "Dikey Mesafe (Vertical Distance)",
+    "note": "Yakından ilişkili kavramlar arasındaki satır mesafesi; anlaşılabilirlik açısından birbirlerine ne kadar önemli olduklarını yansıtmalıdır"
+  },
+  {
     "en": "Vertical Formatting",
     "tr": "Dikey Biçimlendirme (Vertical Formatting)",
     "note": "Dosya uzunluğu, satır sırası ve dikey boşluk ile ilgili biçimlendirme"
   },
   {
+    "en": "Vertical Openness",
+    "tr": "Dikey Açıklık (Vertical Openness)",
+    "note": "Kavramları birbirinden boş satırlarla ayırma; her satır grubu tam bir düşünceyi temsil eder"
+  },
+  {
     "en": "Visitor Pattern",
     "tr": "Ziyaretçi Deseni (Visitor Pattern)",
     "note": ""
+  },
+  {
+    "en": "Visual Cue",
+    "tr": "Görsel İpucu (Visual Cue)",
+    "note": "Okuyucunun gözüne yeni ve ayrı bir kavramın başladığını belirten işaret; ör. boş satır"
   },
   {
     "en": "Wading",
