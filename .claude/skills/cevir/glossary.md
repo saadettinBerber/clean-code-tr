@@ -108,6 +108,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Factory Method | Fabrika Metodu (Factory Method) | Nesne oluşturma mantığını kapsülleyen metot |
 | False Clue | Yanlış İpucu (False Clue) | Kodun anlamını bulanıklaştıran yanıltıcı isimler |
 | Feature | Özellik (Feature) |  |
+| Feature Envy | Özellik Kıskançlığı (Feature Envy) | Bir fonksiyonun başka bir sınıfın verisiyle kendi sınıfınınkinden daha çok ilgilenmesi |
 | File Length | Dosya Uzunluğu (File Length) | Kaynak dosyanın satır sayısı; hedef ~200 satır, üst sınır 500 satır |
 | File Size | Dosya Boyutu (File Size) | Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir |
 | FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
@@ -125,11 +126,13 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Happy Path | Mutlu Yol (Happy Path) | Hiçbir hatanın oluşmadığı, kodun normal akışta izlediği yol |
 | Headline | Manşet (Headline) | Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler |
 | Heuristic | Sezgisel Kural (Heuristic) |  |
+| Hiding Structure | Yapıyı Gizleme (Hiding Structure) | Nesnenin iç yapısını sormak yerine ondan iş yapmasını istemek |
 | Hollerith Limit | Hollerith Sınırı (Hollerith Limit) | Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir |
 | Horizontal Alignment | Yatay Hizalama (Horizontal Alignment) | Tanımlamalardaki isimleri ya da atamalardaki değerleri boşluklarla aynı sütuna dizme; yanlış şeyleri vurguladığı için önerilmez |
 | Horizontal Formatting | Yatay Biçimlendirme (Horizontal Formatting) | Satır genişliği ve satır içi boşluklarla ilgili biçimlendirme; kısa satırlar tercih edilir (en fazla ~120 karakter) |
 | Horizontal Openness and Density | Yatay Açıklık ve Yoğunluk (Horizontal Openness and Density) | İlişkili öğeleri bitişik yazma, zayıf ilişkili öğeleri yatay boşlukla ayırma |
 | Horizontal White Space | Yatay Boşluk (Horizontal White Space) | Satır içindeki boşluklar; güçlü ilişkiyi birleştirmek, zayıf ilişkiyi ayırmak için kullanılır |
+| Hybrid | Melez Yapı (Hybrid) | Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
 | Include Directive | Dahil Etme Yönergesi (Include Directive) | FitNesse'de sayfa dahil etme komutu |
 | Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
@@ -270,6 +273,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Tiger Team | Kaplan Ekibi (Tiger Team) | En yetenekli geliştiricilerden oluşan ekip |
 | TO Paragraph | TO Paragrafı | Fonksiyonun ne yaptığını "Bunu yapmak için (TO)..." kalıbıyla anlatan cümle; LOGO dilindeki TO anahtar kelimesinden esinlenilmiştir |
 | TODO | TODO / Yapılacaklar (TODO) | Gelecek için bırakılan notlar ve hatırlatıcılar |
+| Train Wreck | Tren Kazası (Train Wreck) | Birbirine noktayla bağlanmış çağrı zinciri; Demeter Yasası ihlalinin tipik görüntüsü |
 | Transformation | Dönüşüm (Transformation) | Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi |
 | Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
 | Type System | Tür Sistemi (Type System) |  |

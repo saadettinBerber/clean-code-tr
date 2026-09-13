@@ -181,6 +181,150 @@ window.NOTES({
           }
         }
       ]
+    },
+    {
+      "id": "ch6-p98-99",
+      "pages": [98, 99],
+      "title": {
+        "en": "Law of Demeter: Train Wrecks, Hybrids and Hiding Structure",
+        "tr": "Demeter Yasası: Tren Kazaları, Melez Yapılar ve Yapıyı Gizleme"
+      },
+      "blocks": [
+        { "type": "heading", "level": 2, "en": "The Law of Demeter (continued)", "tr": "Demeter Yasası (Law of Demeter) — devam" },
+        { "type": "para", "sentences": [
+          { "en": "The list of allowed call targets is completed: besides its own class and objects it creates, a method may also use objects it receives as arguments and objects stored in its class's instance variables.", "tr": "İzin verilen çağrı hedeflerinin listesi tamamlanır: bir metot kendi sınıfı ve kendi oluşturduğu nesnelerin yanı sıra, argüman olarak aldığı nesneleri ve sınıfının örnek değişkenlerinde (instance variables) tutulan nesneleri de kullanabilir." },
+          { "en": "What it should not do is call methods on something one of those targets hands back.", "tr": "Yapmaması gereken şey ise bu hedeflerden birinin geri verdiği bir şeyin metotlarını çağırmaktır." },
+          { "en": "The book's short slogan for this: deal with your friends, not with the strangers your friends introduce you to.", "tr": "Kitap bunu kısaca şöyle özetler: arkadaşlarınızla konuşun, arkadaşlarınızın size tanıttığı yabancılarla değil." }
+        ]},
+
+        { "type": "heading", "level": 2, "en": "Train Wrecks", "tr": "Tren Kazaları (Train Wrecks)" },
+        { "type": "list", "ordered": false, "items": [
+          { "en": "The example, taken from an Apache project, is a single line that asks a context object for its options, asks those options for a scratch directory, and asks that directory for its absolute path.", "tr": "Bir Apache projesinden alınan örnek tek bir satırdır: bir bağlam nesnesinden seçeneklerini, bu seçeneklerden bir geçici çalışma dizinini (scratch directory), o dizinden de mutlak yolunu ister." },
+          { "en": "Such chains of dotted calls look like coupled railway cars, hence the name; they are generally seen as careless style.", "tr": "Böyle noktalarla bağlanmış çağrı zincirleri birbirine takılı vagonlara benzer, adı da buradan gelir; genellikle özensiz bir stil olarak görülür." },
+          { "en": "Splitting the chain into one local variable per step reads better, but it does not remove the underlying problem: the function still knows how three different objects are nested inside each other.", "tr": "Zinciri her adım için bir yerel değişkene bölmek okunabilirliği artırır, ama asıl sorunu ortadan kaldırmaz: fonksiyon hâlâ üç farklı nesnenin birbirinin içine nasıl yerleştiğini bilir." }
+        ]},
+
+        { "type": "heading", "level": 3, "en": "Objects or data structures?", "tr": "Nesne mi, veri yapısı mı?" },
+        { "type": "para", "sentences": [
+          { "en": "Whether this knowledge is a violation depends on what those three types really are.", "tr": "Bu bilginin bir ihlal olup olmadığı, bu üç türün gerçekte ne olduğuna bağlıdır." },
+          { "en": "If they are objects, their inner structure is supposed to be hidden, so navigating through it clearly breaks the law.", "tr": "Nesnelerse iç yapılarının gizli olması beklenir; bu yüzden içlerinde gezinmek yasayı açıkça çiğner." },
+          { "en": "If they are plain data structures without behavior, exposing their structure is their whole purpose, and Demeter simply does not apply.", "tr": "Davranışı olmayan düz veri yapılarıysa yapılarını açığa koymak zaten varlık nedenleridir ve Demeter Yasası bu durumda geçerli değildir." },
+          { "en": "Accessor methods blur the picture: the same navigation written with public fields instead of getters would hardly raise the question.", "tr": "Erişimci (accessor) metotlar tabloyu bulanıklaştırır: aynı gezinme getter yerine public alanlarla yazılsaydı bu soru neredeyse hiç akla gelmezdi." },
+          { "en": "Things would be clearer if data structures had only public fields and objects had only private fields with public behavior, but conventions such as JavaBeans require accessors even on simple data holders.", "tr": "Veri yapıları yalnızca public alanlara, nesneler de yalnızca private alanlara ve public davranışlara sahip olsaydı her şey daha net olurdu; ama JavaBeans gibi kurallar basit veri taşıyıcılarında bile erişimci ister." }
+        ]},
+
+        { "type": "heading", "level": 2, "en": "Hybrids", "tr": "Melez Yapılar (Hybrids)" },
+        { "type": "list", "ordered": false, "items": [
+          { "en": "The confusion produces classes that are half object, half data structure: they contain meaningful behavior but also expose their state through public fields or accessors and mutators.", "tr": "Bu karışıklık yarı nesne, yarı veri yapısı olan sınıflar doğurur: anlamlı davranışlar içerirler, ama durumlarını public alanlar ya da erişimciler ve değiştiriciler (mutators) üzerinden de açığa koyarlar." },
+          { "en": "That exposed state invites outside functions to operate on the data procedurally — a smell the book links to Feature Envy.", "tr": "Açıkta kalan bu durum, dışarıdaki fonksiyonları veri üzerinde prosedürel biçimde çalışmaya davet eder; kitap bu kokuyu Özellik Kıskançlığı (Feature Envy) ile ilişkilendirir." },
+          { "en": "Hybrids make both new functions and new data types hard to add, so they get the worst of both styles.", "tr": "Melez yapılar hem yeni fonksiyon hem de yeni veri türü eklemeyi zorlaştırır; yani iki stilin de en kötü yanını alırlar." },
+          { "en": "They signal a design whose authors never decided whether they needed protection against new functions or against new types.", "tr": "Tasarımcılarının yeni fonksiyonlara karşı mı yoksa yeni türlere karşı mı korunmaya ihtiyaç duyduklarına hiç karar vermediği bir tasarımın işaretidir." }
+        ]},
+
+        { "type": "heading", "level": 2, "en": "Hiding Structure", "tr": "Yapıyı Gizleme (Hiding Structure)" },
+        { "type": "para", "sentences": [
+          { "en": "Now assume the context, options and directory are real objects. Then we must not walk through them — so how do we get the path?", "tr": "Şimdi bağlamın, seçeneklerin ve dizinin gerçek nesneler olduğunu varsayalım. O zaman içlerinde gezinmemeliyiz; peki yola nasıl ulaşacağız?" },
+          { "en": "Two obvious fixes both disappoint: one very specific method on the context for every such request would bloat its interface, and a shorter chain only works if the intermediate result is a data structure.", "tr": "Akla gelen iki çözüm de tatmin etmez: bu tür her istek için bağlama çok özel bir metot eklemek arayüzünü şişirir; zinciri kısaltmak ise ancak ara sonuç bir veri yapısıysa işe yarar." },
+          { "en": "The better move is to stop asking an object about its internals and instead tell it what we want done, which starts with asking why we needed the path at all.", "tr": "Daha iyi yol, nesneye iç yapısını sormayı bırakıp ondan ne yapılmasını istediğimizi söylemektir; bu da önce o yola neden ihtiyaç duyduğumuzu sormakla başlar." },
+          { "en": "Further down in the same module the path is glued together with slashes, a class name and a file extension, then wrapped in output streams — mixing several levels of detail in one place.", "tr": "Aynı modülün daha aşağısında bu yol eğik çizgiler, bir sınıf adı ve bir dosya uzantısıyla birleştirilir, sonra çıkış akışlarına sarılır; böylece birkaç ayrıntı düzeyi tek bir yerde karışır." },
+          { "en": "Setting that mess aside, the real intent was to create a scratch file with a given name; page 100 shows how handing that job to the context object resolves the problem.", "tr": "Bu karışıklık bir yana, asıl amaç belirli bir adla geçici bir dosya oluşturmaktı; sayfa 100 bu işi bağlam nesnesine devretmenin sorunu nasıl çözdüğünü gösterir." }
+        ]},
+
+        { "type": "heading", "level": 2, "en": "Key takeaways", "tr": "Akılda kalsın" },
+        { "type": "list", "ordered": true, "items": [
+          { "en": "Call methods on your own class, on objects you create, receive or hold — not on what they return.", "tr": "Kendi sınıfınızın, oluşturduğunuz, aldığınız ya da tuttuğunuz nesnelerin metotlarını çağırın; onların döndürdüklerinin değil." },
+          { "en": "Breaking a train wreck into variables improves reading, not design.", "tr": "Tren kazasını değişkenlere bölmek okunabilirliği iyileştirir, tasarımı değil." },
+          { "en": "Demeter governs objects; plain data structures may be navigated freely.", "tr": "Demeter Yasası nesneler için geçerlidir; düz veri yapılarında serbestçe gezinilebilir." },
+          { "en": "Don't build half-object, half-data classes.", "tr": "Yarı nesne, yarı veri olan sınıflar yazmayın." },
+          { "en": "When you catch yourself digging for data, ask what you wanted it for and tell the object to do that.", "tr": "Kendinizi veri ararken yakaladığınızda onu ne için istediğinizi sorun ve bunu yapmasını nesneye söyleyin." }
+        ]}
+      ],
+      "concepts": [
+        {
+          "id": "stop-the-train-wreck",
+          "title": { "en": "Stop the Train Wreck", "tr": "Tren Kazasını Durdurun (Law of Demeter)" },
+          "summary": {
+            "en": "A chain of getters couples the caller to every object along the path; asking the first object for the answer keeps that knowledge where it belongs.",
+            "tr": "Getter zinciri çağıranı yol üzerindeki her nesneye bağlar; cevabı ilk nesneden istemek bu bilgiyi ait olduğu yerde tutar."
+          },
+          "bad": {
+            "lang": "javascript",
+            "code": "function shippingCost(order) {\n  const country = order.getCustomer().getAddress().getCountry();\n  if (country.getCode() === HOME_COUNTRY_CODE) {\n    return DOMESTIC_RATE;\n  }\n  return INTERNATIONAL_RATE;\n}",
+            "why": {
+              "en": "shippingCost now depends on Order, Customer, Address and Country; moving the country onto the order's delivery details breaks it.",
+              "tr": "shippingCost artık Order, Customer, Address ve Country'ye bağımlıdır; ülke bilgisini siparişin teslimat ayrıntılarına taşımak onu bozar."
+            }
+          },
+          "good": {
+            "lang": "javascript",
+            "code": "class Order {\n  #customer;\n\n  constructor(customer) {\n    this.#customer = customer;\n  }\n\n  isDomestic() {\n    return this.#customer.livesIn(HOME_COUNTRY_CODE);\n  }\n}\n\nfunction shippingCost(order) {\n  return order.isDomestic() ? DOMESTIC_RATE : INTERNATIONAL_RATE;\n}",
+            "why": {
+              "en": "shippingCost talks only to the order; each class passes the question one step inward to its own direct collaborator.",
+              "tr": "shippingCost yalnızca siparişle konuşur; her sınıf soruyu yalnızca bir adım içeriye, kendi doğrudan iş birlikçisine iletir."
+            }
+          },
+          "tip": {
+            "en": "Chains over plain records (config.database.host) are fine; the rule targets objects that are supposed to hide their structure.",
+            "tr": "Düz kayıtlar üzerindeki zincirler (config.database.host) sorun değildir; kural, yapısını gizlemesi beklenen nesneleri hedefler."
+          }
+        },
+        {
+          "id": "no-hybrids",
+          "title": { "en": "Pick a Side: No Hybrids", "tr": "Taraf Seçin: Melez Yapı Yok (Hybrid)" },
+          "summary": {
+            "en": "A class that has business rules but also lets anyone edit its fields cannot guarantee those rules; make it either a real object or a plain record.",
+            "tr": "İş kuralları olan ama alanlarını herkesin değiştirmesine de izin veren bir sınıf bu kuralları güvence altına alamaz; onu ya gerçek bir nesne ya da düz bir kayıt yapın."
+          },
+          "bad": {
+            "lang": "python",
+            "code": "class ShoppingCart:\n    def __init__(self):\n        self.items = []\n        self.discount_percent = 0\n\n    def total_cents(self):\n        subtotal = sum(item.price_cents for item in self.items)\n        return subtotal * (100 - self.discount_percent) // 100\n\n\ncart.discount_percent = 150\ncart.items.append(free_gift)",
+            "why": {
+              "en": "total_cents looks like behavior, but callers bypass it and edit items and discount directly, so an invalid discount slips in and rules end up scattered.",
+              "tr": "total_cents bir davranış gibi görünür, ama çağıranlar onu atlayıp items ve discount alanlarını doğrudan değiştirir; geçersiz bir indirim içeri sızar ve kurallar dağılır."
+            }
+          },
+          "good": {
+            "lang": "python",
+            "code": "MAX_DISCOUNT_PERCENT = 50\n\n\nclass ShoppingCart:\n    def __init__(self):\n        self._items = []\n        self._discount_percent = 0\n\n    def add(self, item):\n        self._items.append(item)\n\n    def apply_discount(self, percent):\n        if not 0 <= percent <= MAX_DISCOUNT_PERCENT:\n            raise InvalidDiscountError(percent)\n        self._discount_percent = percent\n\n    def total_cents(self):\n        subtotal = sum(item.price_cents for item in self._items)\n        return subtotal * (100 - self._discount_percent) // 100",
+            "why": {
+              "en": "All changes go through methods that enforce the rules; the cart is now clearly an object, not a bag of data.",
+              "tr": "Tüm değişiklikler kuralları uygulayan metotlardan geçer; sepet artık açıkça bir nesnedir, veri torbası değil."
+            }
+          },
+          "tip": {
+            "en": "If a class truly has no rules, go the other way: a frozen dataclass with no methods is an honest data structure.",
+            "tr": "Sınıfın gerçekten hiçbir kuralı yoksa ters yöne gidin: metotsuz, dondurulmuş (frozen) bir dataclass dürüst bir veri yapısıdır."
+          }
+        },
+        {
+          "id": "tell-what-you-need",
+          "title": { "en": "Tell the Object What You Need", "tr": "Nesneye Ne İstediğinizi Söyleyin (Hiding Structure)" },
+          "summary": {
+            "en": "Pulling internals out of an object to finish its job elsewhere spreads its details around; ask why you wanted the data and move that work into the object.",
+            "tr": "Bir nesnenin iç ayrıntılarını çekip işini başka yerde bitirmek o ayrıntıları etrafa yayar; veriyi neden istediğinizi sorun ve o işi nesnenin içine taşıyın."
+          },
+          "bad": {
+            "lang": "java",
+            "code": "public void saveReport(Workspace workspace, Report report) throws IOException {\n  Path root = workspace.getSettings().getExportFolder().toPath();\n  Path target = root.resolve(report.name().replace(' ', '_') + \".pdf\");\n  try (OutputStream out = Files.newOutputStream(target)) {\n    report.writePdf(out);\n  }\n}",
+            "why": {
+              "en": "The caller knows how Workspace stores its settings, where exports live, and how file names are built — mixing high-level intent with path details.",
+              "tr": "Çağıran, Workspace'in ayarlarını nasıl sakladığını, dışa aktarımların nerede durduğunu ve dosya adlarının nasıl kurulduğunu bilir; üst düzey niyet yol ayrıntılarıyla karışır."
+            }
+          },
+          "good": {
+            "lang": "java",
+            "code": "public void saveReport(Workspace workspace, Report report) throws IOException {\n  try (OutputStream out = workspace.openExportStream(report.name())) {\n    report.writePdf(out);\n  }\n}\n\npublic final class Workspace {\n  private static final String EXPORT_EXTENSION = \".pdf\";\n  private final Path exportFolder;\n\n  public Workspace(Path exportFolder) {\n    this.exportFolder = exportFolder;\n  }\n\n  public OutputStream openExportStream(String reportName) throws IOException {\n    String fileName = reportName.replace(' ', '_') + EXPORT_EXTENSION;\n    return Files.newOutputStream(exportFolder.resolve(fileName));\n  }\n}",
+            "why": {
+              "en": "saveReport states its intent in one call; Workspace can change where and how exports are stored without touching any caller.",
+              "tr": "saveReport niyetini tek bir çağrıyla ifade eder; Workspace dışa aktarımların nerede ve nasıl saklandığını hiçbir çağırana dokunmadan değiştirebilir."
+            }
+          },
+          "tip": {
+            "en": "Name the new method after the caller's goal (openExportStream), not after the data you used to fetch (getExportFolderPath).",
+            "tr": "Yeni metodu eskiden çektiğiniz veriye göre (getExportFolderPath) değil, çağıranın amacına göre (openExportStream) adlandırın."
+          }
+        }
+      ]
     }
   ]
 });

@@ -500,6 +500,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Feature Envy",
+    "tr": "Özellik Kıskançlığı (Feature Envy)",
+    "note": "Bir fonksiyonun başka bir sınıfın verisiyle kendi sınıfınınkinden daha çok ilgilenmesi"
+  },
+  {
     "en": "File Length",
     "tr": "Dosya Uzunluğu (File Length)",
     "note": "Kaynak dosyanın satır sayısı; hedef ~200 satır, üst sınır 500 satır"
@@ -585,6 +590,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Hiding Structure",
+    "tr": "Yapıyı Gizleme (Hiding Structure)",
+    "note": "Nesnenin iç yapısını sormak yerine ondan iş yapmasını istemek"
+  },
+  {
     "en": "Hollerith Limit",
     "tr": "Hollerith Sınırı (Hollerith Limit)",
     "note": "Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir"
@@ -608,6 +618,11 @@ window.GLOSSARY = [
     "en": "Horizontal White Space",
     "tr": "Yatay Boşluk (Horizontal White Space)",
     "note": "Satır içindeki boşluklar; güçlü ilişkiyi birleştirmek, zayıf ilişkiyi ayırmak için kullanılır"
+  },
+  {
+    "en": "Hybrid",
+    "tr": "Melez Yapı (Hybrid)",
+    "note": "Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı"
   },
   {
     "en": "Implicity",
@@ -1308,6 +1323,11 @@ window.GLOSSARY = [
     "en": "TODO",
     "tr": "TODO / Yapılacaklar (TODO)",
     "note": "Gelecek için bırakılan notlar ve hatırlatıcılar"
+  },
+  {
+    "en": "Train Wreck",
+    "tr": "Tren Kazası (Train Wreck)",
+    "note": "Birbirine noktayla bağlanmış çağrı zinciri; Demeter Yasası ihlalinin tipik görüntüsü"
   },
   {
     "en": "Transformation",

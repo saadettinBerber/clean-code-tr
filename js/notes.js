@@ -4,7 +4,7 @@ const Notes = (function () {
   const LANGS = ["tr", "en", "both"];
   const DEFAULT_LANG = "tr";
   const DEFAULT_CHAPTER = 5;
-  const ASSET_VERSION = 1;
+  const ASSET_VERSION = 2;
   const escapeHtml = Highlight.escapeHtml;
 
   function chapterFromHash() {
