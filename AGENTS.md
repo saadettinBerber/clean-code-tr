@@ -64,6 +64,7 @@ Bu proje, Robert C. Martin'in "Clean Code: A Handbook of Agile Software Craftsma
 ```
 Clean Code/
 ├── index.html                  Okuyucu uygulaması (tek sayfa, kitap benzeri arayüz)
+├── notes.html                  Çalışma notları görünümü (notes.html#chapter-N)
 ├── css/reader.css              Okuyucu stili
 ├── js/
 │   ├── reader.js               Okuyucu motoru (tek/çift sayfa görünümü, gezinme, adres yönlendirme)
@@ -74,10 +75,12 @@ Clean Code/
 │   ├── concepts.js             Kavram kartları (few-shot modal)
 │   ├── panels.js               İçindekiler ve sözlük çekmeceleri
 │   ├── cover.js                Kapak görünümü (ilerleme, bölüm listesi)
+│   ├── notes.js                Çalışma notlarını yükler ve çizer (Blocks + Concepts yeniden kullanılır)
 │   └── highlight.js            Kod vurgulama (syntax highlighting)
 ├── data/
 │   ├── toc.js                  window.TOC — ÜRETİLİR (tools/toc_builder.py), elle düzenlenmez
 │   ├── glossary.js             window.GLOSSARY — ÜRETİLİR (glossary.md'den), elle düzenlenmez
+│   ├── notes/chapter-N.js      window.NOTES({chapter, sets}) — bölüm çalışma notları + kavram kartları
 │   └── pages/
 │       ├── page-N.js           Çevrilmiş sayfa: window.PAGE({...}) — format: tools/FORMAT.md
 │       └── page-N_images/      Sayfadan çıkarılan PNG görseller
@@ -137,6 +140,13 @@ Kullanıcı `/cevir N`, `/cevir next`, "sıradaki sayfa", "devam et" vb. dediği
 6. **Commit ve push**: `git add -A && git commit -m "Sayfa N çevirisi eklendi — Chapter X: Title"` ardından `git push`. Bu adım her çeviri sonunda otomatik yapılır. (Git Commit Kuralı'na bak: yapay zeka imzası yok.)
 
 Yeni bir bölüme geçerken özel bir işlem gerekmez; `chapters` tablosu tüm bölümleri başlangıç sayfalarıyla zaten içerir.
+
+## Çalışma Notları (Sayfa 88 ve sonrası)
+
+- Sayfa 87'den sonrası tam çeviri olarak eklenmez (kitabın metni ve kod listeleri birebir kopyalanmaz). Bunun yerine her bölüm için `data/notes/chapter-N.js` dosyasına kendi cümlelerimizle yazılmış iki dilli çalışma notları eklenir.
+- Bir not seti (`sets[]`): `id`, `pages: [ilk, son]`, `title {en, tr}`, `blocks` (yalnız `heading`, `para`, `list`; şema `tools/FORMAT.md` ile aynı) ve `concepts` (2-4 yapılı kart, kitaptakinden FARKLI özgün örneklerle).
+- Notlar ana fikirleri, gerekçeleri ve kuralları anlatır; kitaptaki cümleler yakın biçimde yeniden yazılmaz, kod listeleri kopyalanmaz (gerekirse yalnız adıyla anılır, ör. Listing 5-6 `CodeAnalyzer`).
+- Görüntüleme: `notes.html#chapter-N` (dil modu okuyucuyla ortak `localStorage` anahtarını kullanır). Not dosyası değişince `js/notes.js` içindeki `ASSET_VERSION` artırılır.
 
 ## Okuyucu (Reader) Özellikleri
 
