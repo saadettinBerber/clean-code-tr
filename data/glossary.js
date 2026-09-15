@@ -170,6 +170,11 @@ window.GLOSSARY = [
     "note": "Sektörde \"bug\" olarak da kullanılır"
   },
   {
+    "en": "BUILD-OPERATE-CHECK",
+    "tr": "KUR-İŞLET-DENETLE (BUILD-OPERATE-CHECK)",
+    "note": "Testi üç bölüme ayıran desen: test verisini kur, bu veri üzerinde işlem yap, işlemin beklenen sonucu verdiğini denetle; Arrange-Act-Assert olarak da bilinir (FitNesse kabul testi desenleri)"
+  },
+  {
     "en": "Business Rule",
     "tr": "İş Kuralı (Business Rule)",
     "note": "Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir"
@@ -198,6 +203,11 @@ window.GLOSSARY = [
     "en": "Chain of Inheritance",
     "tr": "Kalıtım Zinciri (Chain of Inheritance)",
     "note": "Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi"
+  },
+  {
+    "en": "Check In",
+    "tr": "Teslim Etmek (Check In)",
+    "note": "Kod ve test değişikliklerini sürüm kontrol sistemindeki depoya kaydetmek; commit ile benzer anlamda"
   },
   {
     "en": "Checked Exception",
@@ -233,6 +243,11 @@ window.GLOSSARY = [
     "en": "Clean Code",
     "tr": "Temiz Kod (Clean Code)",
     "note": ""
+  },
+  {
+    "en": "Clean Test",
+    "tr": "Temiz Test (Clean Test)",
+    "note": "Başlıca niteliği okunabilirlik olan test: açıklık, sadelik ve ifade yoğunluğu; az ifadeyle çok şey söyler"
   },
   {
     "en": "Client Code",
@@ -370,6 +385,11 @@ window.GLOSSARY = [
     "note": "Yazılım zanaatı"
   },
   {
+    "en": "Crawler",
+    "tr": "Tarayıcı (Crawler)",
+    "note": "Sayfaları dolaşıp işleyen bileşen; FitNesse'de wiki sayfalarını ekleyip bulan nesne (crawler.addPage). Web tarayıcısı (browser) ile karıştırılmamalı"
+  },
+  {
     "en": "Crisp Abstraction",
     "tr": "Keskin Soyutlama (Crisp Abstraction)",
     "note": "Grady Booch'un temiz kod tanımından; net ve öz soyutlama"
@@ -475,6 +495,11 @@ window.GLOSSARY = [
     "note": "Temiz olmayan, bakımı zor kod"
   },
   {
+    "en": "Dirty Tests",
+    "tr": "Kirli Testler (Dirty Tests)",
+    "note": "Kalite standartları gözetilmeden “çabuk ve kirli” yazılmış testler; değiştirilmeleri zorlaşır ve zamanla bir yüke dönüşürler"
+  },
+  {
     "en": "Disinformation",
     "tr": "Yanlış Bilgi (Disinformation)",
     "note": "İsimlerin okuyucuyu yanlış yönlendirmesi"
@@ -490,6 +515,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Domain-Specific Testing Language",
+    "tr": "Alana Özgü Test Dili (Domain-Specific Testing Language)",
+    "note": "Sistem API'lerinin üzerine kurulan, testleri yazmayı ve okumayı kolaylaştıran fonksiyon ve yardımcı araçlardan oluşan test dili; baştan tasarlanmaz, test kodunun yeniden düzenlenmesiyle gelişir"
+  },
+  {
     "en": "Don't Repeat Yourself (DRY)",
     "tr": "Kendini Tekrar Etme (Don't Repeat Yourself / DRY)",
     "note": "Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı"
@@ -498,6 +528,16 @@ window.GLOSSARY = [
     "en": "Double Dispatch",
     "tr": "Çift Gönderim (Double Dispatch)",
     "note": "Çağrılacak metodu iki nesnenin türüne göre seçme tekniği"
+  },
+  {
+    "en": "Driver Program",
+    "tr": "Sürücü Program (Driver Program)",
+    "note": "Test edilen kodu çağırıp onunla elle etkileşim kurmayı sağlayan basit, çoğu zaman kullanılıp atılan yardımcı program"
+  },
+  {
+    "en": "Dual Standard",
+    "tr": "Çifte Standart (Dual Standard)",
+    "note": "Test kodunun üretim kodundan farklı mühendislik standartlarına tabi olması: basit, öz ve anlatımlı olmalı, ancak üretim kodu kadar verimli olması gerekmez"
   },
   {
     "en": "Dummy Scope",
@@ -523,6 +563,11 @@ window.GLOSSARY = [
     "en": "Elegant",
     "tr": "Zarif (Elegant)",
     "note": "Hoş derecede zarif, şık ve basit kod"
+  },
+  {
+    "en": "Embedded System",
+    "tr": "Gömülü Sistem (Embedded System)",
+    "note": "Daha büyük bir cihazın parçası olarak, çoğu zaman gerçek zamanlı kısıtlar altında belirli bir işi yapan bilgisayar sistemi"
   },
   {
     "en": "Encapsulation",
@@ -643,6 +688,11 @@ window.GLOSSARY = [
     "en": "Flag Argument",
     "tr": "Bayrak Argümanı (Flag Argument)",
     "note": "Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir"
+  },
+  {
+    "en": "Flexibility",
+    "tr": "Esneklik (Flexibility)",
+    "note": "Kodun değişikliklere kolayca uyum sağlayabilmesi; birim testlerinin mümkün kıldığı -liklerden biri"
   },
   {
     "en": "Floating Point",
@@ -793,6 +843,11 @@ window.GLOSSARY = [
     "en": "Inheritance",
     "tr": "Kalıtım (Inheritance)",
     "note": ""
+  },
+  {
+    "en": "Instance",
+    "tr": "Örnek (Instance)",
+    "note": "Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği"
   },
   {
     "en": "Instance Variable",
@@ -1270,6 +1325,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Real-Time System",
+    "tr": "Gerçek Zamanlı Sistem (Real-Time System)",
+    "note": "Girdilere belirli zaman sınırları içinde yanıt vermek zorunda olan sistem; çoğunlukla gömülü olup işlemci ve bellek kaynakları kısıtlıdır (Bölüm 9, çifte standart tartışması)"
+  },
+  {
     "en": "Recompilation",
     "tr": "Yeniden Derleme (Recompilation)",
     "note": "Değişiklik sonrası kodun tekrar derlenmesi"
@@ -1325,9 +1385,19 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Resource",
+    "tr": "Kaynak (Resource)",
+    "note": "Bir isteğin hedeflediği, URL ile adreslenen öğe; ör. FitNesse'de request.setResource(\"root\")"
+  },
+  {
     "en": "Return Code",
     "tr": "Dönüş Kodu (Return Code)",
     "note": "Fonksiyonun başarı/hata durumunu dönüş değeriyle bildirmesi; Bölüm 7 bunun yerine istisna kullanmayı önerir"
+  },
+  {
+    "en": "Reusability",
+    "tr": "Yeniden Kullanılabilirlik (Reusability)",
+    "note": "Kodun başka bağlamlarda yeniden kullanılabilmesi; testlerin güvence altına aldığı -liklerden biri"
   },
   {
     "en": "Routine",
@@ -1545,9 +1615,24 @@ window.GLOSSARY = [
     "note": "Çevrilmez"
   },
   {
+    "en": "Test Coverage",
+    "tr": "Test Kapsamı (Test Coverage)",
+    "note": "Üretim kodunun testlerle çalıştırılan bölümünün oranı; yükseldikçe değişiklik yapma korkusu azalır"
+  },
+  {
     "en": "Test Driven Development",
     "tr": "Test Güdümlü Geliştirme (Test Driven Development / TDD)",
     "note": "Önce test yaz, sonra kodu yaz disiplini"
+  },
+  {
+    "en": "Test Suite",
+    "tr": "Test Paketi (Test Suite)",
+    "note": "Bir sistemin otomatik testlerinin bütünü; üretim kodu değiştikçe onunla birlikte bakımı yapılmalıdır"
+  },
+  {
+    "en": "Testing API",
+    "tr": "Test API'si (Testing API)",
+    "note": "Testlerin kullandığı, sistemin API'lerini saran özelleşmiş fonksiyon ve yardımcı araçlar kümesi; alana özgü test dilinin kendisi"
   },
   {
     "en": "Third-Party API",
@@ -1558,6 +1643,16 @@ window.GLOSSARY = [
     "en": "Third-Party Code",
     "tr": "Üçüncü Taraf Kod (Third-Party Code)",
     "note": "Satın alınan paketler, açık kaynak kütüphaneler ya da başka ekiplerin ürettiği, kontrolümüzde olmayan kod; sağlayıcı geniş uygulanabilirlik, kullanıcı ise odaklı bir arayüz ister (Bölüm 8)"
+  },
+  {
+    "en": "Thread",
+    "tr": "İş Parçacığı (Thread)",
+    "note": "Bir süreç içinde diğer işlerle eşzamanlı yürütülebilen bağımsız çalışma birimi"
+  },
+  {
+    "en": "Three Laws of TDD",
+    "tr": "TDD'nin Üç Yasası (Three Laws of TDD)",
+    "note": "Robert C. Martin: başarısız bir birim testi yazmadan üretim kodu yazma; testin yalnızca başarısız olmaya yetecek kadarını yaz (derlenmemek de başarısızlıktır); yalnızca başarısız testi geçirecek kadar üretim kodu yaz"
   },
   {
     "en": "Tiger Team",

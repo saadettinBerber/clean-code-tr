@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 120,
+  "last_translated_page": 129,
   "chapters": [
     {
       "num": 1,
@@ -1067,6 +1067,78 @@
       "title_tr": "Temiz Sınırlar ve Kaynakça",
       "section_en": "Clean Boundaries",
       "section_tr": "Temiz Sınırlar"
+    },
+    "121": {
+      "pdf_page": 121,
+      "chapter": 9,
+      "title_en": "Unit Tests",
+      "title_tr": "Birim Testleri",
+      "section_en": "",
+      "section_tr": ""
+    },
+    "122": {
+      "pdf_page": 122,
+      "chapter": 9,
+      "title_en": "The Three Laws of TDD",
+      "title_tr": "TDD'nin Üç Yasası",
+      "section_en": "The Three Laws of TDD",
+      "section_tr": "TDD'nin Üç Yasası"
+    },
+    "123": {
+      "pdf_page": 123,
+      "chapter": 9,
+      "title_en": "The Cost of Dirty Tests",
+      "title_tr": "Kirli Testlerin Bedeli",
+      "section_en": "Keeping Tests Clean",
+      "section_tr": "Testleri Temiz Tutmak"
+    },
+    "124": {
+      "pdf_page": 124,
+      "chapter": 9,
+      "title_en": "Tests Enable Change",
+      "title_tr": "Testler Değişimi Mümkün Kılar",
+      "section_en": "Keeping Tests Clean",
+      "section_tr": "Testleri Temiz Tutmak"
+    },
+    "125": {
+      "pdf_page": 125,
+      "chapter": 9,
+      "title_en": "Listing 9-1: Noisy Tests",
+      "title_tr": "Listing 9-1: Gürültülü Testler",
+      "section_en": "Clean Tests",
+      "section_tr": "Temiz Testler"
+    },
+    "126": {
+      "pdf_page": 126,
+      "chapter": 9,
+      "title_en": "From Noisy Details to a Refactored Test",
+      "title_tr": "Gürültülü Ayrıntılardan Yeniden Düzenlenmiş Teste",
+      "section_en": "Clean Tests",
+      "section_tr": "Temiz Testler"
+    },
+    "127": {
+      "pdf_page": 127,
+      "chapter": 9,
+      "title_en": "Testing Language and Dual Standard",
+      "title_tr": "Test Dili ve Çifte Standart",
+      "section_en": "Clean Tests",
+      "section_tr": "Temiz Testler"
+    },
+    "128": {
+      "pdf_page": 128,
+      "chapter": 9,
+      "title_en": "Compact State Strings in Tests",
+      "title_tr": "Testlerde Sıkıştırılmış Durum Dizgisi",
+      "section_en": "Clean Tests",
+      "section_tr": "Temiz Testler"
+    },
+    "129": {
+      "pdf_page": 129,
+      "chapter": 9,
+      "title_en": "Efficiency in Test Code",
+      "title_tr": "Test Kodunda Verimlilik",
+      "section_en": "Clean Tests",
+      "section_tr": "Temiz Testler"
     }
   }
 }
