@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 112,
+  "lastTranslatedPage": 120,
   "chapters": [
     {
       "num": 1,
@@ -1346,6 +1346,94 @@ window.TOC = {
         "tr": "Null Geçirmeyin"
       },
       "chapter": 7
+    },
+    "113": {
+      "title": {
+        "en": "Boundaries",
+        "tr": "Sınırlar"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 8
+    },
+    "114": {
+      "title": {
+        "en": "The Overly Broad Map Interface",
+        "tr": "Map'in Fazla Geniş Arayüzü"
+      },
+      "section": {
+        "en": "Using Third-Party Code",
+        "tr": "Üçüncü Taraf Kod Kullanmak"
+      },
+      "chapter": 8
+    },
+    "115": {
+      "title": {
+        "en": "Hiding the Boundary Interface",
+        "tr": "Sınır Arayüzünü Gizlemek"
+      },
+      "section": {
+        "en": "Using Third-Party Code",
+        "tr": "Üçüncü Taraf Kod Kullanmak"
+      },
+      "chapter": 8
+    },
+    "116": {
+      "title": {
+        "en": "Learning Tests",
+        "tr": "Öğrenme Testleri"
+      },
+      "section": {
+        "en": "Exploring and Learning Boundaries",
+        "tr": "Sınırları Keşfetmek ve Öğrenmek"
+      },
+      "chapter": 8
+    },
+    "117": {
+      "title": {
+        "en": "Encoding Discoveries into Tests",
+        "tr": "Keşifleri Testlere Dökmek"
+      },
+      "section": {
+        "en": "Learning log4j",
+        "tr": "log4j'yi Öğrenmek"
+      },
+      "chapter": 8
+    },
+    "118": {
+      "title": {
+        "en": "Learning Tests Are Better Than Free",
+        "tr": "Öğrenme Testleri Bedavadan da İyidir"
+      },
+      "section": {
+        "en": "Learning log4j",
+        "tr": "log4j'yi Öğrenmek"
+      },
+      "chapter": 8
+    },
+    "119": {
+      "title": {
+        "en": "The Interface We Wish We Had",
+        "tr": "Keşke Olsaydı Dediğimiz Arayüz"
+      },
+      "section": {
+        "en": "Using Code That Does Not Yet Exist",
+        "tr": "Henüz Var Olmayan Kodu Kullanmak"
+      },
+      "chapter": 8
+    },
+    "120": {
+      "title": {
+        "en": "Clean Boundaries and Bibliography",
+        "tr": "Temiz Sınırlar ve Kaynakça"
+      },
+      "section": {
+        "en": "Clean Boundaries",
+        "tr": "Temiz Sınırlar"
+      },
+      "chapter": 8
     }
   }
 };

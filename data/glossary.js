@@ -30,6 +30,11 @@ window.GLOSSARY = [
     "note": "Veritabanı tablosunu doğrudan yansıtan, save/find gibi gezinme metotları olan özel DTO biçimi"
   },
   {
+    "en": "Adapter Pattern",
+    "tr": "Adaptör Deseni (Adapter Pattern)",
+    "note": "Uyumsuz bir arayüzü (ör. üçüncü taraf API) uygulamanın beklediği arayüze çeviren tasarım deseni; API değiştiğinde tek değişiklik noktası sağlar [GOF]"
+  },
+  {
     "en": "Address",
     "tr": "Adres (Address)",
     "note": ""
@@ -130,6 +135,21 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Boundary",
+    "tr": "Sınır (Boundary)",
+    "note": "Kendi kodumuzun kontrol etmediğimiz kodla (üçüncü taraf paket, açık kaynak ya da başka bir ekibin bileşeni) buluştuğu yer; Chapter 8'in konusu"
+  },
+  {
+    "en": "Boundary Interface",
+    "tr": "Sınır Arayüzü (Boundary Interface)",
+    "note": "Sistemin sınırında üçüncü taraf kodla temas eden arayüz (ör. Map); kullanıldığı sınıfta ya da yakın sınıf ailesinde tutulmalı, public API'lerde dolaştırılmamalı"
+  },
+  {
+    "en": "Boundary Test",
+    "tr": "Sınır Testi (Boundary Test)",
+    "note": "Üçüncü taraf koda giden arayüzü üretim kodunun kullandığı şekilde çalıştıran testler; yeni sürümlere geçişi kolaylaştırır"
+  },
+  {
     "en": "Boy Scout Rule",
     "tr": "İzci Kuralı (Boy Scout Rule)",
     "note": "Kamp alanını bulduğundan daha temiz bırak prensibi"
@@ -170,6 +190,11 @@ window.GLOSSARY = [
     "note": "Zanaata ve koda duyulan özen"
   },
   {
+    "en": "Casting",
+    "tr": "Tür Dönüştürme (Casting)",
+    "note": "Bir değeri açıkça başka bir türe çevirme, ör. (Sensor) sensors.get(id); istemci koda dağıldığında kodu kirletir"
+  },
+  {
     "en": "Chain of Inheritance",
     "tr": "Kalıtım Zinciri (Chain of Inheritance)",
     "note": "Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi"
@@ -208,6 +233,11 @@ window.GLOSSARY = [
     "en": "Clean Code",
     "tr": "Temiz Kod (Clean Code)",
     "note": ""
+  },
+  {
+    "en": "Client Code",
+    "tr": "İstemci Kod (Client Code)",
+    "note": "Bir sınıfı, arayüzü ya da API'yi kullanan (çağıran) kod"
   },
   {
     "en": "Closing Brace",
@@ -390,6 +420,11 @@ window.GLOSSARY = [
     "note": "Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi"
   },
   {
+    "en": "Default Constructor",
+    "tr": "Varsayılan Kurucu (Default Constructor)",
+    "note": "Argüman almayan kurucu; log4j'de ConsoleAppender'ın varsayılan kurucusu nesneyi yapılandırılmamış bırakır"
+  },
+  {
     "en": "Delegation",
     "tr": "Delege Etme (Delegation)",
     "note": "Sorumluluğu başka bir nesneye devretme"
@@ -565,6 +600,11 @@ window.GLOSSARY = [
     "note": "Nesne oluşturma mantığını kapsülleyen metot"
   },
   {
+    "en": "Fake",
+    "tr": "Sahte Nesne (Fake)",
+    "note": "Testte gerçek bağımlılığın yerine geçen, basit ama çalışan gerçekleştirim; ör. FakeTransmitter"
+  },
+  {
     "en": "False Clue",
     "tr": "Yanlış İpucu (False Clue)",
     "note": "Kodun anlamını bulanıklaştıran yanıltıcı isimler"
@@ -640,6 +680,11 @@ window.GLOSSARY = [
     "note": "Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.)"
   },
   {
+    "en": "Generics",
+    "tr": "Jenerik Türler (Generics)",
+    "note": "Java 5 ile gelen, sınıf ve koleksiyonların tür parametresi almasını sağlayan özellik (ör. Map<Sensor>); tür dönüştürme ihtiyacını azaltır"
+  },
+  {
     "en": "Gratuitous Context",
     "tr": "Gereksiz Bağlam (Gratuitous Context)",
     "note": "Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek"
@@ -713,6 +758,11 @@ window.GLOSSARY = [
     "en": "Implementation",
     "tr": "Gerçekleştirim (Implementation)",
     "note": "Bir arayüzün ya da soyutlamanın somut kod karşılığı; Bölüm 6'da veri soyutlama ve gizleme bağlamında sürekli geçer"
+  },
+  {
+    "en": "Implementation Detail",
+    "tr": "Gerçekleştirim Ayrıntısı (Implementation Detail)",
+    "note": "Bir sınıfın kullanıcılarının bilmesi ya da umursaması gerekmeyen iç tercih (ör. jenerik tür kullanılıp kullanılmadığı)"
   },
   {
     "en": "Implicity",
@@ -798,6 +848,11 @@ window.GLOSSARY = [
     "en": "Law of Demeter",
     "tr": "Demeter Yasası (Law of Demeter)",
     "note": "Bir modül üzerinde çalıştığı nesnelerin iç yapısını bilmemelidir"
+  },
+  {
+    "en": "Learning Test",
+    "tr": "Öğrenme Testi (Learning Test)",
+    "note": "Jim Newkirk'ün terimi: üçüncü taraf bir API'yi, uygulamada kullanılacağı şekilde çağırarak onu ne kadar anladığımızı sınayan kontrollü deney niteliğindeki test"
   },
   {
     "en": "LeBlanc's Law",
@@ -1050,6 +1105,11 @@ window.GLOSSARY = [
     "note": "Sınıflar genişlemeye açık, değişikliğe kapalı olmalı"
   },
   {
+    "en": "Open Source",
+    "tr": "Açık Kaynak (Open Source)",
+    "note": "Kaynak kodu herkesin kullanımına açık olarak dağıtılan yazılım"
+  },
+  {
     "en": "Open/Closed Principle (OCP)",
     "tr": "Açık/Kapalı İlkesi (OCP)",
     "note": "Genişletmeye açık, değişikliğe kapalı prensibi"
@@ -1060,9 +1120,19 @@ window.GLOSSARY = [
     "note": "Bir ifadede operatörlerin hangi sırayla değerlendirileceği; ör. çarpma toplamadan önce"
   },
   {
+    "en": "Outbound Test",
+    "tr": "Dışa Dönük Test (Outbound Test)",
+    "note": "Kendi kodumuzdan üçüncü taraf arayüze doğru yapılan çağrıları, üretim kodunun kullandığı biçimde sınayan test"
+  },
+  {
     "en": "Output Argument",
     "tr": "Çıkış Argümanı (Output Argument)",
     "note": "Değer döndürmek için kullanılan argüman"
+  },
+  {
+    "en": "Output Stream",
+    "tr": "Çıkış Akışı (Output Stream)",
+    "note": "Verinin yazıldığı hedef akış (ör. konsol, dosya); log4j'de bir Appender'ın mesajları gönderdiği yer"
   },
   {
     "en": "Overload",
@@ -1138,6 +1208,11 @@ window.GLOSSARY = [
     "en": "Procedural Code",
     "tr": "Prosedürel Kod (Procedural Code)",
     "note": "Veri yapıları üzerinde çalışan fonksiyonlarla yazılan kod"
+  },
+  {
+    "en": "Production Code",
+    "tr": "Üretim Kodu (Production Code)",
+    "note": "Uygulamanın gerçekte çalışan, test kodu olmayan kısmı"
   },
   {
     "en": "Productivity",
@@ -1293,6 +1368,11 @@ window.GLOSSARY = [
     "en": "Scope",
     "tr": "Kapsam (Scope)",
     "note": "Bir değişkenin geçerli olduğu kod alanı"
+  },
+  {
+    "en": "Seam",
+    "tr": "Dikiş Noktası (Seam)",
+    "note": "Kodu o noktada düzenlemeden davranışı değiştirebildiğiniz yer; ör. bir arayüz üzerinden test için sahte nesne takmak [WELC]"
   },
   {
     "en": "Search-friendly name",
@@ -1473,6 +1553,11 @@ window.GLOSSARY = [
     "en": "Third-Party API",
     "tr": "Üçüncü Taraf API (Third-Party API)",
     "note": "Başka bir satıcı ya da ekip tarafından sağlanan API; sarmalanarak bağımlılık azaltılır"
+  },
+  {
+    "en": "Third-Party Code",
+    "tr": "Üçüncü Taraf Kod (Third-Party Code)",
+    "note": "Satın alınan paketler, açık kaynak kütüphaneler ya da başka ekiplerin ürettiği, kontrolümüzde olmayan kod; sağlayıcı geniş uygulanabilirlik, kullanıcı ise odaklı bir arayüz ister (Bölüm 8)"
   },
   {
     "en": "Tiger Team",
