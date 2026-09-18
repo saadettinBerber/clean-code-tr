@@ -190,6 +190,11 @@ window.GLOSSARY = [
     "note": "Testi üç bölüme ayıran desen: test verisini kur, bu veri üzerinde işlem yap, işlemin beklenen sonucu verdiğini denetle; Arrange-Act-Assert olarak da bilinir (FitNesse kabul testi desenleri)"
   },
   {
+    "en": "Business Logic",
+    "tr": "İş Mantığı (Business Logic)",
+    "note": "Uygulamanın iş kurallarını (Business Rule) uygulayan mantık katmanı; sözlükteki 'İş Kuralı (Business Rule)' teriminden türetilmiştir."
+  },
+  {
     "en": "Business Rule",
     "tr": "İş Kuralı (Business Rule)",
     "note": "Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir"
@@ -363,6 +368,11 @@ window.GLOSSARY = [
     "en": "Concrete Class",
     "tr": "Somut Sınıf (Concrete Class)",
     "note": "Gerçekleştirim ayrıntılarını (kodu) içeren sınıf; istemcinin doğrudan somut sınıfa bağımlı olması, ayrıntılar değiştiğinde risk yaratır"
+  },
+  {
+    "en": "Configuration File",
+    "tr": "Yapılandırma Dosyası (Configuration File)",
+    "note": "Hangi nesnelerin birbirine bağlanacağı (wiring) gibi kurulum kararlarının koda gömülmek yerine dışarıda tutulduğu dosya; ör. Spring'in XML yapılandırma dosyası"
   },
   {
     "en": "Consistent Lexicon",
@@ -595,6 +605,11 @@ window.GLOSSARY = [
     "note": "Kodun performans ve kaynak kullanımı açısından etkinliği"
   },
   {
+    "en": "EJB (Enterprise JavaBeans)",
+    "tr": "EJB (Kurumsal JavaBeans)",
+    "note": "Dağıtık kurumsal bileşenler için eski Java EE bileşen standardı; kitapta EJB1 ve EJB2 sürümleri geçer. Terim kısaltma olarak olduğu gibi kullanılır."
+  },
+  {
     "en": "Elegant",
     "tr": "Zarif (Elegant)",
     "note": "Hoş derecede zarif, şık ve basit kod"
@@ -613,6 +628,11 @@ window.GLOSSARY = [
     "en": "Entity",
     "tr": "Varlık (Entity)",
     "note": "Sınıf, metot, fonksiyon gibi yapı"
+  },
+  {
+    "en": "Entity Bean",
+    "tr": "Entity Bean (Varlık Bean’i)",
+    "note": "EJB2’de ilişkisel verinin (bir tablo satırının) bellek içi temsilini sağlayan kalıcı bileşen; kalıcılık, işlem ve iş API’sini tek sınıfta birleştirmesi organik büyümeyi engeller."
   },
   {
     "en": "Error Code",
@@ -910,6 +930,11 @@ window.GLOSSARY = [
     "note": "Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken"
   },
   {
+    "en": "Instantiation",
+    "tr": "Örnekleme (Instantiation)",
+    "note": "Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer"
+  },
+  {
     "en": "Integer Handle",
     "tr": "Tamsayı Tanıtıcısı (Integer Handle)",
     "note": ""
@@ -930,9 +955,19 @@ window.GLOSSARY = [
     "note": "Kaynak kodu satır satır çalıştıran program"
   },
   {
+    "en": "Inversion of Control (IoC)",
+    "tr": "Kontrolün Tersine Çevrilmesi (Inversion of Control — IoC)",
+    "note": "Bağımlılık yönetiminde kontrolün nesneden, bu amaca adanmış harici bir mekanizmaya (main, kap/container) devredilmesi ilkesi; Bağımlılık Enjeksiyonu (DI) bu ilkenin uygulanmasıdır"
+  },
+  {
     "en": "Javadoc",
     "tr": "Javadoc",
     "note": "Java API dokümantasyon formatı"
+  },
+  {
+    "en": "JNDI",
+    "tr": "JNDI",
+    "note": "Java Naming and Directory Interface; bir dizin sunucusundan (directory server) ada göre hizmet/nesne aramayı sağlayan Java API'si; DI'ın 'kısmi' bir gerçekleştirimi olarak kabul edilir"
   },
   {
     "en": "JobQueue",
@@ -943,6 +978,11 @@ window.GLOSSARY = [
     "en": "Journal Comment",
     "tr": "Günlük Yorumu (Journal Comment)",
     "note": "Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum"
+  },
+  {
+    "en": "JVM",
+    "tr": "JVM (Java Sanal Makinesi)",
+    "note": "Java Virtual Machine; Java bayt kodunu çalıştıran sanal makine. Kitapta “ayrı JVM” (separate JVM), uzak arayüzün çalıştığı ayrı süreci ifade eder."
   },
   {
     "en": "Keyword Form",
@@ -1000,9 +1040,19 @@ window.GLOSSARY = [
     "note": "Bir projedeki tutarlı terimler bütünü"
   },
   {
+    "en": "Lifecycle Method",
+    "tr": "Yaşam Döngüsü Metodu (Lifecycle Method)",
+    "note": "Konteynerin çağırdığı ejbCreate, ejbActivate, ejbLoad gibi, bir bileşenin yaşam döngüsünü yöneten metotlar."
+  },
+  {
     "en": "Literate Programming",
     "tr": "Okuryazar Programlama (Literate Programming)",
     "note": "Knuth'un kavramı: kod önce insanlar için yazılmalı"
+  },
+  {
+    "en": "Local Interface",
+    "tr": "Yerel Arayüz (Local Interface)",
+    "note": "EJB'de aynı JVM içinden erişim için kullanılan istemci arayüzü."
   },
   {
     "en": "Local Variable",
@@ -1260,6 +1310,11 @@ window.GLOSSARY = [
     "note": "Bir ifadede operatörlerin hangi sırayla değerlendirileceği; ör. çarpma toplamadan önce"
   },
   {
+    "en": "Organic Growth",
+    "tr": "Organik Büyüme (Organic Growth)",
+    "note": "Sistemin büyük bir ön tasarım yerine küçük adımlarla, gerçek ihtiyaçlara göre doğal biçimde büyümesi; uygun kaygı ayrımı (separation of concerns) gerektirir."
+  },
+  {
     "en": "Outbound Test",
     "tr": "Dışa Dönük Test (Outbound Test)",
     "note": "Kendi kodumuzdan üçüncü taraf arayüze doğru yapılan çağrıları, üretim kodunun kullandığı biçimde sınayan test"
@@ -1393,6 +1448,11 @@ window.GLOSSARY = [
     "en": "Protected Variable",
     "tr": "Korumalı Değişken (Protected Variable)",
     "note": "Alt sınıflardan erişilebilen değişken; ilişkili kavramları dosyalara dağıttığı için kaçınılmalıdır"
+  },
+  {
+    "en": "Proxy",
+    "tr": "Vekil (Proxy)",
+    "note": "Başka bir nesneyi temsil eden, istenen işi ona devreden sarmalayıcı nesne; tembel değerlendirme (lazy evaluation) gibi optimizasyonlar için kullanılabilir"
   },
   {
     "en": "Pun",
@@ -1570,6 +1630,11 @@ window.GLOSSARY = [
     "note": "Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer."
   },
   {
+    "en": "Setter Method",
+    "tr": "Set Metodu (Setter Method)",
+    "note": "Bir özelliği dışarıdan atamaya yarayan metot; DI'da bağımlılıklar setter metotları ya da kurucu argümanlarıyla enjekte edilir (JavaBeans'teki Mutator ile aynı kavram)"
+  },
+  {
     "en": "Setup",
     "tr": "Kurulum (Setup)",
     "note": "FitNesse test sayfalarında testten önce çalıştırılan hazırlık sayfası/adımı"
@@ -1640,6 +1705,11 @@ window.GLOSSARY = [
     "note": "Biçimsel gereksinim tanımı"
   },
   {
+    "en": "Spring Framework",
+    "tr": "Spring Framework",
+    "note": "Java için en bilinen DI kabını (container) sağlayan açık kaynaklı çerçeve; XML yapılandırma dosyasıyla bağlama (wiring) yapmayı destekler; Spring.NET adlı bir .NET sürümü de vardır"
+  },
+  {
     "en": "Stack Trace",
     "tr": "Yığın İzi (Stack Trace)",
     "note": "İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez"
@@ -1663,6 +1733,11 @@ window.GLOSSARY = [
     "en": "Stepdown Rule",
     "tr": "Basamak Kuralı (Stepdown Rule)",
     "note": "Kodun üst seviyeden alt seviyeye \"aşağı doğru\" okunması prensibi"
+  },
+  {
+    "en": "Story",
+    "tr": "Hikaye (Story)",
+    "note": "Çevik geliştirme (Agile) bağlamında, müşteriye değer katan küçük ve uygulanabilir işlev parçası; “bugünün hikayeleri” (today’s stories) ifadesi bu anlamdadır."
   },
   {
     "en": "StringBuffer",

@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 156,
+  "last_translated_page": 159,
   "chapters": [
     {
       "num": 1,
@@ -1347,6 +1347,30 @@
       "title_tr": "Fabrikalar: Soyut Fabrika (Abstract Factory)",
       "section_en": "Factories",
       "section_tr": "Fabrikalar"
+    },
+    "157": {
+      "pdf_page": 157,
+      "chapter": 11,
+      "title_en": "Dependency Injection and Scaling Up",
+      "title_tr": "Bağımlılık Enjeksiyonu ve Ölçeği Büyütmek",
+      "section_en": "Scaling Up",
+      "section_tr": "Ölçeği Büyütmek"
+    },
+    "158": {
+      "pdf_page": 158,
+      "chapter": 11,
+      "title_en": "Scaling Up and the EJB2 Example",
+      "title_tr": "Ölçeği Büyütmek ve EJB2 Örneği",
+      "section_en": "Scaling Up",
+      "section_tr": "Ölçeği Büyütmek"
+    },
+    "159": {
+      "pdf_page": 159,
+      "chapter": 11,
+      "title_en": "The EJB2 Entity Bean Implementation",
+      "title_tr": "EJB2 Varlık Bean Gerçekleştirimi",
+      "section_en": "Scaling Up",
+      "section_tr": "Ölçeği Büyütmek"
     }
   }
 }

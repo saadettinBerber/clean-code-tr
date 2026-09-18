@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 156,
+  "lastTranslatedPage": 159,
   "chapters": [
     {
       "num": 1,
@@ -1812,6 +1812,39 @@ window.TOC = {
       "section": {
         "en": "Factories",
         "tr": "Fabrikalar"
+      },
+      "chapter": 11
+    },
+    "157": {
+      "title": {
+        "en": "Dependency Injection and Scaling Up",
+        "tr": "Bağımlılık Enjeksiyonu ve Ölçeği Büyütmek"
+      },
+      "section": {
+        "en": "Scaling Up",
+        "tr": "Ölçeği Büyütmek"
+      },
+      "chapter": 11
+    },
+    "158": {
+      "title": {
+        "en": "Scaling Up and the EJB2 Example",
+        "tr": "Ölçeği Büyütmek ve EJB2 Örneği"
+      },
+      "section": {
+        "en": "Scaling Up",
+        "tr": "Ölçeği Büyütmek"
+      },
+      "chapter": 11
+    },
+    "159": {
+      "title": {
+        "en": "The EJB2 Entity Bean Implementation",
+        "tr": "EJB2 Varlık Bean Gerçekleştirimi"
+      },
+      "section": {
+        "en": "Scaling Up",
+        "tr": "Ölçeği Büyütmek"
       },
       "chapter": 11
     }
