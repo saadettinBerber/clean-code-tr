@@ -20,6 +20,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Address | Adres (Address) |  |
 | Agile | Çevik (Agile) | Çevik yazılım geliştirme |
 | Amplification | Önem Belirtme (Amplification) | Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum |
+| Annotation | ek açıklama (annotation) | Java 5 ile gelen, sınıf, metot ve alanlara üstveri (metadata) ekleyen @ işaretli bildirimler; JPA gibi framework'ler bağlama (wiring) ve kalıcılık bilgisini bu ek açıklamalarla taşır. Kitapta 'Java 5 annotations' olarak geçer. |
 | Application Container | Konteyner (Container) | EJB'de bean'leri barındıran ve yaşam döngüsünü yöneten uygulama sunucusu ortamı; sözlükteki 'Kap (Container)' veri yapısı kapsayıcısından farklıdır. Kitapta 'konteyner' olarak kullanılır |
 | Argument | Argüman (Argument) | Fonksiyona geçirilen parametre |
 | Argument List | Argüman Listesi (Argument List) | Değişken sayıda argüman alan fonksiyonlar (varargs) |
@@ -52,6 +53,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Business Logic | İş Mantığı (Business Logic) | Uygulamanın iş kurallarını (Business Rule) uygulayan mantık katmanı; sözlükteki 'İş Kuralı (Business Rule)' teriminden türetilmiştir. |
 | Business Rule | İş Kuralı (Business Rule) | Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir |
 | Byte-Code Manipulation | Bayt Kodu İşleme (Byte-Code Manipulation) | Derlenmiş sınıf dosyalarının bayt kodunun çalışma anında değiştirilmesi; arayüzü olmayan sınıfları vekillemek için CGLIB, ASM, Javassist gibi kütüphaneler kullanılır. |
+| Caching | Önbellekleme (Caching) | Sık erişilen verilerin, tekrar hesaplama ya da veritabanı erişiminden kaçınmak için hızlı erişilen bellekte saklanması; çapraz kesim kaygısı (cross-cutting concern) örneği. |
 | Callee | Çağrılan Fonksiyon (Callee) | Başka bir fonksiyon tarafından çağrılan fonksiyon |
 | Caller | Çağıran Fonksiyon (Caller) | Başka bir fonksiyonu çağıran fonksiyon |
 | Care | Önemseme (Care) | Zanaata ve koda duyulan özen |
@@ -95,12 +97,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Context | Bağlam (Context) | Kodun anlaşılması için gereken çevresel bilgi |
 | Continuous Improvement | Sürekli İyileştirme (Continuous Improvement) |  |
 | Conundrum | İkilem (Conundrum) | Temiz kodun temel felsefesiyle ilgili zorluk |
+| Convention over Configuration | yapılandırmadan çok kural (convention over configuration) | Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır. |
 | Coupling | Bağımlılık (Coupling) | Bileşenlerin birbirine bağımlılığı |
 | Craftsmanship | Zanaat / Ustalık (Craftsmanship) | Yazılım zanaatı |
 | Crawler | Tarayıcı (Crawler) | Sayfaları dolaşıp işleyen bileşen; FitNesse'de wiki sayfalarını ekleyip bulan nesne (crawler.addPage). Web tarayıcısı (browser) ile karıştırılmamalı |
 | Crisp Abstraction | Keskin Soyutlama (Crisp Abstraction) | Grady Booch'un temiz kod tanımından; net ve öz soyutlama |
 | Cross-Cutting Concern | Çapraz Kesim Kaygısı (Cross-Cutting Concern) | Kalıcılık, güvenlik, işlem yönetimi gibi nesnelerin doğal sınırlarını keserek birçok modüle yayılan kaygı türü |
 | Data Abstraction | Veri Soyutlama (Data Abstraction) | Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma |
+| Data Access Object (DAO) | Veri Erişim Nesnesi (DAO) | Kalıcı depoya (ör. veritabanı) erişimi kapsülleyen, iş nesnesini depolama ayrıntılarından ayıran nesne; kitapta 'data accessor object (DAO)' olarak geçer. |
 | Data Structure | Veri Yapısı (Data Structure) | Verisini açıkça gösteren, anlamlı davranışı olmayan yapı |
 | Data Transfer Object (DTO) | Veri Aktarım Nesnesi (Data Transfer Object / DTO) | Public değişkenleri olan, fonksiyonu olmayan saf veri yapısı; veritabanı ve soket sınırlarında kullanılır |
 | Data Type | Veri Türü (Data Type) | Bir değişkenin veya değerin türünü belirten kavram |
@@ -110,6 +114,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Decay | Çürüme (Decay) | Kırık pencereler metaforunda kodun giderek kötüleşmesi |
 | Decisive | Kararlı (Decisive) | Kodun tereddütsüz ve kesin olması |
 | Declaration | Tanımlama (Declaration) | Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi |
+| Decorator (GoF pattern) | Süsleyici (Decorator) | GoF tasarım deseni: bir nesneyi aynı arayüzü taşıyan başka bir nesneyle sarmalayarak (wrap) davranışını saydam (transparent) biçimde genişletme; iç içe süsleyiciler 'Rus bebeği (Russian doll)' gibi katmanlanır. |
 | Decoupling | Ayrıştırma (Decoupling) | Bileşenler arasındaki bağımlılığı (coupling) azaltma; bu şekilde ayrıştırılmış sistemler daha kolay test edilir, daha esnektir ve yeniden kullanımı teşvik eder |
 | Default Constructor | Varsayılan Kurucu (Default Constructor) | Argüman almayan kurucu; log4j'de ConsoleAppender'ın varsayılan kurucusu nesneyi yapılandırılmamış bırakır |
 | Delegation | Delege Etme (Delegation) | Sorumluluğu başka bir nesneye devretme |
@@ -139,6 +144,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Efficiency | Verimlilik (Efficiency) | Kodun performans ve kaynak kullanımı açısından etkinliği |
 | EJB (Enterprise JavaBeans) | EJB (Kurumsal JavaBeans) | Dağıtık kurumsal bileşenler için eski Java EE bileşen standardı; kitapta EJB1 ve EJB2 sürümleri geçer. Terim kısaltma olarak olduğu gibi kullanılır. |
 | Elegant | Zarif (Elegant) | Hoş derecede zarif, şık ve basit kod |
+| Embeddable / @Embedded | Gömülebilir / @Embedded | JPA'da bir sınıfın, sahibi olan varlığın (entity) veritabanı satırına 'gömülü' olarak saklanmasını sağlayan eşleme; @Embeddable sınıfı, @Embedded alanı işaretler. |
 | Embedded System | Gömülü Sistem (Embedded System) | Daha büyük bir cihazın parçası olarak, çoğu zaman gerçek zamanlı kısıtlar altında belirli bir işi yapan bilgisayar sistemi |
 | Encapsulation | Kapsülleme (Encapsulation) |  |
 | Entity | Varlık (Entity) | Sınıf, metot, fonksiyon gibi yapı |
@@ -157,6 +163,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Extract Method | Metot Çıkarma (Extract Method) | Büyük bir metodu daha küçük parçalara bölme refactoring tekniği |
 | F.I.R.S.T. | F.I.R.S.T. | Temiz testlerin beş özelliği: Hızlı (Fast), Bağımsız (Independent), Tekrarlanabilir (Repeatable), Kendini Doğrulayan (Self-Validating), Zamanında (Timely) |
 | Factory Method | Fabrika Metodu (Factory Method) | Nesne oluşturma mantığını kapsülleyen metot |
+| Failover | Hata Devri (Failover) | Bir bileşenin ya da sunucunun devre dışı kalması durumunda iş yükünün otomatik olarak yedek/başka bir bileşene aktarılması; çapraz kesim kaygısı (cross-cutting concern) örneği. |
 | Fake | Sahte Nesne (Fake) | Testte gerçek bağımlılığın yerine geçen, basit ama çalışan gerçekleştirim; ör. FakeTransmitter |
 | False Clue | Yanlış İpucu (False Clue) | Kodun anlamını bulanıklaştıran yanıltıcı isimler |
 | Feature | Özellik (Feature) |  |
@@ -207,12 +214,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Intention-Revealing Names | Niyet Belirten İsimler (Intention-Revealing Names) | Amacı açıkça ortaya koyan isimler |
 | Interface | Arayüz (Interface) |  |
 | Interpreter | Yorumlayıcı (Interpreter) | Kaynak kodu satır satır çalıştıran program |
+| Invasiveness | istilacılık (invasiveness) | Bir çerçevenin (framework) gereksinimlerinin iş nesnesinin içine girerek onu kirletmesi; EJB2'nin sınıf ve arayüz dayatmasının yan etkisi. |
 | Inversion of Control (IoC) | Kontrolün Tersine Çevrilmesi (Inversion of Control — IoC) | Bağımlılık yönetiminde kontrolün nesneden, bu amaca adanmış harici bir mekanizmaya (main, kap/container) devredilmesi ilkesi; Bağımlılık Enjeksiyonu (DI) bu ilkenin uygulanmasıdır |
 | InvocationHandler | Çağrı İşleyici (InvocationHandler) | Java yansıma (reflection) API'sindeki arayüz; vekile yapılan her metot çağrısı, bu nesnenin invoke metodu aracılığıyla ele alınır. |
 | Javadoc | Javadoc | Java API dokümantasyon formatı |
 | JNDI | JNDI | Java Naming and Directory Interface; bir dizin sunucusundan (directory server) ada göre hizmet/nesne aramayı sağlayan Java API'si; DI'ın 'kısmi' bir gerçekleştirimi olarak kabul edilir |
 | JobQueue | İş Kuyruğu (JobQueue) |  |
 | Journal Comment | Günlük Yorumu (Journal Comment) | Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum |
+| JPA (Java Persistence API) | JPA (Java Kalıcılık API'si — Java Persistence API) | EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API. |
 | JVM | JVM (Java Sanal Makinesi) | Java Virtual Machine; Java bayt kodunu çalıştıran sanal makine. Kitapta “ayrı JVM” (separate JVM), uzak arayüzün çalıştığı ayrı süreci ifade eder. |
 | Keyword Form | Anahtar Kelime Formu (Keyword Form) | Argüman isimlerini fonksiyon adına kodlama tekniği |
 | Language Bigot | Dil Bağnazı (Language Bigot) |  |
@@ -246,6 +255,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Metadata | Üstveri (Metadata) | Veriyi tanımlayan veri; ör. Sql sınıfına verilen tablo adı ve sütun bilgileri |
 | Method | Metot (Method) |  |
 | Method Chaining | Metot Zincirleme (Method Chaining) | Metot çağrılarını ardışık zincirleme |
+| Method Interception | Metot Araya Girme (Method Interception) | AOP'yi gerçekleştirmek için kullanılan tekniklerden biri; bir framework'ün bir metot çağrısını yakalayıp, çağrıdan önce/sonra davranış eklemesi (günlükleme, işlem, güvenlik vb.). Sayfada dipnot 11'de 'wrapping' (sarmalama) ile birlikte anılır. |
 | Method Name | Metot İsmi (Method Name) |  |
 | Minimal | Minimal (Minimal) | Mümkün olan en küçük, yalnızca gerekli olanı içeren |
 | Mis-type | Yanlış Yazım (Mis-type) |  |
@@ -409,6 +419,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Uncle Bob's Formatting Rules | Uncle Bob'un Biçimlendirme Kuralları | Bölüm 5'te yazarın kişisel biçimlendirme kurallarını CodeAnalyzer.java örneğiyle gösterdiği alt başlık (sayfa 91 ve devamı). |
 | Unit Test | Birim Testi (Unit Test) |  |
 | Unprofessional | Profesyonel Olmayan (Unprofessional) | Mesleğin gerekliliklerini yerine getirmemek |
+| User Story | Kullanıcı Hikayesi (User Story) | Çevik (Agile) geliştirmede, müşteriye değer katan küçük ve uygulanabilir işlev parçası; sözlükteki 'Hikaye (Story)' terimiyle uyumludur. |
 | Utility Class | Yardımcı Sınıf (Utility Class) | Birden çok sınıfın paylaştığı ortak private davranışı yalıtan küçük, odaklı sınıf; ör. Listing 10-10'daki Where ve ColumnList |
 | Variable | Değişken (Variable) |  |
 | Variable Declaration | Değişken Tanımlaması (Variable Declaration) | Değişkenler kullanıldıkları yere mümkün olduğunca yakın tanımlanmalıdır |

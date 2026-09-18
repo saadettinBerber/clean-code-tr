@@ -60,6 +60,11 @@ window.GLOSSARY = [
     "note": "Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum"
   },
   {
+    "en": "Annotation",
+    "tr": "ek açıklama (annotation)",
+    "note": "Java 5 ile gelen, sınıf, metot ve alanlara üstveri (metadata) ekleyen @ işaretli bildirimler; JPA gibi framework'ler bağlama (wiring) ve kalıcılık bilgisini bu ek açıklamalarla taşır. Kitapta 'Java 5 annotations' olarak geçer."
+  },
+  {
     "en": "Application Container",
     "tr": "Konteyner (Container)",
     "note": "EJB'de bean'leri barındıran ve yaşam döngüsünü yöneten uygulama sunucusu ortamı; sözlükteki 'Kap (Container)' veri yapısı kapsayıcısından farklıdır. Kitapta 'konteyner' olarak kullanılır"
@@ -218,6 +223,11 @@ window.GLOSSARY = [
     "en": "Byte-Code Manipulation",
     "tr": "Bayt Kodu İşleme (Byte-Code Manipulation)",
     "note": "Derlenmiş sınıf dosyalarının bayt kodunun çalışma anında değiştirilmesi; arayüzü olmayan sınıfları vekillemek için CGLIB, ASM, Javassist gibi kütüphaneler kullanılır."
+  },
+  {
+    "en": "Caching",
+    "tr": "Önbellekleme (Caching)",
+    "note": "Sık erişilen verilerin, tekrar hesaplama ya da veritabanı erişiminden kaçınmak için hızlı erişilen bellekte saklanması; çapraz kesim kaygısı (cross-cutting concern) örneği."
   },
   {
     "en": "Callee",
@@ -435,6 +445,11 @@ window.GLOSSARY = [
     "note": "Temiz kodun temel felsefesiyle ilgili zorluk"
   },
   {
+    "en": "Convention over Configuration",
+    "tr": "yapılandırmadan çok kural (convention over configuration)",
+    "note": "Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır."
+  },
+  {
     "en": "Coupling",
     "tr": "Bağımlılık (Coupling)",
     "note": "Bileşenlerin birbirine bağımlılığı"
@@ -463,6 +478,11 @@ window.GLOSSARY = [
     "en": "Data Abstraction",
     "tr": "Veri Soyutlama (Data Abstraction)",
     "note": "Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma"
+  },
+  {
+    "en": "Data Access Object (DAO)",
+    "tr": "Veri Erişim Nesnesi (DAO)",
+    "note": "Kalıcı depoya (ör. veritabanı) erişimi kapsülleyen, iş nesnesini depolama ayrıntılarından ayıran nesne; kitapta 'data accessor object (DAO)' olarak geçer."
   },
   {
     "en": "Data Structure",
@@ -508,6 +528,11 @@ window.GLOSSARY = [
     "en": "Declaration",
     "tr": "Tanımlama (Declaration)",
     "note": "Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi"
+  },
+  {
+    "en": "Decorator (GoF pattern)",
+    "tr": "Süsleyici (Decorator)",
+    "note": "GoF tasarım deseni: bir nesneyi aynı arayüzü taşıyan başka bir nesneyle sarmalayarak (wrap) davranışını saydam (transparent) biçimde genişletme; iç içe süsleyiciler 'Rus bebeği (Russian doll)' gibi katmanlanır."
   },
   {
     "en": "Decoupling",
@@ -655,6 +680,11 @@ window.GLOSSARY = [
     "note": "Hoş derecede zarif, şık ve basit kod"
   },
   {
+    "en": "Embeddable / @Embedded",
+    "tr": "Gömülebilir / @Embedded",
+    "note": "JPA'da bir sınıfın, sahibi olan varlığın (entity) veritabanı satırına 'gömülü' olarak saklanmasını sağlayan eşleme; @Embeddable sınıfı, @Embedded alanı işaretler."
+  },
+  {
     "en": "Embedded System",
     "tr": "Gömülü Sistem (Embedded System)",
     "note": "Daha büyük bir cihazın parçası olarak, çoğu zaman gerçek zamanlı kısıtlar altında belirli bir işi yapan bilgisayar sistemi"
@@ -743,6 +773,11 @@ window.GLOSSARY = [
     "en": "Factory Method",
     "tr": "Fabrika Metodu (Factory Method)",
     "note": "Nesne oluşturma mantığını kapsülleyen metot"
+  },
+  {
+    "en": "Failover",
+    "tr": "Hata Devri (Failover)",
+    "note": "Bir bileşenin ya da sunucunun devre dışı kalması durumunda iş yükünün otomatik olarak yedek/başka bir bileşene aktarılması; çapraz kesim kaygısı (cross-cutting concern) örneği."
   },
   {
     "en": "Fake",
@@ -995,6 +1030,11 @@ window.GLOSSARY = [
     "note": "Kaynak kodu satır satır çalıştıran program"
   },
   {
+    "en": "Invasiveness",
+    "tr": "istilacılık (invasiveness)",
+    "note": "Bir çerçevenin (framework) gereksinimlerinin iş nesnesinin içine girerek onu kirletmesi; EJB2'nin sınıf ve arayüz dayatmasının yan etkisi."
+  },
+  {
     "en": "Inversion of Control (IoC)",
     "tr": "Kontrolün Tersine Çevrilmesi (Inversion of Control — IoC)",
     "note": "Bağımlılık yönetiminde kontrolün nesneden, bu amaca adanmış harici bir mekanizmaya (main, kap/container) devredilmesi ilkesi; Bağımlılık Enjeksiyonu (DI) bu ilkenin uygulanmasıdır"
@@ -1023,6 +1063,11 @@ window.GLOSSARY = [
     "en": "Journal Comment",
     "tr": "Günlük Yorumu (Journal Comment)",
     "note": "Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum"
+  },
+  {
+    "en": "JPA (Java Persistence API)",
+    "tr": "JPA (Java Kalıcılık API'si — Java Persistence API)",
+    "note": "EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API."
   },
   {
     "en": "JVM",
@@ -1188,6 +1233,11 @@ window.GLOSSARY = [
     "en": "Method Chaining",
     "tr": "Metot Zincirleme (Method Chaining)",
     "note": "Metot çağrılarını ardışık zincirleme"
+  },
+  {
+    "en": "Method Interception",
+    "tr": "Metot Araya Girme (Method Interception)",
+    "note": "AOP'yi gerçekleştirmek için kullanılan tekniklerden biri; bir framework'ün bir metot çağrısını yakalayıp, çağrıdan önce/sonra davranış eklemesi (günlükleme, işlem, güvenlik vb.). Sayfada dipnot 11'de 'wrapping' (sarmalama) ile birlikte anılır."
   },
   {
     "en": "Method Name",
@@ -2003,6 +2053,11 @@ window.GLOSSARY = [
     "en": "Unprofessional",
     "tr": "Profesyonel Olmayan (Unprofessional)",
     "note": "Mesleğin gerekliliklerini yerine getirmemek"
+  },
+  {
+    "en": "User Story",
+    "tr": "Kullanıcı Hikayesi (User Story)",
+    "note": "Çevik (Agile) geliştirmede, müşteriye değer katan küçük ve uygulanabilir işlev parçası; sözlükteki 'Hikaye (Story)' terimiyle uyumludur."
   },
   {
     "en": "Utility Class",

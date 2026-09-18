@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 162,
+  "last_translated_page": 165,
   "chapters": [
     {
       "num": 1,
@@ -1395,6 +1395,30 @@
       "title_tr": "Java Vekilleri: Vekil İşleyici",
       "section_en": "Java Proxies",
       "section_tr": "Java Vekilleri (Java Proxies)"
+    },
+    "163": {
+      "pdf_page": 163,
+      "chapter": 11,
+      "title_en": "Pure Java AOP Frameworks",
+      "title_tr": "Saf Java AOP Framework'leri",
+      "section_en": "Pure Java AOP Frameworks",
+      "section_tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+    },
+    "164": {
+      "pdf_page": 164,
+      "chapter": 11,
+      "title_en": "The Russian Doll of Decorators",
+      "title_tr": "Süsleyicilerin Rus Bebeği",
+      "section_en": "Pure Java AOP Frameworks",
+      "section_tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+    },
+    "165": {
+      "pdf_page": 165,
+      "chapter": 11,
+      "title_en": "EJB3: A Cleaner Bank",
+      "title_tr": "EJB3: Daha Temiz Bir Bank",
+      "section_en": "Pure Java AOP Frameworks",
+      "section_tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
     }
   }
 }

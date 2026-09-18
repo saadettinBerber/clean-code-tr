@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 162,
+  "lastTranslatedPage": 165,
   "chapters": [
     {
       "num": 1,
@@ -1878,6 +1878,39 @@ window.TOC = {
       "section": {
         "en": "Java Proxies",
         "tr": "Java Vekilleri (Java Proxies)"
+      },
+      "chapter": 11
+    },
+    "163": {
+      "title": {
+        "en": "Pure Java AOP Frameworks",
+        "tr": "Saf Java AOP Framework'leri"
+      },
+      "section": {
+        "en": "Pure Java AOP Frameworks",
+        "tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+      },
+      "chapter": 11
+    },
+    "164": {
+      "title": {
+        "en": "The Russian Doll of Decorators",
+        "tr": "Süsleyicilerin Rus Bebeği"
+      },
+      "section": {
+        "en": "Pure Java AOP Frameworks",
+        "tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+      },
+      "chapter": 11
+    },
+    "165": {
+      "title": {
+        "en": "EJB3: A Cleaner Bank",
+        "tr": "EJB3: Daha Temiz Bir Bank"
+      },
+      "section": {
+        "en": "Pure Java AOP Frameworks",
+        "tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
       },
       "chapter": 11
     }
