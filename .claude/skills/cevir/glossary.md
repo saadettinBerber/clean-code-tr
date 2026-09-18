@@ -27,6 +27,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Argument Object | Argüman Nesnesi (Argument Object) | Birden fazla argümanı bir sınıfa sarma tekniği |
 | Aspect | Görünüm (Aspect) | AOP'de belirli bir kaygıyı desteklemek için sistemin hangi noktalarında davranışın tutarlı biçimde değiştirileceğini belirten modüler yapı |
 | Aspect Oriented Programming | Görünüm Yönelimli Programlama (AOP) | Tekrarı kaldırma stratejilerinden biri |
+| AspectJ | AspectJ | Java'nın bir uzantısı olan, görünümleri (aspects) 'birinci sınıf' (first-class) yapılar olarak destekleyen tam donanımlı görünüm yönelimli programlama (AOP) dili. Ürün adı olarak İngilizce kalır. |
 | Assembly Language | Assembly Dili (Assembly Language) | Makine koduna çok yakın, düşük seviyeli programlama dili |
 | Assertion | Doğrulama İfadesi (Assertion) | Doğru olması gereken bir koşulu çalışma anında denetleyen ifade (assert); iyi bir belgelemedir ama null sorununu çözmez |
 | Assignment Operator | Atama Operatörü (Assignment Operator) | Sağ taraftaki değeri sol taraftaki değişkene atayan operatör (=) |
@@ -40,6 +41,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Bean | Bean | Private alanlarına getter ve setter ile erişilen veri sınıfı (JavaBean); terim çevrilmez |
 | Beautiful Code | Güzel Kod (Beautiful Code) |  |
 | Bibliography | Kaynakça (Bibliography) |  |
+| Big Design Up Front (BDUF) | Baştan Büyük Tasarım (BDUF) | Hiçbir şey gerçekleştirmeden önce her şeyi baştan tasarlama uygulaması; önden tasarım (up-front design) gibi iyi bir uygulamayla karıştırılmamalıdır. Değişime uyum sağlamayı engellediği (önceki emeği bırakmanın psikolojik direnci) için zararlıdır. |
 | Big Picture | Büyük Resim (Big Picture) | Sistemin ya da takımın genelini gören üst seviye bakış açısı |
 | Boilerplate Code | Basmakalıp/Şablon Kod (Boilerplate Code) | Pek çok yerde aynı biçimde tekrarlanan, çoğunlukla kopyalanarak çoğaltılan kalıp kod |
 | Boundary | Sınır (Boundary) | Kendi kodumuzun kontrol etmediğimiz kodla (üçüncü taraf paket, açık kaynak ya da başka bir ekibin bileşeni) buluştuğu yer; Chapter 8'in konusu |
@@ -83,6 +85,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Commented-out Code | Yorum Satırına Alınmış Kod (Commented-out Code) | Silinmesi gereken, artık kullanılmayan kod blokları |
 | Commit | Commit | Çevrilmez, olduğu gibi kullanılır |
 | Commitment | Taahhüt (Commitment) |  |
+| Communication Gap | İletişim Boşluğu (Communication Gap) | Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir |
 | Compiler | Derleyici (Compiler) | Kaynak kodu makine koduna çeviren program |
 | Component Oriented Programming | Bileşen Yönelimli Programlama (COP) | Tekrarı kaldırma stratejilerinden biri |
 | Composed Method | Oluşturulmuş Metot (Composed Method) | Metodu küçük adımlara bölerek oluşturma |
@@ -112,6 +115,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | DBMS | DBMS (Veritabanı Yönetim Sistemi — Database Management System) | Database Management System; veritabanını yöneten yazılım. Kısaltma İngilizce kalır |
 | Deadline | Son Teslim Tarihi (Deadline) | Projenin teslim edilmesi gereken tarih |
 | Decay | Çürüme (Decay) | Kırık pencereler metaforunda kodun giderek kötüleşmesi |
+| Decentralized Management | Merkezi Olmayan Yönetim (Decentralized Management) | Modülerlik (Modularity) ve kaygıların ayrılması (Separation of Concerns) sayesinde, yeterince büyük bir sistemde yönetim ve karar verme sorumluluğunun tek bir kişiye değil alanlara/ekiplerine dağıtılması. |
 | Decisive | Kararlı (Decisive) | Kodun tereddütsüz ve kesin olması |
 | Declaration | Tanımlama (Declaration) | Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi |
 | Decorator (GoF pattern) | Süsleyici (Decorator) | GoF tasarım deseni: bir nesneyi aynı arayüzü taşıyan başka bir nesneyle sarmalayarak (wrap) davranışını saydam (transparent) biçimde genişletme; iç içe süsleyiciler 'Rus bebeği (Russian doll)' gibi katmanlanır. |
@@ -131,6 +135,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Dirty Tests | Kirli Testler (Dirty Tests) | Kalite standartları gözetilmeden “çabuk ve kirli” yazılmış testler; değiştirilmeleri zorlaşır ve zamanla bir yüke dönüşürler |
 | Disinformation | Yanlış Bilgi (Disinformation) | İsimlerin okuyucuyu yanlış yönlendirmesi |
 | Domain Expert | Alan Uzmanı (Domain Expert) | İş alanına (problem alanına) hakim uzman kişi |
+| Domain Logic | alan mantığı (domain logic) | Uygulamanın iş alanına (domain) ait saf mantık; kalıcılık, güvenlik gibi mimari kaygılardan ayrıştırılmış POJO'larda tutulur. Sözlükteki 'İş Mantığı (Business Logic)' terimiyle yakın anlamlıdır. |
 | Domain-Specific Language | Alana Özgü Dil (Domain-Specific Language) |  |
 | Domain-Specific Testing Language | Alana Özgü Test Dili (Domain-Specific Testing Language) | Sistem API'lerinin üzerine kurulan, testleri yazmayı ve okumayı kolaylaştıran fonksiyon ve yardımcı araçlardan oluşan test dili; baştan tasarlanmaz, test kodunun yeniden düzenlenmesiyle gelişir |
 | Don't Repeat Yourself (DRY) | Kendini Tekrar Etme (Don't Repeat Yourself / DRY) | Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı |
@@ -170,6 +175,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Feature Envy | Özellik Kıskançlığı (Feature Envy) | Bir fonksiyonun başka bir sınıfın verisiyle kendi sınıfınınkinden daha çok ilgilenmesi |
 | File Length | Dosya Uzunluğu (File Length) | Kaynak dosyanın satır sayısı; hedef ~200 satır, üst sınır 500 satır |
 | File Size | Dosya Boyutu (File Size) | Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir |
+| First-Class Support | birinci sınıf destek (first-class support) | Bir dil ya da platformun bir kavramı, ayrı bir dil yapısı olarak doğrudan ve eksiksiz biçimde desteklemesi; kitapta görünümlerin (aspects) modülerlik yapıları olarak AspectJ'de birinci sınıf destek görmesi bağlamında geçer. |
 | FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
 | Flag | Bayrak (Flag) | Boolean kontrol parametresi |
 | Flag Argument | Bayrak Argümanı (Flag Argument) | Boolean parametre - fonksiyonun birden fazla şey yaptığını gösterir |
@@ -192,6 +198,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Heuristic | Sezgisel Kural (Heuristic) |  |
 | Hiding Structure | Yapıyı Gizleme (Hiding Structure) | Nesnenin iç yapısını sormak yerine ondan iş yapmasını istemek |
 | Hierarchy | Hiyerarşi (Hierarchy) | Kaynak dosyanın taslak benzeri iç içe yapısı; dosya, sınıf, metot ve blok seviyelerinden oluşur |
+| High Availability | Yüksek Kullanılabilirlik (High Availability) | Bir sistemin kesintisiz biçimde erişilebilir ve kullanılabilir kalma yeteneği; büyük Web sitelerinin performansla birlikte hedeflediği özellik. |
 | Hollerith Limit | Hollerith Sınırı (Hollerith Limit) | Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir |
 | Horizontal Alignment | Yatay Hizalama (Horizontal Alignment) | Tanımlamalardaki isimleri ya da atamalardaki değerleri boşluklarla aynı sütuna dizme; yanlış şeyleri vurguladığı için önerilmez |
 | Horizontal Formatting | Yatay Biçimlendirme (Horizontal Formatting) | Satır genişliği ve satır içi boşluklarla ilgili biçimlendirme; kısa satırlar tercih edilir (en fazla ~120 karakter) |
@@ -206,6 +213,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
 | Indentation | Girinti (Indentation) | Kod satırlarının hiyerarşideki konumlarına göre sağa kaydırılması; kapsam hiyerarşisini görünür kılar |
 | Informative Comment | Bilgilendirici Yorum (Informative Comment) | Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum |
+| Informed Decision | Bilinçli Karar (Informed Decision) | Mümkün olan en iyi ve en güncel bilgiyle verilen karar |
 | Inheritance | Kalıtım (Inheritance) |  |
 | Instance | Örnek (Instance) | Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği |
 | Instance Variable | Örnek Değişkeni (Instance Variable) | Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken |
@@ -222,6 +230,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | JobQueue | İş Kuyruğu (JobQueue) |  |
 | Journal Comment | Günlük Yorumu (Journal Comment) | Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum |
 | JPA (Java Persistence API) | JPA (Java Kalıcılık API'si — Java Persistence API) | EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API. |
+| Just-in-Time | Tam Zamanında (Just-in-Time) | Kararların en güncel bilgiyle, en geç gerektiği anda alınması yaklaşımı |
 | JVM | JVM (Java Sanal Makinesi) | Java Virtual Machine; Java bayt kodunu çalıştıran sanal makine. Kitapta “ayrı JVM” (separate JVM), uzak arayüzün çalıştığı ayrı süreci ifade eder. |
 | Keyword Form | Anahtar Kelime Formu (Keyword Form) | Argüman isimlerini fonksiyon adına kodlama tekniği |
 | Language Bigot | Dil Bağnazı (Language Bigot) |  |
@@ -250,6 +259,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Meaningful Names | Anlamlı İsimler (Meaningful Names) | Niyet ifade eden değişken/fonksiyon isimleri |
 | Mental Burden | Zihinsel Yük (Mental Burden) | Kod okurken harcanan bilişsel çaba |
 | Mental Mapping | Zihinsel Eşleştirme (Mental Mapping) | Bir ismin zihinsel olarak başka bir isme çevrilmesi süreci |
+| Mental Reflection | Zihinsel Düşünme (Mental Reflection) | Proje hakkında derinlemesine düşünme, zihinsel değerlendirme |
 | Mess | Karmaşa (Mess) | Dağınık, düzensiz kod |
 | Messy Code | Dağınık Kod (Messy Code) |  |
 | Metadata | Üstveri (Metadata) | Veriyi tanımlayan veri; ör. Sql sınıfına verilen tablo adı ve sütun bilgileri |
@@ -307,6 +317,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Precision | Hassasiyet (Precision) | Gereksinimlerdeki kesinlik |
 | Predicate | Yüklem (Predicate) | JavaBean standardında boolean dönen is metotları |
 | Prefix Convention | Önek Kuralı (Prefix Convention) | Yerel değişkenler için a, argümanlar için the gibi önek kuralları |
+| Premature Decision | Erken Verilmiş Karar (Premature Decision) | Optimal olmayan bilgiyle, gerekli bilgi henüz birikmeden verilen karar |
 | Prequel | Öncül (Prequel) | Bu kitabın PPP kitabına göre konumu |
 | Principle | İlke (Principle) |  |
 | Principle of Least Surprise | En Az Şaşırtma İlkesi (Principle of Least Surprise) |  |
@@ -366,6 +377,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Single-Entry, Single-Exit Rule | Tek Giriş, Tek Çıkış Kuralı (Single-Entry, Single-Exit Rule) | Dijkstra'nın yapısal programlama disiplini: her fonksiyon ve blok yalnızca bir girişe ve bir çıkışa sahip olmalı |
 | Snail's Pace | Salyangoz Hızı (Snail's Pace) | Çok yavaş ilerleme metaforu |
 | Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship) |  |
+| Software Physics | Yazılım Fiziği (Software Physics) | Terimi ilk kez [Kolence] kullanmıştır; yazılımın, yapı kaygılarını etkili biçimde ayırdığında kökten değişikliğin ekonomik olarak mümkün olduğu kendine özgü doğasını anlatır. |
 | Solution Domain | Çözüm Alanı (Solution Domain) |  |
 | Source File | Kaynak Dosyası (Source File) | Programın kaynak kodunu içeren dosya |
 | Special Case Object | Özel Durum Nesnesi (Special Case Object) | Null yerine döndürülen, eksik durum için makul varsayılan davranışı kapsülleyen nesne (SPECIAL CASE deseni) |
@@ -373,6 +385,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
 | Spring Framework | Spring Framework | Java için en bilinen DI kabını (container) sağlayan açık kaynaklı çerçeve; XML yapılandırma dosyasıyla bağlama (wiring) yapmayı destekler; Spring.NET adlı bir .NET sürümü de vardır |
 | Stack Trace | Yığın İzi (Stack Trace) | İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez |
+| Stakeholder | Paydaş (Stakeholder) | Projeden etkilenen ya da projeyle çıkarı olan kişi/grup (müşteri, kullanıcı, sponsor vb.) |
 | Startup Process | Başlangıç Süreci (Startup Process) | Uygulama nesnelerinin oluşturulduğu ve bağımlılıkların birbirine bağlandığı süreç; çalışma zamanı mantığından ayrı tutulmalıdır |
 | Static Initializer | Statik Başlatıcı (Static Initializer) | Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
@@ -399,6 +412,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Test | Test | Çevrilmez |
 | Test Coverage | Test Kapsamı (Test Coverage) | Üretim kodunun testlerle çalıştırılan bölümünün oranı; yükseldikçe değişiklik yapma korkusu azalır |
 | Test Double | Test Çifti (Test Double) | Birim testinde gerçek bağımlılığın yerine geçen herhangi bir nesne için kapsayıcı terim; stub, fake, mock vb. varyantları kapsar |
+| Test Drive | test güdümlü geliştirmek (test drive) | Kitapta fiil olarak geçer: bir yapıyı (ör. mimariyi) testler aracılığıyla yönlendirerek geliştirmek; 'Test Driven Development' (Test Güdümlü Geliştirme) terimiyle aynı kökten gelir. |
 | Test Driven Development | Test Güdümlü Geliştirme (Test Driven Development / TDD) | Önce test yaz, sonra kodu yaz disiplini |
 | Test Suite | Test Paketi (Test Suite) | Bir sistemin otomatik testlerinin bütünü; üretim kodu değiştikçe onunla birlikte bakımı yapılmalıdır |
 | Testing API | Test API'si (Testing API) | Testlerin kullandığı, sistemin API'lerini saran özelleşmiş fonksiyon ve yardımcı araçlar kümesi; alana özgü test dilinin kendisi |
@@ -428,6 +442,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Vertical Formatting | Dikey Biçimlendirme (Vertical Formatting) | Dosya uzunluğu, satır sırası ve dikey boşluk ile ilgili biçimlendirme |
 | Vertical Openness | Dikey Açıklık (Vertical Openness) | Kavramları birbirinden boş satırlarla ayırma; her satır grubu tam bir düşünceyi temsil eder |
 | Vertical Ordering | Dikey Sıralama (Vertical Ordering) | Çağrılan fonksiyonun çağıranın altında yer alması; kaynak dosya üst seviyeden alt seviyeye akar |
+| Virtualization | Sanallaştırma (Virtualization) | Donanım, işletim sistemi gibi kaynakları yazılım katmanında soyutlayarak birden çok sanal ortamda paylaştırma; dünyanın büyük Web sitelerinin ölçeklenirken kullandığı altyapı tekniklerinden biri. |
 | Visitor Pattern | Ziyaretçi Deseni (Visitor Pattern) |  |
 | Visual Cue | Görsel İpucu (Visual Cue) | Okuyucunun gözüne yeni ve ayrı bir kavramın başladığını belirten işaret; ör. boş satır |
 | Wading | Çamura Batma (Wading) | Kötü kodda ilerlerken hissedilen zorluk metaforu |

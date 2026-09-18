@@ -95,6 +95,11 @@ window.GLOSSARY = [
     "note": "Tekrarı kaldırma stratejilerinden biri"
   },
   {
+    "en": "AspectJ",
+    "tr": "AspectJ",
+    "note": "Java'nın bir uzantısı olan, görünümleri (aspects) 'birinci sınıf' (first-class) yapılar olarak destekleyen tam donanımlı görünüm yönelimli programlama (AOP) dili. Ürün adı olarak İngilizce kalır."
+  },
+  {
     "en": "Assembly Language",
     "tr": "Assembly Dili (Assembly Language)",
     "note": "Makine koduna çok yakın, düşük seviyeli programlama dili"
@@ -158,6 +163,11 @@ window.GLOSSARY = [
     "en": "Bibliography",
     "tr": "Kaynakça (Bibliography)",
     "note": ""
+  },
+  {
+    "en": "Big Design Up Front (BDUF)",
+    "tr": "Baştan Büyük Tasarım (BDUF)",
+    "note": "Hiçbir şey gerçekleştirmeden önce her şeyi baştan tasarlama uygulaması; önden tasarım (up-front design) gibi iyi bir uygulamayla karıştırılmamalıdır. Değişime uyum sağlamayı engellediği (önceki emeği bırakmanın psikolojik direnci) için zararlıdır."
   },
   {
     "en": "Big Picture",
@@ -375,6 +385,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Communication Gap",
+    "tr": "İletişim Boşluğu (Communication Gap)",
+    "note": "Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir"
+  },
+  {
     "en": "Compiler",
     "tr": "Derleyici (Compiler)",
     "note": "Kaynak kodu makine koduna çeviren program"
@@ -520,6 +535,11 @@ window.GLOSSARY = [
     "note": "Kırık pencereler metaforunda kodun giderek kötüleşmesi"
   },
   {
+    "en": "Decentralized Management",
+    "tr": "Merkezi Olmayan Yönetim (Decentralized Management)",
+    "note": "Modülerlik (Modularity) ve kaygıların ayrılması (Separation of Concerns) sayesinde, yeterince büyük bir sistemde yönetim ve karar verme sorumluluğunun tek bir kişiye değil alanlara/ekiplerine dağıtılması."
+  },
+  {
     "en": "Decisive",
     "tr": "Kararlı (Decisive)",
     "note": "Kodun tereddütsüz ve kesin olması"
@@ -613,6 +633,11 @@ window.GLOSSARY = [
     "en": "Domain Expert",
     "tr": "Alan Uzmanı (Domain Expert)",
     "note": "İş alanına (problem alanına) hakim uzman kişi"
+  },
+  {
+    "en": "Domain Logic",
+    "tr": "alan mantığı (domain logic)",
+    "note": "Uygulamanın iş alanına (domain) ait saf mantık; kalıcılık, güvenlik gibi mimari kaygılardan ayrıştırılmış POJO'larda tutulur. Sözlükteki 'İş Mantığı (Business Logic)' terimiyle yakın anlamlıdır."
   },
   {
     "en": "Domain-Specific Language",
@@ -810,6 +835,11 @@ window.GLOSSARY = [
     "note": "Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir"
   },
   {
+    "en": "First-Class Support",
+    "tr": "birinci sınıf destek (first-class support)",
+    "note": "Bir dil ya da platformun bir kavramı, ayrı bir dil yapısı olarak doğrudan ve eksiksiz biçimde desteklemesi; kitapta görünümlerin (aspects) modülerlik yapıları olarak AspectJ'de birinci sınıf destek görmesi bağlamında geçer."
+  },
+  {
     "en": "FitNesse",
     "tr": "FitNesse",
     "note": "Açık kaynaklı test aracı (www.fitnesse.org)"
@@ -920,6 +950,11 @@ window.GLOSSARY = [
     "note": "Kaynak dosyanın taslak benzeri iç içe yapısı; dosya, sınıf, metot ve blok seviyelerinden oluşur"
   },
   {
+    "en": "High Availability",
+    "tr": "Yüksek Kullanılabilirlik (High Availability)",
+    "note": "Bir sistemin kesintisiz biçimde erişilebilir ve kullanılabilir kalma yeteneği; büyük Web sitelerinin performansla birlikte hedeflediği özellik."
+  },
+  {
     "en": "Hollerith Limit",
     "tr": "Hollerith Sınırı (Hollerith Limit)",
     "note": "Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir"
@@ -988,6 +1023,11 @@ window.GLOSSARY = [
     "en": "Informative Comment",
     "tr": "Bilgilendirici Yorum (Informative Comment)",
     "note": "Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum"
+  },
+  {
+    "en": "Informed Decision",
+    "tr": "Bilinçli Karar (Informed Decision)",
+    "note": "Mümkün olan en iyi ve en güncel bilgiyle verilen karar"
   },
   {
     "en": "Inheritance",
@@ -1068,6 +1108,11 @@ window.GLOSSARY = [
     "en": "JPA (Java Persistence API)",
     "tr": "JPA (Java Kalıcılık API'si — Java Persistence API)",
     "note": "EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API."
+  },
+  {
+    "en": "Just-in-Time",
+    "tr": "Tam Zamanında (Just-in-Time)",
+    "note": "Kararların en güncel bilgiyle, en geç gerektiği anda alınması yaklaşımı"
   },
   {
     "en": "JVM",
@@ -1208,6 +1253,11 @@ window.GLOSSARY = [
     "en": "Mental Mapping",
     "tr": "Zihinsel Eşleştirme (Mental Mapping)",
     "note": "Bir ismin zihinsel olarak başka bir isme çevrilmesi süreci"
+  },
+  {
+    "en": "Mental Reflection",
+    "tr": "Zihinsel Düşünme (Mental Reflection)",
+    "note": "Proje hakkında derinlemesine düşünme, zihinsel değerlendirme"
   },
   {
     "en": "Mess",
@@ -1493,6 +1543,11 @@ window.GLOSSARY = [
     "en": "Prefix Convention",
     "tr": "Önek Kuralı (Prefix Convention)",
     "note": "Yerel değişkenler için a, argümanlar için the gibi önek kuralları"
+  },
+  {
+    "en": "Premature Decision",
+    "tr": "Erken Verilmiş Karar (Premature Decision)",
+    "note": "Optimal olmayan bilgiyle, gerekli bilgi henüz birikmeden verilen karar"
   },
   {
     "en": "Prequel",
@@ -1790,6 +1845,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Software Physics",
+    "tr": "Yazılım Fiziği (Software Physics)",
+    "note": "Terimi ilk kez [Kolence] kullanmıştır; yazılımın, yapı kaygılarını etkili biçimde ayırdığında kökten değişikliğin ekonomik olarak mümkün olduğu kendine özgü doğasını anlatır."
+  },
+  {
     "en": "Solution Domain",
     "tr": "Çözüm Alanı (Solution Domain)",
     "note": ""
@@ -1823,6 +1883,11 @@ window.GLOSSARY = [
     "en": "Stack Trace",
     "tr": "Yığın İzi (Stack Trace)",
     "note": "İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez"
+  },
+  {
+    "en": "Stakeholder",
+    "tr": "Paydaş (Stakeholder)",
+    "note": "Projeden etkilenen ya da projeyle çıkarı olan kişi/grup (müşteri, kullanıcı, sponsor vb.)"
   },
   {
     "en": "Startup Process",
@@ -1953,6 +2018,11 @@ window.GLOSSARY = [
     "en": "Test Double",
     "tr": "Test Çifti (Test Double)",
     "note": "Birim testinde gerçek bağımlılığın yerine geçen herhangi bir nesne için kapsayıcı terim; stub, fake, mock vb. varyantları kapsar"
+  },
+  {
+    "en": "Test Drive",
+    "tr": "test güdümlü geliştirmek (test drive)",
+    "note": "Kitapta fiil olarak geçer: bir yapıyı (ör. mimariyi) testler aracılığıyla yönlendirerek geliştirmek; 'Test Driven Development' (Test Güdümlü Geliştirme) terimiyle aynı kökten gelir."
   },
   {
     "en": "Test Driven Development",
@@ -2098,6 +2168,11 @@ window.GLOSSARY = [
     "en": "Vertical Ordering",
     "tr": "Dikey Sıralama (Vertical Ordering)",
     "note": "Çağrılan fonksiyonun çağıranın altında yer alması; kaynak dosya üst seviyeden alt seviyeye akar"
+  },
+  {
+    "en": "Virtualization",
+    "tr": "Sanallaştırma (Virtualization)",
+    "note": "Donanım, işletim sistemi gibi kaynakları yazılım katmanında soyutlayarak birden çok sanal ortamda paylaştırma; dünyanın büyük Web sitelerinin ölçeklenirken kullandığı altyapı tekniklerinden biri."
   },
   {
     "en": "Visitor Pattern",

@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 165,
+  "last_translated_page": 168,
   "chapters": [
     {
       "num": 1,
@@ -1419,6 +1419,30 @@
       "title_tr": "EJB3: Daha Temiz Bir Bank",
       "section_en": "Pure Java AOP Frameworks",
       "section_tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+    },
+    "166": {
+      "pdf_page": 166,
+      "chapter": 11,
+      "title_en": "AspectJ Aspects and Test-Driving the Architecture",
+      "title_tr": "AspectJ Görünümleri ve Mimariyi Test Güdümlü Geliştirmek",
+      "section_en": "Pure Java AOP Frameworks",
+      "section_tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+    },
+    "167": {
+      "pdf_page": 167,
+      "chapter": 11,
+      "title_en": "Optimize Decision Making",
+      "title_tr": "Karar Vermeyi Optimize Edin",
+      "section_en": "Optimize Decision Making",
+      "section_tr": "Karar Vermeyi Optimize Edin"
+    },
+    "168": {
+      "pdf_page": 168,
+      "chapter": 11,
+      "title_en": "Use Standards Wisely; Systems Need DSLs",
+      "title_tr": "Standartları Akıllıca Kullanın; Sistemler Alana Özgü Dillere İhtiyaç Duyar",
+      "section_en": "Use Standards Wisely, When They Add Demonstrable Value",
+      "section_tr": "Standartları Akıllıca Kullanın, Kanıtlanabilir Değer Kattıklarında"
     }
   }
 }

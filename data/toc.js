@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 165,
+  "lastTranslatedPage": 168,
   "chapters": [
     {
       "num": 1,
@@ -1911,6 +1911,39 @@ window.TOC = {
       "section": {
         "en": "Pure Java AOP Frameworks",
         "tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+      },
+      "chapter": 11
+    },
+    "166": {
+      "title": {
+        "en": "AspectJ Aspects and Test-Driving the Architecture",
+        "tr": "AspectJ Görünümleri ve Mimariyi Test Güdümlü Geliştirmek"
+      },
+      "section": {
+        "en": "Pure Java AOP Frameworks",
+        "tr": "Saf Java AOP Framework'leri (Pure Java AOP Frameworks)"
+      },
+      "chapter": 11
+    },
+    "167": {
+      "title": {
+        "en": "Optimize Decision Making",
+        "tr": "Karar Vermeyi Optimize Edin"
+      },
+      "section": {
+        "en": "Optimize Decision Making",
+        "tr": "Karar Vermeyi Optimize Edin"
+      },
+      "chapter": 11
+    },
+    "168": {
+      "title": {
+        "en": "Use Standards Wisely; Systems Need DSLs",
+        "tr": "Standartları Akıllıca Kullanın; Sistemler Alana Özgü Dillere İhtiyaç Duyar"
+      },
+      "section": {
+        "en": "Use Standards Wisely, When They Add Demonstrable Value",
+        "tr": "Standartları Akıllıca Kullanın, Kanıtlanabilir Değer Kattıklarında"
       },
       "chapter": 11
     }
