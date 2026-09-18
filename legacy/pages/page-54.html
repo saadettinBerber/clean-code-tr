@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 54 | Bölüm 4: Yorumlar — Yorumlar Neden Yalan Söyler?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 0 0 28px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e8d44d;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #e8d44d;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-style: italic;
+            font-size: 16px;
+            color: #664d03;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Yorumlar Neden Yalan Söyler?</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="54" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="section-title">
+            <span class="tr-text">Yorumlar Neden Yalan Söyler? / Why Comments Lie</span>
+            <span class="en-text" style="display:none;">Why Comments Lie</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Yorumların doğru kullanımı, kendimizi kodla ifade etmedeki başarısızlığımızı telafi
+                etmektir. "Başarısızlık" kelimesini bilinçli olarak kullandığıma dikkat edin. Gerçekten bunu
+                kastediyorum. Yorumlar her zaman bir başarısızlıktır. Onlara ihtiyaç duyarız, çünkü kendimizi onlarsız
+                nasıl ifade edeceğimizi her zaman bulamayız; ancak onların varlığı kutlanacak bir şey değildir.</span>
+            <span class="en-text" style="display:none;">The proper use of comments is to compensate for our failure to
+                express ourself in code. Note that I used the word failure. I meant it. Comments are always failures. We
+                must have them because we cannot always figure out how to express ourselves without them, but their use
+                is not a cause for celebration.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Öyleyse kendinizi yorum yazmak zorunda hissettiğinizde, duraksayın ve şunu düşünün:
+                kendimi kodun içinde ifade etmenin bir yolu yok mu? Her seferinde kodu konuşturduğunuzda kendinizi
+                tebrik edebilirsiniz. Her yorum yazdığınızda ise yüzünüzü ekşitip ifade yetersizliğinizi kabullenmek
+                durumundasınız.</span>
+            <span class="en-text" style="display:none;">So when you find yourself in a position where you need to write
+                a comment, think it through and see whether there isn't some way to turn the tables and express yourself
+                in code. Every time you express yourself in code, you should pat yourself on the back. Every time you
+                write a comment, you should grimace and feel the failure of your ability of expression.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Peki neden yorumlara bu kadar karşıyım? Çünkü onlar yalan söyler. Her zaman değil,
+                kasıtlı olarak da değil; ama çok sık yalan söylerler. Bir yorum ne kadar eskiyse ve açıkladığı koddan ne
+                kadar uzaktaysa, yanlış olma ihtimali o kadar yüksektir. Sebep basittir: programcılar onları gerçekçi
+                bir şekilde güncel tutamazlar.</span>
+            <span class="en-text" style="display:none;">Why am I so down on comments? Because they lie. Not always, and
+                not intentionally, but too often. The older a comment is, and the farther away it is from the code it
+                describes, the more likely it is to be just plain wrong. The reason is simple. Programmers can't
+                realistically maintain them.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kod değişir ve evrim geçirir. Parçalar bir yerden başka bir yere taşınır. O parçalar
+                ikiye bölünür, çoğalır ve tekrar bir araya gelerek melez yapılar oluşturur. Ne yazık ki yorumlar onlara
+                her zaman eşlik edemez — hiç edemezler de. Çoğu zaman yorumlar, açıkladıkları koddan kopar ve giderek
+                azalan doğrulukla asılsız açıklamalar haline gelirler. Örneğin şu yoruma ve açıklanmak istediği satıra
+                bakın:</span>
+            <span class="en-text" style="display:none;">Code changes and evolves. Chunks of it move from here to there.
+                Those chunks bifurcate and reproduce and come together again to form chimeras. Unfortunately the
+                comments don't always follow them—can't always follow them. And all too often the comments get separated
+                from the code they describe and become orphaned blurbs of ever-decreasing accuracy. For example, look
+                what has happened to this comment and the line it was intended to describe:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span>Yorum ile kodun birbirinden uzaklaşması örneği</span>
+                <span class="listing-label" style="font-weight:400; opacity:0.7;">Java</span>
+            </div>
+            <pre>MockRequest request;
+<span class="kw">private final</span> String HTTP_DATE_REGEXP =
+    <span class="str">"[SMTWF][a-z]{2}\\,\\s[0-9]{2}\\s[JFMASOND][a-z]{2}\\s"</span>+
+    <span class="str">"[0-9]{4}\\s[0-9]{2}\\:[0-9]{2}\\:[0-9]{2}\\sGMT"</span>;
+<span class="kw">private</span> Response response;
+<span class="kw">private</span> FitNesseContext context;
+<span class="kw">private</span> FileResponder responder;
+<span class="kw">private</span> Locale saveLocale;
+<span class="comment">// Örnek: "Tue, 02 Apr 2003 22:18:49 GMT"</span></pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Sonradan eklenen diğer örnek değişkenler, <code
+                    style="background:#e9ecef;padding:2px 6px;border-radius:4px;font-family:monospace;color:#c7254e;">HTTP_DATE_REGEXP</code>
+                sabiti ile ona ait açıklama yorumu arasına sıkışmıştır. Yorum artık doğrudan kendi açıkladığı satırın
+                yanında değildir.</span>
+            <span class="en-text" style="display:none;">Other instance variables that were probably added later were
+                interposed between the HTTP_DATE_REGEXP constant and its explanatory comment.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Programcıların yorumları yüksek bir doğruluk ve alaka düzeyinde tutacak kadar
+                disiplinli olması gerektiği söylenebilir. Buna katılıyorum — olmaları gerekir. Ama o enerjiyi yorumları
+                güncel tutmak yerine, kodu baştan yoruma gerek duymayacak kadar açık ve ifade edici yazmaya harcamayı
+                tercih ederim.</span>
+            <span class="en-text" style="display:none;">It is possible to make the point that programmers should be
+                disciplined enough to keep the comments in a high state of repair, relevance, and accuracy. I agree,
+                they should. But I would rather that energy go toward making the code so clear and expressive that it
+                does not need the comments in the first place.</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Hatalı yorumlar, hiç yorum olmamaktan çok daha kötüdür. Yanıltırlar ve aldatırlar.
+                Hiçbir zaman karşılanmayacak beklentiler yaratırlar. Artık geçerli olmayan eski kuralları
+                dayatırlar.</span>
+            <span class="en-text" style="display:none;">Inaccurate comments are far worse than no comments at all. They
+                delude and mislead. They set expectations that will never be fulfilled. They lay down old rules that
+                need not, or should not, be followed any longer.</span>
+        </div>
+
+        <div class="highlight-box">
+            <p>
+                <span class="tr-text">Gerçek yalnızca tek bir yerde bulunabilir: <strong>kodun içinde</strong>. Yalnızca
+                    kod ne yaptığını gerçekten anlatır. Codun gerçek anlamda doğru bilginin tek kaynağıdır. Bu yüzden,
+                    yorumlar zaman zaman zorunlu olsa da, onları en aza indirmek için önemli bir çaba
+                    harcamalıyız.</span>
+                <span class="en-text" style="display:none;">Truth can only be found in one place: <strong>the
+                        code</strong>. Only the code can truly tell you what it does. It is the only source of truly
+                    accurate information. Therefore, though comments are sometimes necessary, we will expend significant
+                    energy to minimize them.</span>
+            </p>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('comments-as-failure')">
+                    <span class="tr-text">Yorumlar Bir Başarısızlıktır</span>
+                    <span class="en-text" style="display:none;">Comments as Failure</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('lying-comments')">
+                    <span class="tr-text">Yalan Söyleyen Yorumlar</span>
+                    <span class="en-text" style="display:none;">Lying Comments</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('truth-in-code')">
+                    <span class="tr-text">Gerçek Yalnızca Kodda</span>
+                    <span class="en-text" style="display:none;">Truth in Code</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Yorumlar Bir Başarısızlıktır -->
+    <div class="modal-overlay" id="modal-comments-as-failure">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Yorumlar Bir Başarısızlıktır (Comments as Failure)</span><span class="en-text"
+                        style="display:none;">Comments as Failure</span></h3>
+                <button class="modal-close" onclick="closeModal('comments-as-failure')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Martin'e göre her yorum, programcının niyet ve mantığı kod aracılığıyla
+                        aktaramamasının bir itirafıdır. Bu bazen kaçınılmazdır, ama asla kutlanmamalıdır. "Yorum
+                        ekledim, ne iyi!" yerine "Yoruma ihtiyaç duymamak için kodu nasıl düzeltebilirim?" sorusu
+                        sorulmalıdır.</span>
+                    <span class="en-text" style="display:none;">According to Martin, every comment is an admission that
+                        the programmer could not express their intent and reasoning through code. This is sometimes
+                        unavoidable, but should never be celebrated. Instead of "I added a comment, great!" ask "How can
+                        I fix the code so I don't need the comment?"</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum kodu kurtarmaya çalışıyor</span><span
+                        class="en-text" style="display:none;">BAD — Comment trying to rescue code</span></span>
+                <pre><span class="comment">// d = geçen gün sayısı</span>
+<span class="kw">int</span> d;
+
+<span class="comment">// görev bitiş tarihinden bugüne kaç gün geçtiğini hesapla</span>
+d = (endDate - today) / 86400;</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Kod kendini açıklıyor</span><span class="en-text"
+                        style="display:none;">GOOD — Code explains itself</span></span>
+                <pre><span class="kw">int</span> daysSinceTaskDeadline = (endDate - today) / SECONDS_PER_DAY;</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir yorum yazmak üzereyken şunu sorun: "Bu yorumu bir değişken adı veya metot
+                        adıyla kodun içine gömebilir miyim?" Çoğunlukla yanıt "evet"tir.</span>
+                    <span class="en-text" style="display:none;">Before writing a comment, ask: "Can I embed this
+                        explanation into the code as a variable or method name?" Most of the time, the answer is
+                        yes.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Yalan Söyleyen Yorumlar -->
+    <div class="modal-overlay" id="modal-lying-comments">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Yalan Söyleyen Yorumlar (Lying Comments)</span><span class="en-text"
+                        style="display:none;">Lying Comments</span></h3>
+                <button class="modal-close" onclick="closeModal('lying-comments')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Yorumlar zamanla koddan kopar, güncel tutulmaz ve yanlış bilgi içermeye başlar.
+                        Kasıtlı olmasa da bu "yalan söyleme" durumu okuyucuyu yanıltır. Eski bir yorum, anlayan olmayan
+                        bir kodu anlatmak yerine tam tersi bir beklenti yaratabilir.</span>
+                    <span class="en-text" style="display:none;">Comments drift away from code over time, are not kept up
+                        to date, and begin to contain false information. Although unintentional, this "lying" misleads
+                        readers. An old comment can create the exact opposite expectation rather than clarifying unclear
+                        code.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum artık doğru değil</span><span class="en-text"
+                        style="display:none;">BAD — Comment is no longer accurate</span></span>
+                <pre><span class="comment">// Kullanıcıyı e-posta ile bilgilendir ve kaydı sil</span>
+<span class="kw">public void</span> deactivateUser(User user) {
+    <span class="comment">// E-posta gönderimi kaldırıldı (artık webhook var)</span>
+    userRepository.delete(user); <span class="comment">// ama yorum hâlâ e-posta diyor!</span>
+}</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Yorum kaldırıldı, kod konuşuyor</span><span
+                        class="en-text" style="display:none;">GOOD — No comment, code speaks</span></span>
+                <pre><span class="kw">public void</span> deactivateUser(User user) {
+    webhookService.notifyDeactivation(user);
+    userRepository.delete(user);
+}</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Kod incelemelerinde (code review) yorumları da gözden geçirin. Değişen kodla
+                        çelişen bir yorum görürseniz, önce yorumu silin — kodu düzeltmek ikinci adım.</span>
+                    <span class="en-text" style="display:none;">During code reviews, review comments too. If you see a
+                        comment that contradicts the changed code, delete the comment first — fixing the code is the
+                        second step.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Gerçek Yalnızca Kodda -->
+    <div class="modal-overlay" id="modal-truth-in-code">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Gerçek Yalnızca Kodda (Truth in Code)</span><span class="en-text"
+                        style="display:none;">Truth in Code</span></h3>
+                <button class="modal-close" onclick="closeModal('truth-in-code')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Martin'in en güçlü tespitlerinden biri: sistemin o andaki gerçek davranışını
+                        yalnızca kaynak kodu yansıtır. Dokümanlar, yorumlar ve wiki sayfaları güncel olmayabilir. Ancak
+                        çalışan kod asla yalan söylemez — yaptığı şeyi yapar.</span>
+                    <span class="en-text" style="display:none;">One of Martin's most powerful observations: only the
+                        source code reflects the true current behavior of the system. Documentation, comments, and wiki
+                        pages may be outdated. But running code never lies — it does exactly what it does.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Dokümana güvenmek</span><span class="en-text"
+                        style="display:none;">BAD — Trusting documentation</span></span>
+                <pre><span class="comment">// Wiki: calculateTax() tüm ülkeleri destekler</span>
+<span class="comment">// (ama gerçekte sadece TR ve US için yazılmış)</span>
+<span class="kw">double</span> tax = calculateTax(order, <span class="str">"DE"</span>); <span class="comment">// sonuç yanlış!</span></pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Kodu oku, kendini açıklasın</span><span
+                        class="en-text" style="display:none;">GOOD — Read the code, let it explain itself</span></span>
+                <pre><span class="kw">public double</span> calculateTax(Order order, String countryCode) {
+    <span class="kw">if</span> (!SUPPORTED_COUNTRIES.contains(countryCode))
+        <span class="kw">throw new</span> UnsupportedCountryException(countryCode);
+    <span class="comment">// desteklenen ülkeler açıkça koda gömülü</span>
+    ...
+}</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Bir davranışı anlamak istediğinizde her zaman önce kodu okuyun, sonra
+                        yorumları. Çelişki varsa koda inanın — o sistemi çalıştıran tek gerçektir.</span>
+                    <span class="en-text" style="display:none;">When you want to understand behavior, always read the
+                        code first, then the comments. If there is a conflict, believe the code — it is the only truth
+                        running the system.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-53.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 53 — Bölüm 4 Giriş</span><span class="en-text"
+                    style="display:none;">Page 53 — Chapter 4 Intro</span></div>
+        </a>
+        <a href="page-55.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 55 — Yorumlar Kötü Kodu Telafi Etmez / Kendinizi Kodla
+                    Açıklayın</span><span class="en-text" style="display:none;">Page 55 — Comments Don't Make Up for Bad
+                    Code / Explain Yourself in Code</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 54;</script>
+    <script src="../js/common.js"></script>
+
+</body>
+
+</html>

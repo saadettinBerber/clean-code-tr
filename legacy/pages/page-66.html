@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 66 | Bölüm 4: Fonksiyon veya Değişken Kullanırken Yorum Kullanma</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 700px) {
+            .code-pair {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-pair .code-listing {
+            margin: 0;
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-listing-header .listing-label-bad {
+            color: #ff6b81;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .code-listing-header .listing-label-good {
+            color: #a6e3a1;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; Fonksiyon veya Değişken Kullanabilecekken
+                Yorum Kullanma</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="66" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="section-title">
+            <span class="tr-text">Fonksiyon veya Değişken Kullanabilecekken Yorum Kullanma / Don't Use a Comment When
+                You Can Use a Function or a Variable</span>
+            <span class="en-text" style="display:none;">Don't Use a Comment When You Can Use a Function or a
+                Variable</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Şu kod parçasını ele alalım:</span>
+            <span class="en-text" style="display:none;">Consider the following stretch of code:</span>
+        </div>
+
+        <div class="code-pair">
+            <div class="code-listing">
+                <div class="code-listing-header">
+                    <span class="tr-text">Yorum ile açıklama</span>
+                    <span class="listing-label-bad">KÖTÜ</span>
+                </div>
+                <pre><span class="comment">// global listenin &lt;mod&gt; modülü
+// içinde olduğumuz alt sisteme
+// bağımlı mı?</span>
+<span class="kw">if</span> (smodule.getDependSubsystems()
+    .contains(subSysMod.getSubSystem()))</pre>
+            </div>
+            <div class="code-listing">
+                <div class="code-listing-header">
+                    <span class="tr-text">Değişkenlerle açıklama</span>
+                    <span class="listing-label-good">İYİ</span>
+                </div>
+                <pre>ArrayList moduleDependees =
+  smodule.getDependSubsystems();
+String ourSubSystem =
+  subSysMod.getSubSystem();
+<span class="kw">if</span> (moduleDependees
+    .contains(ourSubSystem))</pre>
+            </div>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Orijinal kodun yazarı muhtemelen önce yorumu yazmış (olası değil) ve ardından yorumu
+                karşılamak için kodu yazmıştır. Ama yazar sonra kodu yeniden düzenlemeli ve yorumun kaldırılabilmesi
+                için benim yaptığım gibi refactor etmeliydi.</span>
+            <span class="en-text" style="display:none;">The author of the original code may have written the comment
+                first (unlikely) and then written the code to fulfill the comment. However, the author should then have
+                refactored the code, as I did, so that the comment could be removed.</span>
+        </div>
+
+        <!-- Konum İşaretçisi (devam, orijinal sayfadan) -->
+        <div class="section-title">
+            <span class="tr-text">Konum İşaretçisi — Tekrar / Position Markers (Revisited)</span>
+            <span class="en-text" style="display:none;">Position Markers (Revisited)</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen programcılar bir kaynak dosyada belirli bir konumu işaretlemek ister.
+                Örneğin:</span>
+            <span class="en-text" style="display:none;">Sometimes programmers like to mark a particular position in a
+                source file. For example:</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header"><span class="tr-text">Konum işaretçisi</span><span class="en-text"
+                    style="display:none;">Position marker</span></div>
+            <pre><span class="comment">// Actions //////////////////////////////////</span></pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Belirli fonksiyonları bu tür bir banner altında gruplamak nadiren anlamlı olabilir.
+                Ama genel olarak bunlar gereksiz gürültüdür ve kaldırılmalıdırlar — özellikle sonundaki gürültülü eğik
+                çizgiler dizisi. Şöyle düşünün: Banner'ları sık görmüyorsanız onlar çarpıcı ve göze çarpar. Bu yüzden
+                onları çok seyrek ve yalnızca faydası açıkça görülen yerlerde kullanın. Bannetr'ları fazla
+                kullandığınızda arka plan gürültüsüne dönüşür ve görmezden gelinirler.</span>
+            <span class="en-text" style="display:none;">There are rare times when it makes sense to gather certain
+                functions together beneath a banner like this. But in general they are clutter that should be
+                eliminated—especially the noisy train of slashes at the end. Think of it this way: A banner is startling
+                and obvious if you don't see banners very often. So use them very sparingly, and only when the benefit
+                is significant. If you overuse banners, they'll fall into the background noise and be ignored.</span>
+        </div>
+
+        <!-- Kapatma Parantezi Yorumu (devam, Listing 4-6) -->
+        <div class="section-title">
+            <span class="tr-text">Kapatma Parantezi Yorumları — Listing 4-6 / Closing Brace Comments — Listing
+                4-6</span>
+            <span class="en-text" style="display:none;">Closing Brace Comments — Listing 4-6</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bazen programcılar kapanan parantezlerin yanına özel yorumlar ekler (Listing 4-6).
+                Uzun ve derinlemesine iç içe geçmiş yapılar için anlam taşısa da, bizim tercih ettiğimiz küçük ve
+                kapsüllenmiş fonksiyonları yalnızca karıştırır. Kapatma parantezlerini işaretleme ihtiyacı duyuyorsanız,
+                fonksiyonlarınızı kısaltmayı deneyin:</span>
+            <span class="en-text" style="display:none;">Sometimes programmers will put special comments on closing
+                braces, as in Listing 4-6. Although this might make sense for long functions with deeply nested
+                structures, it serves only to clutter the kind of small and encapsulated functions that we prefer. So if
+                you find yourself wanting to mark your closing braces, try to shorten your functions instead.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span>Listing 4-6 — wc.java (Bölüm 1)</span>
+                <span style="opacity:0.7; font-size:13px; font-weight:400;">Java</span>
+            </div>
+            <pre><span class="kw">public class</span> wc {
+  <span class="kw">public static void</span> main(String[] args) {
+    BufferedReader in = <span class="kw">new</span> BufferedReader(
+      <span class="kw">new</span> InputStreamReader(System.in));
+    String line;
+    <span class="kw">int</span> lineCount = 0;
+    <span class="kw">int</span> charCount = 0;
+    <span class="kw">int</span> wordCount = 0;
+    <span class="kw">try</span> {
+      <span class="kw">while</span> ((line = in.readLine()) != <span class="kw">null</span>) {
+        lineCount++;
+        charCount += line.length();
+        String words[] = line.split(<span class="str">"\\W"</span>);
+        wordCount += words.length;
+      } <span class="comment">//while</span></pre>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('function-vs-comment')">
+                    <span class="tr-text">Yorum Yerine Fonksiyon/Değişken</span>
+                    <span class="en-text" style="display:none;">Function/Variable Over Comment</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Yorum Yerine Fonksiyon/Değişken -->
+    <div class="modal-overlay" id="modal-function-vs-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Yorum Yerine Fonksiyon veya Değişken Kullan</span><span class="en-text"
+                        style="display:none;">Use Function or Variable Instead of Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('function-vs-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Bir yorum yazmadan önce, iyi isimlendirilmiş bir değişken veya fonksiyon
+                        çıkarımıyla aynı anlatımı koda taşıyıp taşıyamayacağınızı sorun. Çoğu zaman yorum bir güçsüzlük
+                        isaretidir — kodun kendisi konuşamıyor demektir.</span>
+                    <span class="en-text" style="display:none;">Before writing a comment, ask yourself whether you could
+                        move the same expression into the code through a well-named variable or function extraction.
+                        Often a comment is a sign of weakness—the code itself can't speak.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Yorum gerekiyor</span><span class="en-text"
+                        style="display:none;">BAD — Comment needed</span></span>
+                <pre><span class="comment">// kullanıcı premium üye mi VE abonelik süresi dolmadı mı?</span>
+<span class="kw">if</span> (user.tier == TIER_PREMIUM
+    &amp;&amp; user.subscriptionExpiry.isAfter(now()))</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Yorum yok, kod zaten açık</span><span
+                        class="en-text" style="display:none;">GOOD — No comment, code is already clear</span></span>
+                <pre"><span class="kw">boolean</span> isPremiumAndActive =
+                    user.tier == TIER_PREMIUM
+                    &amp;&amp; user.subscriptionExpiry.isAfter(now());
+                    <span class="kw">if</span> (isPremiumAndActive)</pre>
+                    <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                                style="display:none;">Practical Tip</span></strong>
+                        <span class="tr-text">Bu teknik "anlamlı değişken" veya "açıklayıcı değişken" yöntemi olarak da
+                            bilinir. Karmaşık bir boolean ifadeyi veya uzun bir method chain'i okunabilir bir ada
+                            taşır.</span>
+                        <span class="en-text" style="display:none;">This technique is also known as "meaningful
+                            variable" or "explainer variable" method. It moves a complex boolean expression or long
+                            method chain to a readable name.</span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-65.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 65 — Gürültü Devamı, Listing 4-4 ve 4-5</span><span
+                    class="en-text" style="display:none;">Page 65 — Noise Continued, Listings 4-4 and 4-5</span></div>
+        </a>
+        <a href="page-67.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 67 — wc.java Listing Devamı (Listing 4-6
+                    sonu)</span><span class="en-text" style="display:none;">Page 67 — wc.java Listing Continued (Listing
+                    4-6 end)</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 66;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>

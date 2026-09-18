@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 52 | Bölüm 3: Fonksiyonlar — Kaynakça</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        .bib-list { list-style: none; padding: 0; margin: 24px 0; }
+        .bib-list li { padding: 16px 20px; border-bottom: 1px solid #dee2e6; line-height: 1.7; background: #fff; }
+        .bib-list li:first-child { border-radius: 12px 12px 0 0; }
+        .bib-list li:last-child { border-bottom: none; border-radius: 0 0 12px 12px; }
+        .bib-list li:only-child { border-radius: 12px; }
+        .bib-key { display: inline-block; font-weight: 700; color: #e8d44d; background: #1a1a2e; padding: 2px 10px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 13px; margin-right: 8px; }
+        .bib-authors { font-weight: 600; color: #1a1a2e; }
+        .bib-title { font-style: italic; color: #495057; }
+        .bib-publisher { color: #6c757d; font-size: 15px; }
+        .chapter-end-note { background: #f0f7ff; border: 2px solid #89b4fa; border-radius: 12px; padding: 24px; margin-top: 32px; text-align: center; }
+        .chapter-end-note h3 { color: #1a1a2e; margin-bottom: 8px; font-size: 18px; }
+        .chapter-end-note p { color: #495057; font-size: 15px; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Kaynakça (Bibliography)</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="52" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">Kaynakça / Bibliography</span>
+        <span class="en-text" style="display:none;">Bibliography</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Aşağıdaki kaynaklar, Bölüm 3: Fonksiyonlar boyunca referans verilmiştir. Bu eserler temiz kod, yapılandırılmış programlama ve yazılım tasarımı alanında temel kaynaklardır.</span>
+        <span class="en-text" style="display:none;">The following sources are referenced throughout Chapter 3: Functions. These works are foundational references in the fields of clean code, structured programming, and software design.</span>
+    </div>
+
+    <ul class="bib-list">
+        <li>
+            <span class="bib-key">[KP78]</span>
+            <span class="bib-authors">Kernighan, B. W. &amp; Plaugher, P. J.</span><br>
+            <span class="bib-title">The Elements of Programming Style</span>, 2nd ed.<br>
+            <span class="bib-publisher">McGraw-Hill, 1978.</span>
+        </li>
+        <li>
+            <span class="bib-key">[PPP]</span>
+            <span class="bib-authors">Martin, Robert C.</span><br>
+            <span class="bib-title">Agile Software Development: Principles, Patterns, and Practices</span><br>
+            <span class="bib-publisher">Prentice Hall, 2002.</span>
+        </li>
+        <li>
+            <span class="bib-key">[GOF]</span>
+            <span class="bib-authors">Gamma, E., Helm, R., Johnson, R. &amp; Vlissides, J.</span><br>
+            <span class="bib-title">Design Patterns: Elements of Reusable Object-Oriented Software</span><br>
+            <span class="bib-publisher">Addison-Wesley, 1996.</span>
+        </li>
+        <li>
+            <span class="bib-key">[PRAG]</span>
+            <span class="bib-authors">Hunt, A. &amp; Thomas, D.</span><br>
+            <span class="bib-title">The Pragmatic Programmer: From Journeyman to Master</span><br>
+            <span class="bib-publisher">Addison-Wesley, 2000.</span>
+        </li>
+        <li>
+            <span class="bib-key">[SP72]</span>
+            <span class="bib-authors">Dijkstra, E. W., Dahl, O.-J. &amp; Hoare, C. A. R.</span><br>
+            <span class="bib-title">Structured Programming</span><br>
+            <span class="bib-publisher">Academic Press, 1972.</span>
+        </li>
+        <li>
+            <span class="bib-key">[Knuth92]</span>
+            <span class="bib-authors">Knuth, Donald E.</span><br>
+            <span class="bib-title">Literate Programming</span><br>
+            <span class="bib-publisher">Center for the Study of Language and Information, Leland Stanford Junior University, 1992.</span>
+        </li>
+    </ul>
+
+    <div class="chapter-end-note">
+        <h3>
+            <span class="tr-text">Bölüm 3: Fonksiyonlar — Son</span>
+            <span class="en-text" style="display:none;">Chapter 3: Functions — End</span>
+        </h3>
+        <p>
+            <span class="tr-text">Bu bölümde fonksiyonların küçük tutulması, tek iş yapması, anlamlı isimler taşıması, az argüman alması ve yan etkilerden kaçınması gibi temel ilkeleri inceledik. Bir sonraki bölümde yorumlar (Comments) konusunu ele alacağız.</span>
+            <span class="en-text" style="display:none;">In this chapter, we examined the fundamental principles of keeping functions small, doing one thing, having meaningful names, taking few arguments, and avoiding side effects. In the next chapter, we will cover Comments.</span>
+        </p>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('bibliography-importance')">
+                <span class="tr-text">Kaynak Okuma Alışkanlığı</span>
+                <span class="en-text" style="display:none;">Reading Bibliography</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('standing-on-shoulders')">
+                <span class="tr-text">Devlerin Omuzlarında</span>
+                <span class="en-text" style="display:none;">Standing on Shoulders</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-51.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 51 — SetupTeardownIncluder (son) ve Kaynakça</span><span class="en-text" style="display:none;">Page 51 — SetupTeardownIncluder (end) &amp; Bibliography</span></div>
+    </a>
+    <a href="page-53.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 53)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 53 — Bölüm 4: Yorumlar</span><span class="en-text" style="display:none;">Page 53 — Chapter 4: Comments</span></div>
+    </a>
+</div>
+
+<!-- Modal: Kaynak Okuma Alışkanlığı -->
+<div class="modal-overlay" id="modal-bibliography-importance">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kaynak Okuma Alışkanlığı (Reading Bibliography)</span><span class="en-text" style="display:none;">Reading Bibliography</span></h3>
+            <button class="modal-close" onclick="closeModal('bibliography-importance')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Bir teknik kitabın kaynakçası, yazarın fikirlerinin kökenlerini gösterir. Bu kaynakları takip etmek, konuyu daha derinlemesine anlamanızı sağlar. Örneğin, Dijkstra'nın yapılandırılmış programlama üzerine çalışmaları [SP72] fonksiyonların neden küçük olması gerektiğinin matematiksel temelini oluşturur.</span><span class="en-text" style="display:none;">A technical book's bibliography shows the origins of the author's ideas. Following these references allows you to understand the subject more deeply. For example, Dijkstra's work on structured programming [SP72] provides the mathematical foundation for why functions should be small.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Yüzeysel öğrenme</span><span class="en-text" style="display:none;">BAD — Superficial learning</span></span>
+<pre><span class="comment">// Bir blog yazısından "fonksiyonlar kısa olmalı"</span>
+<span class="comment">// diye okudum, neden olduğunu bilmiyorum.</span>
+<span class="comment">// Kural olarak uyguluyorum ama</span>
+<span class="comment">// istisnalarını bilmiyorum.</span></pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Derinlemesine anlama</span><span class="en-text" style="display:none;">GOOD — Deep understanding</span></span>
+<pre><span class="comment">// Dijkstra'nın yapılandırılmış programlama</span>
+<span class="comment">// teoreminden biliyorum: her program</span>
+<span class="comment">// sequence, selection ve iteration ile</span>
+<span class="comment">// ifade edilebilir. Küçük fonksiyonlar</span>
+<span class="comment">// bu yapıları doğrulanabilir kılar.</span>
+<span class="comment">// → Bu yüzden tek giriş/tek çıkış kuralı</span>
+<span class="comment">//   büyük fonksiyonlarda önemlidir.</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her okuduğunuz teknik kitabın kaynakçasından en az 1-2 kaynak daha okuyun. Bu "derinlik zinciri" sizi gerçek bir uzman yapar. Özellikle [GOF], [PPP] ve [PRAG] her yazılımcının kütüphanesinde olması gereken kitaplardır.</span><span class="en-text" style="display:none;">Read at least 1-2 more references from the bibliography of every technical book you read. This "depth chain" makes you a true expert. In particular, [GOF], [PPP], and [PRAG] are books that should be in every programmer's library.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Devlerin Omuzlarında -->
+<div class="modal-overlay" id="modal-standing-on-shoulders">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Devlerin Omuzlarında (Standing on Shoulders)</span><span class="en-text" style="display:none;">Standing on Shoulders of Giants</span></h3>
+            <button class="modal-close" onclick="closeModal('standing-on-shoulders')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">"Devlerin omuzlarında durmak" — temiz kod ilkeleri bir gecede icat edilmedi. Dijkstra (1972), Kernighan &amp; Plaugher (1978), Gang of Four (1996), Hunt &amp; Thomas (2000) gibi öncülerin onlarca yıllık deneyimi ve araştırması bu ilkelerin temelini oluşturur. Martin bu mirası sentezleyerek pratik kurallar haline getirmiştir.</span><span class="en-text" style="display:none;">"Standing on the shoulders of giants" — clean code principles were not invented overnight. Decades of experience and research by pioneers like Dijkstra (1972), Kernighan &amp; Plaugher (1978), the Gang of Four (1996), and Hunt &amp; Thomas (2000) form the foundation of these principles. Martin synthesized this heritage into practical rules.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tekerleği yeniden icat etme</span><span class="en-text" style="display:none;">BAD — Reinventing the wheel</span></span>
+<pre><span class="comment">// Kendi "benzersiz" mimari desenimi</span>
+<span class="comment">// icat ediyorum. Kim bilir belki</span>
+<span class="comment">// daha önce hiç kimse düşünmemiştir.</span>
+<span class="kw">class</span> <span class="type">SuperManager</span> {
+    <span class="method">doEverything</span>() { <span class="comment">/* 500 satır */</span> }
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Kanıtlanmış desenleri kullanma</span><span class="en-text" style="display:none;">GOOD — Using proven patterns</span></span>
+<pre><span class="comment">// GOF Strategy deseni kullanarak</span>
+<span class="comment">// davranışı enjekte ediyorum.</span>
+<span class="kw">class</span> <span class="type">OrderProcessor</span> {
+    <span class="method">constructor</span>(pricingStrategy) {
+        <span class="kw">this</span>.pricing = pricingStrategy;
+    }
+
+    <span class="method">process</span>(order) {
+        <span class="kw">return</span> <span class="kw">this</span>.pricing.<span class="method">calculate</span>(order);
+    }
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir tasarım problemine çözüm ararken önce mevcut desenleri (GOF, PRAG) araştırın. Büyük olasılıkla probleminiz daha önce çözülmüştür. Kendi "icat"ınızdan önce kanıtlanmış çözümleri değerlendirin.</span><span class="en-text" style="display:none;">When seeking a solution to a design problem, first research existing patterns (GOF, PRAG). Your problem has most likely been solved before. Evaluate proven solutions before your own "invention."</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 52;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 62 | Bölüm 4: Kötü Yorumlar — HTML, Yerel Olmayan, Çok Fazla Bilgi (Listing 4-2 sonu)
+    </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-bar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .top-bar-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #e8d44d;
+            text-decoration: none;
+            font-size: 22px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .home-link:hover {
+            opacity: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8d44d;
+        }
+
+        .chapter-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-number-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px 4px 12px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .page-number-label {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+
+        .page-number-input {
+            width: 38px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e8d44d;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 4px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .page-number-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #e8d44d;
+        }
+
+        .page-number-input.error {
+            border-color: #dc3545;
+            animation: shake-input 0.4s ease;
+        }
+
+        @keyframes shake-input {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-4px)
+            }
+
+            75% {
+                transform: translateX(4px)
+            }
+        }
+
+        .page-nav-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #adb5bd;
+            white-space: nowrap;
+            z-index: 150;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-nav-tooltip.visible {
+            display: block;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #adb5bd;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #e8d44d;
+            color: #1a1a2e;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 36px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .content-paragraph {
+            margin-bottom: 20px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        code.inline {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 15px;
+            color: #c7254e;
+        }
+
+        .code-listing {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-listing-header {
+            background: #343a40;
+            color: #e8d44d;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-listing-header .listing-label {
+            opacity: 0.7;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .code-listing pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin: 0;
+        }
+
+        .concepts-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .concepts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .concepts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .concept-btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: #fff;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .concept-btn:hover {
+            background: #1a1a2e;
+            color: #e8d44d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #1a1a2e;
+            color: #e8d44d;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8d44d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+
+        .modal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .modal-body .label-bad {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body .label-good {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-body pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .modal-body .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8d44d;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #664d03;
+        }
+
+        .modal-body .tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .page-nav {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #dee2e6;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            border-color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            border-color: #e8d44d;
+            background: #fffdf0;
+        }
+
+        .nav-btn.next:hover {
+            background: #fff9db;
+        }
+
+        .nav-btn-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-btn-page {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .kw {
+            color: #cba6f7;
+        }
+
+        .type {
+            color: #89b4fa;
+        }
+
+        .str {
+            color: #a6e3a1;
+        }
+
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+
+        .method {
+            color: #f9e2af;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                padding: 10px 16px;
+            }
+
+            .content-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .page-nav {
+                flex-direction: column;
+            }
+
+            .nav-btn.next {
+                text-align: left;
+            }
+
+            .modal {
+                margin: 10px;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-title-row">
+                <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+                <div class="book-title">Clean Code — Robert C. Martin</div>
+            </div>
+            <div class="chapter-info">Chapter 4: Comments / Yorumlar &rsaquo; HTML Yorumu, Yerel Olmayan Bilgi, Çok
+                Fazla Bilgi</div>
+        </div>
+        <div class="top-bar-right">
+            <div class="page-number-wrapper" style="position:relative;">
+                <span class="page-number-label">Sayfa</span>
+                <input type="text" class="page-number-input" id="pageNumInput" value="62" maxlength="3"
+                    autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()"
+                    onblur="resetPageInput()">
+                <div class="page-nav-tooltip" id="pageNavTooltip"></div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <!-- Listing 4-2 devamı (ContainerBase) -->
+        <div class="section-title">
+            <span class="tr-text">Listing 4-2 (Devam) — ContainerBase.java (Tomcat)</span>
+            <span class="en-text" style="display:none;">Listing 4-2 (Continued) — ContainerBase.java (Tomcat)</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span>Listing 4-2 (devam) — ContainerBase.java (Tomcat)</span>
+                <span class="listing-label">Java</span>
+            </div>
+            <pre>  <span class="comment">/**
+   * Bu Container ile ilişkili Manager uygulaması.
+   */</span>
+  <span class="kw">protected</span> Manager manager = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bu Container ile ilişkili küme.
+   */</span>
+  <span class="kw">protected</span> Cluster cluster = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bu Container'ın insan tarafından okunabilir adı.
+   */</span>
+  <span class="kw">protected</span> String name = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bu Container'ın alt olduğu üst Container.
+   */</span>
+  <span class="kw">protected</span> Container parent = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bir Loader kurulduğunda yapılandırılacak üst sınıf yükleyici.
+   */</span>
+  <span class="kw">protected</span> ClassLoader parentClassLoader = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bu Container ile ilişkili Pipeline nesnesi.
+   */</span>
+  <span class="kw">protected</span> Pipeline pipeline = <span class="kw">new</span> StandardPipeline(<span class="kw">this</span>);
+
+  <span class="comment">/**
+   * Bu Container ile ilişkili Realm.
+   */</span>
+  <span class="kw">protected</span> Realm realm = <span class="kw">null</span>;
+
+  <span class="comment">/**
+   * Bu Container ile ilişkili resources DirContext nesnesi.
+   */</span>
+  <span class="kw">protected</span> DirContext resources = <span class="kw">null</span>;</pre>
+        </div>
+
+        <!-- HTML Yorumu -->
+        <div class="section-title">
+            <span class="tr-text">HTML Yorumu / HTML Comments</span>
+            <span class="en-text" style="display:none;">HTML Comments</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Kaynak kodu yorumlarında HTML bir iğrençliktir. Aşağıdaki kodu okuyunca göreceğiniz
+                gibi, yorumların okunmasını en kolay olması gereken yerde — editörde/IDE'de — zorlaştırır. Yorumlar bir
+                araç (Javadoc gibi) tarafından çıkarılıp bir web sayfasında gösterilecekse, uygun HTML etiketleriyle
+                donatmak programcının değil, o aracın sorumluluğu olmalıdır:</span>
+            <span class="en-text" style="display:none;">HTML in source code comments is an abomination, as you can tell
+                by reading the code below. It makes the comments hard to read in the one place where they should be easy
+                to read—the editor/IDE. If comments are going to be extracted by some tool (like Javadoc) to appear in a
+                Web page, then it should be the responsibility of that tool, and not the programmer, to adorn the
+                comments with appropriate HTML.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">HTML yorumu — okunması güç</span>
+                <span class="en-text" style="display:none;">HTML comment — hard to read</span>
+            </div>
+            <pre><span class="comment">/**
+ * FitNesse testlerini çalıştıran görev.
+ * &lt;p/&gt;
+ * &lt;pre&gt;
+ * Kullanım:
+ * &amp;lt;taskdef name=&amp;quot;execute-fitnesse-tests&amp;quot;
+ *     classname=&amp;quot;fitnesse.ant.ExecuteFitnesseTestsTask&amp;quot;
+ *     classpathref=&amp;quot;classpath&amp;quot; /&amp;gt;
+ * VEYA
+ * &amp;lt;execute-fitnesse-tests
+ *     suitepage=&amp;quot;FitNesse.SuiteAcceptanceTests&amp;quot;
+ *     fitnesseport=&amp;quot;8082&amp;quot; /&amp;gt;
+ * &lt;/pre&gt;
+ */</span></pre>
+        </div>
+
+        <!-- Yerel Olmayan Bilgi -->
+        <div class="section-title">
+            <span class="tr-text">Yerel Olmayan Bilgi / Nonlocal Information</span>
+            <span class="en-text" style="display:none;">Nonlocal Information</span>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bir yorum yazacaksanız, yakınında bulunduğu kodu açıkladığından emin olun. Yerel bir
+                yorumun içinde sistemin tamamına ait bilgi vermeyin. Örneğin aşağıdaki Javadoc yorumunu ele alalım.
+                Yorumun aşırı gereksiz olması bir yana, varsayılan port hakkında da bilgi veriyor. Oysa fonksiyon bu
+                varsayılan değer üzerinde hiçbir denetime sahip değil. Bu yorum fonksiyonu değil, sistemin çok
+                uzaklarındaki başka bir parçayı anlatıyor:</span>
+            <span class="en-text" style="display:none;">If you must write a comment, then make sure it describes the
+                code it appears near. Don't offer systemwide information in the context of a local comment. Consider,
+                for example, the javadoc comment below. Aside from the fact that it is horribly redundant, it also
+                offers information about the default port. And yet the function has absolutely no control over what that
+                default is. The comment is not describing the function, but some other, far distant part of the
+                system.</span>
+        </div>
+
+        <div class="code-listing">
+            <div class="code-listing-header">
+                <span class="tr-text">Yerel olmayan bilgi içeren yorum</span>
+                <span class="en-text" style="display:none;">Comment with nonlocal information</span>
+            </div>
+            <pre><span class="comment">/**
+ * fitnesse'in çalışacağı port. Varsayılan: &lt;b&gt;8082&lt;/b&gt;.
+ *
+ * @param fitnessePort
+ */</span>
+<span class="kw">public void</span> setFitnessePort(<span class="kw">int</span> fitnessePort)
+{
+  <span class="kw">this</span>.fitnessePort = fitnessePort;
+}</pre>
+        </div>
+
+        <div class="content-paragraph">
+            <span class="tr-text">Bu yorum, varsayılan değeri içeren kod değiştiğinde yorumun da güncelleneceğini
+                garanti etmiyor. Yorumun yerel olmayan bilgiye dayanması onu hem hatalı hem de bakımı güç
+                kılıyor.</span>
+            <span class="en-text" style="display:none;">Of course there is no guarantee that this comment will be
+                changed when the code containing the default is changed. The nonlocal nature of the comment makes it
+                both error-prone and hard to maintain.</span>
+        </div>
+
+        <div class="concepts-section">
+            <div class="concepts-title">
+                <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+                <span class="en-text" style="display:none;">Concepts on This Page</span>
+            </div>
+            <div class="concepts-grid">
+                <button class="concept-btn" onclick="openModal('html-comment')">
+                    <span class="tr-text">HTML Yorumu</span>
+                    <span class="en-text" style="display:none;">HTML Comment</span>
+                </button>
+                <button class="concept-btn" onclick="openModal('nonlocal-info')">
+                    <span class="tr-text">Yerel Olmayan Bilgi</span>
+                    <span class="en-text" style="display:none;">Nonlocal Information</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: HTML Yorumu -->
+    <div class="modal-overlay" id="modal-html-comment">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">HTML Yorumu (HTML Comment)</span><span class="en-text"
+                        style="display:none;">HTML Comment</span></h3>
+                <button class="modal-close" onclick="closeModal('html-comment')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Kaynak kodu yorumlarına HTML etiketi gömmek, o yorumu IDE'de neredeyse okunamaz
+                        hale getirir. Javadoc gibi araçlar HTML çıktı üretiyorsa, HTML formatlama sorumluluğu araca
+                        aittir, programcıya değil.</span>
+                    <span class="en-text" style="display:none;">Embedding HTML tags in source code comments makes those
+                        comments nearly unreadable in the IDE. If tools like Javadoc generate HTML output, the
+                        responsibility for HTML formatting belongs to the tool, not the programmer.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — HTML etiketleri yorumda</span><span class="en-text"
+                        style="display:none;">BAD — HTML tags in comment</span></span>
+                <pre><span class="comment">/**
+ * Kullanım:
+ * &lt;pre&gt;
+ * &amp;lt;task name=&amp;quot;myTask&amp;quot; /&amp;gt;
+ * &lt;/pre&gt;
+ */</span>
+<span class="kw">public void</span> runTask() { ... }</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Sade yorum, harici doküman referansı</span><span
+                        class="en-text" style="display:none;">GOOD — Plain comment, external doc reference</span></span>
+                <pre><span class="comment">/**
+ * Görevi çalıştırır.
+ * Kullanım detayları için: docs/tasks.md
+ */</span>
+<span class="kw">public void</span> runTask() { ... }</pre>
+                <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                            style="display:none;">Practical Tip</span></strong>
+                    <span class="tr-text">Kullanım örnekleri ve uzun açıklamalar için harici dokümantasyon araçları
+                        (Docusaurus, MkDocs, Confluence) kullanın. Kaynak kodundaki yorumlar sade ve kısa
+                        olmalıdır.</span>
+                    <span class="en-text" style="display:none;">For usage examples and long explanations, use external
+                        documentation tools (Docusaurus, MkDocs, Confluence). Comments in source code should be plain
+                        and brief.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Yerel Olmayan Bilgi -->
+    <div class="modal-overlay" id="modal-nonlocal-info">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><span class="tr-text">Yerel Olmayan Bilgi (Nonlocal Information)</span><span class="en-text"
+                        style="display:none;">Nonlocal Information</span></h3>
+                <button class="modal-close" onclick="closeModal('nonlocal-info')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept
+                        Explanation</span></h4>
+                <p><span class="tr-text">Bir yorum, sadece yakınındaki kodu açıklamalıdır. Başka bir sınıftaki bir
+                        sabitin değeri veya uzaktaki bir konfigürasyonun detayı gibi yerel olmayan bilgiler yorumda yer
+                        almamalıdır — çünkü bu bilgi değiştikçe yorum güncellenmez ve yanlış kalır.</span>
+                    <span class="en-text" style="display:none;">A comment should only explain the code near it. Nonlocal
+                        information such as the value of a constant in another class or details of a distant
+                        configuration should not be in comments — because as that information changes, the comment won't
+                        be updated and will remain wrong.</span>
+                </p>
+                <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad
+                        Example (Before)</span></h4>
+                <span class="label-bad"><span class="tr-text">KÖTÜ — Uzak bir konfigürasyon bilgisi yorumda</span><span
+                        class="en-text" style="display:none;">BAD — Remote configuration info in comment</span></span>
+                <pre><span class="comment">// Varsayılan zaman aşımı 30 saniyedir (Config.TIMEOUT_SECONDS'da)</span>
+<span class="kw">public void</span> setTimer(Timer t) {
+    <span class="kw">this</span>.timer = t;
+}</pre>
+                <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good
+                        Example (After)</span></h4>
+                <span class="label-good"><span class="tr-text">İYİ — Kod kendi varsayılanını içeriyor</span><span
+                        class="en-text" style="display:none;">GOOD — Code contains its own default</span></span>
+                <pre"><span class="kw">public static final int</span> DEFAULT_TIMEOUT_SECONDS = 30;
+
+                    <span class="kw">public void</span> setTimer(Timer t) {
+                    <span class="kw">this</span>.timer = t;
+                    }</pre>
+                    <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text"
+                                style="display:none;">Practical Tip</span></strong>
+                        <span class="tr-text">Bir yorumda "başka bir yerde tanımlanmış bir değer" hakkında bilgi
+                            veriyorsanız, o değeri ya koda taşıyın ya da yorumu silin. Yorumun güncel kalmasını sağlamak
+                            pratik olarak olanaksızdır.</span>
+                        <span class="en-text" style="display:none;">If a comment provides information about "a value
+                            defined elsewhere," either move that value into the code or delete the comment. Keeping such
+                            a comment up to date is practically impossible.</span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="page-61.html" class="nav-btn">
+            <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text"
+                    style="display:none;">Previous Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 61 — Atıf ve Yazarlık, Yorum Satırındaki
+                    Kod</span><span class="en-text" style="display:none;">Page 61 — Attributions, Commented-Out
+                    Code</span></div>
+        </a>
+        <a href="page-63.html" class="nav-btn next">
+            <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text"
+                    style="display:none;">Next Page</span></div>
+            <div class="nav-btn-page"><span class="tr-text">Sayfa 63 — Çok Fazla Bilgi, Bağlantısız Yorum, Fonksiyon
+                    Başlığı</span><span class="en-text" style="display:none;">Page 63 — Too Much Info, Inobvious
+                    Connection, Function Headers</span></div>
+        </a>
+    </div>
+
+    <script>const CURRENT_PAGE = 62;</script>
+    <script src="../js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 48 | Bölüm 3: Fonksiyonlar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; DRY &amp; Yapısal Programlama</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="48" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title" style="margin-top: 0;">
+        <span class="tr-text">Kendini Tekrar Etme / Don't Repeat Yourself</span>
+        <span class="en-text" style="display:none;">Don't Repeat Yourself</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Liste 3-1'e dikkatlice bakın ve dört kez tekrarlanan bir algoritma olduğunu fark edeceksiniz: <code class="inline">SetUp</code>, <code class="inline">SuiteSetUp</code>, <code class="inline">TearDown</code> ve <code class="inline">SuiteTearDown</code> durumlarının her biri için bir kez. Bu tekrarı fark etmek kolay değildir çünkü dört örnek diğer kodlarla iç içe geçmiştir ve düzgün bir şekilde tekrar edilmemiştir. Yine de tekrar bir sorundur çünkü kodu şişirir ve algoritma değişirse dört kat değişiklik gerektirir. Ayrıca bir atlanma hatası için dört kat fırsat yaratır.</span>
+        <span class="en-text" style="display:none;">Look back at Listing 3-1 carefully and you will notice that there is an algorithm that gets repeated four times, once for each of the <code class="inline">SetUp</code>, <code class="inline">SuiteSetUp</code>, <code class="inline">TearDown</code>, and <code class="inline">SuiteTearDown</code> cases. It's not easy to spot this duplication because the four instances are intermixed with other code and aren't uniformly duplicated. Still, the duplication is a problem because it bloats the code and will require four-fold modification should the algorithm ever have to change. It is also a four-fold opportunity for an error of omission.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu tekrar, Liste 3-7'deki <code class="inline">include</code> metodu tarafından giderilmiştir. Kodu tekrar okuyun ve tüm modülün okunabilirliğinin tekrarın azaltılmasıyla nasıl arttığına dikkat edin.</span>
+        <span class="en-text" style="display:none;">This duplication was remedied by the <code class="inline">include</code> method in Listing 3-7. Read through that code again and notice how the readability of the whole module is enhanced by the reduction of that duplication.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Tekrar (duplication), yazılımdaki tüm kötülüklerin kökü olabilir. Onu kontrol etmek veya ortadan kaldırmak amacıyla birçok ilke ve uygulama oluşturulmuştur. Örneğin Codd'un veritabanı normal formlarının (normal forms) tümünün, verideki tekrarı ortadan kaldırmaya hizmet ettiğini düşünün. Nesne yönelimli programlamanın (OOP), aksi takdirde gereksiz olacak kodları temel sınıflarda (base classes) toplamaya nasıl hizmet ettiğini de düşünün. Yapısal programlama (Structured Programming), Görünüm Yönelimli Programlama (Aspect Oriented Programming), Bileşen Yönelimli Programlama (Component Oriented Programming) — bunların hepsi kısmen tekrarı ortadan kaldırma stratejileridir. Alt rutinin (subroutine) icadından bu yana, yazılım geliştirmedeki yenilikler, kaynak kodumuzdan tekrarı ortadan kaldırmaya yönelik süregelen bir çaba olmuştur.</span>
+        <span class="en-text" style="display:none;">Duplication may be the root of all evil in software. Many principles and practices have been created for the purpose of controlling or eliminating it. Consider, for example, that all of Codd's database normal forms serve to eliminate duplication in data. Consider also how object-oriented programming serves to concentrate code into base classes that would otherwise be redundant. Structured programming, Aspect Oriented Programming, Component Oriented Programming, are all, in part, strategies for eliminating duplication. It would appear that since the invention of the subroutine, innovations in software development have been an ongoing attempt to eliminate duplication from our source code.</span>
+    </div>
+
+    <div class="section-title">
+        <span class="tr-text">Yapısal Programlama / Structured Programming</span>
+        <span class="en-text" style="display:none;">Structured Programming</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bazı programcılar Edsger Dijkstra'nın yapısal programlama (structured programming) kurallarını takip ederler.<sup>14</sup> Dijkstra, her fonksiyonun ve fonksiyon içindeki her bloğun tek bir giriş ve tek bir çıkışa sahip olması gerektiğini söylemiştir. Bu kuralları takip etmek, bir fonksiyonda yalnızca bir <code class="inline">return</code> ifadesi olması, bir döngüde <code class="inline">break</code> veya <code class="inline">continue</code> ifadesi olmaması ve asla, <em>asla</em> <code class="inline">goto</code> ifadesi kullanılmaması anlamına gelir.</span>
+        <span class="en-text" style="display:none;">Some programmers follow Edsger Dijkstra's rules of structured programming.<sup>14</sup> Dijkstra said that every function, and every block within a function, should have one entry and one exit. Following these rules means that there should only be one <code class="inline">return</code> statement in a function, no <code class="inline">break</code> or <code class="inline">continue</code> statements in a loop, and never, <em>ever,</em> any <code class="inline">goto</code> statements.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bu hedeflere ve yapısal programlamanın disiplinine sempatiyle yaklaşsak da, fonksiyonlar çok küçük olduğunda bu kurallar çok az fayda sağlar. Yalnızca daha büyük fonksiyonlarda bu kurallar önemli bir fayda sunar.</span>
+        <span class="en-text" style="display:none;">While we are sympathetic to the goals and disciplines of structured programming, those rules serve little benefit when functions are very small. It is only in larger functions that such rules provide significant benefit.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Dolayısıyla, fonksiyonlarınızı küçük tutarsanız, ara sıra birden fazla <code class="inline">return</code>, <code class="inline">break</code> veya <code class="inline">continue</code> ifadesi kullanmak zarar vermez ve bazen tek-giriş, tek-çıkış kuralından bile daha ifade edici olabilir. Öte yandan <code class="inline">goto</code> yalnızca büyük fonksiyonlarda anlam taşır, bu nedenle ondan kaçınılmalıdır.</span>
+        <span class="en-text" style="display:none;">So if you keep your functions small, then the occasional multiple <code class="inline">return</code>, <code class="inline">break</code>, or <code class="inline">continue</code> statement does no harm and can sometimes even be more expressive than the single-entry, single-exit rule. On the other hand, <code class="inline">goto</code> only makes sense in large functions, so it should be avoided.</span>
+    </div>
+
+    <div class="footnote">
+        <p><span class="footnote-number">13.</span> <span class="tr-text">DRY ilkesi. [PRAG].</span><span class="en-text" style="display:none;">The DRY principle. [PRAG].</span></p>
+        <p><span class="footnote-number">14.</span> <span class="tr-text">[SP72].</span><span class="en-text" style="display:none;">[SP72].</span></p>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('dry-principle')">
+                <span class="tr-text">DRY İlkesi</span>
+                <span class="en-text" style="display:none;">DRY Principle</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('structured-programming')">
+                <span class="tr-text">Yapısal Programlama</span>
+                <span class="en-text" style="display:none;">Structured Programming</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('single-entry-exit')">
+                <span class="tr-text">Tek Giriş / Tek Çıkış</span>
+                <span class="en-text" style="display:none;">Single Entry / Single Exit</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-47.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 47 — Error.java Bağımlılık Mıknatısı</span><span class="en-text" style="display:none;">Page 47 — The Error.java Dependency Magnet</span></div>
+    </a>
+    <a href="page-49.html" class="nav-btn next">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 49 — Fonksiyonları Nasıl Yazarsınız &amp; Sonuç</span><span class="en-text" style="display:none;">Page 49 — How Do You Write Functions &amp; Conclusion</span></div>
+    </a>
+</div>
+
+<!-- Modal: DRY İlkesi -->
+<div class="modal-overlay" id="modal-dry-principle">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kendini Tekrar Etme İlkesi (DRY — Don't Repeat Yourself)</span><span class="en-text" style="display:none;">DRY — Don't Repeat Yourself</span></h3>
+            <button class="modal-close" onclick="closeModal('dry-principle')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">DRY (Don't Repeat Yourself — Kendini Tekrar Etme) ilkesi, her bilgi parçasının sistemde tek ve belirgin bir temsile sahip olması gerektiğini söyler. Kod tekrarı, bir değişiklik gerektiğinde birden fazla yerin güncellenmesini zorunlu kılar ve hata riskini artırır.</span><span class="en-text" style="display:none;">The DRY (Don't Repeat Yourself) principle states that every piece of knowledge should have a single, unambiguous representation in the system. Code duplication forces multiple places to be updated when a change is needed, increasing the risk of errors.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tekrarlanan doğrulama mantığı</span><span class="en-text" style="display:none;">BAD — Duplicated validation logic</span></span>
+<pre><span class="kw">function</span> <span class="method">createUser</span>(name, email) {
+    <span class="kw">if</span> (!email || !email.<span class="method">includes</span>(<span class="str">"@"</span>)) {
+        <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">"Invalid email"</span>);
+    }
+    <span class="comment">// ... kullanıcı oluştur</span>
+}
+
+<span class="kw">function</span> <span class="method">updateEmail</span>(userId, email) {
+    <span class="kw">if</span> (!email || !email.<span class="method">includes</span>(<span class="str">"@"</span>)) {
+        <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">"Invalid email"</span>);
+    }
+    <span class="comment">// ... email güncelle</span>
+}
+
+<span class="kw">function</span> <span class="method">sendInvite</span>(email) {
+    <span class="kw">if</span> (!email || !email.<span class="method">includes</span>(<span class="str">"@"</span>)) {
+        <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">"Invalid email"</span>);
+    }
+    <span class="comment">// ... davetiye gönder</span>
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Tek doğrulama fonksiyonu</span><span class="en-text" style="display:none;">GOOD — Single validation function</span></span>
+<pre><span class="kw">function</span> <span class="method">validateEmail</span>(email) {
+    <span class="kw">if</span> (!email || !email.<span class="method">includes</span>(<span class="str">"@"</span>)) {
+        <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">"Invalid email"</span>);
+    }
+}
+
+<span class="kw">function</span> <span class="method">createUser</span>(name, email) {
+    <span class="method">validateEmail</span>(email);
+    <span class="comment">// ... kullanıcı oluştur</span>
+}
+
+<span class="kw">function</span> <span class="method">updateEmail</span>(userId, email) {
+    <span class="method">validateEmail</span>(email);
+    <span class="comment">// ... email güncelle</span>
+}
+
+<span class="kw">function</span> <span class="method">sendInvite</span>(email) {
+    <span class="method">validateEmail</span>(email);
+    <span class="comment">// ... davetiye gönder</span>
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">"Üç kuralı"nı uygulayın: Aynı kodu iki kez yazdıysanız not edin, üçüncü kez yazdığınızda refactor edin. Tekrarı tespit etmenin en kolay yolu: "Bu mantık değişse kaç yeri güncellemem gerekir?" sorusunu sormaktır.</span><span class="en-text" style="display:none;">Apply the "Rule of Three": if you've written the same code twice, note it; the third time, refactor. The easiest way to detect duplication: ask "If this logic changes, how many places do I need to update?"</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Yapısal Programlama -->
+<div class="modal-overlay" id="modal-structured-programming">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Yapısal Programlama (Structured Programming)</span><span class="en-text" style="display:none;">Structured Programming</span></h3>
+            <button class="modal-close" onclick="closeModal('structured-programming')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Dijkstra'nın yapısal programlama (structured programming) kuralları, her fonksiyonun tek giriş ve tek çıkışa sahip olmasını önerir. Ancak modern yazılım geliştirmede, fonksiyonlar küçük tutulduğunda, birden fazla <code class="inline">return</code> veya <code class="inline">break</code> ifadesi zarar vermez. Asıl kaçınılması gereken <code class="inline">goto</code> ifadesidir.</span><span class="en-text" style="display:none;">Dijkstra's rules of structured programming suggest that every function should have one entry and one exit. However, in modern software development, when functions are kept small, multiple <code class="inline">return</code> or <code class="inline">break</code> statements do no harm. The real thing to avoid is <code class="inline">goto</code>.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — Tek return zorlama (gereksiz karmaşıklık)</span><span class="en-text" style="display:none;">BAD — Forcing single return (unnecessary complexity)</span></span>
+<pre><span class="kw">def</span> <span class="method">find_user</span>(users, user_id):
+    result = <span class="kw">None</span>
+    <span class="kw">for</span> user <span class="kw">in</span> users:
+        <span class="kw">if</span> user.id == user_id:
+            result = user
+            <span class="comment"># Buldu ama döngüye devam ediyor!</span>
+    <span class="kw">return</span> result</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Erken dönüş (küçük fonksiyonda sorun yok)</span><span class="en-text" style="display:none;">GOOD — Early return (fine in small functions)</span></span>
+<pre><span class="kw">def</span> <span class="method">find_user</span>(users, user_id):
+    <span class="kw">for</span> user <span class="kw">in</span> users:
+        <span class="kw">if</span> user.id == user_id:
+            <span class="kw">return</span> user
+    <span class="kw">return</span> <span class="kw">None</span></pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Fonksiyonlarınız küçükse (5-10 satır), birden fazla <code class="inline">return</code> kullanmaktan çekinmeyin. Okunabilirliği artırır. Ancak 50+ satırlık fonksiyonlarda tek-giriş, tek-çıkış kuralı hâlâ değerlidir.</span><span class="en-text" style="display:none;">If your functions are small (5-10 lines), don't hesitate to use multiple <code class="inline">return</code> statements. It improves readability. But in 50+ line functions, the single-entry, single-exit rule still has value.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Tek Giriş / Tek Çıkış -->
+<div class="modal-overlay" id="modal-single-entry-exit">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Tek Giriş / Tek Çıkış (Single Entry / Single Exit)</span><span class="en-text" style="display:none;">Single Entry / Single Exit</span></h3>
+            <button class="modal-close" onclick="closeModal('single-entry-exit')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Tek giriş / tek çıkış (single-entry, single-exit) kuralı, bir fonksiyonun sadece bir noktadan başlaması ve bir noktadan çıkması gerektiğini belirtir. <code class="inline">goto</code> ifadeleri bu kuralı kesinlikle ihlal eder. Küçük fonksiyonlarda ise birden fazla <code class="inline">return</code>, <code class="inline">break</code> veya <code class="inline">continue</code> kullanmak kabul edilebilir ve hatta daha ifade edici olabilir.</span><span class="en-text" style="display:none;">The single-entry, single-exit rule states that a function should start at only one point and exit at only one point. <code class="inline">goto</code> statements definitively violate this rule. In small functions, however, using multiple <code class="inline">return</code>, <code class="inline">break</code>, or <code class="inline">continue</code> is acceptable and can even be more expressive.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — goto kullanımı (ASLA kullanmayın)</span><span class="en-text" style="display:none;">BAD — goto usage (NEVER use)</span></span>
+<pre><span class="comment">// C dili örneği</span>
+<span class="kw">int</span> <span class="method">processData</span>(<span class="kw">int</span>* data, <span class="kw">int</span> size) {
+    <span class="kw">int</span> result = <span class="field">0</span>;
+    <span class="kw">if</span> (data == NULL)
+        <span class="kw">goto</span> error;
+    <span class="kw">if</span> (size <= <span class="field">0</span>)
+        <span class="kw">goto</span> error;
+    <span class="comment">// ... işleme kodu</span>
+    <span class="kw">goto</span> done;
+error:
+    result = <span class="field">-1</span>;
+done:
+    <span class="kw">return</span> result;
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Koruma cümleleriyle erken dönüş</span><span class="en-text" style="display:none;">GOOD — Early return with guard clauses</span></span>
+<pre><span class="kw">int</span> <span class="method">processData</span>(<span class="kw">int</span>* data, <span class="kw">int</span> size) {
+    <span class="kw">if</span> (data == NULL || size <= <span class="field">0</span>)
+        <span class="kw">return</span> <span class="field">-1</span>;
+
+    <span class="comment">// ... işleme kodu</span>
+    <span class="kw">return</span> result;
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text"><code class="inline">goto</code>'dan kesinlikle kaçının — modern dillerde zaten çoğunda yoktur. Küçük fonksiyonlarda erken <code class="inline">return</code> kullanın. Büyük fonksiyonları ise küçüğe böldüğünüzde tek-giriş, tek-çıkış sorunu kendiliğinden çözülür.</span><span class="en-text" style="display:none;">Absolutely avoid <code class="inline">goto</code> — most modern languages don't even have it. Use early <code class="inline">return</code> in small functions. When you break large functions into small ones, the single-entry, single-exit problem solves itself.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 48;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

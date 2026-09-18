@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code - Sayfa 32 | Bölüm 3: Fonksiyonlar — Küçük Olmalı!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa; color: #212529; line-height: 1.8; font-size: 17px;
+        }
+        .top-bar {
+            background: #1a1a2e; color: #e0e0e0; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .top-bar-left { display: flex; flex-direction: column; gap: 2px; }
+        .top-bar-title-row { display: flex; align-items: center; gap: 12px; }
+        .home-link { color: #e8d44d; text-decoration: none; font-size: 22px; line-height: 1; opacity: 0.8; transition: opacity 0.3s; }
+        .home-link:hover { opacity: 1; }
+        .book-title { font-size: 16px; font-weight: 600; color: #e8d44d; }
+        .chapter-info { font-size: 13px; color: #adb5bd; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .page-number-wrapper { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px 8px 4px 12px; border-radius: 12px; }
+        .page-number-label { font-size: 14px; color: #adb5bd; }
+        .page-number-input { width: 38px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #e8d44d; font-size: 14px; font-weight: 700; text-align: center; padding: 2px 4px; font-family: inherit; outline: none; transition: all 0.3s; }
+        .page-number-input:focus { background: rgba(255,255,255,0.25); border-color: #e8d44d; }
+        .page-number-input.error { border-color: #dc3545; animation: shake-input 0.4s ease; }
+        @keyframes shake-input { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .page-nav-tooltip { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #adb5bd; white-space: nowrap; z-index: 150; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .page-nav-tooltip.visible { display: block; }
+        .lang-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+        .lang-btn { padding: 6px 16px; border: none; background: transparent; color: #adb5bd; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .lang-btn.active { background: #e8d44d; color: #1a1a2e; }
+        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+        .content-paragraph { margin-bottom: 20px; text-align: justify; hyphens: auto; }
+        .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 2px solid #e8d44d; }
+        .section-title:first-child { margin-top: 0; }
+        code.inline { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 15px; color: #c7254e; }
+        .code-listing { margin: 24px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .code-listing-header { background: #343a40; color: #e8d44d; padding: 12px 20px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .code-listing-header .listing-label { opacity: 0.7; font-weight: 400; }
+        .code-listing pre { background: #1e1e2e; color: #cdd6f4; padding: 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; margin: 0; }
+        .footnote { font-size: 14px; color: #6c757d; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; }
+        .footnote-number { font-weight: 700; color: #1a1a2e; }
+        .concepts-section { margin-top: 48px; padding-top: 32px; border-top: 2px solid #dee2e6; }
+        .concepts-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+        .concepts-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .concept-btn { padding: 10px 20px; border: 2px solid #1a1a2e; background: #fff; color: #1a1a2e; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; }
+        .concept-btn:hover { background: #1a1a2e; color: #e8d44d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #1a1a2e; color: #e8d44d; padding: 20px 24px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #e8d44d; font-size: 24px; cursor: pointer; padding: 0 4px; line-height: 1; }
+        .modal-body { padding: 24px; }
+        .modal-body h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; color: #1a1a2e; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p { margin-bottom: 12px; line-height: 1.7; color: #495057; }
+        .modal-body .label-bad { display: inline-block; background: #f8d7da; color: #842029; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body .label-good { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 3px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .modal-body pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+        .modal-body .tip { background: #fff3cd; border-left: 4px solid #e8d44d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 15px; color: #664d03; }
+        .modal-body .tip strong { display: block; margin-bottom: 4px; }
+        .modal-body .explanation { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 15px; color: #495057; }
+        .page-nav { max-width: 800px; margin: 0 auto 40px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+        .nav-btn { flex: 1; padding: 16px 20px; border: 2px solid #dee2e6; background: #fff; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-align: left; text-decoration: none; color: inherit; display: block; }
+        .nav-btn:hover { border-color: #1a1a2e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-btn.next { text-align: right; border-color: #e8d44d; background: #fffdf0; }
+        .nav-btn.next:hover { background: #fff9db; }
+        .nav-btn-label { font-size: 12px; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .nav-btn-page { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 4px; }
+        .not-translated { opacity: 0.5; border-style: dashed; }
+        .kw { color: #cba6f7; }
+        .type { color: #89b4fa; }
+        .str { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .method { color: #f9e2af; }
+        .field { color: #f38ba8; }
+        @media (max-width: 600px) {
+            .top-bar { padding: 10px 16px; }
+            .content-wrapper { padding: 24px 16px 40px; }
+            .section-title { font-size: 22px; }
+            .page-nav { flex-direction: column; }
+            .nav-btn.next { text-align: left; }
+            .modal { margin: 10px; max-height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-title-row">
+            <a href="../index.html" class="home-link" title="Ana Sayfa">&#8962;</a>
+            <div class="book-title">Clean Code — Robert C. Martin</div>
+        </div>
+        <div class="chapter-info">Chapter 3: Functions / Fonksiyonlar &rsaquo; Küçük Olmalı!</div>
+    </div>
+    <div class="top-bar-right">
+        <div class="page-number-wrapper" style="position:relative;"><span class="page-number-label">Sayfa</span><input type="text" class="page-number-input" id="pageNumInput" value="32" maxlength="3" autocomplete="off" onkeydown="if(event.key==='Enter')goToPageNum()" onfocus="this.select()" onblur="resetPageInput()"><div class="page-nav-tooltip" id="pageNavTooltip"></div></div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="section-title">
+        <span class="tr-text">Küçük Olmalı! / Small!</span>
+        <span class="en-text" style="display:none;">Small!</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Fonksiyonların ilk kuralı küçük olmalarıdır. Fonksiyonların ikinci kuralı ise bundan <em>daha</em> küçük olmalarıdır. Bu, gerekçelendirebileceğim bir iddia değil. Çok küçük fonksiyonların daha iyi olduğunu gösteren herhangi bir araştırma referansı sunamam. Size söyleyebileceğim şey, yaklaşık kırk yıldır her boyuttan fonksiyon yazmış olmamdır. 3.000 satırlık iğrenç şeyler yazdım. 100 ile 300 satır aralığında birçok fonksiyon yazdım. Ve 20 ile 30 satırlık fonksiyonlar yazdım. Bu deneyim bana uzun deneme yanılma yoluyla öğretti ki, fonksiyonlar çok küçük olmalıdır.</span>
+        <span class="en-text" style="display:none;">The first rule of functions is that they should be small. The second rule of functions is that they should be <em>smaller than that</em>. This is not an assertion that I can justify. I can't provide any references to research that shows that very small functions are better. What I can tell you is that for nearly four decades I have written functions of all different sizes. I've written several nasty 3,000-line abominations. I've written scads of functions in the 100 to 300 line range. And I've written functions that were 20 to 30 lines long. What this experience has taught me, through long trial and error, is that functions should be very small.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">1980'lerde bir fonksiyonun bir ekran dolusu olmaması gerektiğini söylerdik. Elbette bunu, VT100 ekranlarının 24 satır 80 sütun olduğu ve editörlerimizin yönetimsel amaçlar için 4 satır kullandığı bir zamanda söylüyorduk. Günümüzde ise sıkıştırılmış bir font ve güzel bir büyük monitörle bir satırda 150 karakter ve bir ekranda 100 veya daha fazla satır sığdırabilirsiniz. Satırlar 150 karakter uzunluğunda olmamalıdır. Fonksiyonlar 100 satır uzunluğunda olmamalıdır. Fonksiyonlar nadiren 20 satır uzunluğunda olmalıdır.</span>
+        <span class="en-text" style="display:none;">In the eighties we used to say that a function should be no bigger than a screen-full. Of course we said that at a time when VT100 screens were 24 lines by 80 columns, and our editors used 4 lines for administrative purposes. Nowadays with a cranked-down font and a nice big monitor, you can fit 150 characters on a line and a 100 lines or more on a screen. Lines should not be 150 characters long. Functions should not be 100 lines long. Functions should hardly ever be 20 lines long.</span>
+    </div>
+
+    <div class="content-paragraph">
+        <span class="tr-text">Bir fonksiyon ne kadar kısa olmalıdır? 1999'da Kent Beck'i Oregon'daki evinde ziyaret ettim. Birlikte programlama yaptık. Bir noktada bana <em>Sparkle</em> adını verdiği sevimli küçük bir Java/Swing programı gösterdi. Cinderella filmindeki peri değneğinin büyüsüne çok benzer bir görsel efekt üretiyordu. Fareyi hareket ettirdiğinizde, parıltılar memnuniyet verici bir parıltıyla imleçten damlıyor, simüle edilmiş bir yerçekimi alanından pencerenin altına düşüyordu. Kent bana kodu gösterdiğinde, tüm fonksiyonların ne kadar küçük olduğuna dikkat çarptı. Swing programlarındaki fonksiyonların dikeyde milyonlarca satır kapladığına alışkındım. Bu programdaki her fonksiyon sadece iki, üç veya dört satırdı. Her biri açıkça ortadaydı. Her biri bir hikaye anlatıyordu. Ve her biri sizi ikna edici bir sırayla bir sonrakine götürüyordu. <em>İşte</em> fonksiyonlarınızın bu kadar kısa olması gerektiği budur!<sup>3</sup></span>
+        <span class="en-text" style="display:none;">How short should a function be? In 1999 I went to visit Kent Beck at his home in Oregon. We sat down and did some programming together. At one point he showed me a cute little Java/Swing program that he called <em>Sparkle</em>. It produced a visual effect on the screen very similar to the magic wand of the fairy godmother in the movie Cinderella. As you moved the mouse, the sparkles would drip from the cursor with a satisfying scintillation, falling to the bottom of the window through a simulated gravitational field. When Kent showed me the code, I was struck by how small all the functions were. I was used to functions in Swing programs that took up miles of vertical space. Every function in this program was just two, or three, or four lines long. Each was transparently obvious. Each told a story. And each led you to the next in a compelling order. <em>That's</em> how short your functions should be!<sup>3</sup></span>
+    </div>
+
+    <div class="footnote">
+        <span class="footnote-number">3.</span>
+        <span class="tr-text"> Kent'e hala bir kopyasının olup olmadığını sordum, ancak bulamadı. Tüm eski bilgisayarlarımı da aradım, ancak sonuçsuz kaldı. Şimdi geriye sadece o programın hafızam kaldı.</span>
+        <span class="en-text" style="display:none;"> I asked Kent whether he still had a copy, but he was unable to find one. I searched all my old computers too, but to no avail. All that is left now is my memory of that program.</span>
+    </div>
+
+    <div class="concepts-section">
+        <div class="concepts-title">
+            <span class="tr-text">Bu Sayfadaki Kavramlar</span>
+            <span class="en-text" style="display:none;">Concepts on This Page</span>
+        </div>
+        <div class="concepts-grid">
+            <button class="concept-btn" onclick="openModal('small-functions')">
+                <span class="tr-text">Küçük Fonksiyonlar</span>
+                <span class="en-text" style="display:none;">Small Functions</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('function-length')">
+                <span class="tr-text">Fonksiyon Uzunluğu</span>
+                <span class="en-text" style="display:none;">Function Length</span>
+            </button>
+            <button class="concept-btn" onclick="openModal('kent-beck-sparkle')">
+                <span class="tr-text">Kent Beck Örneği</span>
+                <span class="en-text" style="display:none;">Kent Beck Example</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page-nav">
+    <a href="page-31.html" class="nav-btn">
+        <div class="nav-btn-label"><span class="tr-text">Önceki Sayfa</span><span class="en-text" style="display:none;">Previous Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 31 — Giriş</span><span class="en-text" style="display:none;">Page 31 — Introduction</span></div>
+    </a>
+    <a href="page-33.html" class="nav-btn next not-translated" onclick="return handleUntranslated(event, 33)">
+        <div class="nav-btn-label"><span class="tr-text">Sonraki Sayfa</span><span class="en-text" style="display:none;">Next Page</span></div>
+        <div class="nav-btn-page"><span class="tr-text">Sayfa 33 — Küçük Olmalı! (devam)</span><span class="en-text" style="display:none;">Page 33 — Small! (cont.)</span></div>
+    </a>
+</div>
+
+<!-- Modal: Küçük Fonksiyonlar -->
+<div class="modal-overlay" id="modal-small-functions">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Küçük Fonksiyonlar (Small Functions)</span><span class="en-text" style="display:none;">Small Functions</span></h3>
+            <button class="modal-close" onclick="closeModal('small-functions')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyon ne kadar küçükse, o kadar anlaşılır ve bakımı kolaydır. Martin, fonksiyonların bir ekran dolusu olmaması gerektiğini, hatta 20 satırı nadiren geçmesi gerektiğini söyler. Her fonksiyon tek bir şey yapmalı ve bunu iyi yapmalıdır. Robert C. Martin'in deneyimine göre en iyi fonksiyonlar 2-4 satırlık olanlardır.</span><span class="en-text" style="display:none;">The smaller a function is, the easier it is to understand and maintain. Martin says functions should not fill a screen and should rarely exceed 20 lines. Each function should do one thing and do it well. According to Robert C. Martin's experience, the best functions are 2-4 lines long.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — 25 satır, birden fazla sorumluluk</span><span class="en-text" style="display:none;">BAD — 25 lines, multiple responsibilities</span></span>
+<pre>def process_order(order):
+    # Validate order
+    if not order.get("items"):
+        return None
+    total = 0
+    for item in order["items"]:
+        total += item["price"] * item["qty"]
+    
+    # Apply discounts
+    if total > 100:
+        total = total * 0.9
+    
+    # Calculate shipping
+    if total > 50:
+        shipping = 0
+    else:
+        shipping = 5.99
+    
+    # Generate invoice
+    invoice = {
+        "subtotal": total,
+        "shipping": shipping,
+        "total": total + shipping
+    }
+    
+    # Save to database
+    db.orders.insert(invoice)
+    
+    return invoice</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — Her fonksiyon 2-4 satır</span><span class="en-text" style="display:none;">GOOD — Each function 2-4 lines</span></span>
+<pre>def process_order(order):
+    if not is_valid(order):
+        return None
+    total = calculate_total(order)
+    total = apply_discount(total)
+    invoice = create_invoice(total)
+    save_order(invoice)
+    return invoice</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Bir fonksiyonun "ne yaptığını" anlatmak için "ve" kelimesini kullanıyorsanız, muhtemelen birden fazla şey yapıyordur. Ayrı fonksiyonlara bölme zamanı gelmiştir.</span><span class="en-text" style="display:none;">If you use the word "and" to describe what a function does, it's probably doing more than one thing. Time to split into separate functions.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Fonksiyon Uzunluğu -->
+<div class="modal-overlay" id="modal-function-length">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Fonksiyon Uzunluğu (Function Length)</span><span class="en-text" style="display:none;">Function Length</span></h3>
+            <button class="modal-close" onclick="closeModal('function-length')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Fonksiyon uzunluğu hakkında kesin bir kural olmamakla birlikte, deneyimli yazılımcılar şu prensiplere dikkat eder: 1980'lerde standart bir ekran 24 satırdı. Günümüzde ise fonksiyonlar 20 satırı geçmemelidir. Metot (method) başına ortalama 5-10 satır idealdir. Kodunuz ne kadar küçükse, hata yapma olasılığınız o kadar düşüktür.</span><span class="en-text" style="display:none;">While there's no hard rule about function length, experienced programmers follow these principles: In the 1980s, a standard screen was 24 lines. Today, functions should not exceed 20 lines. 5-10 lines per method is ideal. The smaller your code, the lower your chance of errors.</span></p>
+
+            <h4><span class="tr-text">Kötü Örnek (Before)</span><span class="en-text" style="display:none;">Bad Example (Before)</span></h4>
+            <span class="label-bad"><span class="tr-text">KÖTÜ — 150 satırlık dev fonksiyon</span><span class="en-text" style="display:none;">BAD — 150-line giant function</span></span>
+<pre>function handleUserRegistration(data) {
+    // 150 satırlık dev fonksiyon...
+    // Validasyon, veritabanı işlemleri, email gönderimi,
+    // raporlama, loglama hepsi tek yerde
+}</pre>
+
+            <h4><span class="tr-text">İyi Örnek (After)</span><span class="en-text" style="display:none;">Good Example (After)</span></h4>
+            <span class="label-good"><span class="tr-text">İYİ — 5-10 satırlık küçük fonksiyonlar</span><span class="en-text" style="display:none;">GOOD — 5-10 line small functions</span></span>
+<pre>function registerUser(data) {
+    validateInput(data);
+    user = createUser(data);
+    sendWelcomeEmail(user);
+    logRegistration(user);
+    return user;
+}</pre>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Ekrana sığdırmak yerine, fonksiyonun tek bir iş yaptığını düşünün. Eğer fonksiyonu "ve" kelimesiyle anlatabiliyorsanız, bölme zamanı gelmiştir.</span><span class="en-text" style="display:none;">Think about whether the function does one thing, not whether it fits on screen. If you can describe it with "and," it's time to split.</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Kent Beck Örneği -->
+<div class="modal-overlay" id="modal-kent-beck-sparkle">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><span class="tr-text">Kent Beck ve Sparkle Örneği</span><span class="en-text" style="display:none;">Kent Beck and Sparkle Example</span></h3>
+            <button class="modal-close" onclick="closeModal('kent-beck-sparkle')">×</button>
+        </div>
+        <div class="modal-body">
+            <h4><span class="tr-text">Kavram Açıklaması</span><span class="en-text" style="display:none;">Concept Explanation</span></h4>
+            <p><span class="tr-text">Robert C. Martin, 1999'da Kent Beck'i ziyaretinde Sparkle adlı küçük bir Java/Swing programı görmüştür. Bu programda tüm fonksiyonlar sadece 2-4 satırdı. Her fonksiyon açıkça anlaşılıyordu, bir hikaye anlatıyordu ve bir sonrakine mantıklı bir sırayla götürüyordu. Martin, bu deneyimden sonra fonksiyonların ne kadar küçük olabileceğini yeniden düşünmüştür.</span><span class="en-text" style="display:none;">Robert C. Martin visited Kent Beck in 1999 and saw a small Java/Swing program called Sparkle. All functions in this program were only 2-4 lines. Each function was transparently obvious, told a story, and led to the next in a logical order. After this experience, Martin reconsidered how small functions can be.</span></p>
+
+            <h4><span class="tr-text">Sparkle'dan İlham Alan Tasarım</span><span class="en-text" style="display:none;">Design Inspired by Sparkle</span></h4>
+            <pre>// Geleneksel Swing kodu (kötü)
+public void mouseMoved(MouseEvent e) {
+    // 50 satırlık setup
+    // Parçacık pozisyonlarını güncelle
+    // Çizim alanını temizle
+    // Her parçacığı çiz
+    // Yerçekimi hesapla
+    // Çarpışma kontrolü
+    // Ekranı yenile
+    // vs... vs...
+}
+
+// Sparkle tarzı (iyi)
+public void mouseMoved(MouseEvent e) {
+    updateParticles(e.getPoint());
+    animateGravity();
+    render();
+}
+
+private void updateParticles(Point mousePos) {
+    particles.forEach(p -> p.setPosition(mousePos));
+}
+
+private void animateGravity() {
+    particles.forEach(Particle::applyGravity);
+}</pre>
+
+            <div class="explanation"><span class="tr-text">Her fonksiyon tek bir eylem yapar: fare pozisyonunu güncelle, yerçekimini uygula, çiz. Okuyucu fonksiyon isimlerini okuyarak programın hikayesini takip edebilir.</span><span class="en-text" style="display:none;">Each function performs a single action: update mouse position, apply gravity, render. The reader can follow the program's story by reading function names.</span></div>
+
+            <div class="tip"><strong><span class="tr-text">Pratik İpucu</span><span class="en-text" style="display:none;">Practical Tip</span></strong><span class="tr-text">Her fonksiyonu bir "hikaye cümlesi" olarak yazın. "updateParticles" -> "parçacıkları güncelle" -> anlaşılır ve net.</span><span class="en-text" style="display:none;">Write each function as a "story sentence." "updateParticles" -> update particles -> clear and understandable.</span></div>
+        </div>
+    </div>
+</div>
+
+<script>const CURRENT_PAGE = 32;</script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>
