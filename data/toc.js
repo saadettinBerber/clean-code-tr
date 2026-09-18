@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 159,
+  "lastTranslatedPage": 162,
   "chapters": [
     {
       "num": 1,
@@ -1845,6 +1845,39 @@ window.TOC = {
       "section": {
         "en": "Scaling Up",
         "tr": "Ölçeği Büyütmek"
+      },
+      "chapter": 11
+    },
+    "160": {
+      "title": {
+        "en": "EJB2 Problems and Cross-Cutting Concerns",
+        "tr": "EJB2 Sorunları ve Çapraz Kesim Kaygıları"
+      },
+      "section": {
+        "en": "Scaling Up",
+        "tr": "Ölçeği Büyütmek"
+      },
+      "chapter": 11
+    },
+    "161": {
+      "title": {
+        "en": "Java Proxies",
+        "tr": "Java Vekilleri (Java Proxies)"
+      },
+      "section": {
+        "en": "Java Proxies",
+        "tr": "Java Vekilleri (Java Proxies)"
+      },
+      "chapter": 11
+    },
+    "162": {
+      "title": {
+        "en": "Java Proxies: The Proxy Handler",
+        "tr": "Java Vekilleri: Vekil İşleyici"
+      },
+      "section": {
+        "en": "Java Proxies",
+        "tr": "Java Vekilleri (Java Proxies)"
       },
       "chapter": 11
     }

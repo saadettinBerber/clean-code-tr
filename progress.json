@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 159,
+  "last_translated_page": 162,
   "chapters": [
     {
       "num": 1,
@@ -1371,6 +1371,30 @@
       "title_tr": "EJB2 Varlık Bean Gerçekleştirimi",
       "section_en": "Scaling Up",
       "section_tr": "Ölçeği Büyütmek"
+    },
+    "160": {
+      "pdf_page": 160,
+      "chapter": 11,
+      "title_en": "EJB2 Problems and Cross-Cutting Concerns",
+      "title_tr": "EJB2 Sorunları ve Çapraz Kesim Kaygıları",
+      "section_en": "Scaling Up",
+      "section_tr": "Ölçeği Büyütmek"
+    },
+    "161": {
+      "pdf_page": 161,
+      "chapter": 11,
+      "title_en": "Java Proxies",
+      "title_tr": "Java Vekilleri (Java Proxies)",
+      "section_en": "Java Proxies",
+      "section_tr": "Java Vekilleri (Java Proxies)"
+    },
+    "162": {
+      "pdf_page": 162,
+      "chapter": 11,
+      "title_en": "Java Proxies: The Proxy Handler",
+      "title_tr": "Java Vekilleri: Vekil İşleyici",
+      "section_en": "Java Proxies",
+      "section_tr": "Java Vekilleri (Java Proxies)"
     }
   }
 }

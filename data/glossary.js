@@ -60,6 +60,11 @@ window.GLOSSARY = [
     "note": "Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum"
   },
   {
+    "en": "Application Container",
+    "tr": "Konteyner (Container)",
+    "note": "EJB'de bean'leri barındıran ve yaşam döngüsünü yöneten uygulama sunucusu ortamı; sözlükteki 'Kap (Container)' veri yapısı kapsayıcısından farklıdır. Kitapta 'konteyner' olarak kullanılır"
+  },
+  {
     "en": "Argument",
     "tr": "Argüman (Argument)",
     "note": "Fonksiyona geçirilen parametre"
@@ -73,6 +78,11 @@ window.GLOSSARY = [
     "en": "Argument Object",
     "tr": "Argüman Nesnesi (Argument Object)",
     "note": "Birden fazla argümanı bir sınıfa sarma tekniği"
+  },
+  {
+    "en": "Aspect",
+    "tr": "Görünüm (Aspect)",
+    "note": "AOP'de belirli bir kaygıyı desteklemek için sistemin hangi noktalarında davranışın tutarlı biçimde değiştirileceğini belirten modüler yapı"
   },
   {
     "en": "Aspect Oriented Programming",
@@ -150,6 +160,11 @@ window.GLOSSARY = [
     "note": "Sistemin ya da takımın genelini gören üst seviye bakış açısı"
   },
   {
+    "en": "Boilerplate Code",
+    "tr": "Basmakalıp/Şablon Kod (Boilerplate Code)",
+    "note": "Pek çok yerde aynı biçimde tekrarlanan, çoğunlukla kopyalanarak çoğaltılan kalıp kod"
+  },
+  {
     "en": "Boundary",
     "tr": "Sınır (Boundary)",
     "note": "Kendi kodumuzun kontrol etmediğimiz kodla (üçüncü taraf paket, açık kaynak ya da başka bir ekibin bileşeni) buluştuğu yer; Chapter 8'in konusu"
@@ -198,6 +213,11 @@ window.GLOSSARY = [
     "en": "Business Rule",
     "tr": "İş Kuralı (Business Rule)",
     "note": "Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir"
+  },
+  {
+    "en": "Byte-Code Manipulation",
+    "tr": "Bayt Kodu İşleme (Byte-Code Manipulation)",
+    "note": "Derlenmiş sınıf dosyalarının bayt kodunun çalışma anında değiştirilmesi; arayüzü olmayan sınıfları vekillemek için CGLIB, ASM, Javassist gibi kütüphaneler kullanılır."
   },
   {
     "en": "Callee",
@@ -435,6 +455,11 @@ window.GLOSSARY = [
     "note": "Grady Booch'un temiz kod tanımından; net ve öz soyutlama"
   },
   {
+    "en": "Cross-Cutting Concern",
+    "tr": "Çapraz Kesim Kaygısı (Cross-Cutting Concern)",
+    "note": "Kalıcılık, güvenlik, işlem yönetimi gibi nesnelerin doğal sınırlarını keserek birçok modüle yayılan kaygı türü"
+  },
+  {
     "en": "Data Abstraction",
     "tr": "Veri Soyutlama (Data Abstraction)",
     "note": "Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma"
@@ -458,6 +483,11 @@ window.GLOSSARY = [
     "en": "Data/Object Anti-Symmetry",
     "tr": "Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry)",
     "note": "Nesneler yeni türü, veri yapıları yeni işlemi kolaylaştırır"
+  },
+  {
+    "en": "DBMS",
+    "tr": "DBMS (Veritabanı Yönetim Sistemi — Database Management System)",
+    "note": "Database Management System; veritabanını yöneten yazılım. Kısaltma İngilizce kalır"
   },
   {
     "en": "Deadline",
@@ -518,6 +548,11 @@ window.GLOSSARY = [
     "en": "Dependent Functions",
     "tr": "Bağımlı Fonksiyonlar (Dependent Functions)",
     "note": "Biri diğerini çağıran fonksiyonlar; dikey olarak yakın durmalı, çağıran çağrılanın üstünde olmalı"
+  },
+  {
+    "en": "Deployment Descriptor",
+    "tr": "Dağıtım Betimleyicisi (Deployment Descriptor)",
+    "note": "EJB'de kalıcılık, işlemsel davranış ve güvenlik gibi ayarları kaynak koddan bağımsız olarak bildiren XML dosyası"
   },
   {
     "en": "Descriptive Names",
@@ -598,6 +633,11 @@ window.GLOSSARY = [
     "en": "Dyadic",
     "tr": "İkili (Dyadic)",
     "note": "İki argümanlı fonksiyon"
+  },
+  {
+    "en": "Dynamic Proxy",
+    "tr": "Dinamik Vekil (Dynamic Proxy)",
+    "note": "JDK'nın sağladığı, çalışma zamanında bir arayüz için vekil sınıfını otomatik üreten mekanizma; yalnızca arayüzlerle çalışır."
   },
   {
     "en": "Efficiency",
@@ -958,6 +998,11 @@ window.GLOSSARY = [
     "en": "Inversion of Control (IoC)",
     "tr": "Kontrolün Tersine Çevrilmesi (Inversion of Control — IoC)",
     "note": "Bağımlılık yönetiminde kontrolün nesneden, bu amaca adanmış harici bir mekanizmaya (main, kap/container) devredilmesi ilkesi; Bağımlılık Enjeksiyonu (DI) bu ilkenin uygulanmasıdır"
+  },
+  {
+    "en": "InvocationHandler",
+    "tr": "Çağrı İşleyici (InvocationHandler)",
+    "note": "Java yansıma (reflection) API'sindeki arayüz; vekile yapılan her metot çağrısı, bu nesnenin invoke metodu aracılığıyla ele alınır."
   },
   {
     "en": "Javadoc",
@@ -1355,9 +1400,19 @@ window.GLOSSARY = [
     "note": "Java'da yalnızca aynı paketteki sınıflardan erişilebilen görünürlük seviyesi; testler uğruna kapsüllemeyi gevşetmenin private'tan sonraki en az zararlı yolu."
   },
   {
+    "en": "Persistence",
+    "tr": "Kalıcılık (Persistence)",
+    "note": "Verinin veritabanı, düz dosya gibi kalıcı bir depoda saklanması"
+  },
+  {
     "en": "Point of Declaration",
     "tr": "Tanımlama Noktası (Point of Declaration)",
     "note": "Değişkenin tanımlandığı yer"
+  },
+  {
+    "en": "POJO (Plain-Old Java Object)",
+    "tr": "POJO (Sade Eski Java Nesnesi)",
+    "note": "Herhangi bir çerçeveye (framework) veya kapsayıcıya (container) bağımlılığı olmayan, tamamen kendi alanına odaklanmış sade Java sınıfı; kitapta 'Plain-Old Java Object (POJO)' olarak geçer ve BankImpl buna örnektir. Yazar kitapta POJO'lara kısa süre sonra yeniden döneceğini söyler (Pure Java AOP Frameworks)."
   },
   {
     "en": "Polyadic",
@@ -1518,6 +1573,11 @@ window.GLOSSARY = [
     "en": "Refactoring",
     "tr": "Yeniden Düzenleme (Refactoring)",
     "note": ""
+  },
+  {
+    "en": "Reflection",
+    "tr": "Yansıma (Reflection)",
+    "note": "Bir programın kendi yapısını (sınıflar, metotlar, alanlar) çalışma anında incelemesine ve bunlara dinamik olarak erişmesine olanak tanıyan API/mekanizma; Java'da java.lang.reflect paketinde bulunur. Sayfada 'Java reflection API' olarak geçer."
   },
   {
     "en": "Regular Expression",
@@ -1745,6 +1805,11 @@ window.GLOSSARY = [
     "note": "Java'da değiştirilebilir dizgi nesnesi"
   },
   {
+    "en": "Struct",
+    "tr": "Yapı (Struct)",
+    "note": "Yalnızca veri alanları bulunan, davranışı olmayan veri yapısı"
+  },
+  {
     "en": "Structured Programming",
     "tr": "Yapısal Programlama (Structured Programming)",
     "note": "Dijkstra'nın tek giriş / tek çıkış kuralları"
@@ -1898,6 +1963,11 @@ window.GLOSSARY = [
     "en": "Transaction",
     "tr": "İşlem (Transaction)",
     "note": "Ya bütünüyle gerçekleşen ya da hiç gerçekleşmemiş sayılan iş birimi; try blokları buna benzetilir"
+  },
+  {
+    "en": "Transactional Behavior",
+    "tr": "İşlemsel Davranış (Transactional Behavior)",
+    "note": "Bir işlemin (Transaction) bütünlüğünü yöneten davranış; EJB'de dağıtım betimleyicisinde bildirilir"
   },
   {
     "en": "Transformation",
