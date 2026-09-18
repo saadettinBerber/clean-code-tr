@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 146,
+  "lastTranslatedPage": 153,
   "chapters": [
     {
       "num": 1,
@@ -1712,6 +1712,75 @@ window.TOC = {
         "tr": "Bütünlüğü Korumak Çok Sayıda Küçük Sınıf Doğurur"
       },
       "chapter": 10
+    },
+    "147": {
+      "title": {
+        "en": "Organizing for Change",
+        "tr": "Değişim İçin Düzenleme"
+      },
+      "section": {
+        "en": "Organizing for Change",
+        "tr": "Değişim İçin Düzenleme"
+      },
+      "chapter": 10
+    },
+    "148": {
+      "title": {
+        "en": "A set of closed classes",
+        "tr": "Kapalı sınıflar kümesi"
+      },
+      "section": {
+        "en": "Organizing for Change",
+        "tr": "Değişim İçin Düzenleme"
+      },
+      "chapter": 10
+    },
+    "149": {
+      "title": {
+        "en": "Open-Closed and Isolating from Change",
+        "tr": "Açık-Kapalı ve Değişimden Yalıtma"
+      },
+      "section": {
+        "en": "Organizing for Change",
+        "tr": "Değişim İçin Düzenleme"
+      },
+      "chapter": 10
+    },
+    "150": {
+      "title": {
+        "en": "Depending on Abstractions",
+        "tr": "Soyutlamalara Bağımlı Olmak"
+      },
+      "section": {
+        "en": "Isolating from Change",
+        "tr": "Değişimden Yalıtma"
+      },
+      "chapter": 10
+    },
+    "151": {
+      "title": {
+        "en": "Bibliography",
+        "tr": "Kaynakça"
+      },
+      "section": {
+        "en": "Bibliography",
+        "tr": "Kaynakça"
+      },
+      "chapter": 10
+    },
+    "152": {
+      "blank": true
+    },
+    "153": {
+      "title": {
+        "en": "Systems",
+        "tr": "Sistemler"
+      },
+      "section": {
+        "en": "Systems",
+        "tr": "Sistemler"
+      },
+      "chapter": 11
     }
   }
 };

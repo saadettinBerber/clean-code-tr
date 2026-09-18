@@ -1,5 +1,10 @@
 window.GLOSSARY = [
   {
+    "en": "Abstract Class",
+    "tr": "Soyut Sınıf (Abstract Class)",
+    "note": "Yalnızca kavramı temsil eden, gerçekleştirim ayrıntısı taşımayan (ya da kısmen taşıyan) sınıf; istemciyi somut ayrıntılardan yalıtmak için arayüzlerle birlikte kullanılır"
+  },
+  {
     "en": "Abstract Factory",
     "tr": "Soyut Fabrika (Abstract Factory)",
     "note": "Nesne oluşturma mantığını gizleyen tasarım deseni"
@@ -255,6 +260,11 @@ window.GLOSSARY = [
     "note": "Bir sınıfı, arayüzü ya da API'yi kullanan (çağıran) kod"
   },
   {
+    "en": "Closed Class",
+    "tr": "Kapalı Sınıf (Closed Class)",
+    "note": "Açık Kapalı İlkesi (OCP) anlamında değişikliğe kapalı sınıf: yeni işlev, mevcut sınıfı düzenleyerek değil yeni bir alt sınıf ekleyerek kazandırılır (Listing 10-10)"
+  },
+  {
     "en": "Closing Brace",
     "tr": "Kapatma Parantezi (Closing Brace)",
     "note": "Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum"
@@ -338,6 +348,11 @@ window.GLOSSARY = [
     "en": "Conceptual Affinity",
     "tr": "Kavramsal Yakınlık (Conceptual Affinity)",
     "note": "Kod parçalarının kavramsal olarak birbirine yakın olması; doğrudan bağımlılık ya da benzer işlem yapma nedeniyle olabilir; yakınlık arttıkça dikey mesafe azalmalı"
+  },
+  {
+    "en": "Concrete Class",
+    "tr": "Somut Sınıf (Concrete Class)",
+    "note": "Gerçekleştirim ayrıntılarını (kodu) içeren sınıf; istemcinin doğrudan somut sınıfa bağımlı olması, ayrıntılar değiştiğinde risk yaratır"
   },
   {
     "en": "Consistent Lexicon",
@@ -438,6 +453,11 @@ window.GLOSSARY = [
     "en": "Declaration",
     "tr": "Tanımlama (Declaration)",
     "note": "Bir değişkenin ya da üyenin adının ve türünün kodda bildirilmesi"
+  },
+  {
+    "en": "Decoupling",
+    "tr": "Ayrıştırma (Decoupling)",
+    "note": "Bileşenler arasındaki bağımlılığı (coupling) azaltma; bu şekilde ayrıştırılmış sistemler daha kolay test edilir, daha esnektir ve yeniden kullanımı teşvik eder"
   },
   {
     "en": "Default Constructor",
@@ -1030,6 +1050,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Metadata",
+    "tr": "Üstveri (Metadata)",
+    "note": "Veriyi tanımlayan veri; ör. Sql sınıfına verilen tablo adı ve sütun bilgileri"
+  },
+  {
     "en": "Method",
     "tr": "Metot (Method)",
     "note": ""
@@ -1183,6 +1208,11 @@ window.GLOSSARY = [
     "en": "Open/Closed Principle (OCP)",
     "tr": "Açık/Kapalı İlkesi (OCP)",
     "note": "Genişletmeye açık, değişikliğe kapalı prensibi"
+  },
+  {
+    "en": "Opening a Class",
+    "tr": "Sınıfı Açmak (Opening a Class)",
+    "note": "Var olan bir sınıfı yeni işlev eklemek için değiştirmek; risk getirir ve sınıfın baştan sona yeniden test edilmesini gerektirir (OCP'nin 'değişikliğe kapalı' ilkesinin ihlali)"
   },
   {
     "en": "Operator Precedence",
@@ -1415,6 +1445,11 @@ window.GLOSSARY = [
     "note": "Bir isteğin hedeflediği, URL ile adreslenen öğe; ör. FitNesse'de request.setResource(\"root\")"
   },
   {
+    "en": "Responsibility-Driven Design (RDD)",
+    "tr": "Sorumluluk Odaklı Tasarım (Responsibility-Driven Design)",
+    "note": "Rebecca Wirfs-Brock'un nesne tasarımı yaklaşımı: sınıflar veri alanlarından değil rollerden, sorumluluklardan ve iş birliklerinden yola çıkarak tasarlanır; Chapter 10 kaynakçasında [RDD] etiketiyle anılır"
+  },
+  {
     "en": "Return Code",
     "tr": "Dönüş Kodu (Return Code)",
     "note": "Fonksiyonun başarı/hata durumunu dönüş değeriyle bildirmesi; Bölüm 7 bunun yerine istisna kullanmayı önerir"
@@ -1590,6 +1625,11 @@ window.GLOSSARY = [
     "note": "Gerçek gerçekleştirim yazılana kadar yer tutan, sahte değer döndüren asgari kod"
   },
   {
+    "en": "Subclass",
+    "tr": "Alt Sınıf (Subclass)",
+    "note": "Bir sınıftan kalıtımla türetilen sınıf; OCP'de yeni işlevsellik mevcut kodu değiştirmeden alt sınıf ekleyerek katılır"
+  },
+  {
     "en": "Subprogram",
     "tr": "Alt Program (Subprogram)",
     "note": "Fortran/PL1 döneminde kullanılan program parçası"
@@ -1605,6 +1645,11 @@ window.GLOSSARY = [
     "note": "Dizi veya koleksiyondaki öğeye erişim indeksi"
   },
   {
+    "en": "Subselect",
+    "tr": "Alt Sorgu (Subselect)",
+    "note": "Bir SQL select ifadesinin içine gömülü ikinci bir select sorgusu"
+  },
+  {
     "en": "Suite",
     "tr": "Suite",
     "note": "Çevrilmez; FitNesse'de bir grup test sayfasını ifade eden yapı"
@@ -1618,6 +1663,11 @@ window.GLOSSARY = [
     "en": "Synopsis",
     "tr": "Özet (Synopsis)",
     "note": "Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar"
+  },
+  {
+    "en": "Table Lookup",
+    "tr": "Tablo Araması (Table Lookup)",
+    "note": "Bir sonucu hesaplamak yerine önceden sabitlenmiş bir tablodan okumak; sabit değer döndüren test stub'larının indirgendiği basit davranış"
   },
   {
     "en": "Talk to Friends, Not to Strangers",
@@ -1748,6 +1798,11 @@ window.GLOSSARY = [
     "en": "Unprofessional",
     "tr": "Profesyonel Olmayan (Unprofessional)",
     "note": "Mesleğin gerekliliklerini yerine getirmemek"
+  },
+  {
+    "en": "Utility Class",
+    "tr": "Yardımcı Sınıf (Utility Class)",
+    "note": "Birden çok sınıfın paylaştığı ortak private davranışı yalıtan küçük, odaklı sınıf; ör. Listing 10-10'daki Where ve ColumnList"
   },
   {
     "en": "Variable",

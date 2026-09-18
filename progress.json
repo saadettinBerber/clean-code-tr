@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 146,
+  "last_translated_page": 153,
   "chapters": [
     {
       "num": 1,
@@ -1271,6 +1271,58 @@
       "title_tr": "Üç sorumluluk",
       "section_en": "Maintaining Cohesion Results in Many Small Classes",
       "section_tr": "Bütünlüğü Korumak Çok Sayıda Küçük Sınıf Doğurur"
+    },
+    "147": {
+      "pdf_page": 147,
+      "chapter": 10,
+      "title_en": "Organizing for Change",
+      "title_tr": "Değişim İçin Düzenleme",
+      "section_en": "Organizing for Change",
+      "section_tr": "Değişim İçin Düzenleme"
+    },
+    "148": {
+      "pdf_page": 148,
+      "chapter": 10,
+      "title_en": "A set of closed classes",
+      "title_tr": "Kapalı sınıflar kümesi",
+      "section_en": "Organizing for Change",
+      "section_tr": "Değişim İçin Düzenleme"
+    },
+    "149": {
+      "pdf_page": 149,
+      "chapter": 10,
+      "title_en": "Open-Closed and Isolating from Change",
+      "title_tr": "Açık-Kapalı ve Değişimden Yalıtma",
+      "section_en": "Organizing for Change",
+      "section_tr": "Değişim İçin Düzenleme"
+    },
+    "150": {
+      "pdf_page": 150,
+      "chapter": 10,
+      "title_en": "Depending on Abstractions",
+      "title_tr": "Soyutlamalara Bağımlı Olmak",
+      "section_en": "Isolating from Change",
+      "section_tr": "Değişimden Yalıtma"
+    },
+    "151": {
+      "pdf_page": 151,
+      "chapter": 10,
+      "title_en": "Bibliography",
+      "title_tr": "Kaynakça",
+      "section_en": "Bibliography",
+      "section_tr": "Kaynakça"
+    },
+    "152": {
+      "blank": true,
+      "pdf_page": 152
+    },
+    "153": {
+      "pdf_page": 153,
+      "chapter": 11,
+      "title_en": "Systems",
+      "title_tr": "Sistemler",
+      "section_en": "Systems",
+      "section_tr": "Sistemler"
     }
   }
 }
