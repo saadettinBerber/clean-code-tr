@@ -35,6 +35,11 @@ window.GLOSSARY = [
     "note": "Veritabanı tablosunu doğrudan yansıtan, save/find gibi gezinme metotları olan özel DTO biçimi"
   },
   {
+    "en": "Ad hoc",
+    "tr": "ad hoc (geçici/rastgele yazılmış)",
+    "note": "Özel bir plana veya kalıba uymayan, ihtiyaç anında gelişigüzel yazılan kod"
+  },
+  {
     "en": "Adapter Pattern",
     "tr": "Adaptör Deseni (Adapter Pattern)",
     "note": "Uyumsuz bir arayüzü (ör. üçüncü taraf API) uygulamanın beklediği arayüze çeviren tasarım deseni; API değiştiğinde tek değişiklik noktası sağlar [GOF]"
@@ -138,6 +143,11 @@ window.GLOSSARY = [
     "en": "Bibliography",
     "tr": "Kaynakça (Bibliography)",
     "note": ""
+  },
+  {
+    "en": "Big Picture",
+    "tr": "Büyük Resim (Big Picture)",
+    "note": "Sistemin ya da takımın genelini gören üst seviye bakış açısı"
   },
   {
     "en": "Boundary",
@@ -368,6 +378,11 @@ window.GLOSSARY = [
     "en": "Constructor",
     "tr": "Kurucu (Constructor)",
     "note": "Bir nesne oluşturulurken çağrılan, ilklendirme yapan özel metot"
+  },
+  {
+    "en": "Constructor Argument",
+    "tr": "kurucu argümanı",
+    "note": "Bir nesnenin kurucusuna (constructor) geçirilen parametre; Abstract Factory bağlamında uygulama, kurulum ayrıntılarını bilmeden fabrika yöntemiyle uygulamaya özgü kurucu argümanları sağlayabilir"
   },
   {
     "en": "Container",
@@ -785,6 +800,11 @@ window.GLOSSARY = [
     "note": "Hiçbir hatanın oluşmadığı, kodun normal akışta izlediği yol"
   },
   {
+    "en": "Hard-coded Dependency",
+    "tr": "Sabit Kodlanmış Bağımlılık (Hard-coded Dependency)",
+    "note": "Bir sınıfın içinde doğrudan new ile oluşturulan ya da sabit yapılandırmayla gömülen bağımlılık; değiştirilmesi ve test edilmesi zordur, küçük Tek Sorumluluk İlkesi ihlaline yol açar"
+  },
+  {
     "en": "Headline",
     "tr": "Manşet (Headline)",
     "note": "Gazete metaforunda dosyanın adı ve en üstteki üst seviye kod; okuyucuya dosyanın neyle ilgili olduğunu söyler"
@@ -938,6 +958,16 @@ window.GLOSSARY = [
     "en": "Law of Demeter",
     "tr": "Demeter Yasası (Law of Demeter)",
     "note": "Bir modül üzerinde çalıştığı nesnelerin iç yapısını bilmemelidir"
+  },
+  {
+    "en": "Lazy Evaluation",
+    "tr": "Tembel Değerlendirme (Lazy Evaluation)",
+    "note": "Bir değerin yalnızca gerçekten gerektiğinde hesaplanması; kitapta Lazy Initialization ile birlikte LAZY INITIALIZATION/EVALUATION kalıbı olarak geçer"
+  },
+  {
+    "en": "Lazy Initialization",
+    "tr": "Tembel Başlatma (Lazy Initialization)",
+    "note": "Nesne oluşturmayı ilk kullanıma erteleyen kalıp; ek yükü azaltsa da kurulum mantığını çalışma zamanı koduna karıştırabilir"
   },
   {
     "en": "Learning Test",
@@ -1095,6 +1125,16 @@ window.GLOSSARY = [
     "note": "Test sırasında gerçek bağımlılığın yerine geçen sahte uygulama; 'mock out' = taklit etmek"
   },
   {
+    "en": "Mock Object",
+    "tr": "Taklit Nesne (Mock Object)",
+    "note": "Test sırasında gerçek bağımlılığın davranışını taklit eden ve çağrı beklentilerini doğrulayan sahte nesne; sözlükteki Mock (Taklit) ile uyumludur"
+  },
+  {
+    "en": "Modularity",
+    "tr": "Modülerlik (Modularity)",
+    "note": "Sistemin bağımsız, yeniden kullanılabilir parçalara (modüllere) bölünmesi"
+  },
+  {
     "en": "Module",
     "tr": "Modül (Module)",
     "note": ""
@@ -1233,6 +1273,11 @@ window.GLOSSARY = [
     "en": "Output Stream",
     "tr": "Çıkış Akışı (Output Stream)",
     "note": "Verinin yazıldığı hedef akış (ör. konsol, dosya); log4j'de bir Appender'ın mesajları gönderdiği yer"
+  },
+  {
+    "en": "Overhead",
+    "tr": "Ek Yük (Overhead)",
+    "note": "Bir işlemin kendi işi dışında yarattığı maliyet; ör. nesne hiç kullanılmasa bile oluşturma maliyeti"
   },
   {
     "en": "Overload",
@@ -1470,6 +1515,11 @@ window.GLOSSARY = [
     "note": "Derleme sırasında değil, program çalışırken ortaya çıkan hata"
   },
   {
+    "en": "Runtime Logic",
+    "tr": "Çalışma Zamanı Mantığı (Runtime Logic)",
+    "note": "Uygulama başladıktan sonra asıl işi yapan kod; başlangıç (startup) sürecinden ayrılmalıdır"
+  },
+  {
     "en": "rvalue",
     "tr": "Sağ Taraf Değeri (rvalue)",
     "note": "Bir atama ifadesinde eşittir işaretinin sağında kalan değer"
@@ -1595,6 +1645,11 @@ window.GLOSSARY = [
     "note": "İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez"
   },
   {
+    "en": "Startup Process",
+    "tr": "Başlangıç Süreci (Startup Process)",
+    "note": "Uygulama nesnelerinin oluşturulduğu ve bağımlılıkların birbirine bağlandığı süreç; çalışma zamanı mantığından ayrı tutulmalıdır"
+  },
+  {
     "en": "Static Initializer",
     "tr": "Statik Başlatıcı (Static Initializer)",
     "note": "Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu"
@@ -1703,6 +1758,11 @@ window.GLOSSARY = [
     "en": "Test Coverage",
     "tr": "Test Kapsamı (Test Coverage)",
     "note": "Üretim kodunun testlerle çalıştırılan bölümünün oranı; yükseldikçe değişiklik yapma korkusu azalır"
+  },
+  {
+    "en": "Test Double",
+    "tr": "Test Çifti (Test Double)",
+    "note": "Birim testinde gerçek bağımlılığın yerine geçen herhangi bir nesne için kapsayıcı terim; stub, fake, mock vb. varyantları kapsar"
   },
   {
     "en": "Test Driven Development",
@@ -1868,6 +1928,11 @@ window.GLOSSARY = [
     "en": "weasel words",
     "tr": "kaypak sözcükler (weasel words)",
     "note": "Processor, Manager, Super gibi anlamı belirsiz bırakan, bir sınıfın gerçekte ne yaptığını gizleyen ve çoğu zaman fazla sorumluluk yığılmasına işaret eden isim bileşenleri."
+  },
+  {
+    "en": "Wiring",
+    "tr": "Bağlama (Wiring)",
+    "note": "Nesnelerin bağımlılıklarının kurularak uygulamanın bir araya getirilmesi işlemi"
   },
   {
     "en": "Wrapper",

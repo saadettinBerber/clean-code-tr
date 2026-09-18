@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 153,
+  "lastTranslatedPage": 156,
   "chapters": [
     {
       "num": 1,
@@ -1779,6 +1779,39 @@ window.TOC = {
       "section": {
         "en": "Systems",
         "tr": "Sistemler"
+      },
+      "chapter": 11
+    },
+    "154": {
+      "title": {
+        "en": "Separate Constructing a System from Using It",
+        "tr": "Bir Sistemi Kurmayı Kullanmaktan Ayırmak"
+      },
+      "section": {
+        "en": "Separate Constructing a System from Using It",
+        "tr": "Bir Sistemi Kurmayı Kullanmaktan Ayırmak"
+      },
+      "chapter": 11
+    },
+    "155": {
+      "title": {
+        "en": "Separation of Main and Factories",
+        "tr": "Main'in Ayrılması ve Fabrikalar"
+      },
+      "section": {
+        "en": "Separate Constructing a System from Using It",
+        "tr": "Bir Sistemi Kurmayı Kullanmaktan Ayırmak"
+      },
+      "chapter": 11
+    },
+    "156": {
+      "title": {
+        "en": "Factories: Abstract Factory",
+        "tr": "Fabrikalar: Soyut Fabrika (Abstract Factory)"
+      },
+      "section": {
+        "en": "Factories",
+        "tr": "Fabrikalar"
       },
       "chapter": 11
     }

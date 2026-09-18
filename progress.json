@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 153,
+  "last_translated_page": 156,
   "chapters": [
     {
       "num": 1,
@@ -1323,6 +1323,30 @@
       "title_tr": "Sistemler",
       "section_en": "Systems",
       "section_tr": "Sistemler"
+    },
+    "154": {
+      "pdf_page": 154,
+      "chapter": 11,
+      "title_en": "Separate Constructing a System from Using It",
+      "title_tr": "Bir Sistemi Kurmayı Kullanmaktan Ayırmak",
+      "section_en": "Separate Constructing a System from Using It",
+      "section_tr": "Bir Sistemi Kurmayı Kullanmaktan Ayırmak"
+    },
+    "155": {
+      "pdf_page": 155,
+      "chapter": 11,
+      "title_en": "Separation of Main and Factories",
+      "title_tr": "Main'in Ayrılması ve Fabrikalar",
+      "section_en": "Separate Constructing a System from Using It",
+      "section_tr": "Bir Sistemi Kurmayı Kullanmaktan Ayırmak"
+    },
+    "156": {
+      "pdf_page": 156,
+      "chapter": 11,
+      "title_en": "Factories: Abstract Factory",
+      "title_tr": "Fabrikalar: Soyut Fabrika (Abstract Factory)",
+      "section_en": "Factories",
+      "section_tr": "Fabrikalar"
     }
   }
 }
