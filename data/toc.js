@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 168,
+  "lastTranslatedPage": 169,
   "chapters": [
     {
       "num": 1,
@@ -1944,6 +1944,17 @@ window.TOC = {
       "section": {
         "en": "Use Standards Wisely, When They Add Demonstrable Value",
         "tr": "Standartları Akıllıca Kullanın, Kanıtlanabilir Değer Kattıklarında"
+      },
+      "chapter": 11
+    },
+    "169": {
+      "title": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
       },
       "chapter": 11
     }

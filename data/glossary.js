@@ -55,6 +55,11 @@ window.GLOSSARY = [
     "note": "Çevik yazılım geliştirme"
   },
   {
+    "en": "Agility",
+    "tr": "Çeviklik (Agility)",
+    "note": "Çevik (Agile) yazılım geliştirme pratiklerinin sağladığı, değişime hızla uyum sağlama yeteneği; istilacı (invasive) mimariler bunu tehdit eder. Sayfa 168'de 'çeviklik' olarak kullanılmıştır; sözlükteki 'Çevik (Agile)' terimiyle aynı kökten gelir."
+  },
+  {
     "en": "Amplification",
     "tr": "Önem Belirtme (Amplification)",
     "note": "Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum"
@@ -1388,6 +1393,11 @@ window.GLOSSARY = [
     "en": "Noise Word",
     "tr": "Gürültü Kelimesi (Noise Word)",
     "note": "İsme anlam katmayan ek (Info, Data, the, a)"
+  },
+  {
+    "en": "Noninvasive",
+    "tr": "Müdahalesiz (Noninvasive)",
+    "note": "Hedef koda ya da iş nesnesinin içine girmeden uygulanan; görünüm benzeri (aspect-like) mekanizmaların diğer gerçekleştirim kaygılarını (implementation concerns) bu biçimde dahil etmesi anlamında. Sayfa 161'de 'noninvasively' için 'müdahalesiz (noninvasively)' kullanılmıştır; sözlükteki 'istilacılık (Invasiveness)' teriminin karşıtıdır."
   },
   {
     "en": "Nonlocal Information",
