@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 169,
+  "lastTranslatedPage": 170,
   "chapters": [
     {
       "num": 1,
@@ -1951,6 +1951,17 @@ window.TOC = {
       "title": {
         "en": "Conclusion",
         "tr": "Sonuç"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 11
+    },
+    "170": {
+      "title": {
+        "en": "Bibliography (cont.)",
+        "tr": "Kaynakça (devam)"
       },
       "section": {
         "en": "Conclusion",

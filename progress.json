@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 169,
+  "last_translated_page": 170,
   "chapters": [
     {
       "num": 1,
@@ -1449,6 +1449,14 @@
       "chapter": 11,
       "title_en": "Conclusion",
       "title_tr": "Sonuç",
+      "section_en": "Conclusion",
+      "section_tr": "Sonuç"
+    },
+    "170": {
+      "pdf_page": 170,
+      "chapter": 11,
+      "title_en": "Bibliography (cont.)",
+      "title_tr": "Kaynakça (devam)",
       "section_en": "Conclusion",
       "section_tr": "Sonuç"
     }
