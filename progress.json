@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 170,
+  "last_translated_page": 171,
   "chapters": [
     {
       "num": 1,
@@ -1459,6 +1459,14 @@
       "title_tr": "Kaynakça (devam)",
       "section_en": "Conclusion",
       "section_tr": "Sonuç"
+    },
+    "171": {
+      "pdf_page": 171,
+      "chapter": 12,
+      "title_en": "Getting Clean via Emergent Design",
+      "title_tr": "Ortaya Çıkan Tasarımla Temizliğe Ulaşmak",
+      "section_en": "Getting Clean via Emergent Design",
+      "section_tr": "Ortaya Çıkan Tasarımla Temizliğe Ulaşmak"
     }
   }
 }

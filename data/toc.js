@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 170,
+  "lastTranslatedPage": 171,
   "chapters": [
     {
       "num": 1,
@@ -1968,6 +1968,17 @@ window.TOC = {
         "tr": "Sonuç"
       },
       "chapter": 11
+    },
+    "171": {
+      "title": {
+        "en": "Getting Clean via Emergent Design",
+        "tr": "Ortaya Çıkan Tasarımla Temizliğe Ulaşmak"
+      },
+      "section": {
+        "en": "Getting Clean via Emergent Design",
+        "tr": "Ortaya Çıkan Tasarımla Temizliğe Ulaşmak"
+      },
+      "chapter": 12
     }
   }
 };

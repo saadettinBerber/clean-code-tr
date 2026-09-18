@@ -720,6 +720,11 @@ window.GLOSSARY = [
     "note": "Daha büyük bir cihazın parçası olarak, çoğu zaman gerçek zamanlı kısıtlar altında belirli bir işi yapan bilgisayar sistemi"
   },
   {
+    "en": "Emergent Design",
+    "tr": "Ortaya Çıkan Tasarım (Emergent Design)",
+    "note": "Tasarımın baştan büyük bir planla değil, çalışma sırasında birkaç basit kurala uyularak adım adım ortaya çıkması kavramı; Chapter 12'nin açılış teması. Sayfada 'Getting Clean via Emergent Design' başlığı ve 'emergence of good designs' ifadesinde geçer."
+  },
+  {
     "en": "Encapsulation",
     "tr": "Kapsülleme (Encapsulation)",
     "note": ""
