@@ -23,6 +23,7 @@ ROOT = os.path.dirname(HERE)
 WORK_IN = os.path.join(HERE, "_work", "in")
 CONTEXT_CHARS = 700
 MAX_BLANK_SKIPS = 3
+SECTION_LOOKBACK = 5              # kesit için kaç sayfa geriye bakılır
 
 
 def pdf_path(progress):
@@ -38,15 +39,29 @@ def chapter_of(progress, page):
 
 
 def _previous_section(progress, page):
-    previous = progress["pages"].get(str(page - 1), {})
-    return {"en": previous.get("section_en", ""), "tr": previous.get("section_tr", "")}
+    """Kesit önceki sayfadan devam eder. Toplu hazırlıkta önceki sayfa henüz
+    kaydedilmemiş olabilir, bu yüzden birkaç sayfa geriye bakılır."""
+    earliest = max(page - SECTION_LOOKBACK, 1)
+    for earlier in range(page - 1, earliest - 1, -1):
+        recorded = progress["pages"].get(str(earlier), {})
+        if recorded.get("section_en"):
+            return {"en": recorded["section_en"], "tr": recorded.get("section_tr", "")}
+    return {"en": "", "tr": ""}
 
 
-def _section_of(progress, page, header):
-    """Koşu başlığı yoksa bölüm açılış sayfasıdır (kesit yok); tek sayfa
-    başlığı (Chapter ...) ise kesit önceki sayfadan devam eder."""
+def _is_chapter_opening(blocks):
+    return any(block["type"] == "chapter" for block in blocks)
+
+
+def _section_of(progress, page, extracted):
+    """Koşu başlığı yoksa: bölüm açılış sayfasında kesit de yoktur, ama tam
+    sayfa şekil gibi başlıksız sayfalarda kesit önceki sayfadan devam eder.
+    Tek sayfa başlığı (Chapter ...) ise yine önceki sayfadan devam eder."""
+    header = extracted["running_header"]
     if header is None:
-        return {"en": "", "tr": ""}
+        if _is_chapter_opening(extracted["blocks"]):
+            return {"en": "", "tr": ""}
+        return _previous_section(progress, page)
     if not header["is_chapter"] and header["text"]:
         return {"en": header["text"], "tr": ""}
     return _previous_section(progress, page)
@@ -66,7 +81,7 @@ def build_input(progress, page):
     return {
         "id": f"page-{page}", "page": page, "pdf_page": pdf_page,
         "chapter": chapter_of(progress, page),
-        "section": _section_of(progress, page, extracted["running_header"]),
+        "section": _section_of(progress, page, extracted),
         "title": {"en": "", "tr": ""},
         "blocks": extracted["blocks"],
         "concepts": [], "glossary_new": [],

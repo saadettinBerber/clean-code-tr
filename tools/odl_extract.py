@@ -25,6 +25,7 @@ FOOTNOTE_MAX_SIZE = 7.5
 CODE_OVERLAP_RATIO = 0.5
 DEFAULT_CODE_LANGUAGE = "java"
 _LISTING_CAPTION = re.compile(r"^Listing \d+-\d+")
+_FIGURE_CAPTION = re.compile(r"^Figure \d+-\d+")
 _CHAPTER_AUTHOR = re.compile(r"^(?:by|with) [A-Z]")
 _EDGE_PAGE_NUMBER = re.compile(r"^\d+\s*|\s+\d+$")   # koşu başlığında sayı bazen yapışıktır: "39Use Descriptive Names"
 CAPTION_MAX_GAP = 40           # caption alt kenarı ile kod üst kenarı arası (pt)
@@ -116,6 +117,8 @@ def _paragraph_blocks(element, fixer):
     font = element.get("font") or ""
     if (element.get("font size") or 0) <= FOOTNOTE_MAX_SIZE:
         return [{"type": "footnote", "en": fixer.rich(text)}]
+    if _FIGURE_CAPTION.match(text):
+        return [{"type": "caption", "kind": "figure", "en": fixer.rich(text)}]
     if "Arial" in font and "Bold" in font:
         return [{"type": "heading", "level": 3, "en": text}]
     block = {"type": "para", "sentences": _sentence_objects(fixer.rich(text))}
