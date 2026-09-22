@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 171,
+  "lastTranslatedPage": 174,
   "chapters": [
     {
       "num": 1,
@@ -1977,6 +1977,39 @@ window.TOC = {
       "section": {
         "en": "Getting Clean via Emergent Design",
         "tr": "Ortaya Çıkan Tasarımla Temizliğe Ulaşmak"
+      },
+      "chapter": 12
+    },
+    "172": {
+      "title": {
+        "en": "Runs All the Tests & Refactoring",
+        "tr": "Testleri Çalıştırma & Yeniden Düzenleme (Refactoring)"
+      },
+      "section": {
+        "en": "Getting Clean via Emergent Design",
+        "tr": "Ortaya Çıkan Tasarımla Temizliğe Ulaşmak"
+      },
+      "chapter": 12
+    },
+    "173": {
+      "title": {
+        "en": "No Duplication",
+        "tr": "Tekrar Olmaması"
+      },
+      "section": {
+        "en": "No Duplication",
+        "tr": "Tekrar Olmaması"
+      },
+      "chapter": 12
+    },
+    "174": {
+      "title": {
+        "en": "No Duplication (cont.) — Template Method",
+        "tr": "Tekrar Olmaması (devam) — Şablon Metodu (Template Method)"
+      },
+      "section": {
+        "en": "No Duplication",
+        "tr": "Tekrar Olmaması"
       },
       "chapter": 12
     }

@@ -685,6 +685,11 @@ window.GLOSSARY = [
     "note": "DRY ilkesi: Don't Repeat Yourself"
   },
   {
+    "en": "Duplication of Implementation",
+    "tr": "Gerçekleştirim Tekrarı (Duplication of Implementation)",
+    "note": "Aynı olgunun farklı mekanizmalarla (ör. bir boolean ve bir sayaç) iki kez saklanması; sayfa 173'te isEmpty/size örneğiyle işlenir. Sözlükteki 'Duplication | Tekrar (Duplication)' teriminden ayrı, daha dar bir kavramdır."
+  },
+  {
     "en": "Dyadic",
     "tr": "İkili (Dyadic)",
     "note": "İki argümanlı fonksiyon"
@@ -1745,6 +1750,16 @@ window.GLOSSARY = [
     "note": "Kodun başka bağlamlarda yeniden kullanılabilmesi; testlerin güvence altına aldığı -liklerden biri"
   },
   {
+    "en": "Reuse in the Large",
+    "tr": "Büyük Ölçekli Yeniden Kullanım (Reuse in the Large)",
+    "note": "Sistem genelinde, büyük yapılar düzeyinde yeniden kullanım; 'reuse in the small'ın (küçük ölçekte yeniden kullanım) birikimiyle mümkün olur. Sayfa 174'te 'reuse in the large' ifadesi olarak geçer."
+  },
+  {
+    "en": "Reuse in the Small",
+    "tr": "Küçük Ölçekli Yeniden Kullanım (Reuse in the Small)",
+    "note": "Çok küçük ortaklıkları (birkaç satır bile olsa) isimli metotlar olarak çıkarma; bu küçük yeniden kullanımlar birikerek büyük ölçekte yeniden kullanımı mümkün kılar ve sistem karmaşıklığını dramatik biçimde azaltır. Sayfa 174'te 'reuse in the small' ifadesi olarak geçer."
+  },
+  {
     "en": "Routine",
     "tr": "Rutin (Routine)",
     "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
@@ -2048,6 +2063,11 @@ window.GLOSSARY = [
     "en": "Test Suite",
     "tr": "Test Paketi (Test Suite)",
     "note": "Bir sistemin otomatik testlerinin bütünü; üretim kodu değiştikçe onunla birlikte bakımı yapılmalıdır"
+  },
+  {
+    "en": "Testable System",
+    "tr": "Test Edilebilir Sistem (Testable System)",
+    "note": "Kapsamlı biçimde test edilen ve testlerinin tümünü her zaman geçen sistem; test edilemeyen sistem doğrulanamaz ve asla devreye alınmamalıdır. Sayfa 172'de 'Simple Design Rule 1: Runs All the Tests' kesitinde geçer."
   },
   {
     "en": "Testing API",
