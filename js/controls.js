@@ -94,10 +94,14 @@ const Controls = (function () {
     input.addEventListener("focus", () => input.select());
   }
 
+  function isOverlayOpen() {
+    return document.getElementById("modal").classList.contains("active") || MindMap.isOpen();
+  }
+
   function bindKeyboard() {
     document.addEventListener("keydown", (event) => {
       const typing = ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName);
-      if (typing || document.getElementById("modal").classList.contains("active")) return;
+      if (typing || isOverlayOpen()) return;
       if (event.key === "ArrowRight") nav.goNext();
       if (event.key === "ArrowLeft") nav.goPrev();
     });

@@ -448,6 +448,16 @@ pre code { background: none; padding: 0; color: inherit; }
 .legacy .figure-caption { font-family: var(--font-sans); font-size: .82rem; color: var(--ink-soft); margin-top: 10px; }
 .legacy .inline { font-family: var(--font-mono); font-size: .86em; background: rgba(27,42,71,.07); padding: 1px 5px; border-radius: 4px; color: #4a2b17; }
 
+/* ---------- Zihin haritası (tam ekran katman) ---------- */
+.mindmap-panel { display: none; position: fixed; inset: 0; z-index: 70; flex-direction: column; background: var(--paper); }
+.mindmap-panel.open { display: flex; }
+body:has(.mindmap-panel.open) { overflow: hidden; }
+.mindmap-head { display: flex; align-items: center; gap: 10px; height: var(--topbar-h); flex: none; padding: 0 16px; border-bottom: 1px solid var(--rule); font-family: var(--font-sans); font-weight: 700; color: var(--navy); }
+.mindmap-head .grow { flex: 1; }
+#mindmap-svg { flex: 1; width: 100%; min-height: 0; display: block; }
+.mindmap-panel .markmap { --markmap-text-color: var(--ink); --markmap-font: 400 15px/20px var(--font-sans); }
+.mindmap-note { position: absolute; top: calc(var(--topbar-h) + 16px); left: 16px; right: 16px; margin: 0; font: .9rem var(--font-sans); color: var(--bad); }
+
 /* ---------- Mobil ---------- */
 .pager-mobile { display: none; }
 @media (max-width: 900px) {
@@ -460,7 +470,7 @@ pre code { background: none; padding: 0; color: inherit; }
   .pager-mobile .ui-btn { min-width: 96px; }
   .sheet { padding: 30px 22px 40px; min-height: 70vh; }
   .brand-sub { display: none; }
-  .font-controls, #glossary-btn .label { display: none; }
+  .font-controls, #glossary-btn .label, #mindmap-btn .label { display: none; }
   .page-body { font-size: 1rem; }
   .cover-chapters { grid-template-columns: 1fr; }
   .cover-title { font-size: 2.6rem; }

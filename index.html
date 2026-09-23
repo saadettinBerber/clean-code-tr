@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/reader.css?v=16">
+  <link rel="stylesheet" href="css/reader.css?v=17">
 </head>
 <body>
 
@@ -35,6 +35,7 @@
       <button class="icon-btn" id="font-up" title="Yazıyı büyüt">A+</button>
     </div>
     <button class="ui-btn" id="glossary-btn" title="Terim sözlüğü">📖 <span class="label">Sözlük</span></button>
+    <button class="ui-btn" id="mindmap-btn" title="Zihin haritası">🧠 <span class="label">Harita</span></button>
   </div>
 </header>
 
@@ -82,17 +83,29 @@
 </div>
 <div id="word-tip"></div>
 
-<script src="data/toc.js?v=16"></script>
-<script src="data/glossary.js?v=16"></script>
-<script src="js/highlight.js?v=16"></script>
-<script src="js/blocks.js?v=16"></script>
-<script src="js/pages.js?v=16"></script>
-<script src="js/sheet.js?v=16"></script>
-<script src="js/concepts.js?v=16"></script>
-<script src="js/panels.js?v=16"></script>
-<script src="js/cover.js?v=16"></script>
-<script src="js/controls.js?v=16"></script>
-<script src="js/flip.js?v=16"></script>
-<script src="js/reader.js?v=16"></script>
+<section class="mindmap-panel" id="mindmap-panel" role="dialog" aria-modal="true" aria-label="Zihin haritası">
+  <div class="mindmap-head">
+    <span class="grow">🧠 Zihin Haritası</span>
+    <button class="ui-btn" id="mindmap-fit" title="Haritayı ekrana sığdır">Sığdır</button>
+    <button class="icon-btn" id="mindmap-close" title="Kapat (Esc)" aria-label="Kapat">×</button>
+  </div>
+  <svg id="mindmap-svg" class="markmap"></svg>
+  <p class="mindmap-note" id="mindmap-note" hidden></p>
+</section>
+
+<script src="data/toc.js?v=17"></script>
+<script src="data/glossary.js?v=17"></script>
+<script src="data/mindmap.js?v=17"></script>
+<script src="js/highlight.js?v=17"></script>
+<script src="js/blocks.js?v=17"></script>
+<script src="js/pages.js?v=17"></script>
+<script src="js/sheet.js?v=17"></script>
+<script src="js/concepts.js?v=17"></script>
+<script src="js/panels.js?v=17"></script>
+<script src="js/mindmap.js?v=17"></script>
+<script src="js/cover.js?v=17"></script>
+<script src="js/controls.js?v=17"></script>
+<script src="js/flip.js?v=17"></script>
+<script src="js/reader.js?v=17"></script>
 </body>
 </html>

@@ -171,6 +171,7 @@ const Reader = (function () {
     document.getElementById("page-total").textContent = `/ ${toc().bookTotalPages}`;
     Panels.init({ onSelectPage: (target) => goTo(target, "next") });
     Concepts.init();
+    MindMap.init();
     Controls.init({ goTo, goNext, goPrev, toggleLayout, refresh: renderCurrent, currentPage: () => state.page });
     if (typeof Flip !== "undefined") Flip.init({ onNext: goNext, onPrev: goPrev });
     setLayout(localStorage.getItem(LAYOUT_KEY) || (window.innerWidth >= SPREAD_MIN_WIDTH ? "spread" : "single"));

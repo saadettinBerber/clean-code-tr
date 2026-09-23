@@ -54,11 +54,13 @@ Clean Code/
  │   ├── blocks.js               Blok tiplerini HTML'e çizer  
  │   ├── concepts.js             Kavram kartları (few-shot modal)  
  │   ├── panels.js               İçindekiler ve sözlük çekmeceleri  
+ │   ├── mindmap.js              Zihin haritası katmanı (markmap, ilk açılışta CDN'den yüklenir)  
  │   ├── cover.js                Kapak görünümü (ilerleme, bölüm listesi)  
  │   └── highlight.js            Kod vurgulama (syntax highlighting)  
  ├── data/  
  │   ├── toc.js                  window.TOC — ÜRETİLİR (tools/toc_builder.py), elle düzenlenmez  
  │   ├── glossary.js             window.GLOSSARY — ÜRETİLİR (glossary.md'den), elle düzenlenmez  
+ │   ├── mindmap.js              window.MINDMAP_SOURCE — ÜRETİLİR (ayrı depo: ~/Desktop/clean code felsefesi/aktar.py), elle düzenlenmez  
  │   └── pages/  
  │       ├── page-N.js           Çevrilmiş sayfa: window.PAGE({...}) — format: tools/FORMAT.md  
  │       └── page-N_images/      Sayfadan çıkarılan PNG görseller  
@@ -127,6 +129,7 @@ Yeni bir bölüme geçerken özel bir işlem gerekmez; chapters tablosu tüm bö
 - Her sohbette CLAUDE.md otomatik okunacağı için, kullanıcının uzun açıklamalar yapmasına gerek yoktur.  
 - Kullanıcı sadece /cevir 5 veya "sıradaki sayfa" demesi yeterlidir.  
 - data/toc.js, data/glossary.js ve progress.json üretilen/yönetilen dosyalardır; elle düzenlenmez.  
+- data/mindmap.js'in kaynağı bu depoda değildir: ~/Desktop/clean code felsefesi/zihin-haritasi.md düzenlenir, sonra orada `python3 aktar.py` çalıştırılır.  
 - legacy/ altındaki eski site güncellenmez; yeni sayfalar yalnız data/pages/ altına eklenir.  
 **Git Commit Kuralı**  
 - **KRİTİK KURAL**: Commit mesajlarında Co-Authored-By veya yapay zekaya ait herhangi bir imza/referans OLMAYACAKTIR.  
