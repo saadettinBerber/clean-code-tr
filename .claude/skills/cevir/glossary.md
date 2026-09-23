@@ -10,6 +10,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 |----------------|-----------------|-------------|
 | Abstract Class | Soyut Sınıf (Abstract Class) | Yalnızca kavramı temsil eden, gerçekleştirim ayrıntısı taşımayan (ya da kısmen taşıyan) sınıf; istemciyi somut ayrıntılardan yalıtmak için arayüzlerle birlikte kullanılır |
 | Abstract Factory | Soyut Fabrika (Abstract Factory) | Nesne oluşturma mantığını gizleyen tasarım deseni |
+| Abstract Method | Soyut Metot (Abstract Method) | İçeriği üst sınıfta verilmeden, tüm türevlerin gerçekleştirmek zorunda olduğu metot; derleyici türevleri bu sözleşmeye uymaya zorlar. Sayfa 234'te set() metodu için kullanılır. |
 | Abstraction | Soyutlama (Abstraction) |  |
 | Acceptance Test | Kabul Testi (Acceptance Test) | Kullanıcı gereksinimlerini doğrulayan test |
 | Access Policy | Erişim Politikası (Access Policy) | Bir arayüzün metotlarıyla verinin nasıl okunup değiştirilebileceğine dair dayattığı kurallar; ör. koordinatları ayrı oku, birlikte ayarla |
@@ -21,6 +22,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Address | Adres (Address) |  |
 | Agile | Çevik (Agile) | Çevik yazılım geliştirme |
 | Agility | Çeviklik (Agility) | Çevik (Agile) yazılım geliştirme pratiklerinin sağladığı, değişime hızla uyum sağlama yeteneği; istilacı (invasive) mimariler bunu tehdit eder. Sayfa 168'de 'çeviklik' olarak kullanılmıştır; sözlükteki 'Çevik (Agile)' terimiyle aynı kökten gelir. |
+| Algorithm | algoritma (algorithm) | Belirli bir işi yapmak için izlenen adım dizisi; bu sayfada `Args` sınıfının şemayı (schema) ayrıştırma akışı. Sayfadaki 'the three different maps up at the top of the algorithm' ifadesinde geçer. |
 | Amplification | Önem Belirtme (Amplification) | Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum |
 | Annotation | ek açıklama (annotation) | Java 5 ile gelen, sınıf, metot ve alanlara üstveri (metadata) ekleyen @ işaretli bildirimler; JPA gibi framework'ler bağlama (wiring) ve kalıcılık bilgisini bu ek açıklamalarla taşır. Kitapta 'Java 5 annotations' olarak geçer. |
 | Application Container | Konteyner (Container) | EJB'de bean'leri barındıran ve yaşam döngüsünü yöneten uygulama sunucusu ortamı; sözlükteki 'Kap (Container)' veri yapısı kapsayıcısından farklıdır. Kitapta 'konteyner' olarak kullanılır |
@@ -42,6 +44,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Automated Tool | Otomatik Araç (Automated Tool) | Biçimlendirme kurallarını geliştirici yerine uygulayan araç |
 | Backpressure | Geri Baskı (Backpressure) | Sınırlı kuyruğun dolmasıyla hızlı tarafın (üreticinin) bloklayan put çağrısında bekleyerek otomatik yavaşlatılması; kavram kartı (bounded-queue-backpressure) için eklendi. |
 | Bad Code | Kötü Kod (Bad Code) | Bakımı zor, okunması güç kod |
+| Base Class | Üst Sınıf (Base Class) | Kalıtım hiyerarşisinde davranışın önce toplandığı kök sınıf; bu sayfada 'the ArgumentMarshaler base class' ifadesinde geçer. Sözlükteki 'Concrete Class' ve 'Abstract Class' terimlerinden ayrı, genel kavram. |
 | Bean | Bean | Private alanlarına getter ve setter ile erişilen veri sınıfı (JavaBean); terim çevrilmez |
 | Beautiful Code | Güzel Kod (Beautiful Code) |  |
 | Bibliography | Kaynakça (Bibliography) |  |
@@ -67,7 +70,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Caching | Önbellekleme (Caching) | Sık erişilen verilerin, tekrar hesaplama ya da veritabanı erişiminden kaçınmak için hızlı erişilen bellekte saklanması; çapraz kesim kaygısı (cross-cutting concern) örneği. |
 | Callee | Çağrılan Fonksiyon (Callee) | Başka bir fonksiyon tarafından çağrılan fonksiyon |
 | Caller | Çağıran Fonksiyon (Caller) | Başka bir fonksiyonu çağıran fonksiyon |
+| Cardinality | Kardinalite (Cardinality) | Args vaka çalışmasında fiilen sağlanan argüman sayısını ifade eder; args.cardinality() metodu bu sayıyı döndürür. |
 | Care | Önemseme (Care) | Zanaata ve koda duyulan özen |
+| Case Study | Vaka Çalışması (Case Study) | Chapter 14'ün açılış alt başlığı ve konusu; gerçek bir modülün (komut satırı argümanı ayrıştırıcısı) adım adım yeniden düzenlenmesi üzerinden anlatılan örnek inceleme. |
 | Casting | Tür Dönüştürme (Casting) | Bir değeri açıkça başka bir türe çevirme, ör. (Sensor) sensors.get(id); istemci koda dağıldığında kodu kirletir |
 | CGLIB | CGLIB (Java Bytecode Generator Library) | Java bayt kodu üreten kütüphane; sayfa 189'da kodu programatik olarak enstrümanlamak için önerilen araçlardan biri. Teknik araç adı olduğu için İngilizce kalır. |
 | Chain of Inheritance | Kalıtım Zinciri (Chain of Inheritance) | Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi |
@@ -85,6 +90,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Closed Class | Kapalı Sınıf (Closed Class) | Açık Kapalı İlkesi (OCP) anlamında değişikliğe kapalı sınıf: yeni işlev, mevcut sınıfı düzenleyerek değil yeni bir alt sınıf ekleyerek kazandırılır (Listing 10-10) |
 | Closing Brace | Kapatma Parantezi (Closing Brace) | Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum |
 | Code Formatting | Kod Biçimlendirme (Code Formatting) | Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır |
+| Code Rot | Kod Çürümesi (Code Rot) | Kötü kodun zamanla çürümesi, mayalanması ve ekibi aşağı çeken durdurulamaz bir yüke dönüşmesi; 'code rots' = 'kod çürür'. Sözlükteki 'Decay' (Çürüme) teriminin kod bağlamındaki karşılığı. |
 | Code Smell | Kod Kokusu (Code Smell) | Koddaki potansiyel sorunların belirtisi |
 | Code-Sense | Kod Duygusu (Code-Sense) | Temiz kodu kirli koddan ayırt etme ve düzeltme yetisi |
 | Coding Standard | Kodlama Standardı (Coding Standard) | Bir takımın uyduğu biçimlendirme/kodlama kurallarının yazılı ya da örnek kod hâlindeki tanımı |
@@ -93,13 +99,18 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Cohesion | Bütünlük (Cohesion) | Bir grup argümanın ya da elemanın birbiriyle ne kadar doğal biçimde ilişkili olduğu; ör. bir noktanın x ve y bileşenleri |
 | Collection Abstraction | Koleksiyon Soyutlama (Collection Abstraction) |  |
 | Command Query Separation | Komut Sorgu Ayrımı (Command Query Separation) | Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil |
+| Command-Line Argument | Komut Satırı Argümanı (Command-Line Argument) | main fonksiyonuna dizgi dizisi olarak geçirilen ve ayrıştırılması gereken satır içi girdi; bu bölümde Args sınıfının konusu. 'Argument' ve 'Argument List' terimlerinden ayrı, dar bir kavramdır. |
+| Command-Line Arguments | Komut Satırı Argümanları (Command-Line Arguments) | Komut satırından programa aktarılan girdi dizgileri; bu sayfada `Args` sınıfının ayrıştırdığı ana girdi. Sözlükteki 'Argument' (Argüman) teriminin komut satırı bağlamındaki kullanımıdır. |
 | Commented-out Code | Yorum Satırına Alınmış Kod (Commented-out Code) | Silinmesi gereken, artık kullanılmayan kod blokları |
 | Commit | Commit | Çevrilmez, olduğu gibi kullanılır |
 | Commitment | Taahhüt (Commitment) |  |
 | Communication Gap | İletişim Boşluğu (Communication Gap) | Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir |
+| compile | derlemek (compile) | Glossary'deki 'Compiler | Derleyici (Compiler)'in fiil hâli; 'get this to compile' = 'bunun derlenmesi için'. |
 | Compiler | Derleyici (Compiler) | Kaynak kodu makine koduna çeviren program |
+| Completeness | Tamamlılık (Completeness) | Bir dizi test veya işlemin her olası durumu kapsaması; sayfa 239'da 'for completeness' ifadesinde geçer: eksik double argümanının testi yalnızca tamamlılık için yazılmıştır. |
 | Component Oriented Programming | Bileşen Yönelimli Programlama (COP) | Tekrarı kaldırma stratejilerinden biri |
 | Composed Method | Oluşturulmuş Metot (Composed Method) | Metodu küçük adımlara bölerek oluşturma |
+| Compromise | Uzlaşma (Compromise) | Mükemmel çözüm yerine pratikte kabul edilen orta yol; bu sayfada hata mesajı biçimlendirmesinin ArgsException'ta tutulması bir uzlaşma olarak nitelendirilir. |
 | Conceptual Affinity | Kavramsal Yakınlık (Conceptual Affinity) | Kod parçalarının kavramsal olarak birbirine yakın olması; doğrudan bağımlılık ya da benzer işlem yapma nedeniyle olabilir; yakınlık arttıkça dikey mesafe azalmalı |
 | Concrete Class | Somut Sınıf (Concrete Class) | Gerçekleştirim ayrıntılarını (kodu) içeren sınıf; istemcinin doğrudan somut sınıfa bağımlı olması, ayrıntılar değiştiğinde risk yaratır |
 | Concurrency | Eşzamanlılık (Concurrency) | Bölüm 13'ün açılış sayfası ve konusu: birden çok işin iş parçacıkları (threads) aracılığıyla aynı anda yürütülmesini sağlayan tasarım ve programlama disiplini. Sözlükteki 'Race Condition' (Yarış Durumu) terimiyle ilişkili ama ayrı bir kavramdır. |
@@ -117,12 +128,15 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Convention over Configuration | yapılandırmadan çok kural (convention over configuration) | Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır. |
 | Cosmic Ray | Kozmik Işın (Cosmic Ray) | Tek seferlik, açıklanamayan başarısızlıklara uydurulan bahane; bu sayfada 'write off the failure as a cosmic ray' ifadesinde geçer. |
 | CountDownLatch | CountDownLatch | Bir dizi olayın gerçekleşmesini bekleyip sonra tüm iş parçacıklarını serbest bırakan kilit; java.util.concurrent paketinde. Teknik sınıf adı olduğu için çevrilmez. |
+| Coup de Grace | Nihai Darbe (Coup de Grace) | Fransızca 'nihai darbe' ifadesi; yeniden düzenlemede (refactoring) bir yapının (ör. tip-zinciri) son kullanımı taşındıktan sonra tek hamlede kaldırılma anını betimler. Sayfa 236'da 'the coup de grace' ifadesinde geçer. |
 | Coupling | Bağımlılık (Coupling) | Bileşenlerin birbirine bağımlılığı |
+| Craft | Zanaat (Craft) | Programlamanın bir bilimden çok zanaat olduğuna dair 'programming is a craft' ifadesindeki sade terim; sayfa 200'de geçer. Sözlükteki 'Craftsmanship | Zanaat / Ustalık (Craftsmanship)' ve 'Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship)' girdilerinden ayrıdır. |
 | Craftsmanship | Zanaat / Ustalık (Craftsmanship) | Yazılım zanaatı |
 | Crawler | Tarayıcı (Crawler) | Sayfaları dolaşıp işleyen bileşen; FitNesse'de wiki sayfalarını ekleyip bulan nesne (crawler.addPage). Web tarayıcısı (browser) ile karıştırılmamalı |
 | Crisp Abstraction | Keskin Soyutlama (Crisp Abstraction) | Grady Booch'un temiz kod tanımından; net ve öz soyutlama |
 | Critical Section | Kritik Bölge (Critical Section) | Paylaşılan kaynağa erişim için iş parçacıklarının sırayla girmesi gereken kod bölümü; kavram kartlarında kullanıldı. |
 | Cross-Cutting Concern | Çapraz Kesim Kaygısı (Cross-Cutting Concern) | Kalıcılık, güvenlik, işlem yönetimi gibi nesnelerin doğal sınırlarını keserek birçok modüle yayılan kaygı türü |
+| crufty | paslı/çürümüş (crufty) | Eski, köhne, ömrünü tamamladığı için temizlenmesi gereken kod için kullanılan sıfat; bu sayfada IntegerArgumentMarshaler'daki artık kullanılmayan metotlar için geçer. 'Dirty Code' (Kirli Kod) teriminden ayrıdır, eskilik/ömrünü tamamlama vurgusu taşır. |
 | Data Abstraction | Veri Soyutlama (Data Abstraction) | Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma |
 | Data Access Object (DAO) | Veri Erişim Nesnesi (DAO) | Kalıcı depoya (ör. veritabanı) erişimi kapsülleyen, iş nesnesini depolama ayrıntılarından ayıran nesne; kitapta 'data accessor object (DAO)' olarak geçer. |
 | Data Structure | Veri Yapısı (Data Structure) | Verisini açıkça gösteren, anlamlı davranışı olmayan yapı |
@@ -145,7 +159,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Dependency Inversion Principle (DIP) | Bağımlılık Tersine Çevirme İlkesi (DIP) | Üst seviye modüller alt seviye modüllere değil, soyutlamalara bağımlı olmalı |
 | Dependency Magnet | Bağımlılık Mıknatısı (Dependency Magnet) | Birçok sınıfın bağımlı olduğu merkezi yapı (ör. Error enum) |
 | Dependent Functions | Bağımlı Fonksiyonlar (Dependent Functions) | Biri diğerini çağıran fonksiyonlar; dikey olarak yakın durmalı, çağıran çağrılanın üstünde olmalı |
+| deploy | yerleştirmek (deploy) | Chapter 14 vaka çalışması jargonu: bir fonksiyonu/değişkeni üst sınıftan doğru alt sınıfa taşıma; glossary'deki 'Deployment Descriptor' (Dağıtım Betimleyicisi) ve 'Redeployment' (Yeniden Dağıtım) terimlerinden farklı bir anlam taşır. |
+| Deploy (down) | yerleştirmek/deploy (deploy) | Ardışık iyileştirme (Successive Refinement) bağlamında bir fonksiyonu taban sınıftan alt sınıflara (ör. set'in BooleanArgumentMarshaller'a) doğru indirme/yerleştirme; sayfa 218'de get için de kullanılacak. |
+| Deploying | Yerleştirme (Deploying) | Bu sayfadaki anlamda bir metodu/davranışı marshaler sınıfına taşıma; yazılım dağıtımı (deployment) anlamında değildir. |
 | Deployment Descriptor | Dağıtım Betimleyicisi (Deployment Descriptor) | EJB'de kalıcılık, işlemsel davranış ve güvenlik gibi ayarları kaynak koddan bağımsız olarak bildiren XML dosyası |
+| Derivative | Türev (Derivative) | Kitaptaki kullanımda ArgumentMarshaler arayüzünü gerçekleştiren sınıflar (BooleanArgumentMarshaler, StringArgumentMarshaler vb.); matematiğin türev kavramıyla ilgisi yoktur. Sayfa 197'de 'what its derivatives do' ifadesinde geçer. |
+| Derivatives | Türevler (Derivatives) | Soyut taban sınıftan kalıtımla türetilen alt sınıflar; sayfa 197-198'de 'derivatives' için 'türevler' kullanılmıştı, tutarlıdır. |
 | Descriptive Names | Betimleyici İsimler (Descriptive Names) | Fonksiyonun ne yaptığını açıkça anlatan, gerekirse uzun tutulan isimlendirme ilkesi |
 | Design Intent | Tasarım Amacı (Design Intent) | Sistemin amaçlanan mimari yapısı |
 | Design Pattern | Tasarım Deseni (Design Pattern) |  |
@@ -182,10 +201,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Error Code | Hata Kodu (Error Code) | Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi |
 | Error Flag | Hata Bayrağı (Error Flag) | Hata oluştuğunu belirtmek için ayarlanan ve çağıranın kontrol etmesi gereken değişken; istisnaların eski alternatifi |
 | Error Handling | Hata Yönetimi (Error Handling) | Hataları yakalama ve işleme stratejisi |
+| Error Processing | Hata İşleme (Error Processing) | Sayfa 238’de 'all the error processing works correctly' ifadesinde geçer; sözlükteki 'Error Handling | Hata Yönetimi' teriminin 'işleme' odaklı varyantıdır. Bu sayfada 'hata işleme' olarak çevrilmiştir. |
 | Event (argument form) | Olay (Event) | Tek argümanlı fonksiyonların üçüncü ortak formu: bir girdi argümanı alır ama çıktı döndürmez, çağrının bir olay olarak yorumlanmasını ve sistemin durumunu değiştirmesini amaçlar. |
 | Exception | İstisna (Exception) | Hata yönetimi bağlamında |
 | Exception Class | İstisna Sınıfı (Exception Class) | Hatayı temsil eden sınıf; en önemli ölçüt, çağıranın onu nasıl yakalayacağıdır |
 | Exception Classification | İstisna Sınıflandırması (Exception Classification) | İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı |
+| Exception Management | İstisna Yönetimi (Exception Management) | İstisnaların (exception) akışını düzenleyen try/catch kod bloklarının bütünü; bu sayfada 'the ugly exception management code' ifadesinde geçer. Sözlükteki 'Error Handling | Hata Yönetimi (Error Handling)' terimiyle yakından ilişkili, istisna odaklı kullanımıdır. |
 | Execution Path | Çalışma Yolu (Execution Path) | İş parçacıklarının izleyebileceği talimat sıralaması; bu sayfada 'possible execution paths' ve 'Possible Paths of Execution' başlığında geçer. Sözlükteki 'Normal Flow' (Normal Akış) teriminden farklıdır. |
 | Executor Framework | İcracı Çerçevesi (Executor Framework) | Java 5'in java.util.concurrent paketinde; iş parçacığı yönetimini soyutlayarak görevleri (tasks) çalıştıran çerçeve. Sayfadaki 'Use the executor framework for executing unrelated tasks' maddesinde geçer. |
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
@@ -203,6 +224,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Feature Envy | Özellik Kıskançlığı (Feature Envy) | Bir fonksiyonun başka bir sınıfın verisiyle kendi sınıfınınkinden daha çok ilgilenmesi |
 | File Length | Dosya Uzunluğu (File Length) | Kaynak dosyanın satır sayısı; hedef ~200 satır, üst sınır 500 satır |
 | File Size | Dosya Boyutu (File Size) | Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir |
+| First Draft | İlk Taslak (First Draft) | Listing 14-8'in caption'ında 'Args.java (first draft)' ifadesinde geçer: ilk çalışan sürümün etiketi, sonraki taslakların başlangıç noktası. |
 | First-Class Support | birinci sınıf destek (first-class support) | Bir dil ya da platformun bir kavramı, ayrı bir dil yapısı olarak doğrudan ve eksiksiz biçimde desteklemesi; kitapta görünümlerin (aspects) modülerlik yapıları olarak AspectJ'de birinci sınıf destek görmesi bağlamında geçer. |
 | FitNesse | FitNesse | Açık kaynaklı test aracı (www.fitnesse.org) |
 | Flag | Bayrak (Flag) | Boolean kontrol parametresi |
@@ -210,12 +232,15 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Flexibility | Esneklik (Flexibility) | Kodun değişikliklere kolayca uyum sağlayabilmesi; birim testlerinin mümkün kıldığı -liklerden biri |
 | Floating Point | Kayan Nokta (Floating Point) | Ondalıklı sayıların ikili gösterim biçimi; eşitlik karşılaştırmaları hassasiyet payı gerektirir (göreceli eşitlik) |
 | Focused | Odaklanmış (Focused) | Temiz kodun tek amaca yönelik olması |
+| Format String | Biçim Dizesi (Format String) | Beklenen komut satırı argümanlarını kompakt biçimde tanımlayan dize (ör. "l,p#,d*"); bu sayfada 'format, or schema, string' ifadesiyle geçer ve 'Schema' ile eş anlamlı kullanılır. |
 | Formatting | Biçimlendirme (Formatting) | Kodun görsel yerleşimi: girinti, boşluk, satır uzunluğu, dikey ayrım |
+| forward | yönlendirmek (forward) | Bir çağrıyı doğrudan başka nesneye/metoda aktarmak; bu sayfada `setBooleanArg`'ın görevinin `BooleanArgumentMarshaler`'a yönlendirmek olduğu söylenir |
 | Function | Fonksiyon (Function) |  |
 | Function Call Dependency | Fonksiyon Çağrı Bağımlılığı (Function Call Dependency) | Bir fonksiyonun başka bir fonksiyonu çağırmasından doğan bağımlılık; aşağı yönü göstermelidir |
 | Function Header | Fonksiyon Başlığı (Function Header) | Fonksiyonun başına eklenen açıklama bloğu |
 | Function Sections | Fonksiyon Bölümleri (Function Sections) | Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.) |
 | Garbage Collection | Çöp Toplama (Garbage Collection) | Artık ulaşılamayan nesneleri bellekten geri alan otomatik bellek yönetimi işlemi; sayfadaki 'garbage collection overhead' ifadesinde 'çöp toplama ek yükü' olarak geçer. |
+| Generic | jenerik (generic) | Özel bir durum yerine genel anlamında sıfat; 'much more generic' = 'çok daha jenerik'. Sözlükteki 'Generics | Jenerik Türler (Generics)' (Java 5 dili özelliği) teriminden ayrı bir kullanımdır. |
 | Generics | Jenerik Türler (Generics) | Java 5 ile gelen, sınıf ve koleksiyonların tür parametresi almasını sağlayan özellik (ör. Map<Sensor>); tür dönüştürme ihtiyacını azaltır |
 | Given-When-Then | Given-When-Then | Testleri hazırlık (given), eylem (when) ve doğrulama (then) bölümlerine ayıran yaygın adlandırma kuralı; çevrilmez, olduğu gibi kullanılır. |
 | Glitch | Arıza (Glitch) | Donanım kaynaklı kısa süreli geçici bozulma; bu sayfanın dipnotlarında 'Cosmic-rays, glitches, and so on.' ifadesinde geçer. |
@@ -236,21 +261,30 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Horizontal Openness and Density | Yatay Açıklık ve Yoğunluk (Horizontal Openness and Density) | İlişkili öğeleri bitişik yazma, zayıf ilişkili öğeleri yatay boşlukla ayırma |
 | Horizontal White Space | Yatay Boşluk (Horizontal White Space) | Satır içindeki boşluklar; güçlü ilişkiyi birleştirmek, zayıf ilişkiyi ayırmak için kullanılır |
 | Hybrid | Melez Yapı (Hybrid) | Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı |
+| if-else chain | if-else Zinciri (if-else chain) | Ardışık if/else if dallarıyla (tipik olarak instanceof ile) tür denetimi yapan kontrol yapısı; bu sayfada tamamen ortadan kaldırılmak istenen yapı, sayfa başlığı 'if-else Zincirinin Tasfiyesi' |
 | Immutable | Değiştirilemez (Immutable) | Oluşturulduktan sonra durumu değiştirilemeyen nesne/koleksiyon; ör. Collections.emptyList() |
 | Implementation | Gerçekleştirim (Implementation) | Bir arayüzün ya da soyutlamanın somut kod karşılığı; Bölüm 6'da veri soyutlama ve gizleme bağlamında sürekli geçer |
 | Implementation Detail | Gerçekleştirim Ayrıntısı (Implementation Detail) | Bir sınıfın kullanıcılarının bilmesi ya da umursaması gerekmeyen iç tercih (ör. jenerik tür kullanılıp kullanılmadığı) |
 | Implicity | Örtüklük (Implicity) | Bağlamın kodda açıkça belirtilmeme derecesi |
 | Include Directive | Dahil Etme Yönergesi (Include Directive) | FitNesse'de sayfa dahil etme komutu |
+| incremental | kademeli (incremental) | Tek tek, küçük adımlarla ilerleme; sayfa 208'de 'I added the two argument types incrementally' ifadesinde geçer. |
+| Incrementalism | Kademecilik (Incrementalism) | Kodun yapısının büyük patama (big-bang) yeniden yazımlar yerine küçük, testle doğrulanan kademeli adımlarla iyileştirilmesi yaklaşımı; bu sayfada 'On Incrementalism' alt kesitinin konusu. Sözlükteki 'Successive Refinement' (Ardışık İyileştirme) kavramıyla yakından ilgilidir. |
 | Indent Level | Girinti Seviyesi (Indent Level) | Kod bloklarının iç içe geçme derinliği |
 | Indentation | Girinti (Indentation) | Kod satırlarının hiyerarşideki konumlarına göre sağa kaydırılması; kapsam hiyerarşisini görünür kılar |
 | Informative Comment | Bilgilendirici Yorum (Informative Comment) | Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum |
 | Informed Decision | Bilinçli Karar (Informed Decision) | Mümkün olan en iyi ve en güncel bilgiyle verilen karar |
 | Inheritance | Kalıtım (Inheritance) |  |
+| Inline / Inlining | satır içi (inline) | Refactoring tekniği: küçük bir metot çağrısının yerine gövdesinin doğrudan çağrı noktasına yapıştırılması ve metotların kaldırılması. Sayfa başlığında 'Inlining Parse Methods', parçada 'I inlined the three parse methods' ifadesinde geçer; metinde 'satır içine (inline) aldım' biçiminde kullanılmıştır. |
+| Inlining / Inline | Satır İçi Alma (Inlining) | Tek satırlık, tek çağrılı metotların gövdesini çağıran metot içinde doğrudan kullanma yeniden düzenleme (refactoring) tekniği; 'inline (a method)' = (bir metodu) satır içine almak. Sözlükte 'Inline'/'Inlining' girdisi yoktu; bu sayfada 'So I inlined them' ifadesinde geçer. |
 | Instance | Örnek (Instance) | Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği |
 | Instance Variable | Örnek Değişkeni (Instance Variable) | Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken |
 | Instantiation | Örnekleme (Instantiation) | Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer |
 | Instrumentation | Enstrümantasyon (Instrumentation) | Kodun içine, yalnızca test sırasında etkin olacak ölçüm/kesinti noktaları (ör. wait, sleep, yield, priority çağrıları) ekleme tekniği; nadir eşzamanlılık kusurlarını zorlayarak ortaya çıkarmak için kullanılır. Sayfa 188'de 'Instrument Your Code to Try and Force Failures' başlığı altında geçer. |
+| integer | tamsayı (integer) | Tam sayı veri tipi; sayfa 208'de 'String and integer' ifadesinde argüman tipi olarak geçer. Sözlükteki 'Integer Handle' teriminden farklıdır. |
+| Integer Argument | Tamsayı Argümanı (Integer Argument) | Komut satırında beklenen tipi int olan argüman; sayfadaki intArgs haritası, setIntArg ve getInt metotlarının konusu. Sözlükteki 'Argument' teriminin daraltılmış biçimidir. |
 | Integer Handle | Tamsayı Tanıtıcısı (Integer Handle) |  |
+| Integration | Entegrasyon (Integration) | Mevcut kodun bir parçasının yeni bir yapıya/metoda birleştirilmesi; bu sayfada 'integrate ... into the setArgument function' ifadesinde geçer: istisna yönetimi kodunun `setArgument` fonksiyonuna entegre edilmesi. Fiil biçimi 'entegre etmek' olarak çevrilir. |
+| Intent | niyet (intent) | Yazarın küçük, testle doğrulanan adımlarla koda kazandırmak istediği yapısal niyet; bu sayfada 'you should be able to see my intent' ifadesinde geçer. 'Explanation of Intent' ve 'Intention-Revealing Names' terimlerinden ayrı, genel kavram. |
 | Intention-Revealing Names | Niyet Belirten İsimler (Intention-Revealing Names) | Amacı açıkça ortaya koyan isimler |
 | Interface | Arayüz (Interface) |  |
 | Interpreter | Yorumlayıcı (Interpreter) | Kaynak kodu satır satır çalıştıran program |
@@ -259,6 +293,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Inversion of Control (IoC) | Kontrolün Tersine Çevrilmesi (Inversion of Control — IoC) | Bağımlılık yönetiminde kontrolün nesneden, bu amaca adanmış harici bir mekanizmaya (main, kap/container) devredilmesi ilkesi; Bağımlılık Enjeksiyonu (DI) bu ilkenin uygulanmasıdır |
 | InvocationHandler | Çağrı İşleyici (InvocationHandler) | Java yansıma (reflection) API'sindeki arayüz; vekile yapılan her metot çağrısı, bu nesnenin invoke metodu aracılığıyla ele alınır. |
 | Iteration (test loop) | Yineleme (Iteration) | Testin belirli sayıda kez tekrarlanması; bu sayfada 'run for a number of iterations' maddesinde geçer. |
+| iterator | Yineleyici (Iterator) | Bir koleksiyonda sırayla elemanlara erişen nesne (ör. Iterator<String>); bu sayfada currentArgument olarak üç set fonksiyonuna da geçirilir |
 | Java Memory Model | Java Bellek Modeli (Java Memory Model) | Java'nın hangi okuma/yazma işlemlerini atomik (atomic) saydığını ve paylaşılan değişkenlerin iş parçacıkları arasında nasıl göründüğünü tanımlayan sözleşme; bu sayfada 'what the Java memory model considers to be atomic' ifadesinde geçer. |
 | Javadoc | Javadoc | Java API dokümantasyon formatı |
 | JDK | JDK (Java Development Kit) | Java Geliştirme Kiti; kısaltma olduğu gibi kullanılır (sözlükteki 'JVM' girdisine paralel). Sayfadaki 'became part of the JDK' ifadesinde geçer. |
@@ -294,7 +329,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Maintainer | Bakımcı (Maintainer) | Kodun bakımını üstlenen geliştirici; sözlükteki 'Maintainability | Bakılabilirlik' teriminin kişi karşılığı. Sayfa 175'te 'Other maintainers of the code' ifadesinde geçer. |
 | Management | Yönetim (Management) |  |
 | Mandated Comment | Zorunlu Yorum (Mandated Comment) | Şirket politikası veya kurallar gereği zorla eklenen yorum |
+| Map | harita (map) | Anahtar-değer eşlemesi (java.util.Map, HashMap); bu sayfada tip başına ayrı üç harita, tek bir `marshalers` haritasına birleştirilir. Sözlükteki 'Table Lookup' (Tablo Araması) ve 'Container' (Kap) terimleriyle bağlantılıdır. |
 | Marketer | Pazarlamacı (Marketer) |  |
+| Marshaler | Argüman Hazırlayıcı (Marshaler) | Args uygulamasında ham token akımından bir argümanı hazırlayıp (consume) değerini kendi alanında tutan bileşen; set() metoduyla doldurulur, statik getValue() ile okunur. Sayfa 197'nin ana teması. |
+| Marshalling | marshalling (serileştirme/tanzim) | Argüman değerini ilgili türün beklediği biçime çevirme/uyarlama davranışı (boolean, dizgi, tamsayı); bu sayfada 'marshalling behavior' ifadesinde ve 'Moving String Marshalling & Intent' başlığında geçer. |
 | Matter-of-fact | Olgusal (Matter-of-fact) | Spekülatif olmayan, gerçeklere dayanan kod |
 | Meaningful Distinctions | Anlamlı Ayrımlar (Meaningful Distinctions) | İsimlerin gerçekten farklı anlamlar taşıyacak şekilde farklılaştırılması |
 | Meaningful Names | Anlamlı İsimler (Meaningful Names) | Niyet ifade eden değişken/fonksiyon isimleri |
@@ -308,6 +346,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Method Chaining | Metot Zincirleme (Method Chaining) | Metot çağrılarını ardışık zincirleme |
 | Method Interception | Metot Araya Girme (Method Interception) | AOP'yi gerçekleştirmek için kullanılan tekniklerden biri; bir framework'ün bir metot çağrısını yakalayıp, çağrıdan önce/sonra davranış eklemesi (günlükleme, işlem, güvenlik vb.). Sayfada dipnot 11'de 'wrapping' (sarmalama) ile birlikte anılır. |
 | Method Name | Metot İsmi (Method Name) |  |
+| method signature | Metot İmzası (Method Signature) | Metodu tanımlayan ad + parametre listesi; kavram kartında tüm türevlerde tek tipli imza kullanmak, if-else zincirini tek polimorfik çağrıya indirir |
 | Minimal | Minimal (Minimal) | Mümkün olan en küçük, yalnızca gerekli olanı içeren |
 | Minimal Classes and Methods | Küçük Sınıflar ve Metotlar | Chapter 12'nin (Jeff Langr) Basit Tasarım (Simple Design) kuralları arasındaki DÖRDÜNCÜ ve EN DÜŞÜK öncelikli kural: fonksiyon ve sınıf sayısını düşük tutma. Sayfa 176'da kesit başlığı olarak geçer. |
 | Mis-type | Yanlış Yazım (Mis-type) |  |
@@ -336,10 +375,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Normal Flow | Normal Akış (Normal Flow) | Hata durumlarıyla kesintiye uğramayan, asıl iş akışı |
 | Normal Forms | Normal Formlar (Normal Forms) | Codd'un veritabanı tekrar kaldırma stratejisi |
 | Null Check | null Kontrolü (Null Check) | Bir değerin null olup olmadığını denetleyen koşul; çoğalması null döndürmenin belirtisidir |
+| Null Detection | null Tespiti (Null Detection) | Bir değerin null olup olmadığını denetleyip ona göre davranan mantık; bu sayfada getBoolean'a eklenen 'am != null' kontrolü bağlamında geçer. Sözlükteki 'Null Check' (null Kontrolü) teriminden ayrı, daha genel bir kavramdır. |
 | Number-Series Naming | Numara Serili İsimlendirme (Number-Series Naming) | a1, a2, aN şeklinde anlamsız numara ekleme |
 | Object | Nesne (Object) |  |
 | Object-Oriented Code | Nesne Yönelimli Kod (Object-Oriented Code) | Davranışı nesnelere dağıtan kod; yeni sınıf eklemeyi kolaylaştırır, yeni fonksiyon eklemeyi zorlaştırır (sayfa 97) |
 | Object-Oriented Design | Nesne Yönelimli Tasarım (Object-Oriented Design) |  |
+| One Pass | Tek Geçiş (One Pass) | Tek seferde, tek vuruşla; temiz ve zarif programların tek geçişte yazılamayacağı beklentisi. Sayfa 200'de 'write clean and elegant programs in one pass' ifadesinde geçer. |
 | One-Off | Tek Seferlik Olay (One-Off) | Yalnızca bir kez görülüp geçiştirilen düzensiz başarısızlık; sayfadaki 'written off as a onetime occurrence' ve 'so-called one-offs' ifadelerinde geçer. Aslında yük altında ya da rastgele zamanlarda ortaya çıkan eşzamanlılık hatası adayıdır. |
 | Open Closed Principle (OCP) | Açık Kapalı İlkesi (OCP) | Sınıflar genişlemeye açık, değişikliğe kapalı olmalı |
 | Open Source | Açık Kaynak (Open Source) | Kaynak kodu herkesin kullanımına açık olarak dağıtılan yazılım |
@@ -355,7 +396,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Oxymoron | Oksimoron (Oxymoron) | Birbirine zıt kavramların birleşimi (ör. "keskin soyutlama") |
 | Package | Paket (Package) | Kod organizasyon birimi |
 | Package Scope | Paket Kapsamı (Package Scope) | Java'da yalnızca aynı paketteki sınıflardan erişilebilen görünürlük seviyesi; testler uğruna kapsüllemeyi gevşetmenin private'tan sonraki en az zararlı yolu. |
+| Painless | Acısız (painless) | Sayfa 238’de 'That was pretty painless' ifadesinde geçer: zahmetsiz, sürtünmesiz. Double marshaler’ın ispatlanmış integer marshaler deseninden kopyalanarak kolayca yazılabildiği vurgulanır. |
 | Parent Thread / Child Thread | Ana İş Parçacığı / Çocuk İş Parçacığı (Parent Thread / Child Thread) | Bir iş parçacığının (parent) başlattığı ve beklediği alt iş parçacıkları (children); kapanışta ana iş parçacığı çocukları bitirmeyi bekler. |
+| Parse | Ayrıştırma (Parse) | Dizgiyi anlamlı parçalara ya da hedef tipe çevirme işlemi; burada Integer.parseInt dizgiyi tamsayıya çevirir. Sözlükteki 'Decoupling | Ayrıştırma (Decoupling)' girdisinden bağımsız, farklı bir kavramdır. |
+| Parsing | Ayrıştırma (Parsing) | Bir dizgiyi (ör. şema dizgisini, girdi dizgisini) sözdizimi kurallarına göre parçalara ayırıp anlamlandırma işlemi; bu sayfada 'schema parsing' (şema ayrıştırma) ifadesinde geçer. |
+| Partitioning | Parçalama (Partitioning) | Farklı türlerdeki kodları koymak için uygun yerler yaratma; iyi yazılım tasarımının büyük kısmının konusu. Sözlükteki 'Modularity' (Modülerlik) ve 'Separation of Concerns' (Kaygıların Ayrılması) terimleriyle ilişkilidir. |
+| pattern | desen (pattern) | 'the same pattern of changes' ifadesinde genel terim olarak geçer; glossary'de yalnız 'Design Pattern' (Tasarım Deseni) gibi bileşik terimler vardır. |
 | Persistence | Kalıcılık (Persistence) | Verinin veritabanı, düz dosya gibi kalıcı bir depoda saklanması |
 | Plug-ability | Takılabilirlik (Plug-ability) | 'Pluggable | Takılabilir (Pluggable)' teriminin isim biçimi; sayfadaki 'implies some level of plug-ability' ifadesinde geçer. TDD'nin Üç Yasası'ndan gelen test edilebilirliğin ima ettiği özellik. |
 | Pluggable | Takılabilir (Pluggable) | Bağımlılıkların (ör. test ikizleri) çalışma zamanında değiştirilebilir/takılabilir olması; bu sayfada 'Make Your Threaded Code Pluggable' başlığında geçer. |
@@ -386,6 +432,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Proxy | Vekil (Proxy) | Başka bir nesneyi temsil eden, istenen işi ona devreden sarmalayıcı nesne; tembel değerlendirme (lazy evaluation) gibi optimizasyonlar için kullanılabilir |
 | Pun | Kelime Oyunu (Pun) | Bir kelimenin iki farklı anlamda kullanılması |
 | Quasi-Encapsulation | Yarı Kapsülleme (Quasi-Encapsulation) | Bean'lerin getter/setter ile sağladığı, pratikte hiçbir şeyi gizlemeyen görünüşte kapsülleme |
+| Query | Sorgu (Query) | Bu sayfada fiil olarak geçer: 'query the Args instance for the values of the arguments' = argüman değerlerini `Args` örneğinden istemek/okumak. Sözlükteki 'Command Query Separation' (Komut Sorgu Ayrımı) terimindeki 'query' kavramıyla bağlantılıdır. |
 | Race Condition | Yarış Durumu (Race Condition) | Eşzamanlı erişimden kaynaklanan hata |
 | Readability | Okunabilirlik (Readability) | Kodun okunup anlaşılma kolaylığı; sonraki tüm değişiklikleri etkiler |
 | Readable Code | Okunabilir Kod (Readable Code) |  |
@@ -413,12 +460,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Reusability | Yeniden Kullanılabilirlik (Reusability) | Kodun başka bağlamlarda yeniden kullanılabilmesi; testlerin güvence altına aldığı -liklerden biri |
 | Reuse in the Large | Büyük Ölçekli Yeniden Kullanım (Reuse in the Large) | Sistem genelinde, büyük yapılar düzeyinde yeniden kullanım; 'reuse in the small'ın (küçük ölçekte yeniden kullanım) birikimiyle mümkün olur. Sayfa 174'te 'reuse in the large' ifadesi olarak geçer. |
 | Reuse in the Small | Küçük Ölçekli Yeniden Kullanım (Reuse in the Small) | Çok küçük ortaklıkları (birkaç satır bile olsa) isimli metotlar olarak çıkarma; bu küçük yeniden kullanımlar birikerek büyük ölçekte yeniden kullanımı mümkün kılar ve sistem karmaşıklığını dramatik biçimde azaltır. Sayfa 174'te 'reuse in the small' ifadesi olarak geçer. |
+| Rough Draft | Kaba Taslak (Rough Draft) | İlkokul kompozisyonu metaforundaki ilk taslak; 'ardışık iyileştirme' (successive refinement) temasının parçası. Sayfa 200'de 'write rough drafts of our compositions' ifadesinde geçer. |
 | Routine | Rutin (Routine) | Programlamanın ilk günlerindeki fonksiyon benzeri yapı |
 | Runtime Error | Çalışma Zamanı Hatası (Runtime Error) | Derleme sırasında değil, program çalışırken ortaya çıkan hata |
 | Runtime Logic | Çalışma Zamanı Mantığı (Runtime Logic) | Uygulama başladıktan sonra asıl işi yapan kod; başlangıç (startup) sürecinden ayrılmalıdır |
 | rvalue | Sağ Taraf Değeri (rvalue) | Bir atama ifadesinde eşittir işaretinin sağında kalan değer |
 | Scary Noise | Korkunç Gürültü (Scary Noise) | Bariz olanı karmaşık Javadoc formatında tekrar eden sinir bozucu yorum |
 | Schedule | Takvim / Zamanlama (Schedule) |  |
+| Schema | Şema (Schema) | Ayrıştırılacak argümanların türlerini tek bir biçim dizgisinde beyan eden tanım (ör. "l,p#,d*"); Chapter 14'ün sonraki sayfalarında 'format, or schema, string' olarak geçer. |
 | School of Thought | Düşünce Okulu (School of Thought) |  |
 | Scissors Rule | Makas Kuralı (Scissors Rule) | C++'ta örnek değişkenlerini sınıfın en altına koyma geleneği |
 | Scope | Kapsam (Scope) | Bir değişkenin geçerli olduğu kod alanı |
@@ -426,6 +475,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Search-friendly name | Arama Dostu İsim (Search-friendly name) |  |
 | Searchable Names | Aranabilir İsimler (Searchable Names) |  |
 | Semaphore | Sinyal (Semaphore) | Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde. |
+| Separate | Ayırmak (Separate) | Bir yapıyı ana modülden bağımsız bir parça hâline getirerek dışarı çıkarma; sayfa 242'de 'completely separated the exception and error code from the Args module' ifadesinde geçer. 'Decoupling | Ayrıştırma (Decoupling)' teriminden farklıdır: burada bağımlılığı azaltmak değil, kodun fiziksel olarak başka bir modüle taşınması kastedilir. |
 | Separation of Concerns | Kaygıların Ayrılması (Separation of Concerns) | Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer. |
 | Server | Sunucu (Server) | İstemci/sunucu (client/server) kilit modellerinde kilitlenen ve paylaşılan nesneyi barındıran taraf; sayfa 185'te 'lock the server', 'Within the server' ve 'the original server cannot be changed' ifadelerinde geçer. |
 | Server-Based Locking | Sunucu Tabanlı Kilit (Server-Based Locking) | Kilitleme sorumluluğunun sunucuya verilmesi: sunucu, tüm metotları tek seferde çağıran ve kendi kilidiyle çalıştırıcı birleşik bir metot sunar; istemci yalnızca o metodu çağırır. Sayfa 185'te üç düzeltme yolundan ikincisidir. |
@@ -472,6 +522,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Subroutine | Alt Rutin (Subroutine) | Programlamanın ilk günlerindeki alt program yapısı |
 | Subscript | Alt İndis (Subscript) | Dizi veya koleksiyondaki öğeye erişim indeksi |
 | Subselect | Alt Sorgu (Subselect) | Bir SQL select ifadesinin içine gömülü ikinci bir select sorgusu |
+| Successive Refinement | Ardışık İyileştirme (Successive Refinement) | Chapter 14'ün başlığı ve omurgası: kodun büyük patama (big-bang) yeniden yazımı yerine küçük, testle doğrulanan ardışık adımlarla kademeli olarak iyileştirilmesi. |
+| Suffix | Sonek (Suffix) | Bir şema öğesinin sonuna eklenen ve türünü belirleyen karakter (boş, *, #); sözlükteki 'Prefix' (önek) teriminin aynası. 'Schema Suffix Convention' kavram kartında kullanıldı. |
 | Suite | Suite | Çevrilmez; FitNesse'de bir grup test sayfasını ifade eden yapı |
 | Switch Statement | Switch İfadesi (Switch Statement) | Bir değişkenin farklı değerlerine göre dallanma sağlayan kontrol yapısı |
 | Synchronization | Senkronizasyon (Synchronization) | Eşzamanlı erişimin kilitleme gibi mekanizmalarla koordine edilmesi; sayfadaki 'avoid synchronizing', 'synchronization requirements' ve 'synchronization problems' ifadelerinde geçer. |
@@ -483,7 +535,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Technical Debt | Teknik Borç (Technical Debt) | Hızlı çözümlerden kaynaklanan birikmiş kod sorunları |
 | Template Method | Şablon Metot (Template Method) | Ortak algoritma iskeletini üst sınıfta tanımlayıp değişen adımları alt sınıflara bırakan tasarım deseni [GOF]. |
 | Temporal Coupling | Zamansal Bağımlılık (Temporal Coupling) | Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu |
+| temporary regression | Geçici Gerileme (Temporary Regression) | Kaldırılmak üzere kısa süreliğine eklenen kod (ör. boş catch); kavram kartında testler yeşil kaldığı sürece güvenli geçiş adımı olarak ele alınır |
 | Test | Test | Çevrilmez |
+| Test Case | Test Durumu (Test Case) | Bir test sınıfı içindeki tek bir senaryo: belirli bir girdinin beklenen davranışını denetler; 'Test' ve 'Unit Test' (Birim Testi) terimlerinden daha dar bir kavramdır. |
 | Test Coverage | Test Kapsamı (Test Coverage) | Üretim kodunun testlerle çalıştırılan bölümünün oranı; yükseldikçe değişiklik yapma korkusu azalır |
 | Test Double | Test Çifti (Test Double) | Birim testinde gerçek bağımlılığın yerine geçen herhangi bir nesne için kapsayıcı terim; stub, fake, mock vb. varyantları kapsar |
 | Test Drive | test güdümlü geliştirmek (test drive) | Kitapta fiil olarak geçer: bir yapıyı (ör. mimariyi) testler aracılığıyla yönlendirerek geliştirmek; 'Test Driven Development' (Test Güdümlü Geliştirme) terimiyle aynı kökten gelir. |
@@ -502,14 +556,17 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Tiger Team | Kaplan Ekibi (Tiger Team) | En yetenekli geliştiricilerden oluşan ekip |
 | TO Paragraph | TO Paragrafı | Fonksiyonun ne yaptığını "Bunu yapmak için (TO)..." kalıbıyla anlatan cümle; LOGO dilindeki TO anahtar kelimesinden esinlenilmiştir |
 | TODO | TODO / Yapılacaklar (TODO) | Gelecek için bırakılan notlar ve hatırlatıcılar |
+| Touche | Touche! | Fransızca 'vuruldum / yendin' ifadesi; eskrim (çarpışma) oyunundan gelen, rakibin vuruşunu kabul eden teslimiyet sözü. Sayfa 236'da tip-zincirinin (type-case) kaldırılmasıyla birlikte kullanılır. |
 | Train Wreck | Tren Kazası (Train Wreck) | Birbirine noktayla bağlanmış çağrı zinciri; Demeter Yasası ihlalinin tipik görüntüsü |
 | Transaction | İşlem (Transaction) | Ya bütünüyle gerçekleşen ya da hiç gerçekleşmemiş sayılan iş birimi; try blokları buna benzetilir |
 | Transactional Behavior | İşlemsel Davranış (Transactional Behavior) | Bir işlemin (Transaction) bütünlüğünü yöneten davranış; EJB'de dağıtım betimleyicisinde bildirilir |
 | Transformation | Dönüşüm (Transformation) | Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi |
 | Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
 | Trial and Error | Deneme-Yanılma (Trial and Error) | Uygun iş parçacığı dengesinin sistematik ölçümle değil deneysel tekrarlarla bulunması; bu sayfada 'trial an error' (yazım hatası) ifadesinde geçer. |
+| trivial | önemsiz (trivial) | Çok basit, az uğraş gerektiren; bu sayfada `setBooleanArg` fonksiyonu için kullanılır ve taşınmaya ilk o hazırlanır |
 | Tunable | Ayarlanabilir (Tunable) | İş parçacığı sayısı gibi parametrelerin çalışma sırasında kolayca ayarlanabilir olması; bu sayfada 'Make Your Threaded Code Tunable' başlığında geçer. |
 | Type System | Tür Sistemi (Type System) |  |
+| Type-Case | Tip-Zinciri (Type-Case) | Bir değerin türüne göre if/else veya switch ile dallanan kod bloğu; davranış polimorfizme (çok biçimliliğe) devredilerek kaldırılmalıdır. Sayfa 231'de setArgument içindeki 'horrible type-case' ifadesinde geçer. |
 | Unchecked Exception | Denetlenmeyen İstisna (Unchecked Exception) | Bildirilmesi zorunlu olmayan istisna (Java'da RuntimeException alt sınıfları) |
 | Uncle Bob's Formatting Rules | Uncle Bob'un Biçimlendirme Kuralları | Bölüm 5'te yazarın kişisel biçimlendirme kurallarını CodeAnalyzer.java örneğiyle gösterdiği alt başlık (sayfa 91 ve devamı). |
 | Unit Test | Birim Testi (Unit Test) |  |
@@ -530,5 +587,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Ward's Principle | Ward'ın İlkesi (Ward's Principle) | Ward Cunningham'ın temiz kod tanımı: her rutin, tam olarak beklediğiniz gibi çıkar |
 | Warning of Consequences | Sonuçlara Dair Uyarı (Warning of Consequences) | Belirli bir işlemin etkileri hakkında diğer programcıları uyaran yorum |
 | weasel words | kaypak sözcükler (weasel words) | Processor, Manager, Super gibi anlamı belirsiz bırakan, bir sınıfın gerçekte ne yaptığını gizleyen ve çoğu zaman fazla sorumluluk yığılmasına işaret eden isim bileşenleri. |
+| Whim | Keyfî (Whim) | 'on a whim' = keyfî olarak, içinden geldiği anda; test paketinin anında ve istekle çalıştırılabilir olması TDD'nin güveninin temelidir. Sayfa 213'te 'run on a whim' ifadesinde geçer. |
+| Whole Picture | tüm resim (whole picture) | Uzun bir yeniden düzenleme sırasında ya da ardından ayrıntılardan uzaklaşıp sınıfın/sistemin bütününe yeniden bakıp değerlendirmek; bu sayfada 'let’s look at the whole picture again' ifadesinde geçer. Sözlükteki 'Big Picture' (Büyük Resim) girdisinden ayrıdır: Big Picture genel sistem bakış açısıdır, Whole Picture ise mevcut bütüncül biçime atılan kontrol noktası niteliğindeki bakıştır. |
 | Wiring | Bağlama (Wiring) | Nesnelerin bağımlılıklarının kurularak uygulamanın bir araya getirilmesi işlemi |
+| Work in Progress | Tamamlanmamış Çalışma (Work in Progress) | Belirgin biçimde bitirilmemiş, üzerinde çalışma süren kod durumu; bu sayfada 'It's clearly a work in progress' ifadesinde geçer. Sözlükteki 'Rough Draft' (Kaba Taslak) terimiyle bağlantılıdır. |
 | Wrapper | Sarmalayıcı (Wrapper) |  |

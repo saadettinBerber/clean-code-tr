@@ -10,6 +10,11 @@ window.GLOSSARY = [
     "note": "Nesne oluşturma mantığını gizleyen tasarım deseni"
   },
   {
+    "en": "Abstract Method",
+    "tr": "Soyut Metot (Abstract Method)",
+    "note": "İçeriği üst sınıfta verilmeden, tüm türevlerin gerçekleştirmek zorunda olduğu metot; derleyici türevleri bu sözleşmeye uymaya zorlar. Sayfa 234'te set() metodu için kullanılır."
+  },
+  {
     "en": "Abstraction",
     "tr": "Soyutlama (Abstraction)",
     "note": ""
@@ -63,6 +68,11 @@ window.GLOSSARY = [
     "en": "Agility",
     "tr": "Çeviklik (Agility)",
     "note": "Çevik (Agile) yazılım geliştirme pratiklerinin sağladığı, değişime hızla uyum sağlama yeteneği; istilacı (invasive) mimariler bunu tehdit eder. Sayfa 168'de 'çeviklik' olarak kullanılmıştır; sözlükteki 'Çevik (Agile)' terimiyle aynı kökten gelir."
+  },
+  {
+    "en": "Algorithm",
+    "tr": "algoritma (algorithm)",
+    "note": "Belirli bir işi yapmak için izlenen adım dizisi; bu sayfada `Args` sınıfının şemayı (schema) ayrıştırma akışı. Sayfadaki 'the three different maps up at the top of the algorithm' ifadesinde geçer."
   },
   {
     "en": "Amplification",
@@ -168,6 +178,11 @@ window.GLOSSARY = [
     "en": "Bad Code",
     "tr": "Kötü Kod (Bad Code)",
     "note": "Bakımı zor, okunması güç kod"
+  },
+  {
+    "en": "Base Class",
+    "tr": "Üst Sınıf (Base Class)",
+    "note": "Kalıtım hiyerarşisinde davranışın önce toplandığı kök sınıf; bu sayfada 'the ArgumentMarshaler base class' ifadesinde geçer. Sözlükteki 'Concrete Class' ve 'Abstract Class' terimlerinden ayrı, genel kavram."
   },
   {
     "en": "Bean",
@@ -295,9 +310,19 @@ window.GLOSSARY = [
     "note": "Başka bir fonksiyonu çağıran fonksiyon"
   },
   {
+    "en": "Cardinality",
+    "tr": "Kardinalite (Cardinality)",
+    "note": "Args vaka çalışmasında fiilen sağlanan argüman sayısını ifade eder; args.cardinality() metodu bu sayıyı döndürür."
+  },
+  {
     "en": "Care",
     "tr": "Önemseme (Care)",
     "note": "Zanaata ve koda duyulan özen"
+  },
+  {
+    "en": "Case Study",
+    "tr": "Vaka Çalışması (Case Study)",
+    "note": "Chapter 14'ün açılış alt başlığı ve konusu; gerçek bir modülün (komut satırı argümanı ayrıştırıcısı) adım adım yeniden düzenlenmesi üzerinden anlatılan örnek inceleme."
   },
   {
     "en": "Casting",
@@ -385,6 +410,11 @@ window.GLOSSARY = [
     "note": "Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır"
   },
   {
+    "en": "Code Rot",
+    "tr": "Kod Çürümesi (Code Rot)",
+    "note": "Kötü kodun zamanla çürümesi, mayalanması ve ekibi aşağı çeken durdurulamaz bir yüke dönüşmesi; 'code rots' = 'kod çürür'. Sözlükteki 'Decay' (Çürüme) teriminin kod bağlamındaki karşılığı."
+  },
+  {
     "en": "Code Smell",
     "tr": "Kod Kokusu (Code Smell)",
     "note": "Koddaki potansiyel sorunların belirtisi"
@@ -425,6 +455,16 @@ window.GLOSSARY = [
     "note": "Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil"
   },
   {
+    "en": "Command-Line Argument",
+    "tr": "Komut Satırı Argümanı (Command-Line Argument)",
+    "note": "main fonksiyonuna dizgi dizisi olarak geçirilen ve ayrıştırılması gereken satır içi girdi; bu bölümde Args sınıfının konusu. 'Argument' ve 'Argument List' terimlerinden ayrı, dar bir kavramdır."
+  },
+  {
+    "en": "Command-Line Arguments",
+    "tr": "Komut Satırı Argümanları (Command-Line Arguments)",
+    "note": "Komut satırından programa aktarılan girdi dizgileri; bu sayfada `Args` sınıfının ayrıştırdığı ana girdi. Sözlükteki 'Argument' (Argüman) teriminin komut satırı bağlamındaki kullanımıdır."
+  },
+  {
     "en": "Commented-out Code",
     "tr": "Yorum Satırına Alınmış Kod (Commented-out Code)",
     "note": "Silinmesi gereken, artık kullanılmayan kod blokları"
@@ -445,9 +485,19 @@ window.GLOSSARY = [
     "note": "Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir"
   },
   {
+    "en": "compile",
+    "tr": "derlemek (compile)",
+    "note": "Glossary'deki 'Compiler | Derleyici (Compiler)'in fiil hâli; 'get this to compile' = 'bunun derlenmesi için'."
+  },
+  {
     "en": "Compiler",
     "tr": "Derleyici (Compiler)",
     "note": "Kaynak kodu makine koduna çeviren program"
+  },
+  {
+    "en": "Completeness",
+    "tr": "Tamamlılık (Completeness)",
+    "note": "Bir dizi test veya işlemin her olası durumu kapsaması; sayfa 239'da 'for completeness' ifadesinde geçer: eksik double argümanının testi yalnızca tamamlılık için yazılmıştır."
   },
   {
     "en": "Component Oriented Programming",
@@ -458,6 +508,11 @@ window.GLOSSARY = [
     "en": "Composed Method",
     "tr": "Oluşturulmuş Metot (Composed Method)",
     "note": "Metodu küçük adımlara bölerek oluşturma"
+  },
+  {
+    "en": "Compromise",
+    "tr": "Uzlaşma (Compromise)",
+    "note": "Mükemmel çözüm yerine pratikte kabul edilen orta yol; bu sayfada hata mesajı biçimlendirmesinin ArgsException'ta tutulması bir uzlaşma olarak nitelendirilir."
   },
   {
     "en": "Conceptual Affinity",
@@ -545,9 +600,19 @@ window.GLOSSARY = [
     "note": "Bir dizi olayın gerçekleşmesini bekleyip sonra tüm iş parçacıklarını serbest bırakan kilit; java.util.concurrent paketinde. Teknik sınıf adı olduğu için çevrilmez."
   },
   {
+    "en": "Coup de Grace",
+    "tr": "Nihai Darbe (Coup de Grace)",
+    "note": "Fransızca 'nihai darbe' ifadesi; yeniden düzenlemede (refactoring) bir yapının (ör. tip-zinciri) son kullanımı taşındıktan sonra tek hamlede kaldırılma anını betimler. Sayfa 236'da 'the coup de grace' ifadesinde geçer."
+  },
+  {
     "en": "Coupling",
     "tr": "Bağımlılık (Coupling)",
     "note": "Bileşenlerin birbirine bağımlılığı"
+  },
+  {
+    "en": "Craft",
+    "tr": "Zanaat (Craft)",
+    "note": "Programlamanın bir bilimden çok zanaat olduğuna dair 'programming is a craft' ifadesindeki sade terim; sayfa 200'de geçer. Sözlükteki 'Craftsmanship | Zanaat / Ustalık (Craftsmanship)' ve 'Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship)' girdilerinden ayrıdır."
   },
   {
     "en": "Craftsmanship",
@@ -573,6 +638,11 @@ window.GLOSSARY = [
     "en": "Cross-Cutting Concern",
     "tr": "Çapraz Kesim Kaygısı (Cross-Cutting Concern)",
     "note": "Kalıcılık, güvenlik, işlem yönetimi gibi nesnelerin doğal sınırlarını keserek birçok modüle yayılan kaygı türü"
+  },
+  {
+    "en": "crufty",
+    "tr": "paslı/çürümüş (crufty)",
+    "note": "Eski, köhne, ömrünü tamamladığı için temizlenmesi gereken kod için kullanılan sıfat; bu sayfada IntegerArgumentMarshaler'daki artık kullanılmayan metotlar için geçer. 'Dirty Code' (Kirli Kod) teriminden ayrıdır, eskilik/ömrünü tamamlama vurgusu taşır."
   },
   {
     "en": "Data Abstraction",
@@ -685,9 +755,34 @@ window.GLOSSARY = [
     "note": "Biri diğerini çağıran fonksiyonlar; dikey olarak yakın durmalı, çağıran çağrılanın üstünde olmalı"
   },
   {
+    "en": "deploy",
+    "tr": "yerleştirmek (deploy)",
+    "note": "Chapter 14 vaka çalışması jargonu: bir fonksiyonu/değişkeni üst sınıftan doğru alt sınıfa taşıma; glossary'deki 'Deployment Descriptor' (Dağıtım Betimleyicisi) ve 'Redeployment' (Yeniden Dağıtım) terimlerinden farklı bir anlam taşır."
+  },
+  {
+    "en": "Deploy (down)",
+    "tr": "yerleştirmek/deploy (deploy)",
+    "note": "Ardışık iyileştirme (Successive Refinement) bağlamında bir fonksiyonu taban sınıftan alt sınıflara (ör. set'in BooleanArgumentMarshaller'a) doğru indirme/yerleştirme; sayfa 218'de get için de kullanılacak."
+  },
+  {
+    "en": "Deploying",
+    "tr": "Yerleştirme (Deploying)",
+    "note": "Bu sayfadaki anlamda bir metodu/davranışı marshaler sınıfına taşıma; yazılım dağıtımı (deployment) anlamında değildir."
+  },
+  {
     "en": "Deployment Descriptor",
     "tr": "Dağıtım Betimleyicisi (Deployment Descriptor)",
     "note": "EJB'de kalıcılık, işlemsel davranış ve güvenlik gibi ayarları kaynak koddan bağımsız olarak bildiren XML dosyası"
+  },
+  {
+    "en": "Derivative",
+    "tr": "Türev (Derivative)",
+    "note": "Kitaptaki kullanımda ArgumentMarshaler arayüzünü gerçekleştiren sınıflar (BooleanArgumentMarshaler, StringArgumentMarshaler vb.); matematiğin türev kavramıyla ilgisi yoktur. Sayfa 197'de 'what its derivatives do' ifadesinde geçer."
+  },
+  {
+    "en": "Derivatives",
+    "tr": "Türevler (Derivatives)",
+    "note": "Soyut taban sınıftan kalıtımla türetilen alt sınıflar; sayfa 197-198'de 'derivatives' için 'türevler' kullanılmıştı, tutarlıdır."
   },
   {
     "en": "Descriptive Names",
@@ -870,6 +965,11 @@ window.GLOSSARY = [
     "note": "Hataları yakalama ve işleme stratejisi"
   },
   {
+    "en": "Error Processing",
+    "tr": "Hata İşleme (Error Processing)",
+    "note": "Sayfa 238’de 'all the error processing works correctly' ifadesinde geçer; sözlükteki 'Error Handling | Hata Yönetimi' teriminin 'işleme' odaklı varyantıdır. Bu sayfada 'hata işleme' olarak çevrilmiştir."
+  },
+  {
     "en": "Event (argument form)",
     "tr": "Olay (Event)",
     "note": "Tek argümanlı fonksiyonların üçüncü ortak formu: bir girdi argümanı alır ama çıktı döndürmez, çağrının bir olay olarak yorumlanmasını ve sistemin durumunu değiştirmesini amaçlar."
@@ -888,6 +988,11 @@ window.GLOSSARY = [
     "en": "Exception Classification",
     "tr": "İstisna Sınıflandırması (Exception Classification)",
     "note": "İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı"
+  },
+  {
+    "en": "Exception Management",
+    "tr": "İstisna Yönetimi (Exception Management)",
+    "note": "İstisnaların (exception) akışını düzenleyen try/catch kod bloklarının bütünü; bu sayfada 'the ugly exception management code' ifadesinde geçer. Sözlükteki 'Error Handling | Hata Yönetimi (Error Handling)' terimiyle yakından ilişkili, istisna odaklı kullanımıdır."
   },
   {
     "en": "Execution Path",
@@ -975,6 +1080,11 @@ window.GLOSSARY = [
     "note": "Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir"
   },
   {
+    "en": "First Draft",
+    "tr": "İlk Taslak (First Draft)",
+    "note": "Listing 14-8'in caption'ında 'Args.java (first draft)' ifadesinde geçer: ilk çalışan sürümün etiketi, sonraki taslakların başlangıç noktası."
+  },
+  {
     "en": "First-Class Support",
     "tr": "birinci sınıf destek (first-class support)",
     "note": "Bir dil ya da platformun bir kavramı, ayrı bir dil yapısı olarak doğrudan ve eksiksiz biçimde desteklemesi; kitapta görünümlerin (aspects) modülerlik yapıları olarak AspectJ'de birinci sınıf destek görmesi bağlamında geçer."
@@ -1010,9 +1120,19 @@ window.GLOSSARY = [
     "note": "Temiz kodun tek amaca yönelik olması"
   },
   {
+    "en": "Format String",
+    "tr": "Biçim Dizesi (Format String)",
+    "note": "Beklenen komut satırı argümanlarını kompakt biçimde tanımlayan dize (ör. \"l,p#,d*\"); bu sayfada 'format, or schema, string' ifadesiyle geçer ve 'Schema' ile eş anlamlı kullanılır."
+  },
+  {
     "en": "Formatting",
     "tr": "Biçimlendirme (Formatting)",
     "note": "Kodun görsel yerleşimi: girinti, boşluk, satır uzunluğu, dikey ayrım"
+  },
+  {
+    "en": "forward",
+    "tr": "yönlendirmek (forward)",
+    "note": "Bir çağrıyı doğrudan başka nesneye/metoda aktarmak; bu sayfada `setBooleanArg`'ın görevinin `BooleanArgumentMarshaler`'a yönlendirmek olduğu söylenir"
   },
   {
     "en": "Function",
@@ -1038,6 +1158,11 @@ window.GLOSSARY = [
     "en": "Garbage Collection",
     "tr": "Çöp Toplama (Garbage Collection)",
     "note": "Artık ulaşılamayan nesneleri bellekten geri alan otomatik bellek yönetimi işlemi; sayfadaki 'garbage collection overhead' ifadesinde 'çöp toplama ek yükü' olarak geçer."
+  },
+  {
+    "en": "Generic",
+    "tr": "jenerik (generic)",
+    "note": "Özel bir durum yerine genel anlamında sıfat; 'much more generic' = 'çok daha jenerik'. Sözlükteki 'Generics | Jenerik Türler (Generics)' (Java 5 dili özelliği) teriminden ayrı bir kullanımdır."
   },
   {
     "en": "Generics",
@@ -1140,6 +1265,11 @@ window.GLOSSARY = [
     "note": "Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı"
   },
   {
+    "en": "if-else chain",
+    "tr": "if-else Zinciri (if-else chain)",
+    "note": "Ardışık if/else if dallarıyla (tipik olarak instanceof ile) tür denetimi yapan kontrol yapısı; bu sayfada tamamen ortadan kaldırılmak istenen yapı, sayfa başlığı 'if-else Zincirinin Tasfiyesi'"
+  },
+  {
     "en": "Immutable",
     "tr": "Değiştirilemez (Immutable)",
     "note": "Oluşturulduktan sonra durumu değiştirilemeyen nesne/koleksiyon; ör. Collections.emptyList()"
@@ -1163,6 +1293,16 @@ window.GLOSSARY = [
     "en": "Include Directive",
     "tr": "Dahil Etme Yönergesi (Include Directive)",
     "note": "FitNesse'de sayfa dahil etme komutu"
+  },
+  {
+    "en": "incremental",
+    "tr": "kademeli (incremental)",
+    "note": "Tek tek, küçük adımlarla ilerleme; sayfa 208'de 'I added the two argument types incrementally' ifadesinde geçer."
+  },
+  {
+    "en": "Incrementalism",
+    "tr": "Kademecilik (Incrementalism)",
+    "note": "Kodun yapısının büyük patama (big-bang) yeniden yazımlar yerine küçük, testle doğrulanan kademeli adımlarla iyileştirilmesi yaklaşımı; bu sayfada 'On Incrementalism' alt kesitinin konusu. Sözlükteki 'Successive Refinement' (Ardışık İyileştirme) kavramıyla yakından ilgilidir."
   },
   {
     "en": "Indent Level",
@@ -1190,6 +1330,16 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Inline / Inlining",
+    "tr": "satır içi (inline)",
+    "note": "Refactoring tekniği: küçük bir metot çağrısının yerine gövdesinin doğrudan çağrı noktasına yapıştırılması ve metotların kaldırılması. Sayfa başlığında 'Inlining Parse Methods', parçada 'I inlined the three parse methods' ifadesinde geçer; metinde 'satır içine (inline) aldım' biçiminde kullanılmıştır."
+  },
+  {
+    "en": "Inlining / Inline",
+    "tr": "Satır İçi Alma (Inlining)",
+    "note": "Tek satırlık, tek çağrılı metotların gövdesini çağıran metot içinde doğrudan kullanma yeniden düzenleme (refactoring) tekniği; 'inline (a method)' = (bir metodu) satır içine almak. Sözlükte 'Inline'/'Inlining' girdisi yoktu; bu sayfada 'So I inlined them' ifadesinde geçer."
+  },
+  {
     "en": "Instance",
     "tr": "Örnek (Instance)",
     "note": "Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği"
@@ -1210,9 +1360,29 @@ window.GLOSSARY = [
     "note": "Kodun içine, yalnızca test sırasında etkin olacak ölçüm/kesinti noktaları (ör. wait, sleep, yield, priority çağrıları) ekleme tekniği; nadir eşzamanlılık kusurlarını zorlayarak ortaya çıkarmak için kullanılır. Sayfa 188'de 'Instrument Your Code to Try and Force Failures' başlığı altında geçer."
   },
   {
+    "en": "integer",
+    "tr": "tamsayı (integer)",
+    "note": "Tam sayı veri tipi; sayfa 208'de 'String and integer' ifadesinde argüman tipi olarak geçer. Sözlükteki 'Integer Handle' teriminden farklıdır."
+  },
+  {
+    "en": "Integer Argument",
+    "tr": "Tamsayı Argümanı (Integer Argument)",
+    "note": "Komut satırında beklenen tipi int olan argüman; sayfadaki intArgs haritası, setIntArg ve getInt metotlarının konusu. Sözlükteki 'Argument' teriminin daraltılmış biçimidir."
+  },
+  {
     "en": "Integer Handle",
     "tr": "Tamsayı Tanıtıcısı (Integer Handle)",
     "note": ""
+  },
+  {
+    "en": "Integration",
+    "tr": "Entegrasyon (Integration)",
+    "note": "Mevcut kodun bir parçasının yeni bir yapıya/metoda birleştirilmesi; bu sayfada 'integrate ... into the setArgument function' ifadesinde geçer: istisna yönetimi kodunun `setArgument` fonksiyonuna entegre edilmesi. Fiil biçimi 'entegre etmek' olarak çevrilir."
+  },
+  {
+    "en": "Intent",
+    "tr": "niyet (intent)",
+    "note": "Yazarın küçük, testle doğrulanan adımlarla koda kazandırmak istediği yapısal niyet; bu sayfada 'you should be able to see my intent' ifadesinde geçer. 'Explanation of Intent' ve 'Intention-Revealing Names' terimlerinden ayrı, genel kavram."
   },
   {
     "en": "Intention-Revealing Names",
@@ -1253,6 +1423,11 @@ window.GLOSSARY = [
     "en": "Iteration (test loop)",
     "tr": "Yineleme (Iteration)",
     "note": "Testin belirli sayıda kez tekrarlanması; bu sayfada 'run for a number of iterations' maddesinde geçer."
+  },
+  {
+    "en": "iterator",
+    "tr": "Yineleyici (Iterator)",
+    "note": "Bir koleksiyonda sırayla elemanlara erişen nesne (ör. Iterator<String>); bu sayfada currentArgument olarak üç set fonksiyonuna da geçirilir"
   },
   {
     "en": "Java Memory Model",
@@ -1430,9 +1605,24 @@ window.GLOSSARY = [
     "note": "Şirket politikası veya kurallar gereği zorla eklenen yorum"
   },
   {
+    "en": "Map",
+    "tr": "harita (map)",
+    "note": "Anahtar-değer eşlemesi (java.util.Map, HashMap); bu sayfada tip başına ayrı üç harita, tek bir `marshalers` haritasına birleştirilir. Sözlükteki 'Table Lookup' (Tablo Araması) ve 'Container' (Kap) terimleriyle bağlantılıdır."
+  },
+  {
     "en": "Marketer",
     "tr": "Pazarlamacı (Marketer)",
     "note": ""
+  },
+  {
+    "en": "Marshaler",
+    "tr": "Argüman Hazırlayıcı (Marshaler)",
+    "note": "Args uygulamasında ham token akımından bir argümanı hazırlayıp (consume) değerini kendi alanında tutan bileşen; set() metoduyla doldurulur, statik getValue() ile okunur. Sayfa 197'nin ana teması."
+  },
+  {
+    "en": "Marshalling",
+    "tr": "marshalling (serileştirme/tanzim)",
+    "note": "Argüman değerini ilgili türün beklediği biçime çevirme/uyarlama davranışı (boolean, dizgi, tamsayı); bu sayfada 'marshalling behavior' ifadesinde ve 'Moving String Marshalling & Intent' başlığında geçer."
   },
   {
     "en": "Matter-of-fact",
@@ -1498,6 +1688,11 @@ window.GLOSSARY = [
     "en": "Method Name",
     "tr": "Metot İsmi (Method Name)",
     "note": ""
+  },
+  {
+    "en": "method signature",
+    "tr": "Metot İmzası (Method Signature)",
+    "note": "Metodu tanımlayan ad + parametre listesi; kavram kartında tüm türevlerde tek tipli imza kullanmak, if-else zincirini tek polimorfik çağrıya indirir"
   },
   {
     "en": "Minimal",
@@ -1640,6 +1835,11 @@ window.GLOSSARY = [
     "note": "Bir değerin null olup olmadığını denetleyen koşul; çoğalması null döndürmenin belirtisidir"
   },
   {
+    "en": "Null Detection",
+    "tr": "null Tespiti (Null Detection)",
+    "note": "Bir değerin null olup olmadığını denetleyip ona göre davranan mantık; bu sayfada getBoolean'a eklenen 'am != null' kontrolü bağlamında geçer. Sözlükteki 'Null Check' (null Kontrolü) teriminden ayrı, daha genel bir kavramdır."
+  },
+  {
     "en": "Number-Series Naming",
     "tr": "Numara Serili İsimlendirme (Number-Series Naming)",
     "note": "a1, a2, aN şeklinde anlamsız numara ekleme"
@@ -1658,6 +1858,11 @@ window.GLOSSARY = [
     "en": "Object-Oriented Design",
     "tr": "Nesne Yönelimli Tasarım (Object-Oriented Design)",
     "note": ""
+  },
+  {
+    "en": "One Pass",
+    "tr": "Tek Geçiş (One Pass)",
+    "note": "Tek seferde, tek vuruşla; temiz ve zarif programların tek geçişte yazılamayacağı beklentisi. Sayfa 200'de 'write clean and elegant programs in one pass' ifadesinde geçer."
   },
   {
     "en": "One-Off",
@@ -1735,9 +1940,34 @@ window.GLOSSARY = [
     "note": "Java'da yalnızca aynı paketteki sınıflardan erişilebilen görünürlük seviyesi; testler uğruna kapsüllemeyi gevşetmenin private'tan sonraki en az zararlı yolu."
   },
   {
+    "en": "Painless",
+    "tr": "Acısız (painless)",
+    "note": "Sayfa 238’de 'That was pretty painless' ifadesinde geçer: zahmetsiz, sürtünmesiz. Double marshaler’ın ispatlanmış integer marshaler deseninden kopyalanarak kolayca yazılabildiği vurgulanır."
+  },
+  {
     "en": "Parent Thread / Child Thread",
     "tr": "Ana İş Parçacığı / Çocuk İş Parçacığı (Parent Thread / Child Thread)",
     "note": "Bir iş parçacığının (parent) başlattığı ve beklediği alt iş parçacıkları (children); kapanışta ana iş parçacığı çocukları bitirmeyi bekler."
+  },
+  {
+    "en": "Parse",
+    "tr": "Ayrıştırma (Parse)",
+    "note": "Dizgiyi anlamlı parçalara ya da hedef tipe çevirme işlemi; burada Integer.parseInt dizgiyi tamsayıya çevirir. Sözlükteki 'Decoupling | Ayrıştırma (Decoupling)' girdisinden bağımsız, farklı bir kavramdır."
+  },
+  {
+    "en": "Parsing",
+    "tr": "Ayrıştırma (Parsing)",
+    "note": "Bir dizgiyi (ör. şema dizgisini, girdi dizgisini) sözdizimi kurallarına göre parçalara ayırıp anlamlandırma işlemi; bu sayfada 'schema parsing' (şema ayrıştırma) ifadesinde geçer."
+  },
+  {
+    "en": "Partitioning",
+    "tr": "Parçalama (Partitioning)",
+    "note": "Farklı türlerdeki kodları koymak için uygun yerler yaratma; iyi yazılım tasarımının büyük kısmının konusu. Sözlükteki 'Modularity' (Modülerlik) ve 'Separation of Concerns' (Kaygıların Ayrılması) terimleriyle ilişkilidir."
+  },
+  {
+    "en": "pattern",
+    "tr": "desen (pattern)",
+    "note": "'the same pattern of changes' ifadesinde genel terim olarak geçer; glossary'de yalnız 'Design Pattern' (Tasarım Deseni) gibi bileşik terimler vardır."
   },
   {
     "en": "Persistence",
@@ -1890,6 +2120,11 @@ window.GLOSSARY = [
     "note": "Bean'lerin getter/setter ile sağladığı, pratikte hiçbir şeyi gizlemeyen görünüşte kapsülleme"
   },
   {
+    "en": "Query",
+    "tr": "Sorgu (Query)",
+    "note": "Bu sayfada fiil olarak geçer: 'query the Args instance for the values of the arguments' = argüman değerlerini `Args` örneğinden istemek/okumak. Sözlükteki 'Command Query Separation' (Komut Sorgu Ayrımı) terimindeki 'query' kavramıyla bağlantılıdır."
+  },
+  {
     "en": "Race Condition",
     "tr": "Yarış Durumu (Race Condition)",
     "note": "Eşzamanlı erişimden kaynaklanan hata"
@@ -2025,6 +2260,11 @@ window.GLOSSARY = [
     "note": "Çok küçük ortaklıkları (birkaç satır bile olsa) isimli metotlar olarak çıkarma; bu küçük yeniden kullanımlar birikerek büyük ölçekte yeniden kullanımı mümkün kılar ve sistem karmaşıklığını dramatik biçimde azaltır. Sayfa 174'te 'reuse in the small' ifadesi olarak geçer."
   },
   {
+    "en": "Rough Draft",
+    "tr": "Kaba Taslak (Rough Draft)",
+    "note": "İlkokul kompozisyonu metaforundaki ilk taslak; 'ardışık iyileştirme' (successive refinement) temasının parçası. Sayfa 200'de 'write rough drafts of our compositions' ifadesinde geçer."
+  },
+  {
     "en": "Routine",
     "tr": "Rutin (Routine)",
     "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
@@ -2053,6 +2293,11 @@ window.GLOSSARY = [
     "en": "Schedule",
     "tr": "Takvim / Zamanlama (Schedule)",
     "note": ""
+  },
+  {
+    "en": "Schema",
+    "tr": "Şema (Schema)",
+    "note": "Ayrıştırılacak argümanların türlerini tek bir biçim dizgisinde beyan eden tanım (ör. \"l,p#,d*\"); Chapter 14'ün sonraki sayfalarında 'format, or schema, string' olarak geçer."
   },
   {
     "en": "School of Thought",
@@ -2088,6 +2333,11 @@ window.GLOSSARY = [
     "en": "Semaphore",
     "tr": "Sinyal (Semaphore)",
     "note": "Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde."
+  },
+  {
+    "en": "Separate",
+    "tr": "Ayırmak (Separate)",
+    "note": "Bir yapıyı ana modülden bağımsız bir parça hâline getirerek dışarı çıkarma; sayfa 242'de 'completely separated the exception and error code from the Args module' ifadesinde geçer. 'Decoupling | Ayrıştırma (Decoupling)' teriminden farklıdır: burada bağımlılığı azaltmak değil, kodun fiziksel olarak başka bir modüle taşınması kastedilir."
   },
   {
     "en": "Separation of Concerns",
@@ -2320,6 +2570,16 @@ window.GLOSSARY = [
     "note": "Bir SQL select ifadesinin içine gömülü ikinci bir select sorgusu"
   },
   {
+    "en": "Successive Refinement",
+    "tr": "Ardışık İyileştirme (Successive Refinement)",
+    "note": "Chapter 14'ün başlığı ve omurgası: kodun büyük patama (big-bang) yeniden yazımı yerine küçük, testle doğrulanan ardışık adımlarla kademeli olarak iyileştirilmesi."
+  },
+  {
+    "en": "Suffix",
+    "tr": "Sonek (Suffix)",
+    "note": "Bir şema öğesinin sonuna eklenen ve türünü belirleyen karakter (boş, *, #); sözlükteki 'Prefix' (önek) teriminin aynası. 'Schema Suffix Convention' kavram kartında kullanıldı."
+  },
+  {
     "en": "Suite",
     "tr": "Suite",
     "note": "Çevrilmez; FitNesse'de bir grup test sayfasını ifade eden yapı"
@@ -2375,9 +2635,19 @@ window.GLOSSARY = [
     "note": "Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu"
   },
   {
+    "en": "temporary regression",
+    "tr": "Geçici Gerileme (Temporary Regression)",
+    "note": "Kaldırılmak üzere kısa süreliğine eklenen kod (ör. boş catch); kavram kartında testler yeşil kaldığı sürece güvenli geçiş adımı olarak ele alınır"
+  },
+  {
     "en": "Test",
     "tr": "Test",
     "note": "Çevrilmez"
+  },
+  {
+    "en": "Test Case",
+    "tr": "Test Durumu (Test Case)",
+    "note": "Bir test sınıfı içindeki tek bir senaryo: belirli bir girdinin beklenen davranışını denetler; 'Test' ve 'Unit Test' (Birim Testi) terimlerinden daha dar bir kavramdır."
   },
   {
     "en": "Test Coverage",
@@ -2470,6 +2740,11 @@ window.GLOSSARY = [
     "note": "Gelecek için bırakılan notlar ve hatırlatıcılar"
   },
   {
+    "en": "Touche",
+    "tr": "Touche!",
+    "note": "Fransızca 'vuruldum / yendin' ifadesi; eskrim (çarpışma) oyunundan gelen, rakibin vuruşunu kabul eden teslimiyet sözü. Sayfa 236'da tip-zincirinin (type-case) kaldırılmasıyla birlikte kullanılır."
+  },
+  {
     "en": "Train Wreck",
     "tr": "Tren Kazası (Train Wreck)",
     "note": "Birbirine noktayla bağlanmış çağrı zinciri; Demeter Yasası ihlalinin tipik görüntüsü"
@@ -2500,6 +2775,11 @@ window.GLOSSARY = [
     "note": "Uygun iş parçacığı dengesinin sistematik ölçümle değil deneysel tekrarlarla bulunması; bu sayfada 'trial an error' (yazım hatası) ifadesinde geçer."
   },
   {
+    "en": "trivial",
+    "tr": "önemsiz (trivial)",
+    "note": "Çok basit, az uğraş gerektiren; bu sayfada `setBooleanArg` fonksiyonu için kullanılır ve taşınmaya ilk o hazırlanır"
+  },
+  {
     "en": "Tunable",
     "tr": "Ayarlanabilir (Tunable)",
     "note": "İş parçacığı sayısı gibi parametrelerin çalışma sırasında kolayca ayarlanabilir olması; bu sayfada 'Make Your Threaded Code Tunable' başlığında geçer."
@@ -2508,6 +2788,11 @@ window.GLOSSARY = [
     "en": "Type System",
     "tr": "Tür Sistemi (Type System)",
     "note": ""
+  },
+  {
+    "en": "Type-Case",
+    "tr": "Tip-Zinciri (Type-Case)",
+    "note": "Bir değerin türüne göre if/else veya switch ile dallanan kod bloğu; davranış polimorfizme (çok biçimliliğe) devredilerek kaldırılmalıdır. Sayfa 231'de setArgument içindeki 'horrible type-case' ifadesinde geçer."
   },
   {
     "en": "Unchecked Exception",
@@ -2610,9 +2895,24 @@ window.GLOSSARY = [
     "note": "Processor, Manager, Super gibi anlamı belirsiz bırakan, bir sınıfın gerçekte ne yaptığını gizleyen ve çoğu zaman fazla sorumluluk yığılmasına işaret eden isim bileşenleri."
   },
   {
+    "en": "Whim",
+    "tr": "Keyfî (Whim)",
+    "note": "'on a whim' = keyfî olarak, içinden geldiği anda; test paketinin anında ve istekle çalıştırılabilir olması TDD'nin güveninin temelidir. Sayfa 213'te 'run on a whim' ifadesinde geçer."
+  },
+  {
+    "en": "Whole Picture",
+    "tr": "tüm resim (whole picture)",
+    "note": "Uzun bir yeniden düzenleme sırasında ya da ardından ayrıntılardan uzaklaşıp sınıfın/sistemin bütününe yeniden bakıp değerlendirmek; bu sayfada 'let’s look at the whole picture again' ifadesinde geçer. Sözlükteki 'Big Picture' (Büyük Resim) girdisinden ayrıdır: Big Picture genel sistem bakış açısıdır, Whole Picture ise mevcut bütüncül biçime atılan kontrol noktası niteliğindeki bakıştır."
+  },
+  {
     "en": "Wiring",
     "tr": "Bağlama (Wiring)",
     "note": "Nesnelerin bağımlılıklarının kurularak uygulamanın bir araya getirilmesi işlemi"
+  },
+  {
+    "en": "Work in Progress",
+    "tr": "Tamamlanmamış Çalışma (Work in Progress)",
+    "note": "Belirgin biçimde bitirilmemiş, üzerinde çalışma süren kod durumu; bu sayfada 'It's clearly a work in progress' ifadesinde geçer. Sözlükteki 'Rough Draft' (Kaba Taslak) terimiyle bağlantılıdır."
   },
   {
     "en": "Wrapper",

@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 192,
+  "lastTranslatedPage": 250,
   "chapters": [
     {
       "num": 1,
@@ -2210,6 +2210,644 @@ window.TOC = {
         "tr": "Sonuç"
       },
       "chapter": 13
+    },
+    "193": {
+      "title": {
+        "en": "Successive Refinement — Chapter Opening",
+        "tr": "Ardışık İyileştirme — Bölüm Açılışı"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 14
+    },
+    "194": {
+      "title": {
+        "en": "Simple Use of Args & Args Implementation",
+        "tr": "Args'ın Basit Kullanımı ve Args Gerçekleştirimi"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "195": {
+      "title": {
+        "en": "Args.java — Listing 14-2 (continued)",
+        "tr": "Args.java — Listing 14-2 (devamı)"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "196": {
+      "title": {
+        "en": "Args.java — Listing 14-2 (continued)",
+        "tr": "Args.java — Listing 14-2 (devamı)"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "197": {
+      "title": {
+        "en": "ArgumentMarshaler Interface & Derivatives",
+        "tr": "ArgumentMarshaler Arayüzü ve Türevleri"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "198": {
+      "title": {
+        "en": "IntegerArgumentMarshaler & ArgsException",
+        "tr": "IntegerArgumentMarshaler ve ArgsException"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "199": {
+      "title": {
+        "en": "ArgsException — Listing 14-7 (continued)",
+        "tr": "ArgsException — Listing 14-7 (devamı)"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "200": {
+      "title": {
+        "en": "How Did I Do This?",
+        "tr": "Bunu Nasıl Başardım?"
+      },
+      "section": {
+        "en": "Args Implementation",
+        "tr": "Args Gerçekleştirimi"
+      },
+      "chapter": 14
+    },
+    "201": {
+      "title": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "202": {
+      "title": {
+        "en": "First Draft of Args — Listing 14-8 (continued)",
+        "tr": "Args'ın İlk Taslağı — Listing 14-8 (devamı)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "203": {
+      "title": {
+        "en": "First Draft of Args — Listing 14-8 (continued)",
+        "tr": "Args’ın İlk Taslağı — Listing 14-8 (devamı)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "204": {
+      "title": {
+        "en": "First Draft of Args — Listing 14-8 (continued)",
+        "tr": "Args'ın İlk Taslağı — Listing 14-8 (devamı)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "205": {
+      "title": {
+        "en": "First Draft of Args — Listing 14-8 (end)",
+        "tr": "Args'ın İlk Taslağı — Listing 14-8 (son)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "206": {
+      "title": {
+        "en": "Assessing the Mess & Boolean-Only Args",
+        "tr": "Dağınlıklığın Değerlendirmesi ve Yalnız Boolean Args"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "207": {
+      "title": {
+        "en": "Boolean-Only Args — Listing 14-9 (continued)",
+        "tr": "Yalnız Boolean Args — Listing 14-9 (devamı)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "208": {
+      "title": {
+        "en": "Assessing the Boolean Draft & Adding String",
+        "tr": "Boolean Taslağının Değerlendirmesi ve String Ekleme"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "209": {
+      "title": {
+        "en": "Boolean and String Args — Listing 14-10 (continued)",
+        "tr": "Boolean ve String Args — Listing 14-10 (devamı)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "210": {
+      "title": {
+        "en": "Boolean and String Args — Listing 14-10 (continued)",
+        "tr": "Boolean ve String Args — Listing 14-10 (devamı)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "211": {
+      "title": {
+        "en": "Boolean and String Args — Listing 14-10 (end)",
+        "tr": "Boolean ve String Args — Listing 14-10 (son)"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "212": {
+      "title": {
+        "en": "So I Stopped & On Incrementalism",
+        "tr": "Durdum ve Kademeli (Incremental) Yaklaşım Üzerine"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "213": {
+      "title": {
+        "en": "On Incrementalism & TDD Discipline",
+        "tr": "Kademecilik ve TDD Disiplini"
+      },
+      "section": {
+        "en": "Args: The Rough Draft",
+        "tr": "Args: Kaba Taslak"
+      },
+      "chapter": 14
+    },
+    "214": {
+      "title": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "215": {
+      "title": {
+        "en": "Moving String Marshalling & Intent",
+        "tr": "Dizgi Marshalling'i Taşıma ve Niyet"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "216": {
+      "title": {
+        "en": "Integer Argument Marshalling",
+        "tr": "Tamsayı Argümanı Marshalling'i"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "217": {
+      "title": {
+        "en": "Deploying set into Marshalers",
+        "tr": "set Fonksiyonunu Marshaler'lara Yerleştirme"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "218": {
+      "title": {
+        "en": "Deploying get into Boolean and String Marshalers",
+        "tr": "get Fonksiyonunu Boolean ve String Marshaler'larına Yerleştirme"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "219": {
+      "title": {
+        "en": "Marshaler Get/Set Deployment (continued)",
+        "tr": "Marshaler'ların get/set Yerleşimi (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "220": {
+      "title": {
+        "en": "Repeating the Process for Integers",
+        "tr": "Süreci Tamsayılar İçin Tekrarlama"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "221": {
+      "title": {
+        "en": "Merging the Three Maps",
+        "tr": "Üç Haritanın Birleştirilmesi"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "222": {
+      "title": {
+        "en": "Eliminating Duplicate marshalers.get Calls",
+        "tr": "Yinelenen marshalers.get Çağrılarını Giderme"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "223": {
+      "title": {
+        "en": "Same Change for Strings and Integers",
+        "tr": "Strings ve Integers İçin Aynı Değişiklik"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "224": {
+      "title": {
+        "en": "Removing the Old Maps",
+        "tr": "Eski Haritaların Kaldırılması"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "225": {
+      "title": {
+        "en": "Inlining Parse Methods & First Refactoring",
+        "tr": "Parse Metotlarını Satır İçi Alma ve İlk Yeniden Düzenleme"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "226": {
+      "title": {
+        "en": "Args.java After First Refactoring — Listing 14-12",
+        "tr": "İlk Yeniden Düzenlemeden Sonra Args.java — Listing 14-12"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "227": {
+      "title": {
+        "en": "Args.java After First Refactoring — Listing 14-12 (continued)",
+        "tr": "İlk Yeniden Düzenlemeden Sonra Args.java — Listing 14-12 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "228": {
+      "title": {
+        "en": "Args.java After First Refactoring — Listing 14-12 (continued)",
+        "tr": "İlk Yeniden Düzenlemeden Sonra Args.java — Listing 14-12 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "229": {
+      "title": {
+        "en": "Args.java After First Refactoring — Listing 14-12 (continued)",
+        "tr": "İlk Yeniden Düzenlemeden Sonra Args.java — Listing 14-12 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "230": {
+      "title": {
+        "en": "Args.java After First Refactoring — Listing 14-12 (continued)",
+        "tr": "İlk Yeniden Düzenlemeden Sonra Args.java — Listing 14-12 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "231": {
+      "title": {
+        "en": "Assessing the First Refactoring & The Type-Case",
+        "tr": "İlk Yeniden Düzenlemenin Değerlendirmesi ve Tip-Zinciri"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "232": {
+      "title": {
+        "en": "Moving set Functions Down",
+        "tr": "set Fonksiyonlarını Aşağı Taşıma"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "233": {
+      "title": {
+        "en": "Eliminating the if-else Chain",
+        "tr": "if-else Zincirinin Tasfiyesi"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "234": {
+      "title": {
+        "en": "Adding set to ArgumentMarshaler",
+        "tr": "ArgumentMarshaler'a set Metodu Ekleniyor"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "235": {
+      "title": {
+        "en": "Eliminating setBooleanArg",
+        "tr": "setBooleanArg'ın Tasfiyesi"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "236": {
+      "title": {
+        "en": "Coup de Grace: Removing the Type-Case",
+        "tr": "Coup de Grace: Tip-Zincirinin Kaldırılması"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "237": {
+      "title": {
+        "en": "Cleaning Up Integer Marshaler & Interface",
+        "tr": "Integer Marshaler Temizliği ve Interface'e Dönüş"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "238": {
+      "title": {
+        "en": "Writing DoubleArgumentMarshaler",
+        "tr": "DoubleArgumentMarshaler’ın Yazımı"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "239": {
+      "title": {
+        "en": "Double Error Tests & Splitting ArgsException",
+        "tr": "Double Hata Testleri ve ArgsException'ın Ayrıştırılması"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "240": {
+      "title": {
+        "en": "Refactored Args.java (continued)",
+        "tr": "Yeniden Düzenlenmiş Args.java (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "241": {
+      "title": {
+        "en": "Refactored Args.java (continued)",
+        "tr": "Yeniden Düzenlenmiş Args.java (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "242": {
+      "title": {
+        "en": "Separating ArgsException & ArgsTest",
+        "tr": "ArgsException'ın Ayrılması ve ArgsTest"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "243": {
+      "title": {
+        "en": "ArgsTest — Listing 14-13 (continued)",
+        "tr": "ArgsTest — Listing 14-13 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "244": {
+      "title": {
+        "en": "ArgsTest (end) & ArgsExceptionTest (beginning)",
+        "tr": "ArgsTest (son) ve ArgsExceptionTest (başı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "245": {
+      "title": {
+        "en": "ArgsExceptionTest (cont.) & ArgsException (new home)",
+        "tr": "ArgsExceptionTest (devamı) ve ArgsException (yeni evi)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "246": {
+      "title": {
+        "en": "ArgsException — Listing 14-15 (continued)",
+        "tr": "ArgsException — Listing 14-15 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "247": {
+      "title": {
+        "en": "ArgsException (end) & Final Args.java (beginning)",
+        "tr": "ArgsException (son) ve Son Args.java (başlangıç)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "248": {
+      "title": {
+        "en": "Final Args.java — Listing 14-16 (continued)",
+        "tr": "Son Args.java — Listing 14-16 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "249": {
+      "title": {
+        "en": "Final Args.java — Listing 14-16 (continued)",
+        "tr": "Son Args.java — Listing 14-16 (devamı)"
+      },
+      "section": {
+        "en": "String Arguments",
+        "tr": "Dizgi Argümanları"
+      },
+      "chapter": 14
+    },
+    "250": {
+      "title": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 14
     }
   }
 };
