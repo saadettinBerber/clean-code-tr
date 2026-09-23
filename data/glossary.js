@@ -100,6 +100,11 @@ window.GLOSSARY = [
     "note": "Java 5 ile gelen, sınıf, metot ve alanlara üstveri (metadata) ekleyen @ işaretli bildirimler; JPA gibi framework'ler bağlama (wiring) ve kalıcılık bilgisini bu ek açıklamalarla taşır. Kitapta 'Java 5 annotations' olarak geçer."
   },
   {
+    "en": "Annual Date Rule",
+    "tr": "Yıllık Tarih Kuralı (Annual Date Rule)",
+    "note": "JCommon'da her yıl için bir tarih döndüren yıllık tarih kuralını temsil eden temel sınıf/dayranış; RelativeDayOfWeekRule bunu genişletir. Sınıf adı olduğu için kodda İngilizce kalır."
+  },
+  {
     "en": "Anonymous Inner Class",
     "tr": "Anonim İç Sınıf (Anonymous Inner Class)",
     "note": "Adı olmayan, tek kullanımlık iç sınıf; arayüzü ya da üst sınıfı doğrudan gerçekleştiren bir nesne bildirir. Sayfa 340'ta Listing A-2'nin 12–16. satırlarında, `ClassWithThreadingProblem`'ın tek örneğini kullanan `Runnable` için geçer. İçinden başvurulan yerel değişkenler final (ya da fiilen final) olmalıdır."
@@ -625,6 +630,11 @@ window.GLOSSARY = [
     "note": "Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir"
   },
   {
+    "en": "Comparable Interface",
+    "tr": "Karşılaştırılabilir Arayüzü (Comparable Interface)",
+    "note": "java.lang.Comparable; bir nesnenin doğal sıralamasını (natural ordering) tanımlayan ve int compareTo(Object) metodu gerektiren arayüz. Listing B-5'te compareTo, compare metoduyla tek noktada toplanan sıralama mantığına delege eder."
+  },
+  {
     "en": "Compare and Swap (CAS)",
     "tr": "Karşılaştır ve Değiştir (Compare and Swap — CAS)",
     "note": "Modern işlemcilerin sunduğu donanım işlemi: bir değeri beklenen eski değerle karşılaştır, eşleşiyorsa değiştir; eşleşmiyorsa yeniden dene. İyimser (optimistic) kilitlemenin donanım karşılığıdır."
@@ -925,9 +935,24 @@ window.GLOSSARY = [
     "note": "java.text.DateFormatSymbols sınıfının temsil ettiği, ay ve gün adları gibi yerelleştirilmiş (localized) tarih biçimleme (formatting) öğeleri; SerialDate'in DATE_FORMAT_SYMBOLS sabitinde kullanılır."
   },
   {
+    "en": "DateUtil",
+    "tr": "DateUtil",
+    "note": "lastDayOfMonth ve isLeapYear gibi takvime özgü sabit/statik yardımcı metotları toplayan yardımcı sınıf (utility class); sözlükteki 'Static Method' girdisinde anılır. Sınıf adı olduğu için çevrilmez (kodda İngilizce kalır)."
+  },
+  {
     "en": "Day-of-the-week relative constant",
     "tr": "Hafta Günü Göreli Sabiti (Day-of-the-week Relative Constant)",
     "note": "PRECEDING / NEAREST / FOLLOWING sabitleri, bir hafta gününü sabit bir tarihe göreli olarak (önceki, en yakın, sonraki) belirtir; işaretli ofsetlerin (1, 0, -1) anlamını gizlemesi yerine çağrıyı düz metin gibi okutur (Listing B-1)."
+  },
+  {
+    "en": "DayDate",
+    "tr": "DayDate",
+    "note": "Sıral günü (ordinal day) temsil eden soyut alan sınıfı; Listing B-7'nin konusu. Sınıf adı olduğu için çevrilmez (kodda İngilizce kalır)."
+  },
+  {
+    "en": "DayDateFactory",
+    "tr": "DayDateFactory",
+    "note": "DayDate örneklerini oluşturan fabrika sınıfı; makeDate metoduyla girilen her tarih çözümlenir. Sınıf adı olduğu için çevrilmez (kodda İngilizce kalır)."
   },
   {
     "en": "DBMS",
@@ -985,6 +1010,11 @@ window.GLOSSARY = [
     "note": "Bileşenler arasındaki bağımlılığı (coupling) azaltma; bu şekilde ayrıştırılmış sistemler daha kolay test edilir, daha esnektir ve yeniden kullanımı teşvik eder"
   },
   {
+    "en": "Deep Copy",
+    "tr": "derin kopya (deep copy)",
+    "note": "Bir nesnenin, içindeki tüm değiştirilebilir referanslar dahil bağımsız bir kopyasını oluşturma; RelativeDayOfWeekRule.clone()'da subrule alanının da (AnnualDateRule) duplicate.getSubrule().clone() ile kopyalanması buna örnektir. Sığ kopya (shallow copy) bu referansları paylaşır."
+  },
+  {
     "en": "defactored",
     "tr": "defactored (yeniden düzenleme yapılmamış)",
     "note": "Listing 15-3'ün başlığında geçer: modülün kasıtlı olarak yeniden düzenlenmemiş (refactoring uygulanmamış), yani daha kötü bırakılmış hâli; 'refactored' sözcüğünün zıt yönlü bir kelime oyunudur."
@@ -998,6 +1028,11 @@ window.GLOSSARY = [
     "en": "Degenerate Constructor",
     "tr": "Yoz Kurucu (Degenerate Constructor)",
     "note": "Hiçbir iş yapmayan, derleyicinin kendiliğinden üreteceği boş kurucu; sayfa 276'da 'degenerate default constructor' ifadesinde geçer [G12]."
+  },
+  {
+    "en": "Delegating Constructor",
+    "tr": "Temsilci Kurucu (Delegating Constructor)",
+    "note": "Bir kurucunun, ortak ilklendirme/doğrulamayı tekrarlamamak için aynı sınıfın başka bir kurucusunu this(...) ile çağırması; SpreadsheetDate'te (day, int month, year) kurucusunun (day, Month, year) kurucusuna devretmesi örneği. 'Constructor | Kurucu (Constructor)' ve 'Method Chaining | Metot Zincirleme' girdileriyle ilişkilidir."
   },
   {
     "en": "Delegation",
@@ -1420,6 +1455,11 @@ window.GLOSSARY = [
     "note": "Nesne oluşturma mantığını kapsülleyen metot"
   },
   {
+    "en": "Fail Fast",
+    "tr": "Hızla Başarısız Ol (Fail Fast)",
+    "note": "Geçersiz girdiyi görür görmez metodun başında istisna fırlatarak çalışmayı durdurma yaklaşımı; getDate, yılı MINIMUM_YEAR_SUPPORTED / MAXIMUM_YEAR_SUPPORTED aralığına karşı kontrol edip geçersizse IllegalArgumentException fırlatarak hızla başarısız olur."
+  },
+  {
     "en": "Failover",
     "tr": "Hata Devri (Failover)",
     "note": "Bir bileşenin ya da sunucunun devre dışı kalması durumunda iş yükünün otomatik olarak yedek/başka bir bileşene aktarılması; çapraz kesim kaygısı (cross-cutting concern) örneği."
@@ -1635,6 +1675,16 @@ window.GLOSSARY = [
     "note": "Sıfırdan başlanan proje"
   },
   {
+    "en": "GregorianCalendar",
+    "tr": "GregorianCalendar (Gregoryen takvim)",
+    "note": "java.util.GregorianCalendar; java.util.Date'i yıl, ay ve gün bileşenlerine ayırmak için kullanılır (calendar.get(Calendar.DATE), MONTH + 1, YEAR). Aylar sıfırdan başladığı için +1 düzeltmesi gerekir. Sınıf adı olduğu için kodda İngilizce kalır."
+  },
+  {
+    "en": "Guard Clause",
+    "tr": "Koruma Yantümcesi (Guard Clause)",
+    "note": "Fonksiyona girerken özel/istisnai durumu (ör. null, geçersiz girdi) erken tespit edip hemen dönen kontrol yapısı; ana mantığı ekstra bir girinti düzeyine gömülmekten kurtarır. RelativeDayOfWeekRule.getDate() bağlamında kullanıldı."
+  },
+  {
     "en": "Half-Duplex",
     "tr": "Yarı Çift Yönlü (Half-Duplex)",
     "note": "Bir iletişim hattının aynı anda yalnızca tek yönde veri taşıyabilmesi; '600bps half-duplex modems' ifadesinde geçer."
@@ -1653,6 +1703,11 @@ window.GLOSSARY = [
     "en": "Hard-coded Dependency",
     "tr": "Sabit Kodlanmış Bağımlılık (Hard-coded Dependency)",
     "note": "Bir sınıfın içinde doğrudan new ile oluşturulan ya da sabit yapılandırmayla gömülen bağımlılık; değiştirilmesi ve test edilmesi zordur, küçük Tek Sorumluluk İlkesi ihlaline yol açar"
+  },
+  {
+    "en": "Hash Code",
+    "tr": "Karma Kod (Hash Code)",
+    "note": "Bir nesneden üretilen, karma tabanlı koleksiyonların (HashSet, HashMap) nesneyi kovalara yerleştirmek için kullandığı tamsayı; Java'da hashCode() metodu, equals() ile tutarlı olacak şekilde ezilir (override). Listing B-5'te toSerial() değerini döndürür."
   },
   {
     "en": "Headline",
@@ -1688,6 +1743,11 @@ window.GLOSSARY = [
     "en": "Hollerith Limit",
     "tr": "Hollerith Sınırı (Hollerith Limit)",
     "note": "Delikli kartlardan kalma 80 karakterlik satır sınırı; bugün biraz keyfi kabul edilir"
+  },
+  {
+    "en": "Hook Method",
+    "tr": "Kanca Metodu (Hook Method)",
+    "note": "Temel sınıfın algoritmasında alt sınıfa göre değişebilen tek noktayı izole eden, türevlerin ezebileceği (override) korumalı metot; getDayOfWeekForOrdinalZero, hafta günü hesaplamasının başlangıç günü (sıfır çapası) varsayımını tek noktada açığa çıkarır."
   },
   {
     "en": "Horizontal Alignment",
@@ -2345,6 +2405,11 @@ window.GLOSSARY = [
     "note": "Test sırasında gerçek bağımlılığın davranışını taklit eden ve çağrı beklentilerini doğrulayan sahte nesne; sözlükteki Mock (Taklit) ile uyumludur"
   },
   {
+    "en": "Modular Arithmetic",
+    "tr": "Modüler Aritmetik (Modular Arithmetic)",
+    "note": "Bir modüle (ör. 7) göre sarmalayarak hesaplama yapan aritmetik; getNearestDayOfWeek'in haftanın en yakın gününü bulmak için gün ofsetlerini % 7 ile sarması buna örnektir."
+  },
+  {
     "en": "Modularity",
     "tr": "Modülerlik (Modularity)",
     "note": "Sistemin bağımsız, yeniden kullanılabilir parçalara (modüllere) bölünmesi"
@@ -2628,6 +2693,11 @@ window.GLOSSARY = [
     "en": "Organic Growth",
     "tr": "Organik Büyüme (Organic Growth)",
     "note": "Sistemin büyük bir ön tasarım yerine küçük adımlarla, gerçek ihtiyaçlara göre doğal biçimde büyümesi; uygun kaygı ayrımı (separation of concerns) gerektirir."
+  },
+  {
+    "en": "origin",
+    "tr": "başlangıç noktası (origin)",
+    "note": "Sıral gün (ordinal day) sayımının sabit başlangıcı; Javadoc'taki 'some fixed origin' ifadesinde ve plusMonths/plusYears hesaplamalarında geçer; sözlükteki 'Origin (of the ordinal day)' girdisiyle tutarlıdır."
   },
   {
     "en": "Origin (of the ordinal day)",
@@ -3265,6 +3335,11 @@ window.GLOSSARY = [
     "note": "Nesneleri serileştirme (serialization) işlemini yürüten bileşen/mekanizma; sayfa 272'de serialVersionUID değişkeninin 'the serializer'ı denetlemek için kullanıldığı söylenir."
   },
   {
+    "en": "serialVersionUID",
+    "tr": "serialVersionUID",
+    "note": "Java'da Serializable sınıfların serileştirilmiş (serialized) biçimini sabitleyen private static final long değişkeni; açıkça bildirilmezse JVM kimliği sınıf üyelerinden hesaplar ve biçim değiştiğinde seri durumdan çözme (deserialization) sessizce bozulur. Sayfa 383'te SpreadsheetDate'te 'serileştirme için' (for serialization) olarak geçer. Teknik tanımlayıcı adı (identifier) olduğu için çevrilmez. Sözlükteki 'Serialization | Serileştirme (Serialization)' terimiyle ilişkilidir."
+  },
+  {
     "en": "Server",
     "tr": "Sunucu (Server)",
     "note": "İstemci/sunucu (client/server) kilit modellerinde kilitlenen ve paylaşılan nesneyi barındıran taraf; sayfa 185'te 'lock the server', 'Within the server' ve 'the original server cannot be changed' ifadelerinde geçer."
@@ -3293,6 +3368,11 @@ window.GLOSSARY = [
     "en": "Setup",
     "tr": "Kurulum (Setup)",
     "note": "FitNesse test sayfalarında testten önce çalıştırılan hazırlık sayfası/adımı"
+  },
+  {
+    "en": "Shallow Copy",
+    "tr": "sığ kopya (shallow copy)",
+    "note": "Nesnenin kendisini kopyalayan ama içindeki değiştirilebilir referansları orijinaliyle paylaşan kopyalama; clone()'da yalnızca super.clone() yapılıp subrule kopyalanmazsa ortaya çıkan hatadır. 'Deep Copy | derin kopya (deep copy)' teriminin karşıtıdır."
   },
   {
     "en": "Shared State",
@@ -3425,6 +3505,11 @@ window.GLOSSARY = [
     "note": "Software Problem Report (Yazılım Sorun Raporu) numarası; kurumsal ortamlarda hata kayıtlarını izlemek için kullanılır, C1 kuralına göre yorumlara yazılmaz."
   },
   {
+    "en": "SpreadsheetDateFactory",
+    "tr": "SpreadsheetDateFactory",
+    "note": "SpreadsheetDate örneklerini oluşturan fabrika sınıfı; DayDateFactory'nin korumalı _makeDate, _getMinimumYear ve _getMaximumYear ilkel metotlarını gerçekleştirir (Listing B-15). Sınıf adı olduğu için çevrilmez (kodda İngilizce kalır)."
+  },
+  {
     "en": "Spring Framework",
     "tr": "Spring Framework",
     "note": "Java için en bilinen DI kabını (container) sağlayan açık kaynaklı çerçeve; XML yapılandırma dosyasıyla bağlama (wiring) yapmayı destekler; Spring.NET adlı bir .NET sürümü de vardır"
@@ -3543,6 +3628,11 @@ window.GLOSSARY = [
     "en": "Stub",
     "tr": "Geçici Gövde (Stub)",
     "note": "Gerçek gerçekleştirim yazılana kadar yer tutan, sahte değer döndüren asgari kod"
+  },
+  {
+    "en": "Sub-rule",
+    "tr": "alt kural (sub-rule)",
+    "note": "Bir yıllık tarih kuralının dayandığı, referans tarihini belirleyen temel kural; RelativeDayOfWeekRule, alt kuralı bir hafta günü ve göreli seçim parametresiyle (PRECEDING / NEAREST / FOLLOWING) birleştirir."
   },
   {
     "en": "Subclass",
@@ -4035,6 +4125,11 @@ window.GLOSSARY = [
     "note": "Haftanın günlerini temsil eden tamsayı kodu; SerialDate'in getDayOfWeek() ve isValidWeekdayCode gibi metotlarında geçer (bu sayfada getDayOfWeek() soyut metodu ve javadoc'u). 'Day-of-the-week relative constant' (Hafta Günü Göreli Sabiti) teriminden ayrıdır."
   },
   {
+    "en": "WeekdayRange",
+    "tr": "WeekdayRange (hafta günü göreli aralığı)",
+    "note": "Yeniden düzenlenmiş SerialDate kodunda, bir hafta gününün sabit bir tarihe göreli konumunu seçen üç değerli enum: LAST (önceki), NEAREST (en yakın), NEXT (sonraki); Listing B-12'nin konusu. Orijinal API'deki PRECEDING / NEAREST / FOLLOWING int sabitlerinin tür güvenli karşılığıdır; sözlükteki 'Hafta Günü Göreli Sabiti (Day-of-the-week Relative Constant)' terimiyle ilişkilidir. Sınıf adı olduğu için kodda İngilizce kalır."
+  },
+  {
     "en": "Whim",
     "tr": "Keyfî (Whim)",
     "note": "'on a whim' = keyfî olarak, içinden geldiği anda; test paketinin anında ve istekle çalıştırılabilir olması TDD'nin güveninin temelidir. Sayfa 213'te 'run on a whim' ifadesinde geçer."
@@ -4073,5 +4168,10 @@ window.GLOSSARY = [
     "en": "zero based",
     "tr": "sıfır tabanlı (zero based)",
     "note": "Dizi ya da uzunluk değerlerinin 0'dan başlaması; karşıtı '1 based' (birden başlayan). Sayfa 261'de 'the suffixIndex variable is not zero based; it is 1 based' ifadesinde geçer; bir eksik/fazla (off-by-one) hatalarının kaynağıdır."
+  },
+  {
+    "en": "zero-padded",
+    "tr": "sıfırla dolgulu (zero-padded)",
+    "note": "Bir değerin belirli bir genişliğe, başına sıfır eklenerek doldurulması; toString()'deki String.format(\"%02d-...\") biçim dizesi günü iki haneye sıfırla dolgular."
   }
 ];

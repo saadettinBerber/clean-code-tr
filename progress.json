@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 381,
+  "last_translated_page": 408,
   "chapters": [
     {
       "num": 1,
@@ -3146,6 +3146,222 @@
       "title_en": "Listing B-4 (continued) BobsSerialDateTest.java",
       "title_tr": "Listing B-4 (devamı) BobsSerialDateTest.java",
       "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "382": {
+      "pdf_page": 382,
+      "chapter": 18,
+      "title_en": "Listing B-5 SpreadsheetDate.java",
+      "title_tr": "Listing B-5 SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "383": {
+      "pdf_page": 383,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "384": {
+      "pdf_page": 384,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "385": {
+      "pdf_page": 385,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "386": {
+      "pdf_page": 386,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "387": {
+      "pdf_page": 387,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "388": {
+      "pdf_page": 388,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "389": {
+      "pdf_page": 389,
+      "chapter": 18,
+      "title_en": "Listing B-5 (continued) SpreadsheetDate.java",
+      "title_tr": "Listing B-5 (devamı) SpreadsheetDate.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "390": {
+      "pdf_page": 390,
+      "chapter": 18,
+      "title_en": "Listing B-6 RelativeDayOfWeekRule.java",
+      "title_tr": "Listing B-6 RelativeDayOfWeekRule.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "391": {
+      "pdf_page": 391,
+      "chapter": 18,
+      "title_en": "Listing B-6 (continued) RelativeDayOfWeekRule.java",
+      "title_tr": "Listing B-6 (continued) RelativeDayOfWeekRule.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "392": {
+      "pdf_page": 392,
+      "chapter": 18,
+      "title_en": "Listing B-6 (continued) RelativeDayOfWeekRule.java",
+      "title_tr": "Listing B-6 (devamı) RelativeDayOfWeekRule.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "393": {
+      "pdf_page": 393,
+      "chapter": 18,
+      "title_en": "Listing B-6 (continued) RelativeDayOfWeekRule.java",
+      "title_tr": "Listing B-6 (devamı) RelativeDayOfWeekRule.java",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "394": {
+      "pdf_page": 394,
+      "chapter": 18,
+      "title_en": "Listing B-7 DayDate.java (Final)",
+      "title_tr": "Listing B-7 DayDate.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "395": {
+      "pdf_page": 395,
+      "chapter": 18,
+      "title_en": "Listing B-7 (continued) DayDate.java (Final)",
+      "title_tr": "Listing B-7 (devamı) DayDate.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "396": {
+      "pdf_page": 396,
+      "chapter": 18,
+      "title_en": "Listing B-7 (continued) DayDate.java (Final)",
+      "title_tr": "Listing B-7 (devamı) DayDate.java (Final)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "397": {
+      "pdf_page": 397,
+      "chapter": 18,
+      "title_en": "Listing B-8 Month.java (Final)",
+      "title_tr": "Listing B-8 Month.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "398": {
+      "pdf_page": 398,
+      "chapter": 18,
+      "title_en": "Listing B-9 Day.java (Final)",
+      "title_tr": "Listing B-9 Day.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "399": {
+      "pdf_page": 399,
+      "chapter": 18,
+      "title_en": "Listing B-10 DateInterval.java (Final)",
+      "title_tr": "Listing B-10 DateInterval.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "400": {
+      "pdf_page": 400,
+      "chapter": 18,
+      "title_en": "Listing B-11 WeekInMonth.java (Final)",
+      "title_tr": "Listing B-11 WeekInMonth.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "401": {
+      "pdf_page": 401,
+      "chapter": 18,
+      "title_en": "Listing B-12 WeekdayRange.java (Final)",
+      "title_tr": "Listing B-12 WeekdayRange.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "402": {
+      "pdf_page": 402,
+      "chapter": 18,
+      "title_en": "Listing B-13 DateUtil.java (Final)",
+      "title_tr": "Listing B-13 DateUtil.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "403": {
+      "pdf_page": 403,
+      "chapter": 18,
+      "title_en": "Listing B-14 DayDateFactory.java (Final)",
+      "title_tr": "Listing B-14 DayDateFactory.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "404": {
+      "pdf_page": 404,
+      "chapter": 18,
+      "title_en": "Listing B-15 SpreadsheetDateFactory.java (Final)",
+      "title_tr": "Listing B-15 SpreadsheetDateFactory.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "405": {
+      "pdf_page": 405,
+      "chapter": 18,
+      "title_en": "Listing B-16 SpreadsheetDate.java (Final)",
+      "title_tr": "Listing B-16 SpreadsheetDate.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "406": {
+      "pdf_page": 406,
+      "chapter": 18,
+      "title_en": "Listing B-16 (continued) SpreadsheetDate.java (Final)",
+      "title_tr": "Listing B-16 (devamı) SpreadsheetDate.java (son sürüm)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "407": {
+      "pdf_page": 407,
+      "chapter": 18,
+      "title_en": "Listing B-16 SpreadsheetDate.java (end)",
+      "title_tr": "Listing B-16 SpreadsheetDate.java (son)",
+      "section_en": "Appendix B: org.jfree.date.SerialDate",
+      "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "408": {
+      "pdf_page": 408,
+      "chapter": 18,
+      "title_en": "Appendix B End (Blank Page)",
+      "title_tr": "Ek B Sonu (Boş Sayfa)",
+      "section_en": "org.jfree.date.SerialDate",
       "section_tr": "Ek B: org.jfree.date.SerialDate"
     }
   }
