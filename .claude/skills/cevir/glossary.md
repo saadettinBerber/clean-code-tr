@@ -56,6 +56,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Bound Resources | Sınırlı Kaynaklar (Bound Resources) | Eşzamanlı ortamda kullanılan sabit boyutlu/sayılı kaynaklar (ör. veritabanı bağlantıları, sabit boyutlu tamponlar); sayfa 183'ün tanım tablosunda geçer. |
 | Boundary | Sınır (Boundary) | Kendi kodumuzun kontrol etmediğimiz kodla (üçüncü taraf paket, açık kaynak ya da başka bir ekibin bileşeni) buluştuğu yer; Chapter 8'in konusu |
 | Boundary Case | Sınır Durumu (Boundary Case) | Eşzamanlı kodda özellikle inatçı olan uç durumlar: örn. temiz biçimde kapanmak, bir döngünün yinelemesini tamamlamak. Sayfa 190'ın Sonuç kesitinde geçer; 'Boundary' (Sınır) ve 'Boundary Test' terimlerinden ayrı, daha genel bir kavramdır. |
+| Boundary Condition Error | Sınır Koşulu Hatası (Boundary Condition Error) | [T5] ile işaretli hata türü: sınır değerlerdeki kapsayıcılık yanlışının (ör. > yerine >= olması gereken koşul) yol açtığı tipik hata. Sayfa 269'da getFollowingDayOfWeek metodundaki hata için geçer. |
 | Boundary Interface | Sınır Arayüzü (Boundary Interface) | Sistemin sınırında üçüncü taraf kodla temas eden arayüz (ör. Map); kullanıldığı sınıfta ya da yakın sınıf ailesinde tutulmalı, public API'lerde dolaştırılmamalı |
 | Boundary Test | Sınır Testi (Boundary Test) | Üçüncü taraf koda giden arayüzü üretim kodunun kullandığı şekilde çalıştıran testler; yeni sürümlere geçişi kolaylaştırır |
 | Boy Scout Rule | İzci Kuralı (Boy Scout Rule) | Kamp alanını bulduğundan daha temiz bırak prensibi |
@@ -74,6 +75,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Cardinality | Kardinalite (Cardinality) | Args vaka çalışmasında fiilen sağlanan argüman sayısını ifade eder; args.cardinality() metodu bu sayıyı döndürür. |
 | Care | Önemseme (Care) | Zanaata ve koda duyulan özen |
 | Case Study | Vaka Çalışması (Case Study) | Chapter 14'ün açılış alt başlığı ve konusu; gerçek bir modülün (komut satırı argümanı ayrıştırıcısı) adım adım yeniden düzenlenmesi üzerinden anlatılan örnek inceleme. |
+| Case-Insensitive Comparison | büyük/küçük harfe duyarsız karşılaştırma (case-insensitive comparison) | equalsIgnoreCase gibi, metinleri harf büyüklüğünü dikkate almadan karşılaştıran işlem; testWeekdayCodeToString testinin ve stringToMonthCode fonksiyonunun düzeltilmesinde geçer. |
 | Casting | Tür Dönüştürme (Casting) | Bir değeri açıkça başka bir türe çevirme, ör. (Sensor) sensors.get(id); istemci koda dağıldığında kodu kirletir |
 | CGLIB | CGLIB (Java Bytecode Generator Library) | Java bayt kodu üreten kütüphane; sayfa 189'da kodu programatik olarak enstrümanlamak için önerilen araçlardan biri. Teknik araç adı olduğu için İngilizce kalır. |
 | Chain of Inheritance | Kalıtım Zinciri (Chain of Inheritance) | Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi |
@@ -131,6 +133,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | CountDownLatch | CountDownLatch | Bir dizi olayın gerçekleşmesini bekleyip sonra tüm iş parçacıklarını serbest bırakan kilit; java.util.concurrent paketinde. Teknik sınıf adı olduğu için çevrilmez. |
 | Coup de Grace | Nihai Darbe (Coup de Grace) | Fransızca 'nihai darbe' ifadesi; yeniden düzenlemede (refactoring) bir yapının (ör. tip-zinciri) son kullanımı taşındıktan sonra tek hamlede kaldırılma anını betimler. Sayfa 236'da 'the coup de grace' ifadesinde geçer. |
 | Coupling | Bağımlılık (Coupling) | Bileşenlerin birbirine bağımlılığı |
+| Coverage Map | Kapsam Haritası (Coverage Map) | Kod kapsamı (code coverage) aracının, sınıfın hangi bölgelerinin testlerce yürütüldüğünü/çalıştırılmadığını renklendirerek gösteren görselleştirmesi; yeniden düzenlemede riskli bölgeleri işaret eder. Sayfa 268'de 'yama yorganına (patchwork quilt) benzer' olarak betimlenir. |
 | Craft | Zanaat (Craft) | Programlamanın bir bilimden çok zanaat olduğuna dair 'programming is a craft' ifadesindeki sade terim; sayfa 200'de geçer. Sözlükteki 'Craftsmanship | Zanaat / Ustalık (Craftsmanship)' ve 'Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship)' girdilerinden ayrıdır. |
 | Craftsmanship | Zanaat / Ustalık (Craftsmanship) | Yazılım zanaatı |
 | Crawler | Tarayıcı (Crawler) | Sayfaları dolaşıp işleyen bileşen; FitNesse'de wiki sayfalarını ekleyip bulan nesne (crawler.addPage). Web tarayıcısı (browser) ile karıştırılmamalı |
@@ -209,6 +212,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Exception Class | İstisna Sınıfı (Exception Class) | Hatayı temsil eden sınıf; en önemli ölçüt, çağıranın onu nasıl yakalayacağıdır |
 | Exception Classification | İstisna Sınıflandırması (Exception Classification) | İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı |
 | Exception Management | İstisna Yönetimi (Exception Management) | İstisnaların (exception) akışını düzenleyen try/catch kod bloklarının bütünü; bu sayfada 'the ugly exception management code' ifadesinde geçer. Sözlükteki 'Error Handling | Hata Yönetimi (Error Handling)' terimiyle yakından ilişkili, istisna odaklı kullanımıdır. |
+| Executable Statement | Çalıştırılabilir İfade (Executable Statement) | Kodda bir testin yürütebildiği, komut düzeyindeki çalıştırılabilir ifade; test kapsamı (test coverage) raporlarında kapsanan/yürütülen ifade sayısı olarak geçer. Sayfa 268'de SerialDate'in 185 çalıştırılabilir ifadesinden söz edilir. |
 | Execution Path | Çalışma Yolu (Execution Path) | İş parçacıklarının izleyebileceği talimat sıralaması; bu sayfada 'possible execution paths' ve 'Possible Paths of Execution' başlığında geçer. Sözlükteki 'Normal Flow' (Normal Akış) teriminden farklıdır. |
 | Executor Framework | İcracı Çerçevesi (Executor Framework) | Java 5'in java.util.concurrent paketinde; iş parçacığı yönetimini soyutlayarak görevleri (tasks) çalıştıran çerçeve. Sayfadaki 'Use the executor framework for executing unrelated tasks' maddesinde geçer. |
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
@@ -435,6 +439,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Production Code | Üretim Kodu (Production Code) | Uygulamanın gerçekte çalışan, test kodu olmayan kısmı |
 | Productivity | Verimlilik (Productivity) |  |
 | Professional | Profesyonel (Professional) |  |
+| Professional Review | Profesyonel İnceleme (Professional Review) | Kötü niyet ya da saygısızlık taşımayan, mesleki disiplinle yürütülen kod eleştirisi; doktorlar, pilotlar ve avukatların uyguladığı mesleki denetim pratiğine benzetilir. Sayfa 268'de yazarın yaptığı işin doğası bu terimle açıklanır. |
 | Programatic Configuration | Programatik Yapılandırma (Programatic Configuration) | Yapılandırmanın dosya yerine kod içinde programatik olarak yapılması; kitapta 'programatic configurations' olarak geçer (orijinal yazım 'programatic'). |
 | Programmer-eese | Programcı Dili (Programmer-eese) | Programcıların kendi aralarında kullandığı teknik jargon |
 | Pronounceable Names | Telaffuz Edilebilir İsimler (Pronounceable Names) | İsimlerin sesli okunabilir olması gerektiği ilkesi |

@@ -240,6 +240,11 @@ window.GLOSSARY = [
     "note": "Eşzamanlı kodda özellikle inatçı olan uç durumlar: örn. temiz biçimde kapanmak, bir döngünün yinelemesini tamamlamak. Sayfa 190'ın Sonuç kesitinde geçer; 'Boundary' (Sınır) ve 'Boundary Test' terimlerinden ayrı, daha genel bir kavramdır."
   },
   {
+    "en": "Boundary Condition Error",
+    "tr": "Sınır Koşulu Hatası (Boundary Condition Error)",
+    "note": "[T5] ile işaretli hata türü: sınır değerlerdeki kapsayıcılık yanlışının (ör. > yerine >= olması gereken koşul) yol açtığı tipik hata. Sayfa 269'da getFollowingDayOfWeek metodundaki hata için geçer."
+  },
+  {
     "en": "Boundary Interface",
     "tr": "Sınır Arayüzü (Boundary Interface)",
     "note": "Sistemin sınırında üçüncü taraf kodla temas eden arayüz (ör. Map); kullanıldığı sınıfta ya da yakın sınıf ailesinde tutulmalı, public API'lerde dolaştırılmamalı"
@@ -328,6 +333,11 @@ window.GLOSSARY = [
     "en": "Case Study",
     "tr": "Vaka Çalışması (Case Study)",
     "note": "Chapter 14'ün açılış alt başlığı ve konusu; gerçek bir modülün (komut satırı argümanı ayrıştırıcısı) adım adım yeniden düzenlenmesi üzerinden anlatılan örnek inceleme."
+  },
+  {
+    "en": "Case-Insensitive Comparison",
+    "tr": "büyük/küçük harfe duyarsız karşılaştırma (case-insensitive comparison)",
+    "note": "equalsIgnoreCase gibi, metinleri harf büyüklüğünü dikkate almadan karşılaştıran işlem; testWeekdayCodeToString testinin ve stringToMonthCode fonksiyonunun düzeltilmesinde geçer."
   },
   {
     "en": "Casting",
@@ -613,6 +623,11 @@ window.GLOSSARY = [
     "en": "Coupling",
     "tr": "Bağımlılık (Coupling)",
     "note": "Bileşenlerin birbirine bağımlılığı"
+  },
+  {
+    "en": "Coverage Map",
+    "tr": "Kapsam Haritası (Coverage Map)",
+    "note": "Kod kapsamı (code coverage) aracının, sınıfın hangi bölgelerinin testlerce yürütüldüğünü/çalıştırılmadığını renklendirerek gösteren görselleştirmesi; yeniden düzenlemede riskli bölgeleri işaret eder. Sayfa 268'de 'yama yorganına (patchwork quilt) benzer' olarak betimlenir."
   },
   {
     "en": "Craft",
@@ -1003,6 +1018,11 @@ window.GLOSSARY = [
     "en": "Exception Management",
     "tr": "İstisna Yönetimi (Exception Management)",
     "note": "İstisnaların (exception) akışını düzenleyen try/catch kod bloklarının bütünü; bu sayfada 'the ugly exception management code' ifadesinde geçer. Sözlükteki 'Error Handling | Hata Yönetimi (Error Handling)' terimiyle yakından ilişkili, istisna odaklı kullanımıdır."
+  },
+  {
+    "en": "Executable Statement",
+    "tr": "Çalıştırılabilir İfade (Executable Statement)",
+    "note": "Kodda bir testin yürütebildiği, komut düzeyindeki çalıştırılabilir ifade; test kapsamı (test coverage) raporlarında kapsanan/yürütülen ifade sayısı olarak geçer. Sayfa 268'de SerialDate'in 185 çalıştırılabilir ifadesinden söz edilir."
   },
   {
     "en": "Execution Path",
@@ -2133,6 +2153,11 @@ window.GLOSSARY = [
     "en": "Professional",
     "tr": "Profesyonel (Professional)",
     "note": ""
+  },
+  {
+    "en": "Professional Review",
+    "tr": "Profesyonel İnceleme (Professional Review)",
+    "note": "Kötü niyet ya da saygısızlık taşımayan, mesleki disiplinle yürütülen kod eleştirisi; doktorlar, pilotlar ve avukatların uyguladığı mesleki denetim pratiğine benzetilir. Sayfa 268'de yazarın yaptığı işin doğası bu terimle açıklanır."
   },
   {
     "en": "Programatic Configuration",

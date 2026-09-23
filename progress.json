@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 267,
+  "last_translated_page": 270,
   "chapters": [
     {
       "num": 1,
@@ -2235,6 +2235,30 @@
       "title_tr": "Chapter 15 Sonu (Boş Sayfa)",
       "section_en": "The JUnit Framework",
       "section_tr": "JUnit Framework'ü (The JUnit Framework)"
+    },
+    "268": {
+      "pdf_page": 268,
+      "chapter": 16,
+      "title_en": "First, Make It Work — The Professional Review",
+      "title_tr": "Önce, Çalıştırın — Profesyonel İnceleme (First, Make It Work)",
+      "section_en": "First, Make It Work",
+      "section_tr": "Önce, Çalıştırın (First, Make It Work)"
+    },
+    "269": {
+      "pdf_page": 269,
+      "chapter": 16,
+      "title_en": "First Fixes: Making the Tests Pass",
+      "title_tr": "İlk Düzeltmeler: Testleri Geçirme",
+      "section_en": "First, Make It Work",
+      "section_tr": "Önce Çalıştırın (First, Make It Work)"
+    },
+    "270": {
+      "pdf_page": 270,
+      "chapter": 16,
+      "title_en": "Then Make It Right — Code Cleanup Begins",
+      "title_tr": "Sonra Doğrusunu Yapın — Kod Temizliği Başlıyor",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
     }
   }
 }
