@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 250,
+  "lastTranslatedPage": 267,
   "chapters": [
     {
       "num": 1,
@@ -2848,6 +2848,193 @@ window.TOC = {
         "tr": "Sonuç"
       },
       "chapter": 14
+    },
+    "251": {
+      "title": {
+        "en": "JUnit Internals — Chapter Opening",
+        "tr": "JUnit'in İç Yapısı — Bölüm Açılışı"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 15
+    },
+    "252": {
+      "title": {
+        "en": "The JUnit Framework — ComparisonCompactor",
+        "tr": "JUnit Framework'ü — ComparisonCompactor"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "253": {
+      "title": {
+        "en": "ComparisonCompactorTest — Listing 15-1 (continued)",
+        "tr": "ComparisonCompactorTest — Listing 15-1 (devamı)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "254": {
+      "title": {
+        "en": "ComparisonCompactorTest (end) & Listing 15-2 (beginning)",
+        "tr": "ComparisonCompactorTest (son) & Listing 15-2 (başlangıç)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "255": {
+      "title": {
+        "en": "ComparisonCompactor.java — Listing 15-2 (continued)",
+        "tr": "ComparisonCompactor.java — Listing 15-2 (devamı)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "256": {
+      "title": {
+        "en": "ComparisonCompactor — Listing 15-3 (Defactored)",
+        "tr": "ComparisonCompactor — Listing 15-3 (Defactored)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "257": {
+      "title": {
+        "en": "ComparisonCompactor.java — Listing 15-3 (continued)",
+        "tr": "ComparisonCompactor.java — Listing 15-3 (devamı)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "258": {
+      "title": {
+        "en": "ComparisonCompactor (continued) — variable disambiguation & function naming",
+        "tr": "ComparisonCompactor (devamı) — değişken adlarının netleştirilmesi & fonksiyon adlandırma"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "259": {
+      "title": {
+        "en": "ComparisonCompactor — Return Values & Temporal Coupling",
+        "tr": "ComparisonCompactor — Dönüş Değerleri ve Zamansal Bağımlılık"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "260": {
+      "title": {
+        "en": "ComparisonCompactor (continued) — exposing temporal coupling with a different tack",
+        "tr": "ComparisonCompactor (devamı) — zamansal bağımlılığı farklı bir yolla ortaya çıkarma"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "261": {
+      "title": {
+        "en": "ComparisonCompactor.java — Listing 15-4 (interim)",
+        "tr": "ComparisonCompactor.java — Listing 15-4 (geçici sürüm)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "262": {
+      "title": {
+        "en": "Listing 15-4 (continued) — Eliminating the +1s and if Statements",
+        "tr": "Listing 15-4 (devamı) — +1'leri ve if İfadelerini Ortadan Kaldırmak"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "263": {
+      "title": {
+        "en": "ComparisonCompactor.java — Listing 15-5 (final)",
+        "tr": "ComparisonCompactor.java — Listing 15-5 (son sürüm)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "264": {
+      "title": {
+        "en": "ComparisonCompactor.java — Listing 15-5 (final, continued)",
+        "tr": "ComparisonCompactor.java — Listing 15-5 (son sürüm, devamı)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
+    },
+    "265": {
+      "title": {
+        "en": "Conclusion",
+        "tr": "Sonuç (Conclusion)"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 15
+    },
+    "267": {
+      "title": {
+        "en": "Refactoring SerialDate — Chapter Opening",
+        "tr": "SerialDate'i Yeniden Düzenleme — Bölüm Açılışı"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 16
+    },
+    "266": {
+      "title": {
+        "en": "Chapter 15 End (Blank Page)",
+        "tr": "Chapter 15 Sonu (Boş Sayfa)"
+      },
+      "section": {
+        "en": "The JUnit Framework",
+        "tr": "JUnit Framework'ü (The JUnit Framework)"
+      },
+      "chapter": 15
     }
   }
 };

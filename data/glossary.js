@@ -80,6 +80,11 @@ window.GLOSSARY = [
     "note": "Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum"
   },
   {
+    "en": "Analysis Function",
+    "tr": "Analiz Fonksiyonu (Analysis Function)",
+    "note": "Bir modülü, veriyi inceleyen/ayrıştıran fonksiyon grubu; sayfa 265'te 'a group of analysis functions' ifadesinde geçer. 'Synthesis Function' teriminin karşıtıdır."
+  },
+  {
     "en": "Annotation",
     "tr": "ek açıklama (annotation)",
     "note": "Java 5 ile gelen, sınıf, metot ve alanlara üstveri (metadata) ekleyen @ işaretli bildirimler; JPA gibi framework'ler bağlama (wiring) ve kalıcılık bilgisini bu ek açıklamalarla taşır. Kitapta 'Java 5 annotations' olarak geçer."
@@ -720,6 +725,11 @@ window.GLOSSARY = [
     "note": "Bileşenler arasındaki bağımlılığı (coupling) azaltma; bu şekilde ayrıştırılmış sistemler daha kolay test edilir, daha esnektir ve yeniden kullanımı teşvik eder"
   },
   {
+    "en": "defactored",
+    "tr": "defactored (yeniden düzenleme yapılmamış)",
+    "note": "Listing 15-3'ün başlığında geçer: modülün kasıtlı olarak yeniden düzenlenmemiş (refactoring uygulanmamış), yani daha kötü bırakılmış hâli; 'refactored' sözcüğünün zıt yönlü bir kelime oyunudur."
+  },
+  {
     "en": "Default Constructor",
     "tr": "Varsayılan Kurucu (Default Constructor)",
     "note": "Argüman almayan kurucu; log4j'de ConsoleAppender'ın varsayılan kurucusu nesneyi yapılandırılmamış bırakır"
@@ -1035,6 +1045,11 @@ window.GLOSSARY = [
     "note": "Büyük bir metodu daha küçük parçalara bölme refactoring tekniği"
   },
   {
+    "en": "extraneous",
+    "tr": "gereksiz/fazlalık (extraneous)",
+    "note": "İşlevi bulunmayan, ortamda fazladan duran yapı; sayfa 262'de 'eliminate the extraneous if statements' ifadesinde geçer."
+  },
+  {
     "en": "F.I.R.S.T.",
     "tr": "F.I.R.S.T.",
     "note": "Temiz testlerin beş özelliği: Hızlı (Fast), Bağımsız (Independent), Tekrarlanabilir (Repeatable), Kendini Doğrulayan (Self-Validating), Zamanında (Timely)"
@@ -1078,6 +1093,11 @@ window.GLOSSARY = [
     "en": "File Size",
     "tr": "Dosya Boyutu (File Size)",
     "note": "Kaynak dosyasının satır sayısı; Java'da sınıf boyutuyla yakından ilişkilidir"
+  },
+  {
+    "en": "final",
+    "tr": "son sürüm (final)",
+    "note": "Listing 15-5'in caption'ında '(final)' olarak geçer; '(interim)' (geçici sürüm) teriminin karşıtıdır ve yeniden düzenleme (refactoring) sürecinin son ürününü belirtir."
   },
   {
     "en": "First Draft",
@@ -1158,6 +1178,11 @@ window.GLOSSARY = [
     "en": "Garbage Collection",
     "tr": "Çöp Toplama (Garbage Collection)",
     "note": "Artık ulaşılamayan nesneleri bellekten geri alan otomatik bellek yönetimi işlemi; sayfadaki 'garbage collection overhead' ifadesinde 'çöp toplama ek yükü' olarak geçer."
+  },
+  {
+    "en": "geek",
+    "tr": "inek (geek)",
+    "note": "Teknolojiye derin bağlı, meraklı kişi için kullanılan argo/sıcak ifade; kitapta sıkışık uçak ortamında dizüstü bilgisayarlarını çıkarıp kod yazmaya başlayan Kent Beck ve Eric Gamma için kullanılır."
   },
   {
     "en": "Generic",
@@ -1315,6 +1340,11 @@ window.GLOSSARY = [
     "note": "Kod satırlarının hiyerarşideki konumlarına göre sağa kaydırılması; kapsam hiyerarşisini görünür kılar"
   },
   {
+    "en": "Index",
+    "tr": "Dizin (Index)",
+    "note": "Bir dizgideki ya da koleksiyondaki konum değeri; bu sayfada `prefixIndex` ve `suffixIndex` üye değişkenlerinin gerçekte birer dizin olduğu vurgulanır. Çoğulu 'indices' olarak geçer."
+  },
+  {
     "en": "Informative Comment",
     "tr": "Bilgilendirici Yorum (Informative Comment)",
     "note": "Kodun yapısı veya regex gibi karmaşık kısımlar hakkında bilgi veren yorum"
@@ -1395,6 +1425,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "interim",
+    "tr": "geçici sürüm (interim)",
+    "note": "Listing 15-4 başlığında (interim): yeniden düzenleme (refactoring) sürecindeki ara, beklenen-geçiş sürümünü belirtir; 'Listing 15-4 ComparisonCompactor.java (interim)' ifadesinde geçer."
+  },
+  {
     "en": "Interpreter",
     "tr": "Yorumlayıcı (Interpreter)",
     "note": "Kaynak kodu satır satır çalıştıran program"
@@ -1423,6 +1458,11 @@ window.GLOSSARY = [
     "en": "Iteration (test loop)",
     "tr": "Yineleme (Iteration)",
     "note": "Testin belirli sayıda kez tekrarlanması; bu sayfada 'run for a number of iterations' maddesinde geçer."
+  },
+  {
+    "en": "Iterative Process",
+    "tr": "Yinelemeli Süreç (Iterative Process)",
+    "note": "Sonuca tek seferde değil, tekrarlanan adımlarla ulaşan süreç; sayfa 265'te 'Refactoring is an iterative process' ifadesinde geçer. Sözlükteki 'Iteration (test loop) | Yineleme' terimiyle aynı köktendir."
   },
   {
     "en": "iterator",
@@ -1640,6 +1680,11 @@ window.GLOSSARY = [
     "note": "Niyet ifade eden değişken/fonksiyon isimleri"
   },
   {
+    "en": "Member Variable",
+    "tr": "Üye Değişken (Member Variable)",
+    "note": "Bir sınıfın her örneğine ait üye alan; sayfa 257'de 'the f prefix for the member variables' ifadesinde geçer. 'Instance Variable' (Örnek Değişkeni) ile aynı kavram."
+  },
+  {
     "en": "Mental Burden",
     "tr": "Zihinsel Yük (Mental Burden)",
     "note": "Kod okurken harcanan bilişsel çaba"
@@ -1810,6 +1855,11 @@ window.GLOSSARY = [
     "note": "İş parçacığını bekleme (blocking) durumuna sokmayan eşzamanlılık çözümleri; sayfadaki 'Use nonblocking solutions when possible' maddesinde geçer."
   },
   {
+    "en": "nonfunctional",
+    "tr": "işlevsiz (nonfunctional)",
+    "note": "Hiçbir zaman yanlış olmayan ya da akışı etkilemeyen koşul için kullanılır; sayfa 262'de 'the if statement was nonfunctional' ifadesinde geçer."
+  },
+  {
     "en": "Noninvasive",
     "tr": "Müdahalesiz (Noninvasive)",
     "note": "Hedef koda ya da iş nesnesinin içine girmeden uygulanan; görünüm benzeri (aspect-like) mekanizmaların diğer gerçekleştirim kaygılarını (implementation concerns) bu biçimde dahil etmesi anlamında. Sayfa 161'de 'noninvasively' için 'müdahalesiz (noninvasively)' kullanılmıştır; sözlükteki 'istilacılık (Invasiveness)' teriminin karşıtıdır."
@@ -1858,6 +1908,11 @@ window.GLOSSARY = [
     "en": "Object-Oriented Design",
     "tr": "Nesne Yönelimli Tasarım (Object-Oriented Design)",
     "note": ""
+  },
+  {
+    "en": "off-by-one",
+    "tr": "bir eksik/fazla (off-by-one)",
+    "note": "Sayacın/indeksin birer birim sapmasından kaynaklanan sınır hatası; sıfır tabanlı ile birden başlayan (1 based) sayımlar karıştırıldığında ortaya çıkar. Sayfa 261'de suffixIndex'in 1 tabanlı olmasının computeCommonSuffix'teki +1 düzeltmelerinin nedeni olması bağlamında geçer."
   },
   {
     "en": "One Pass",
@@ -2315,6 +2370,11 @@ window.GLOSSARY = [
     "note": "Bir değişkenin geçerli olduğu kod alanı"
   },
   {
+    "en": "Scope Encoding",
+    "tr": "Kapsam Kodlaması (Scope Encoding)",
+    "note": "Bir değişkenin kapsamını (ör. üyelik/statiklik) isminin başına önek (f_, m_, s_) kodlayarak belirtme; günümüz IDE'leri bunu gereksiz kılar. Sayfa 257'de 'this kind of scope encoding' ifadesinde geçer."
+  },
+  {
     "en": "Seam",
     "tr": "Dikiş Noktası (Seam)",
     "note": "Kodu o noktada düzenlemeden davranışı değiştirebildiğiniz yer; ör. bir arayüz üzerinden test için sahte nesne takmak [WELC]"
@@ -2605,6 +2665,11 @@ window.GLOSSARY = [
     "note": "Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar"
   },
   {
+    "en": "Synthesis Function",
+    "tr": "Sentez Fonksiyonu (Synthesis Function)",
+    "note": "Analiz sonuçlarından çıktıyı/karşılaştırma sonucunu bir araya getiren fonksiyon grubu; sayfa 265'te 'another group of synthesis functions' ifadesinde geçer."
+  },
+  {
     "en": "Table Lookup",
     "tr": "Tablo Araması (Table Lookup)",
     "note": "Bir sonucu hesaplamak yerine önceden sabitlenmiş bir tablodan okumak; sabit değer döndüren test stub'larının indirgendiği basit davranış"
@@ -2738,6 +2803,11 @@ window.GLOSSARY = [
     "en": "TODO",
     "tr": "TODO / Yapılacaklar (TODO)",
     "note": "Gelecek için bırakılan notlar ve hatırlatıcılar"
+  },
+  {
+    "en": "Topological Sort (of Functions)",
+    "tr": "Topolojik Sıralama (Topological Sort)",
+    "note": "Fonksiyonları, her tanımı kullanıldığı yerin hemen ardına gelecek biçimde sıralama; sayfa 265'te 'They are topologically sorted' ifadesinde geçer."
   },
   {
     "en": "Touche",
@@ -2918,5 +2988,10 @@ window.GLOSSARY = [
     "en": "Wrapper",
     "tr": "Sarmalayıcı (Wrapper)",
     "note": ""
+  },
+  {
+    "en": "zero based",
+    "tr": "sıfır tabanlı (zero based)",
+    "note": "Dizi ya da uzunluk değerlerinin 0'dan başlaması; karşıtı '1 based' (birden başlayan). Sayfa 261'de 'the suffixIndex variable is not zero based; it is 1 based' ifadesinde geçer; bir eksik/fazla (off-by-one) hatalarının kaynağıdır."
   }
 ];
