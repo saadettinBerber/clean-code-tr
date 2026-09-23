@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 414,
+  "last_translated_page": 431,
   "chapters": [
     {
       "num": 1,
@@ -3406,6 +3406,142 @@
     },
     "414": {
       "pdf_page": 414,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "415": {
+      "pdf_page": 415,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "416": {
+      "pdf_page": 416,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "417": {
+      "pdf_page": 417,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "418": {
+      "pdf_page": 418,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "419": {
+      "pdf_page": 419,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "420": {
+      "pdf_page": 420,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "421": {
+      "pdf_page": 421,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "422": {
+      "pdf_page": 422,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "423": {
+      "pdf_page": 423,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "424": {
+      "pdf_page": 424,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "425": {
+      "pdf_page": 425,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "426": {
+      "pdf_page": 426,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "427": {
+      "pdf_page": 427,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "428": {
+      "pdf_page": 428,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "429": {
+      "pdf_page": 429,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "430": {
+      "pdf_page": 430,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "431": {
+      "pdf_page": 431,
       "chapter": 18,
       "title_en": "Index",
       "title_tr": "Dizin (Index)",
