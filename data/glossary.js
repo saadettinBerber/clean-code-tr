@@ -40,6 +40,11 @@ window.GLOSSARY = [
     "note": "Özel bir plana veya kalıba uymayan, ihtiyaç anında gelişigüzel yazılan kod"
   },
   {
+    "en": "Adapted Server",
+    "tr": "Uyarlanmış Sunucu (Adapted Server)",
+    "note": "Orijinal sunucunun değiştirilemediği durumlarda, kilitlemeyi kendisi yapan bir aracı (intermediary) katmanla sunucuyu sarmak; sunucu tabanlı kilitlemenin bir örneğidir. Sayfa 185'te üç düzeltme yolundan üçüncüsüdür."
+  },
+  {
     "en": "Adapter Pattern",
     "tr": "Adaptör Deseni (Adapter Pattern)",
     "note": "Uyumsuz bir arayüzü (ör. üçüncü taraf API) uygulamanın beklediği arayüze çeviren tasarım deseni; API değiştiğinde tek değişiklik noktası sağlar [GOF]"
@@ -88,6 +93,11 @@ window.GLOSSARY = [
     "en": "Argument Object",
     "tr": "Argüman Nesnesi (Argument Object)",
     "note": "Birden fazla argümanı bir sınıfa sarma tekniği"
+  },
+  {
+    "en": "ASM",
+    "tr": "ASM (Java bytecode manipulation framework)",
+    "note": "Java bayt kodu işleme/üretme çerçevesi; sayfa 189'da CGLIB ile birlikte programatik enstrümantasyon aracı olarak geçer. Teknik araç adı olduğu için İngilizce kalır."
   },
   {
     "en": "Aspect",
@@ -150,6 +160,11 @@ window.GLOSSARY = [
     "note": "Biçimlendirme kurallarını geliştirici yerine uygulayan araç"
   },
   {
+    "en": "Backpressure",
+    "tr": "Geri Baskı (Backpressure)",
+    "note": "Sınırlı kuyruğun dolmasıyla hızlı tarafın (üreticinin) bloklayan put çağrısında bekleyerek otomatik yavaşlatılması; kavram kartı (bounded-queue-backpressure) için eklendi."
+  },
+  {
     "en": "Bad Code",
     "tr": "Kötü Kod (Bad Code)",
     "note": "Bakımı zor, okunması güç kod"
@@ -185,9 +200,24 @@ window.GLOSSARY = [
     "note": "Pek çok yerde aynı biçimde tekrarlanan, çoğunlukla kopyalanarak çoğaltılan kalıp kod"
   },
   {
+    "en": "Bound Resource",
+    "tr": "Sınırlı Kaynak (Bound Resource)",
+    "note": "Kapasitesi sınırlı, doluluk/boşluk durumunun sinyalle (signal) yönetilmesi gereken kaynak; sayfa 184'te üretici-tüketici deseni bağlamında 'a bound resource' ifadesinde geçer."
+  },
+  {
+    "en": "Bound Resources",
+    "tr": "Sınırlı Kaynaklar (Bound Resources)",
+    "note": "Eşzamanlı ortamda kullanılan sabit boyutlu/sayılı kaynaklar (ör. veritabanı bağlantıları, sabit boyutlu tamponlar); sayfa 183'ün tanım tablosunda geçer."
+  },
+  {
     "en": "Boundary",
     "tr": "Sınır (Boundary)",
     "note": "Kendi kodumuzun kontrol etmediğimiz kodla (üçüncü taraf paket, açık kaynak ya da başka bir ekibin bileşeni) buluştuğu yer; Chapter 8'in konusu"
+  },
+  {
+    "en": "Boundary Case",
+    "tr": "Sınır Durumu (Boundary Case)",
+    "note": "Eşzamanlı kodda özellikle inatçı olan uç durumlar: örn. temiz biçimde kapanmak, bir döngünün yinelemesini tamamlamak. Sayfa 190'ın Sonuç kesitinde geçer; 'Boundary' (Sınır) ve 'Boundary Test' terimlerinden ayrı, daha genel bir kavramdır."
   },
   {
     "en": "Boundary Interface",
@@ -208,6 +238,11 @@ window.GLOSSARY = [
     "en": "Breaking Indentation",
     "tr": "Girintiyi Bozma (Breaking Indentation)",
     "note": "Kısa if/while/fonksiyon bloklarını tek satıra sıkıştırarak girinti kuralının çiğnenmesi; kaçınılması gereken bir alışkanlık"
+  },
+  {
+    "en": "Breakpoint",
+    "tr": "Kesme Noktası (Breakpoint)",
+    "note": "Hata ayıklamada (debug) programın durdurulması için ayarlanan nokta; vurulan kesme noktalarına bakarak sistemin durumu belirlenebilir."
   },
   {
     "en": "Broken Windows",
@@ -233,6 +268,11 @@ window.GLOSSARY = [
     "en": "Business Rule",
     "tr": "İş Kuralı (Business Rule)",
     "note": "Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir"
+  },
+  {
+    "en": "Byte-Code",
+    "tr": "Bayt Kodu (Byte-Code)",
+    "note": "Derleyicinin ürettiği, JVM tarafından çalıştırılan orta düzey makine temsilinin kendisi; sözlükteki 'Byte-Code Manipulation' (Bayt Kodu İşleme) teriminden ayrıdır, yalnızca bayt kodu kavramıdır."
   },
   {
     "en": "Byte-Code Manipulation",
@@ -263,6 +303,11 @@ window.GLOSSARY = [
     "en": "Casting",
     "tr": "Tür Dönüştürme (Casting)",
     "note": "Bir değeri açıkça başka bir türe çevirme, ör. (Sensor) sensors.get(id); istemci koda dağıldığında kodu kirletir"
+  },
+  {
+    "en": "CGLIB",
+    "tr": "CGLIB (Java Bytecode Generator Library)",
+    "note": "Java bayt kodu üreten kütüphane; sayfa 189'da kodu programatik olarak enstrümanlamak için önerilen araçlardan biri. Teknik araç adı olduğu için İngilizce kalır."
   },
   {
     "en": "Chain of Inheritance",
@@ -318,6 +363,11 @@ window.GLOSSARY = [
     "en": "Client Code",
     "tr": "İstemci Kod (Client Code)",
     "note": "Bir sınıfı, arayüzü ya da API'yi kullanan (çağıran) kod"
+  },
+  {
+    "en": "Client-Based Locking",
+    "tr": "İstemci Tabanlı Kilit (Client-Based Locking)",
+    "note": "Paylaşılan nesnedeki birden fazla senkronize metodu istemcinin çağırması gerektiğinde, kilitleme sorumluluğunun istemciye verilmesi: istemci ilk çağrıda sunucuyu kilitler ve kilidin kapsamı son metodu çağıran kodu da kapsar. Sayfa 185'te üç düzeltme yolundan ilkidir."
   },
   {
     "en": "Closed Class",
@@ -420,6 +470,11 @@ window.GLOSSARY = [
     "note": "Gerçekleştirim ayrıntılarını (kodu) içeren sınıf; istemcinin doğrudan somut sınıfa bağımlı olması, ayrıntılar değiştiğinde risk yaratır"
   },
   {
+    "en": "Concurrency",
+    "tr": "Eşzamanlılık (Concurrency)",
+    "note": "Bölüm 13'ün açılış sayfası ve konusu: birden çok işin iş parçacıkları (threads) aracılığıyla aynı anda yürütülmesini sağlayan tasarım ve programlama disiplini. Sözlükteki 'Race Condition' (Yarış Durumu) terimiyle ilişkili ama ayrı bir kavramdır."
+  },
+  {
     "en": "Configuration File",
     "tr": "Yapılandırma Dosyası (Configuration File)",
     "note": "Hangi nesnelerin birbirine bağlanacağı (wiring) gibi kurulum kararlarının koda gömülmek yerine dışarıda tutulduğu dosya; ör. Spring'in XML yapılandırma dosyası"
@@ -450,6 +505,16 @@ window.GLOSSARY = [
     "note": "Veri yapısı kapsayıcısı (List, Set, Map vb.)"
   },
   {
+    "en": "Contention",
+    "tr": "Çekişme (Contention)",
+    "note": "Birden çok iş parçacığının aynı kilit/kaynak için yarışması; sayfa 185'te 'increases contention and degrades performance' ifadesinde geçer. Kritik bölge büyüdükçe çekişme artar."
+  },
+  {
+    "en": "ConTest",
+    "tr": "ConTest",
+    "note": "IBM tarafından geliştirilen, eşzamanlılık hatalarını yakalamak için thread scheduling'i programatik olarak kontrol eden test aracı; dipnot 18: http://www.alphaworks.ibm.com/tech/contest. Araç adı olduğu için çevrilmez."
+  },
+  {
     "en": "Context",
     "tr": "Bağlam (Context)",
     "note": "Kodun anlaşılması için gereken çevresel bilgi"
@@ -470,6 +535,16 @@ window.GLOSSARY = [
     "note": "Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır."
   },
   {
+    "en": "Cosmic Ray",
+    "tr": "Kozmik Işın (Cosmic Ray)",
+    "note": "Tek seferlik, açıklanamayan başarısızlıklara uydurulan bahane; bu sayfada 'write off the failure as a cosmic ray' ifadesinde geçer."
+  },
+  {
+    "en": "CountDownLatch",
+    "tr": "CountDownLatch",
+    "note": "Bir dizi olayın gerçekleşmesini bekleyip sonra tüm iş parçacıklarını serbest bırakan kilit; java.util.concurrent paketinde. Teknik sınıf adı olduğu için çevrilmez."
+  },
+  {
     "en": "Coupling",
     "tr": "Bağımlılık (Coupling)",
     "note": "Bileşenlerin birbirine bağımlılığı"
@@ -488,6 +563,11 @@ window.GLOSSARY = [
     "en": "Crisp Abstraction",
     "tr": "Keskin Soyutlama (Crisp Abstraction)",
     "note": "Grady Booch'un temiz kod tanımından; net ve öz soyutlama"
+  },
+  {
+    "en": "Critical Section",
+    "tr": "Kritik Bölge (Critical Section)",
+    "note": "Paylaşılan kaynağa erişim için iş parçacıklarının sırayla girmesi gereken kod bölümü; kavram kartlarında kullanıldı."
   },
   {
     "en": "Cross-Cutting Concern",
@@ -533,6 +613,11 @@ window.GLOSSARY = [
     "en": "Deadline",
     "tr": "Son Teslim Tarihi (Deadline)",
     "note": "Projenin teslim edilmesi gereken tarih"
+  },
+  {
+    "en": "Deadlock",
+    "tr": "Ölü Kilit (Deadlock)",
+    "note": "Sayfa 179 listesinde 'concurrent update and deadlock' ifadesinde geçer; iş parçacıklarının birbirini sonsuza dek beklediği durum."
   },
   {
     "en": "Decay",
@@ -620,6 +705,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Dining Philosophers",
+    "tr": "Yemek Yiyen Filozoflar (Dining Philosophers)",
+    "note": "Yuvarlak masada çatal (resource) için yarışan filozoflar (threads) metaforuyla kaynak yarışı; dikkat edilmezse ölü kilit (deadlock) ve canlı kilit (livelock) üretir; sayfa 184'te level-2 başlık."
+  },
+  {
     "en": "Dirty Code",
     "tr": "Kirli Kod (Dirty Code)",
     "note": "Temiz olmayan, bakımı zor kod"
@@ -688,6 +778,11 @@ window.GLOSSARY = [
     "en": "Dual Standard",
     "tr": "Çifte Standart (Dual Standard)",
     "note": "Test kodunun üretim kodundan farklı mühendislik standartlarına tabi olması: basit, öz ve anlatımlı olmalı, ancak üretim kodu kadar verimli olması gerekmez"
+  },
+  {
+    "en": "Due Diligence",
+    "tr": "Gerekli Özen (Due Diligence)",
+    "note": "Bir konuda gereken dikkati gösterme, yükümlülüğünü eksiksiz yerine getirme; bu sayfada 'you’ve done due diligence' ifadesinde geçer: testler geçerse jiggle'lamayla gerekli özeni göstermiş sayılır."
   },
   {
     "en": "Dummy Scope",
@@ -793,6 +888,16 @@ window.GLOSSARY = [
     "en": "Exception Classification",
     "tr": "İstisna Sınıflandırması (Exception Classification)",
     "note": "İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı"
+  },
+  {
+    "en": "Execution Path",
+    "tr": "Çalışma Yolu (Execution Path)",
+    "note": "İş parçacıklarının izleyebileceği talimat sıralaması; bu sayfada 'possible execution paths' ve 'Possible Paths of Execution' başlığında geçer. Sözlükteki 'Normal Flow' (Normal Akış) teriminden farklıdır."
+  },
+  {
+    "en": "Executor Framework",
+    "tr": "İcracı Çerçevesi (Executor Framework)",
+    "note": "Java 5'in java.util.concurrent paketinde; iş parçacığı yönetimini soyutlayarak görevleri (tasks) çalıştıran çerçeve. Sayfadaki 'Use the executor framework for executing unrelated tasks' maddesinde geçer."
   },
   {
     "en": "Explanation of Intent",
@@ -930,6 +1035,11 @@ window.GLOSSARY = [
     "note": "Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.)"
   },
   {
+    "en": "Garbage Collection",
+    "tr": "Çöp Toplama (Garbage Collection)",
+    "note": "Artık ulaşılamayan nesneleri bellekten geri alan otomatik bellek yönetimi işlemi; sayfadaki 'garbage collection overhead' ifadesinde 'çöp toplama ek yükü' olarak geçer."
+  },
+  {
     "en": "Generics",
     "tr": "Jenerik Türler (Generics)",
     "note": "Java 5 ile gelen, sınıf ve koleksiyonların tür parametresi almasını sağlayan özellik (ör. Map<Sensor>); tür dönüştürme ihtiyacını azaltır"
@@ -940,9 +1050,19 @@ window.GLOSSARY = [
     "note": "Testleri hazırlık (given), eylem (when) ve doğrulama (then) bölümlerine ayıran yaygın adlandırma kuralı; çevrilmez, olduğu gibi kullanılır."
   },
   {
+    "en": "Glitch",
+    "tr": "Arıza (Glitch)",
+    "note": "Donanım kaynaklı kısa süreli geçici bozulma; bu sayfanın dipnotlarında 'Cosmic-rays, glitches, and so on.' ifadesinde geçer."
+  },
+  {
     "en": "God class",
     "tr": "Tanrı sınıfı (God class)",
     "note": "Aşırı sayıda public metot ve sorumluluk yükleyerek neredeyse tüm sistemi tek başına yöneten aşırı büyük sınıf; kötü sınıf tasarımının uç örneği."
+  },
+  {
+    "en": "Graceful Shutdown",
+    "tr": "Düzgün Kapanış (Graceful Shutdown)",
+    "note": "Kaynakların sırayla ve güvenle serbest bırakılarak, ölü kilit veya asılı iş parçacığı kalmadan sistemin sonlandırılması; bu sayfada ana tema."
   },
   {
     "en": "Gratuitous Context",
@@ -1085,6 +1205,11 @@ window.GLOSSARY = [
     "note": "Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer"
   },
   {
+    "en": "Instrumentation",
+    "tr": "Enstrümantasyon (Instrumentation)",
+    "note": "Kodun içine, yalnızca test sırasında etkin olacak ölçüm/kesinti noktaları (ör. wait, sleep, yield, priority çağrıları) ekleme tekniği; nadir eşzamanlılık kusurlarını zorlayarak ortaya çıkarmak için kullanılır. Sayfa 188'de 'Instrument Your Code to Try and Force Failures' başlığı altında geçer."
+  },
+  {
     "en": "Integer Handle",
     "tr": "Tamsayı Tanıtıcısı (Integer Handle)",
     "note": ""
@@ -1105,6 +1230,11 @@ window.GLOSSARY = [
     "note": "Kaynak kodu satır satır çalıştıran program"
   },
   {
+    "en": "Intrinsic Lock",
+    "tr": "İçsel Kilit (Intrinsic Lock)",
+    "note": "Her Java nesnesine gömülü olan kilit; `synchronized` blokları bu kilitle çalışır. Sayfa 182'de 'the intrinsic lock' ifadesinde geçer."
+  },
+  {
     "en": "Invasiveness",
     "tr": "istilacılık (invasiveness)",
     "note": "Bir çerçevenin (framework) gereksinimlerinin iş nesnesinin içine girerek onu kirletmesi; EJB2'nin sınıf ve arayüz dayatmasının yan etkisi."
@@ -1120,9 +1250,29 @@ window.GLOSSARY = [
     "note": "Java yansıma (reflection) API'sindeki arayüz; vekile yapılan her metot çağrısı, bu nesnenin invoke metodu aracılığıyla ele alınır."
   },
   {
+    "en": "Iteration (test loop)",
+    "tr": "Yineleme (Iteration)",
+    "note": "Testin belirli sayıda kez tekrarlanması; bu sayfada 'run for a number of iterations' maddesinde geçer."
+  },
+  {
+    "en": "Java Memory Model",
+    "tr": "Java Bellek Modeli (Java Memory Model)",
+    "note": "Java'nın hangi okuma/yazma işlemlerini atomik (atomic) saydığını ve paylaşılan değişkenlerin iş parçacıkları arasında nasıl göründüğünü tanımlayan sözleşme; bu sayfada 'what the Java memory model considers to be atomic' ifadesinde geçer."
+  },
+  {
     "en": "Javadoc",
     "tr": "Javadoc",
     "note": "Java API dokümantasyon formatı"
+  },
+  {
+    "en": "JDK",
+    "tr": "JDK (Java Development Kit)",
+    "note": "Java Geliştirme Kiti; kısaltma olduğu gibi kullanılır (sözlükteki 'JVM' girdisine paralel). Sayfadaki 'became part of the JDK' ifadesinde geçer."
+  },
+  {
+    "en": "Jiggle",
+    "tr": "Titretme (Jiggle)",
+    "note": "Kod içine eklenen enstrümantasyon noktalarında rastgele uyku/yerini verme/hiçbir şey yapma seçimleri yaparak iş parçacıklarının çalışma sıralamasını zorla değiştirme tekniği; 'jiggle' fiili 'jiggle'lamak (titretmek)' olarak, isim 'titretme (jiggle)' olarak çevrilir. Sayfa 188-190 (Automated instrumentation) bağlamında geçer."
   },
   {
     "en": "JNDI",
@@ -1148,6 +1298,11 @@ window.GLOSSARY = [
     "en": "Just-in-Time",
     "tr": "Tam Zamanında (Just-in-Time)",
     "note": "Kararların en güncel bilgiyle, en geç gerektiği anda alınması yaklaşımı"
+  },
+  {
+    "en": "Just-In-Time Compiler",
+    "tr": "Tam Zamanında Derleyici (Just-In-Time Compiler)",
+    "note": "JVM'nin bayt kodunu çalışma anında makine koduna çeviren bileşeni (JIT); bu sayfada üretilen bayt kodunun nasıl yürütüldüğünü anlamak için anahattır. Sözlükteki 'Just-in-Time' (karar alma yaklaşımı) teriminden farklı bir kavramdır."
   },
   {
     "en": "JVM",
@@ -1220,6 +1375,11 @@ window.GLOSSARY = [
     "note": "Knuth'un kavramı: kod önce insanlar için yazılmalı"
   },
   {
+    "en": "Livelock",
+    "tr": "Canlı Kilit (Livelock)",
+    "note": "İş parçacıkları sürekli yeniden deneyip ilerleyemediğinde oluşan durum; ölü kilit (deadlock) ve açlık (starvation) ile birlikte sayfa 183'ün tanım tablosunda geçer."
+  },
+  {
     "en": "Local Interface",
     "tr": "Yerel Arayüz (Local Interface)",
     "note": "EJB'de aynı JVM içinden erişim için kullanılan istemci arayüzü."
@@ -1228,6 +1388,11 @@ window.GLOSSARY = [
     "en": "Local Variable",
     "tr": "Yerel Değişken (Local Variable)",
     "note": "Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken"
+  },
+  {
+    "en": "Lock",
+    "tr": "Kilit (Lock)",
+    "note": "Paylaşılan kaynağa aynı anda yalnız bir iş parçacığının erişmesini sağlayan mekanizma; sayfa 185'te 'lock the server', 'the lock’s extent' ve 'Locks are expensive' ifadelerinde geçer. Sözlükteki 'Deadlock' (Ölü Kilit) ve 'Intrinsic Lock' (İçsel Kilit) terimlerinden ayrı, genel kavramdır."
   },
   {
     "en": "Loop Control Variable",
@@ -1385,6 +1550,11 @@ window.GLOSSARY = [
     "note": "Bir argümanlı fonksiyon"
   },
   {
+    "en": "Multithreaded / Single-threaded",
+    "tr": "Çok İş Parçacıklı (multithreaded) / Tek İş Parçacıklı (single-threaded)",
+    "note": "Sözlükteki 'Thread | İş Parçacığı (Thread)' teriminin sıfat biçimleri; sayfa 179'da 'single threaded', 'multithreaded algorithm', 'single-threaded system' ifadelerinde geçer."
+  },
+  {
     "en": "Mumbling",
     "tr": "Mırıldanma (Mumbling)",
     "note": "Belirsiz, özensiz veya ne dediği anlaşılmayan yorum"
@@ -1393,6 +1563,11 @@ window.GLOSSARY = [
     "en": "Mutator",
     "tr": "Değiştirici (Mutator)",
     "note": "JavaBean standardında set metotları"
+  },
+  {
+    "en": "Mutual Exclusion",
+    "tr": "Karşılıklı Dışlama (Mutual Exclusion)",
+    "note": "Bir anda yalnızca bir iş parçacığının ortak veriye ya da kaynağa erişebilmesi ilkesi; sayfa 183'ün tanım tablosunda geçer."
   },
   {
     "en": "Namespace",
@@ -1433,6 +1608,11 @@ window.GLOSSARY = [
     "en": "Noise Word",
     "tr": "Gürültü Kelimesi (Noise Word)",
     "note": "İsme anlam katmayan ek (Info, Data, the, a)"
+  },
+  {
+    "en": "Nonblocking",
+    "tr": "Engel Olmayan (Nonblocking)",
+    "note": "İş parçacığını bekleme (blocking) durumuna sokmayan eşzamanlılık çözümleri; sayfadaki 'Use nonblocking solutions when possible' maddesinde geçer."
   },
   {
     "en": "Noninvasive",
@@ -1478,6 +1658,11 @@ window.GLOSSARY = [
     "en": "Object-Oriented Design",
     "tr": "Nesne Yönelimli Tasarım (Object-Oriented Design)",
     "note": ""
+  },
+  {
+    "en": "One-Off",
+    "tr": "Tek Seferlik Olay (One-Off)",
+    "note": "Yalnızca bir kez görülüp geçiştirilen düzensiz başarısızlık; sayfadaki 'written off as a onetime occurrence' ve 'so-called one-offs' ifadelerinde geçer. Aslında yük altında ya da rastgele zamanlarda ortaya çıkan eşzamanlılık hatası adayıdır."
   },
   {
     "en": "Open Closed Principle (OCP)",
@@ -1550,9 +1735,24 @@ window.GLOSSARY = [
     "note": "Java'da yalnızca aynı paketteki sınıflardan erişilebilen görünürlük seviyesi; testler uğruna kapsüllemeyi gevşetmenin private'tan sonraki en az zararlı yolu."
   },
   {
+    "en": "Parent Thread / Child Thread",
+    "tr": "Ana İş Parçacığı / Çocuk İş Parçacığı (Parent Thread / Child Thread)",
+    "note": "Bir iş parçacığının (parent) başlattığı ve beklediği alt iş parçacıkları (children); kapanışta ana iş parçacığı çocukları bitirmeyi bekler."
+  },
+  {
     "en": "Persistence",
     "tr": "Kalıcılık (Persistence)",
     "note": "Verinin veritabanı, düz dosya gibi kalıcı bir depoda saklanması"
+  },
+  {
+    "en": "Plug-ability",
+    "tr": "Takılabilirlik (Plug-ability)",
+    "note": "'Pluggable | Takılabilir (Pluggable)' teriminin isim biçimi; sayfadaki 'implies some level of plug-ability' ifadesinde geçer. TDD'nin Üç Yasası'ndan gelen test edilebilirliğin ima ettiği özellik."
+  },
+  {
+    "en": "Pluggable",
+    "tr": "Takılabilir (Pluggable)",
+    "note": "Bağımlılıkların (ör. test ikizleri) çalışma zamanında değiştirilebilir/takılabilir olması; bu sayfada 'Make Your Threaded Code Pluggable' başlığında geçer."
   },
   {
     "en": "Point of Declaration",
@@ -1590,6 +1790,11 @@ window.GLOSSARY = [
     "note": "JavaBean standardında boolean dönen is metotları"
   },
   {
+    "en": "Preemptive Threading",
+    "tr": "Önemleyici İş Parçacıklama (Preemptive Threading)",
+    "note": "İşletim sisteminin veya sanal makinenin, bir iş parçacığının kendisi izin vermeden kontrolü devralarak başka bir iş parçacığına geçebilmesi. Dipnot 16'da Java'nın bu davranışı garanti etmediği, modern işletim sistemlerinin bunu 'bedava' sağladığı belirtilir."
+  },
+  {
     "en": "Prefix Convention",
     "tr": "Önek Kuralı (Prefix Convention)",
     "note": "Yerel değişkenler için a, argümanlar için the gibi önek kuralları"
@@ -1625,6 +1830,11 @@ window.GLOSSARY = [
     "note": "Veri yapıları üzerinde çalışan fonksiyonlarla yazılan kod"
   },
   {
+    "en": "Producer-Consumer",
+    "tr": "Üretici-Tüketicici (Producer-Consumer)",
+    "note": "İşi bir tampona (buffer) veya kuyruğa (queue) bırakan üretici iş parçacıkları ile kuyruktan iş alan tüketici iş parçacıklarını sinyal (signal) alışverişiyle koordine eden klasik eşzamanlılık problemi; sayfa 184'te level-2 başlık."
+  },
+  {
     "en": "Production Code",
     "tr": "Üretim Kodu (Production Code)",
     "note": "Uygulamanın gerçekte çalışan, test kodu olmayan kısmı"
@@ -1638,6 +1848,11 @@ window.GLOSSARY = [
     "en": "Professional",
     "tr": "Profesyonel (Professional)",
     "note": ""
+  },
+  {
+    "en": "Programatic Configuration",
+    "tr": "Programatik Yapılandırma (Programatic Configuration)",
+    "note": "Yapılandırmanın dosya yerine kod içinde programatik olarak yapılması; kitapta 'programatic configurations' olarak geçer (orijinal yazım 'programatic')."
   },
   {
     "en": "Programmer-eese",
@@ -1690,6 +1905,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Readers-Writers",
+    "tr": "Okuyucu-Yazarlar (Readers-Writers)",
+    "note": "Paylaşılan kaynağı sürekli okuyan ve ara sıra güncelleyen tarafların doğruluk, geçirimi (throughput) ve açlık (starvation) dengesini bulmasını gerektiren klasik eşzamanlılık problemi; sayfa 184'te level-2 başlık."
+  },
+  {
     "en": "Real-Time System",
     "tr": "Gerçek Zamanlı Sistem (Real-Time System)",
     "note": "Girdilere belirli zaman sınırları içinde yanıt vermek zorunda olan sistem; çoğunlukla gömülü olup işlemci ve bellek kaynakları kısıtlıdır (Bölüm 9, çifte standart tartışması)"
@@ -1723,6 +1943,11 @@ window.GLOSSARY = [
     "en": "Redundant Comment",
     "tr": "Gereksiz Yorum (Redundant Comment)",
     "note": "Koddan daha fazla bilgi vermeyen, fazlalık yorum"
+  },
+  {
+    "en": "ReentrantLock",
+    "tr": "ReentrantLock",
+    "note": "Bir metotta elde edilip başka bir metotta bırakılabilecek kilit; java.util.concurrent.locks paketinde. Teknik sınıf adı olduğu için çevrilmez."
   },
   {
     "en": "Refactoring",
@@ -1763,6 +1988,16 @@ window.GLOSSARY = [
     "en": "Resource",
     "tr": "Kaynak (Resource)",
     "note": "Bir isteğin hedeflediği, URL ile adreslenen öğe; ör. FitNesse'de request.setResource(\"root\")"
+  },
+  {
+    "en": "Resource Pool",
+    "tr": "Kaynak Havuzu (Resource Pool)",
+    "note": "Birden çok iş parçacığının ortak kullandığı sınırlı kaynak kümesi (örn. veritabanı bağlantıları); eşzamanlılık sorunlarının olası kaynaklarından biri olarak sayfa 190'da 'a common resource pool' ifadesinde geçer. 'Bound Resources' terimiyle yakından ilgilidir."
+  },
+  {
+    "en": "Response Time",
+    "tr": "Yanıt Süresi (Response Time)",
+    "note": "Bir isteğin yanıtlanması için geçen süre; bazı sistemler yanıt süresi ve geçirimi (throughput) kısıtlarına tabidir."
   },
   {
     "en": "Responsibility-Driven Design (RDD)",
@@ -1850,9 +2085,29 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Semaphore",
+    "tr": "Sinyal (Semaphore)",
+    "note": "Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde."
+  },
+  {
     "en": "Separation of Concerns",
     "tr": "Kaygıların Ayrılması (Separation of Concerns)",
     "note": "Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer."
+  },
+  {
+    "en": "Server",
+    "tr": "Sunucu (Server)",
+    "note": "İstemci/sunucu (client/server) kilit modellerinde kilitlenen ve paylaşılan nesneyi barındıran taraf; sayfa 185'te 'lock the server', 'Within the server' ve 'the original server cannot be changed' ifadelerinde geçer."
+  },
+  {
+    "en": "Server-Based Locking",
+    "tr": "Sunucu Tabanlı Kilit (Server-Based Locking)",
+    "note": "Kilitleme sorumluluğunun sunucuya verilmesi: sunucu, tüm metotları tek seferde çağıran ve kendi kilidiyle çalıştırıcı birleşik bir metot sunar; istemci yalnızca o metodu çağırır. Sayfa 185'te üç düzeltme yolundan ikincisidir."
+  },
+  {
+    "en": "Servlet",
+    "tr": "Servlet",
+    "note": "Java Web'de gelen istekleri asenkron işleyen bileşen; Web ya da EJB konteyneri tarafından yönetilir. Terim çevrilmez."
   },
   {
     "en": "Setter Method",
@@ -1865,6 +2120,16 @@ window.GLOSSARY = [
     "note": "FitNesse test sayfalarında testten önce çalıştırılan hazırlık sayfası/adımı"
   },
   {
+    "en": "Shared State",
+    "tr": "Paylaşılan Durum (Shared State)",
+    "note": "Birden çok iş parçacığının erişip değiştirebildiği nesne/veriyi ifade eder; sayfadaki 'forcing clients to manage shared state' ifadesinde geçer. 'shared data' ile eş anlamlı kullanılır."
+  },
+  {
+    "en": "Shotgun Approach",
+    "tr": "Tüfek Yaklaşımı (Shotgun Approach)",
+    "note": "Rastgele, hedefsiz uygulama biçimi; sayfa 189'da elle enstrümantasyonun 'It's a shotgun approach' ifadesinde geçer — kusurları bulup bulamayacağınızı bilemezsiniz, olasılıklar lehinize değildir."
+  },
+  {
     "en": "Side Effect",
     "tr": "Yan Etki (Side Effect)",
     "note": ""
@@ -1873,6 +2138,11 @@ window.GLOSSARY = [
     "en": "Sieve",
     "tr": "Eleme (Sieve)",
     "note": "Asal sayıları bulmak için kullanılan algoritma (Eratosthenes Kalburu)"
+  },
+  {
+    "en": "Signal",
+    "tr": "Sinyal (Signal)",
+    "note": "Eşzamanlı iş parçacıklarının birbirine 'devam edebilirsin' bilgisini iletmesi; sayfa 184'te 'signaling each other' ifadesinde geçer. Kavram kartında kuyruğun doluluk/boşluk bildirimi olarak kullanılır."
   },
   {
     "en": "Simple Code",
@@ -1903,6 +2173,11 @@ window.GLOSSARY = [
     "en": "Snail's Pace",
     "tr": "Salyangoz Hızı (Snail's Pace)",
     "note": "Çok yavaş ilerleme metaforu"
+  },
+  {
+    "en": "Soak Test",
+    "tr": "Süre Testi (Soak Test)",
+    "note": "Eşzamanlı kodu üretime koymadan önce uzun süre, yük altında, birçok yapılandırmada çalıştırma pratiği; kavram kartında (soak-test-before-production) 30 dakikalık CI örneğiyle kullanıldı."
   },
   {
     "en": "Software Craftsmanship",
@@ -1945,6 +2220,16 @@ window.GLOSSARY = [
     "note": "Java için en bilinen DI kabını (container) sağlayan açık kaynaklı çerçeve; XML yapılandırma dosyasıyla bağlama (wiring) yapmayı destekler; Spring.NET adlı bir .NET sürümü de vardır"
   },
   {
+    "en": "Spurious Failure",
+    "tr": "Sahte Başarısızlık (Spurious Failure)",
+    "note": "Bir sonraki çalıştırmada kendiliğinden geçen, tekrarlanamayan düzensiz test başarısızlığı; iş parçacıklı kodda olası eşzamanlılık sorunu adayı olarak ele alınmalıdır."
+  },
+  {
+    "en": "Stack Backtrace",
+    "tr": "Yığın İzi (Stack Backtrace)",
+    "note": "Çağrı yığınının anlık görüntüsü; tek iş parçacıklı uygulamalarda tüm uygulamanın durumunu gösterir. Sözlükteki 'Stack Trace | Yığın İzi (Stack Trace)' ile tutarlıdır."
+  },
+  {
     "en": "Stack Trace",
     "tr": "Yığın İzi (Stack Trace)",
     "note": "İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez"
@@ -1955,9 +2240,19 @@ window.GLOSSARY = [
     "note": "Projeden etkilenen ya da projeyle çıkarı olan kişi/grup (müşteri, kullanıcı, sponsor vb.)"
   },
   {
+    "en": "Stale Information",
+    "tr": "Bayat/Eski Bilgi (Stale Information)",
+    "note": "Güncellenmemiş, eskimiş bilgi birikimi; sayfa 184'te 'the accumulation of stale information' ifadesinde geçer."
+  },
+  {
     "en": "Startup Process",
     "tr": "Başlangıç Süreci (Startup Process)",
     "note": "Uygulama nesnelerinin oluşturulduğu ve bağımlılıkların birbirine bağlandığı süreç; çalışma zamanı mantığından ayrı tutulmalıdır"
+  },
+  {
+    "en": "Starvation",
+    "tr": "Açlık (Starvation)",
+    "note": "Bir iş parçacığının ya da grubun aşırı uzun süre ya da sonsuza dek ilerlemesinin engellenmesi; sayfa 183'ün tanım tablosunda geçer."
   },
   {
     "en": "Static Initializer",
@@ -2035,6 +2330,16 @@ window.GLOSSARY = [
     "note": "Bir değişkenin farklı değerlerine göre dallanma sağlayan kontrol yapısı"
   },
   {
+    "en": "Synchronization",
+    "tr": "Senkronizasyon (Synchronization)",
+    "note": "Eşzamanlı erişimin kilitleme gibi mekanizmalarla koordine edilmesi; sayfadaki 'avoid synchronizing', 'synchronization requirements' ve 'synchronization problems' ifadelerinde geçer."
+  },
+  {
+    "en": "Synchronized",
+    "tr": "Senkronize (synchronized)",
+    "note": "Java anahtar kelimesi; kod metninde `synchronized` olarak ters tırnakla gösterilir ve çevrilmez. Sayfa 181'de kritik bölgeyi korumak için kullanımı anlatılır."
+  },
+  {
     "en": "Synopsis",
     "tr": "Özet (Synopsis)",
     "note": "Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar"
@@ -2095,6 +2400,11 @@ window.GLOSSARY = [
     "note": "Önce test yaz, sonra kodu yaz disiplini"
   },
   {
+    "en": "Test Jig",
+    "tr": "Test Jig'i (Test Jig)",
+    "note": "Kodu denetlenmesi istenen koşullar altında (ör. farklı sleep/yield rejimlerinde) çalıştırmak için kurulan test düzeneği; sayfa 189'da 'test jigs' ifadesinde geçer."
+  },
+  {
     "en": "Test Suite",
     "tr": "Test Paketi (Test Suite)",
     "note": "Bir sistemin otomatik testlerinin bütünü; üretim kodu değiştikçe onunla birlikte bakımı yapılmalıdır"
@@ -2125,9 +2435,24 @@ window.GLOSSARY = [
     "note": "Bir süreç içinde diğer işlerle eşzamanlı yürütülebilen bağımsız çalışma birimi"
   },
   {
+    "en": "Thread-Aware / Thread-Ignorant",
+    "tr": "İş Parçacığından Haberdar / Habersiz (Thread-Aware / Thread-Ignorant)",
+    "note": "Sistemi POJO'lara bölme stratejisindeki iki kod türü: eşzamanlılık mekanizmalarını bilen (thread-aware) kod ve iş parçacıkları hakkında hiçbir şey bilmeyen, saf iş mantığı taşıyan (thread-ignorant) kod. Sayfa 190'ın Sonuç kesitinde geçer; 'Thread-Safe' teriminden ayrıdır."
+  },
+  {
+    "en": "Thread-Safe",
+    "tr": "İş Parçacığına Güvenli (Thread-Safe)",
+    "note": "Birden çok iş parçacığı tarafından eşzamanlı erişildiğinde güvenle kullanılabilen yapılar için sıfat; sayfadaki 'Thread-Safe Collections' başlığı ve 'thread-safe collections' maddesinde geçer."
+  },
+  {
     "en": "Three Laws of TDD",
     "tr": "TDD'nin Üç Yasası (Three Laws of TDD)",
     "note": "Robert C. Martin: başarısız bir birim testi yazmadan üretim kodu yazma; testin yalnızca başarısız olmaya yetecek kadarını yaz (derlenmemek de başarısızlıktır); yalnızca başarısız testi geçirecek kadar üretim kodu yaz"
+  },
+  {
+    "en": "Throughput",
+    "tr": "Geçirim (Throughput)",
+    "note": "Birim zamanda işlenen iş/istek miktarı; sayfa 178'de 'geçirimi (throughput)' biçiminde kullanılmıştır."
   },
   {
     "en": "Tiger Team",
@@ -2168,6 +2493,16 @@ window.GLOSSARY = [
     "en": "Triadic",
     "tr": "Üçlü (Triadic)",
     "note": "Üç argümanlı fonksiyon"
+  },
+  {
+    "en": "Trial and Error",
+    "tr": "Deneme-Yanılma (Trial and Error)",
+    "note": "Uygun iş parçacığı dengesinin sistematik ölçümle değil deneysel tekrarlarla bulunması; bu sayfada 'trial an error' (yazım hatası) ifadesinde geçer."
+  },
+  {
+    "en": "Tunable",
+    "tr": "Ayarlanabilir (Tunable)",
+    "note": "İş parçacığı sayısı gibi parametrelerin çalışma sırasında kolayca ayarlanabilir olması; bu sayfada 'Make Your Threaded Code Tunable' başlığında geçer."
   },
   {
     "en": "Type System",

@@ -16,6 +16,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Accessor | Erişimci (Accessor) | JavaBean standardında get metotları |
 | Active Record | Aktif Kayıt (Active Record) | Veritabanı tablosunu doğrudan yansıtan, save/find gibi gezinme metotları olan özel DTO biçimi |
 | Ad hoc | ad hoc (geçici/rastgele yazılmış) | Özel bir plana veya kalıba uymayan, ihtiyaç anında gelişigüzel yazılan kod |
+| Adapted Server | Uyarlanmış Sunucu (Adapted Server) | Orijinal sunucunun değiştirilemediği durumlarda, kilitlemeyi kendisi yapan bir aracı (intermediary) katmanla sunucuyu sarmak; sunucu tabanlı kilitlemenin bir örneğidir. Sayfa 185'te üç düzeltme yolundan üçüncüsüdür. |
 | Adapter Pattern | Adaptör Deseni (Adapter Pattern) | Uyumsuz bir arayüzü (ör. üçüncü taraf API) uygulamanın beklediği arayüze çeviren tasarım deseni; API değiştiğinde tek değişiklik noktası sağlar [GOF] |
 | Address | Adres (Address) |  |
 | Agile | Çevik (Agile) | Çevik yazılım geliştirme |
@@ -26,6 +27,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Argument | Argüman (Argument) | Fonksiyona geçirilen parametre |
 | Argument List | Argüman Listesi (Argument List) | Değişken sayıda argüman alan fonksiyonlar (varargs) |
 | Argument Object | Argüman Nesnesi (Argument Object) | Birden fazla argümanı bir sınıfa sarma tekniği |
+| ASM | ASM (Java bytecode manipulation framework) | Java bayt kodu işleme/üretme çerçevesi; sayfa 189'da CGLIB ile birlikte programatik enstrümantasyon aracı olarak geçer. Teknik araç adı olduğu için İngilizce kalır. |
 | Aspect | Görünüm (Aspect) | AOP'de belirli bir kaygıyı desteklemek için sistemin hangi noktalarında davranışın tutarlı biçimde değiştirileceğini belirten modüler yapı |
 | Aspect Oriented Programming | Görünüm Yönelimli Programlama (AOP) | Tekrarı kaldırma stratejilerinden biri |
 | AspectJ | AspectJ | Java'nın bir uzantısı olan, görünümleri (aspects) 'birinci sınıf' (first-class) yapılar olarak destekleyen tam donanımlı görünüm yönelimli programlama (AOP) dili. Ürün adı olarak İngilizce kalır. |
@@ -38,6 +40,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Author | Yazar (Author) |  |
 | Autocomplete / Code Completion | Otomatik Kod Tamamlama (Autocomplete) | IDE'nin isim önerme özelliği |
 | Automated Tool | Otomatik Araç (Automated Tool) | Biçimlendirme kurallarını geliştirici yerine uygulayan araç |
+| Backpressure | Geri Baskı (Backpressure) | Sınırlı kuyruğun dolmasıyla hızlı tarafın (üreticinin) bloklayan put çağrısında bekleyerek otomatik yavaşlatılması; kavram kartı (bounded-queue-backpressure) için eklendi. |
 | Bad Code | Kötü Kod (Bad Code) | Bakımı zor, okunması güç kod |
 | Bean | Bean | Private alanlarına getter ve setter ile erişilen veri sınıfı (JavaBean); terim çevrilmez |
 | Beautiful Code | Güzel Kod (Beautiful Code) |  |
@@ -45,22 +48,28 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Big Design Up Front (BDUF) | Baştan Büyük Tasarım (BDUF) | Hiçbir şey gerçekleştirmeden önce her şeyi baştan tasarlama uygulaması; önden tasarım (up-front design) gibi iyi bir uygulamayla karıştırılmamalıdır. Değişime uyum sağlamayı engellediği (önceki emeği bırakmanın psikolojik direnci) için zararlıdır. |
 | Big Picture | Büyük Resim (Big Picture) | Sistemin ya da takımın genelini gören üst seviye bakış açısı |
 | Boilerplate Code | Basmakalıp/Şablon Kod (Boilerplate Code) | Pek çok yerde aynı biçimde tekrarlanan, çoğunlukla kopyalanarak çoğaltılan kalıp kod |
+| Bound Resource | Sınırlı Kaynak (Bound Resource) | Kapasitesi sınırlı, doluluk/boşluk durumunun sinyalle (signal) yönetilmesi gereken kaynak; sayfa 184'te üretici-tüketici deseni bağlamında 'a bound resource' ifadesinde geçer. |
+| Bound Resources | Sınırlı Kaynaklar (Bound Resources) | Eşzamanlı ortamda kullanılan sabit boyutlu/sayılı kaynaklar (ör. veritabanı bağlantıları, sabit boyutlu tamponlar); sayfa 183'ün tanım tablosunda geçer. |
 | Boundary | Sınır (Boundary) | Kendi kodumuzun kontrol etmediğimiz kodla (üçüncü taraf paket, açık kaynak ya da başka bir ekibin bileşeni) buluştuğu yer; Chapter 8'in konusu |
+| Boundary Case | Sınır Durumu (Boundary Case) | Eşzamanlı kodda özellikle inatçı olan uç durumlar: örn. temiz biçimde kapanmak, bir döngünün yinelemesini tamamlamak. Sayfa 190'ın Sonuç kesitinde geçer; 'Boundary' (Sınır) ve 'Boundary Test' terimlerinden ayrı, daha genel bir kavramdır. |
 | Boundary Interface | Sınır Arayüzü (Boundary Interface) | Sistemin sınırında üçüncü taraf kodla temas eden arayüz (ör. Map); kullanıldığı sınıfta ya da yakın sınıf ailesinde tutulmalı, public API'lerde dolaştırılmamalı |
 | Boundary Test | Sınır Testi (Boundary Test) | Üçüncü taraf koda giden arayüzü üretim kodunun kullandığı şekilde çalıştıran testler; yeni sürümlere geçişi kolaylaştırır |
 | Boy Scout Rule | İzci Kuralı (Boy Scout Rule) | Kamp alanını bulduğundan daha temiz bırak prensibi |
 | Breaking Indentation | Girintiyi Bozma (Breaking Indentation) | Kısa if/while/fonksiyon bloklarını tek satıra sıkıştırarak girinti kuralının çiğnenmesi; kaçınılması gereken bir alışkanlık |
+| Breakpoint | Kesme Noktası (Breakpoint) | Hata ayıklamada (debug) programın durdurulması için ayarlanan nokta; vurulan kesme noktalarına bakarak sistemin durumu belirlenebilir. |
 | Broken Windows | Kırık Pencereler (Broken Windows) | Pragmatik Programcılar metaforu: bir kırık pencere tüm binayı çürütür |
 | Bug | Hata (Bug) | Sektörde "bug" olarak da kullanılır |
 | BUILD-OPERATE-CHECK | KUR-İŞLET-DENETLE (BUILD-OPERATE-CHECK) | Testi üç bölüme ayıran desen: test verisini kur, bu veri üzerinde işlem yap, işlemin beklenen sonucu verdiğini denetle; Arrange-Act-Assert olarak da bilinir (FitNesse kabul testi desenleri) |
 | Business Logic | İş Mantığı (Business Logic) | Uygulamanın iş kurallarını (Business Rule) uygulayan mantık katmanı; sözlükteki 'İş Kuralı (Business Rule)' teriminden türetilmiştir. |
 | Business Rule | İş Kuralı (Business Rule) | Uygulamanın alanına ait politika ve hesaplama mantığı; veri yapısına değil nesneye aittir |
+| Byte-Code | Bayt Kodu (Byte-Code) | Derleyicinin ürettiği, JVM tarafından çalıştırılan orta düzey makine temsilinin kendisi; sözlükteki 'Byte-Code Manipulation' (Bayt Kodu İşleme) teriminden ayrıdır, yalnızca bayt kodu kavramıdır. |
 | Byte-Code Manipulation | Bayt Kodu İşleme (Byte-Code Manipulation) | Derlenmiş sınıf dosyalarının bayt kodunun çalışma anında değiştirilmesi; arayüzü olmayan sınıfları vekillemek için CGLIB, ASM, Javassist gibi kütüphaneler kullanılır. |
 | Caching | Önbellekleme (Caching) | Sık erişilen verilerin, tekrar hesaplama ya da veritabanı erişiminden kaçınmak için hızlı erişilen bellekte saklanması; çapraz kesim kaygısı (cross-cutting concern) örneği. |
 | Callee | Çağrılan Fonksiyon (Callee) | Başka bir fonksiyon tarafından çağrılan fonksiyon |
 | Caller | Çağıran Fonksiyon (Caller) | Başka bir fonksiyonu çağıran fonksiyon |
 | Care | Önemseme (Care) | Zanaata ve koda duyulan özen |
 | Casting | Tür Dönüştürme (Casting) | Bir değeri açıkça başka bir türe çevirme, ör. (Sensor) sensors.get(id); istemci koda dağıldığında kodu kirletir |
+| CGLIB | CGLIB (Java Bytecode Generator Library) | Java bayt kodu üreten kütüphane; sayfa 189'da kodu programatik olarak enstrümanlamak için önerilen araçlardan biri. Teknik araç adı olduğu için İngilizce kalır. |
 | Chain of Inheritance | Kalıtım Zinciri (Chain of Inheritance) | Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi |
 | Check In | Teslim Etmek (Check In) | Kod ve test değişikliklerini sürüm kontrol sistemindeki depoya kaydetmek; commit ile benzer anlamda |
 | Checked Exception | Denetlenen İstisna (Checked Exception) | Java'da metot imzasında throws ile bildirilmesi derleyici tarafından zorunlu tutulan istisna |
@@ -72,6 +81,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Clean Code | Temiz Kod (Clean Code) |  |
 | Clean Test | Temiz Test (Clean Test) | Başlıca niteliği okunabilirlik olan test: açıklık, sadelik ve ifade yoğunluğu; az ifadeyle çok şey söyler |
 | Client Code | İstemci Kod (Client Code) | Bir sınıfı, arayüzü ya da API'yi kullanan (çağıran) kod |
+| Client-Based Locking | İstemci Tabanlı Kilit (Client-Based Locking) | Paylaşılan nesnedeki birden fazla senkronize metodu istemcinin çağırması gerektiğinde, kilitleme sorumluluğunun istemciye verilmesi: istemci ilk çağrıda sunucuyu kilitler ve kilidin kapsamı son metodu çağıran kodu da kapsar. Sayfa 185'te üç düzeltme yolundan ilkidir. |
 | Closed Class | Kapalı Sınıf (Closed Class) | Açık Kapalı İlkesi (OCP) anlamında değişikliğe kapalı sınıf: yeni işlev, mevcut sınıfı düzenleyerek değil yeni bir alt sınıf ekleyerek kazandırılır (Listing 10-10) |
 | Closing Brace | Kapatma Parantezi (Closing Brace) | Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum |
 | Code Formatting | Kod Biçimlendirme (Code Formatting) | Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır |
@@ -92,20 +102,26 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Composed Method | Oluşturulmuş Metot (Composed Method) | Metodu küçük adımlara bölerek oluşturma |
 | Conceptual Affinity | Kavramsal Yakınlık (Conceptual Affinity) | Kod parçalarının kavramsal olarak birbirine yakın olması; doğrudan bağımlılık ya da benzer işlem yapma nedeniyle olabilir; yakınlık arttıkça dikey mesafe azalmalı |
 | Concrete Class | Somut Sınıf (Concrete Class) | Gerçekleştirim ayrıntılarını (kodu) içeren sınıf; istemcinin doğrudan somut sınıfa bağımlı olması, ayrıntılar değiştiğinde risk yaratır |
+| Concurrency | Eşzamanlılık (Concurrency) | Bölüm 13'ün açılış sayfası ve konusu: birden çok işin iş parçacıkları (threads) aracılığıyla aynı anda yürütülmesini sağlayan tasarım ve programlama disiplini. Sözlükteki 'Race Condition' (Yarış Durumu) terimiyle ilişkili ama ayrı bir kavramdır. |
 | Configuration File | Yapılandırma Dosyası (Configuration File) | Hangi nesnelerin birbirine bağlanacağı (wiring) gibi kurulum kararlarının koda gömülmek yerine dışarıda tutulduğu dosya; ör. Spring'in XML yapılandırma dosyası |
 | Consistent Lexicon | Tutarlı Kelime Haznesi (Consistent Lexicon) | Kod tabanında tutarlı terimler kullanma prensibi |
 | Constant | Sabit (Constant) | Programın çalışması boyunca değişmeyen, adlandırılmış değer; uygun soyutlama seviyesinde tutulmalıdır [G35] |
 | Constructor | Kurucu (Constructor) | Bir nesne oluşturulurken çağrılan, ilklendirme yapan özel metot |
 | Constructor Argument | kurucu argümanı | Bir nesnenin kurucusuna (constructor) geçirilen parametre; Abstract Factory bağlamında uygulama, kurulum ayrıntılarını bilmeden fabrika yöntemiyle uygulamaya özgü kurucu argümanları sağlayabilir |
 | Container | Kap (Container) | Veri yapısı kapsayıcısı (List, Set, Map vb.) |
+| Contention | Çekişme (Contention) | Birden çok iş parçacığının aynı kilit/kaynak için yarışması; sayfa 185'te 'increases contention and degrades performance' ifadesinde geçer. Kritik bölge büyüdükçe çekişme artar. |
+| ConTest | ConTest | IBM tarafından geliştirilen, eşzamanlılık hatalarını yakalamak için thread scheduling'i programatik olarak kontrol eden test aracı; dipnot 18: http://www.alphaworks.ibm.com/tech/contest. Araç adı olduğu için çevrilmez. |
 | Context | Bağlam (Context) | Kodun anlaşılması için gereken çevresel bilgi |
 | Continuous Improvement | Sürekli İyileştirme (Continuous Improvement) |  |
 | Conundrum | İkilem (Conundrum) | Temiz kodun temel felsefesiyle ilgili zorluk |
 | Convention over Configuration | yapılandırmadan çok kural (convention over configuration) | Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır. |
+| Cosmic Ray | Kozmik Işın (Cosmic Ray) | Tek seferlik, açıklanamayan başarısızlıklara uydurulan bahane; bu sayfada 'write off the failure as a cosmic ray' ifadesinde geçer. |
+| CountDownLatch | CountDownLatch | Bir dizi olayın gerçekleşmesini bekleyip sonra tüm iş parçacıklarını serbest bırakan kilit; java.util.concurrent paketinde. Teknik sınıf adı olduğu için çevrilmez. |
 | Coupling | Bağımlılık (Coupling) | Bileşenlerin birbirine bağımlılığı |
 | Craftsmanship | Zanaat / Ustalık (Craftsmanship) | Yazılım zanaatı |
 | Crawler | Tarayıcı (Crawler) | Sayfaları dolaşıp işleyen bileşen; FitNesse'de wiki sayfalarını ekleyip bulan nesne (crawler.addPage). Web tarayıcısı (browser) ile karıştırılmamalı |
 | Crisp Abstraction | Keskin Soyutlama (Crisp Abstraction) | Grady Booch'un temiz kod tanımından; net ve öz soyutlama |
+| Critical Section | Kritik Bölge (Critical Section) | Paylaşılan kaynağa erişim için iş parçacıklarının sırayla girmesi gereken kod bölümü; kavram kartlarında kullanıldı. |
 | Cross-Cutting Concern | Çapraz Kesim Kaygısı (Cross-Cutting Concern) | Kalıcılık, güvenlik, işlem yönetimi gibi nesnelerin doğal sınırlarını keserek birçok modüle yayılan kaygı türü |
 | Data Abstraction | Veri Soyutlama (Data Abstraction) | Verinin nasıl saklandığını değil ne anlama geldiğini dışarı açma |
 | Data Access Object (DAO) | Veri Erişim Nesnesi (DAO) | Kalıcı depoya (ör. veritabanı) erişimi kapsülleyen, iş nesnesini depolama ayrıntılarından ayıran nesne; kitapta 'data accessor object (DAO)' olarak geçer. |
@@ -115,6 +131,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Data/Object Anti-Symmetry | Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry) | Nesneler yeni türü, veri yapıları yeni işlemi kolaylaştırır |
 | DBMS | DBMS (Veritabanı Yönetim Sistemi — Database Management System) | Database Management System; veritabanını yöneten yazılım. Kısaltma İngilizce kalır |
 | Deadline | Son Teslim Tarihi (Deadline) | Projenin teslim edilmesi gereken tarih |
+| Deadlock | Ölü Kilit (Deadlock) | Sayfa 179 listesinde 'concurrent update and deadlock' ifadesinde geçer; iş parçacıklarının birbirini sonsuza dek beklediği durum. |
 | Decay | Çürüme (Decay) | Kırık pencereler metaforunda kodun giderek kötüleşmesi |
 | Decentralized Management | Merkezi Olmayan Yönetim (Decentralized Management) | Modülerlik (Modularity) ve kaygıların ayrılması (Separation of Concerns) sayesinde, yeterince büyük bir sistemde yönetim ve karar verme sorumluluğunun tek bir kişiye değil alanlara/ekiplerine dağıtılması. |
 | Decisive | Kararlı (Decisive) | Kodun tereddütsüz ve kesin olması |
@@ -132,6 +149,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Descriptive Names | Betimleyici İsimler (Descriptive Names) | Fonksiyonun ne yaptığını açıkça anlatan, gerekirse uzun tutulan isimlendirme ilkesi |
 | Design Intent | Tasarım Amacı (Design Intent) | Sistemin amaçlanan mimari yapısı |
 | Design Pattern | Tasarım Deseni (Design Pattern) |  |
+| Dining Philosophers | Yemek Yiyen Filozoflar (Dining Philosophers) | Yuvarlak masada çatal (resource) için yarışan filozoflar (threads) metaforuyla kaynak yarışı; dikkat edilmezse ölü kilit (deadlock) ve canlı kilit (livelock) üretir; sayfa 184'te level-2 başlık. |
 | Dirty Code | Kirli Kod (Dirty Code) | Temiz olmayan, bakımı zor kod |
 | Dirty Tests | Kirli Testler (Dirty Tests) | Kalite standartları gözetilmeden “çabuk ve kirli” yazılmış testler; değiştirilmeleri zorlaşır ve zamanla bir yüke dönüşürler |
 | Disinformation | Yanlış Bilgi (Disinformation) | İsimlerin okuyucuyu yanlış yönlendirmesi |
@@ -146,6 +164,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Double Dispatch | Çift Gönderim (Double Dispatch) | Çağrılacak metodu iki nesnenin türüne göre seçme tekniği |
 | Driver Program | Sürücü Program (Driver Program) | Test edilen kodu çağırıp onunla elle etkileşim kurmayı sağlayan basit, çoğu zaman kullanılıp atılan yardımcı program |
 | Dual Standard | Çifte Standart (Dual Standard) | Test kodunun üretim kodundan farklı mühendislik standartlarına tabi olması: basit, öz ve anlatımlı olmalı, ancak üretim kodu kadar verimli olması gerekmez |
+| Due Diligence | Gerekli Özen (Due Diligence) | Bir konuda gereken dikkati gösterme, yükümlülüğünü eksiksiz yerine getirme; bu sayfada 'you’ve done due diligence' ifadesinde geçer: testler geçerse jiggle'lamayla gerekli özeni göstermiş sayılır. |
 | Dummy Scope | Boş Kapsam (Dummy Scope) | While/for gövdesinin kasıtlı olarak boş bırakıldığı, dikkatli biçimlendirme (parantez + girinti) gerektiren yapı |
 | Duplication | Tekrar (Duplication) | DRY ilkesi: Don't Repeat Yourself |
 | Duplication of Implementation | Gerçekleştirim Tekrarı (Duplication of Implementation) | Aynı olgunun farklı mekanizmalarla (ör. bir boolean ve bir sayaç) iki kez saklanması; sayfa 173'te isEmpty/size örneğiyle işlenir. Sözlükteki 'Duplication | Tekrar (Duplication)' teriminden ayrı, daha dar bir kavramdır. |
@@ -167,6 +186,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Exception | İstisna (Exception) | Hata yönetimi bağlamında |
 | Exception Class | İstisna Sınıfı (Exception Class) | Hatayı temsil eden sınıf; en önemli ölçüt, çağıranın onu nasıl yakalayacağıdır |
 | Exception Classification | İstisna Sınıflandırması (Exception Classification) | İstisnaların türlere ayrılma biçimi; Clean Code'a göre kaynağa değil, nasıl yakalandıklarına göre yapılmalı |
+| Execution Path | Çalışma Yolu (Execution Path) | İş parçacıklarının izleyebileceği talimat sıralaması; bu sayfada 'possible execution paths' ve 'Possible Paths of Execution' başlığında geçer. Sözlükteki 'Normal Flow' (Normal Akış) teriminden farklıdır. |
+| Executor Framework | İcracı Çerçevesi (Executor Framework) | Java 5'in java.util.concurrent paketinde; iş parçacığı yönetimini soyutlayarak görevleri (tasks) çalıştıran çerçeve. Sayfadaki 'Use the executor framework for executing unrelated tasks' maddesinde geçer. |
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
 | Explicit | Açık (Explicit) | Bağlamın kodda doğrudan yer alması |
 | Expressive | İfade Gücü (Expressive) | Chapter 12'nin koşu başlığı (running header) terimi; sözlükteki 'Expressiveness | İfade Gücü (Expressiveness)' teriminin sıfatı. Sayfa 175'te kesit başlığı olarak geçer. |
@@ -194,9 +215,12 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Function Call Dependency | Fonksiyon Çağrı Bağımlılığı (Function Call Dependency) | Bir fonksiyonun başka bir fonksiyonu çağırmasından doğan bağımlılık; aşağı yönü göstermelidir |
 | Function Header | Fonksiyon Başlığı (Function Header) | Fonksiyonun başına eklenen açıklama bloğu |
 | Function Sections | Fonksiyon Bölümleri (Function Sections) | Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.) |
+| Garbage Collection | Çöp Toplama (Garbage Collection) | Artık ulaşılamayan nesneleri bellekten geri alan otomatik bellek yönetimi işlemi; sayfadaki 'garbage collection overhead' ifadesinde 'çöp toplama ek yükü' olarak geçer. |
 | Generics | Jenerik Türler (Generics) | Java 5 ile gelen, sınıf ve koleksiyonların tür parametresi almasını sağlayan özellik (ör. Map<Sensor>); tür dönüştürme ihtiyacını azaltır |
 | Given-When-Then | Given-When-Then | Testleri hazırlık (given), eylem (when) ve doğrulama (then) bölümlerine ayıran yaygın adlandırma kuralı; çevrilmez, olduğu gibi kullanılır. |
+| Glitch | Arıza (Glitch) | Donanım kaynaklı kısa süreli geçici bozulma; bu sayfanın dipnotlarında 'Cosmic-rays, glitches, and so on.' ifadesinde geçer. |
 | God class | Tanrı sınıfı (God class) | Aşırı sayıda public metot ve sorumluluk yükleyerek neredeyse tüm sistemi tek başına yöneten aşırı büyük sınıf; kötü sınıf tasarımının uç örneği. |
+| Graceful Shutdown | Düzgün Kapanış (Graceful Shutdown) | Kaynakların sırayla ve güvenle serbest bırakılarak, ölü kilit veya asılı iş parçacığı kalmadan sistemin sonlandırılması; bu sayfada ana tema. |
 | Gratuitous Context | Gereksiz Bağlam (Gratuitous Context) | Bir isme zaten içinde bulunduğu yapı tarafından sağlanan bağlamı tekrar eklemek |
 | Green-field Project | Yeşil Alan Projesi (Green-field Project) | Sıfırdan başlanan proje |
 | Happy Path | Mutlu Yol (Happy Path) | Hiçbir hatanın oluşmadığı, kodun normal akışta izlediği yol |
@@ -225,19 +249,26 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Instance | Örnek (Instance) | Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği |
 | Instance Variable | Örnek Değişkeni (Instance Variable) | Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken |
 | Instantiation | Örnekleme (Instantiation) | Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer |
+| Instrumentation | Enstrümantasyon (Instrumentation) | Kodun içine, yalnızca test sırasında etkin olacak ölçüm/kesinti noktaları (ör. wait, sleep, yield, priority çağrıları) ekleme tekniği; nadir eşzamanlılık kusurlarını zorlayarak ortaya çıkarmak için kullanılır. Sayfa 188'de 'Instrument Your Code to Try and Force Failures' başlığı altında geçer. |
 | Integer Handle | Tamsayı Tanıtıcısı (Integer Handle) |  |
 | Intention-Revealing Names | Niyet Belirten İsimler (Intention-Revealing Names) | Amacı açıkça ortaya koyan isimler |
 | Interface | Arayüz (Interface) |  |
 | Interpreter | Yorumlayıcı (Interpreter) | Kaynak kodu satır satır çalıştıran program |
+| Intrinsic Lock | İçsel Kilit (Intrinsic Lock) | Her Java nesnesine gömülü olan kilit; `synchronized` blokları bu kilitle çalışır. Sayfa 182'de 'the intrinsic lock' ifadesinde geçer. |
 | Invasiveness | istilacılık (invasiveness) | Bir çerçevenin (framework) gereksinimlerinin iş nesnesinin içine girerek onu kirletmesi; EJB2'nin sınıf ve arayüz dayatmasının yan etkisi. |
 | Inversion of Control (IoC) | Kontrolün Tersine Çevrilmesi (Inversion of Control — IoC) | Bağımlılık yönetiminde kontrolün nesneden, bu amaca adanmış harici bir mekanizmaya (main, kap/container) devredilmesi ilkesi; Bağımlılık Enjeksiyonu (DI) bu ilkenin uygulanmasıdır |
 | InvocationHandler | Çağrı İşleyici (InvocationHandler) | Java yansıma (reflection) API'sindeki arayüz; vekile yapılan her metot çağrısı, bu nesnenin invoke metodu aracılığıyla ele alınır. |
+| Iteration (test loop) | Yineleme (Iteration) | Testin belirli sayıda kez tekrarlanması; bu sayfada 'run for a number of iterations' maddesinde geçer. |
+| Java Memory Model | Java Bellek Modeli (Java Memory Model) | Java'nın hangi okuma/yazma işlemlerini atomik (atomic) saydığını ve paylaşılan değişkenlerin iş parçacıkları arasında nasıl göründüğünü tanımlayan sözleşme; bu sayfada 'what the Java memory model considers to be atomic' ifadesinde geçer. |
 | Javadoc | Javadoc | Java API dokümantasyon formatı |
+| JDK | JDK (Java Development Kit) | Java Geliştirme Kiti; kısaltma olduğu gibi kullanılır (sözlükteki 'JVM' girdisine paralel). Sayfadaki 'became part of the JDK' ifadesinde geçer. |
+| Jiggle | Titretme (Jiggle) | Kod içine eklenen enstrümantasyon noktalarında rastgele uyku/yerini verme/hiçbir şey yapma seçimleri yaparak iş parçacıklarının çalışma sıralamasını zorla değiştirme tekniği; 'jiggle' fiili 'jiggle'lamak (titretmek)' olarak, isim 'titretme (jiggle)' olarak çevrilir. Sayfa 188-190 (Automated instrumentation) bağlamında geçer. |
 | JNDI | JNDI | Java Naming and Directory Interface; bir dizin sunucusundan (directory server) ada göre hizmet/nesne aramayı sağlayan Java API'si; DI'ın 'kısmi' bir gerçekleştirimi olarak kabul edilir |
 | JobQueue | İş Kuyruğu (JobQueue) |  |
 | Journal Comment | Günlük Yorumu (Journal Comment) | Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum |
 | JPA (Java Persistence API) | JPA (Java Kalıcılık API'si — Java Persistence API) | EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API. |
 | Just-in-Time | Tam Zamanında (Just-in-Time) | Kararların en güncel bilgiyle, en geç gerektiği anda alınması yaklaşımı |
+| Just-In-Time Compiler | Tam Zamanında Derleyici (Just-In-Time Compiler) | JVM'nin bayt kodunu çalışma anında makine koduna çeviren bileşeni (JIT); bu sayfada üretilen bayt kodunun nasıl yürütüldüğünü anlamak için anahattır. Sözlükteki 'Just-in-Time' (karar alma yaklaşımı) teriminden farklı bir kavramdır. |
 | JVM | JVM (Java Sanal Makinesi) | Java Virtual Machine; Java bayt kodunu çalıştıran sanal makine. Kitapta “ayrı JVM” (separate JVM), uzak arayüzün çalıştığı ayrı süreci ifade eder. |
 | Keyword Form | Anahtar Kelime Formu (Keyword Form) | Argüman isimlerini fonksiyon adına kodlama tekniği |
 | Language Bigot | Dil Bağnazı (Language Bigot) |  |
@@ -252,8 +283,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Lexicon | Sözlük (Lexicon) | Bir projedeki tutarlı terimler bütünü |
 | Lifecycle Method | Yaşam Döngüsü Metodu (Lifecycle Method) | Konteynerin çağırdığı ejbCreate, ejbActivate, ejbLoad gibi, bir bileşenin yaşam döngüsünü yöneten metotlar. |
 | Literate Programming | Okuryazar Programlama (Literate Programming) | Knuth'un kavramı: kod önce insanlar için yazılmalı |
+| Livelock | Canlı Kilit (Livelock) | İş parçacıkları sürekli yeniden deneyip ilerleyemediğinde oluşan durum; ölü kilit (deadlock) ve açlık (starvation) ile birlikte sayfa 183'ün tanım tablosunda geçer. |
 | Local Interface | Yerel Arayüz (Local Interface) | EJB'de aynı JVM içinden erişim için kullanılan istemci arayüzü. |
 | Local Variable | Yerel Değişken (Local Variable) | Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken |
+| Lock | Kilit (Lock) | Paylaşılan kaynağa aynı anda yalnız bir iş parçacığının erişmesini sağlayan mekanizma; sayfa 185'te 'lock the server', 'the lock’s extent' ve 'Locks are expensive' ifadelerinde geçer. Sözlükteki 'Deadlock' (Ölü Kilit) ve 'Intrinsic Lock' (İçsel Kilit) terimlerinden ayrı, genel kavramdır. |
 | Loop Control Variable | Döngü Kontrol Değişkeni (Loop Control Variable) | Döngünün yinelemesini yöneten değişken; genellikle döngü ifadesinin içinde tanımlanır |
 | Low-Level | Alt Seviye (Low-Level) | Ayrıntılara ve mekanizmaya yakın kod; üst seviye (high-level) kodun çağırdığı katman |
 | Magic Number | Sihirli Sayı (Magic Number) | Kodda açıklamasız kullanılan sabit değer |
@@ -285,8 +318,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Modularity | Modülerlik (Modularity) | Sistemin bağımsız, yeniden kullanılabilir parçalara (modüllere) bölünmesi |
 | Module | Modül (Module) |  |
 | Monadic | Tekli (Monadic) | Bir argümanlı fonksiyon |
+| Multithreaded / Single-threaded | Çok İş Parçacıklı (multithreaded) / Tek İş Parçacıklı (single-threaded) | Sözlükteki 'Thread | İş Parçacığı (Thread)' teriminin sıfat biçimleri; sayfa 179'da 'single threaded', 'multithreaded algorithm', 'single-threaded system' ifadelerinde geçer. |
 | Mumbling | Mırıldanma (Mumbling) | Belirsiz, özensiz veya ne dediği anlaşılmayan yorum |
 | Mutator | Değiştirici (Mutator) | JavaBean standardında set metotları |
+| Mutual Exclusion | Karşılıklı Dışlama (Mutual Exclusion) | Bir anda yalnızca bir iş parçacığının ortak veriye ya da kaynağa erişebilmesi ilkesi; sayfa 183'ün tanım tablosunda geçer. |
 | Namespace | Ad Alanı (Namespace) |  |
 | Naming Convention | İsimlendirme Kuralı (Naming Convention) |  |
 | Necessary Evil | Zorunlu Kötülük (Necessary Evil) | Yorumların en iyi ihtimalle kaçınılmaz ama asla övülmemesi gereken bir kötülük olduğu fikri; Bölüm 4'ün açılış temasıdır |
@@ -295,6 +330,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Niladic | Sıfırlı (Niladic) | Argümansız fonksiyon |
 | Noise Comment | Gürültü Yorumu (Noise Comment) | Hiçbir değer katmayan, bariz olanı tekrar eden yorum |
 | Noise Word | Gürültü Kelimesi (Noise Word) | İsme anlam katmayan ek (Info, Data, the, a) |
+| Nonblocking | Engel Olmayan (Nonblocking) | İş parçacığını bekleme (blocking) durumuna sokmayan eşzamanlılık çözümleri; sayfadaki 'Use nonblocking solutions when possible' maddesinde geçer. |
 | Noninvasive | Müdahalesiz (Noninvasive) | Hedef koda ya da iş nesnesinin içine girmeden uygulanan; görünüm benzeri (aspect-like) mekanizmaların diğer gerçekleştirim kaygılarını (implementation concerns) bu biçimde dahil etmesi anlamında. Sayfa 161'de 'noninvasively' için 'müdahalesiz (noninvasively)' kullanılmıştır; sözlükteki 'istilacılık (Invasiveness)' teriminin karşıtıdır. |
 | Nonlocal Information | Yerel Olmayan Bilgi (Nonlocal Information) | Bulunduğu yerle doğrudan ilgili olmayan sistem bilgisi |
 | Normal Flow | Normal Akış (Normal Flow) | Hata durumlarıyla kesintiye uğramayan, asıl iş akışı |
@@ -304,6 +340,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Object | Nesne (Object) |  |
 | Object-Oriented Code | Nesne Yönelimli Kod (Object-Oriented Code) | Davranışı nesnelere dağıtan kod; yeni sınıf eklemeyi kolaylaştırır, yeni fonksiyon eklemeyi zorlaştırır (sayfa 97) |
 | Object-Oriented Design | Nesne Yönelimli Tasarım (Object-Oriented Design) |  |
+| One-Off | Tek Seferlik Olay (One-Off) | Yalnızca bir kez görülüp geçiştirilen düzensiz başarısızlık; sayfadaki 'written off as a onetime occurrence' ve 'so-called one-offs' ifadelerinde geçer. Aslında yük altında ya da rastgele zamanlarda ortaya çıkan eşzamanlılık hatası adayıdır. |
 | Open Closed Principle (OCP) | Açık Kapalı İlkesi (OCP) | Sınıflar genişlemeye açık, değişikliğe kapalı olmalı |
 | Open Source | Açık Kaynak (Open Source) | Kaynak kodu herkesin kullanımına açık olarak dağıtılan yazılım |
 | Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
@@ -318,7 +355,10 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Oxymoron | Oksimoron (Oxymoron) | Birbirine zıt kavramların birleşimi (ör. "keskin soyutlama") |
 | Package | Paket (Package) | Kod organizasyon birimi |
 | Package Scope | Paket Kapsamı (Package Scope) | Java'da yalnızca aynı paketteki sınıflardan erişilebilen görünürlük seviyesi; testler uğruna kapsüllemeyi gevşetmenin private'tan sonraki en az zararlı yolu. |
+| Parent Thread / Child Thread | Ana İş Parçacığı / Çocuk İş Parçacığı (Parent Thread / Child Thread) | Bir iş parçacığının (parent) başlattığı ve beklediği alt iş parçacıkları (children); kapanışta ana iş parçacığı çocukları bitirmeyi bekler. |
 | Persistence | Kalıcılık (Persistence) | Verinin veritabanı, düz dosya gibi kalıcı bir depoda saklanması |
+| Plug-ability | Takılabilirlik (Plug-ability) | 'Pluggable | Takılabilir (Pluggable)' teriminin isim biçimi; sayfadaki 'implies some level of plug-ability' ifadesinde geçer. TDD'nin Üç Yasası'ndan gelen test edilebilirliğin ima ettiği özellik. |
+| Pluggable | Takılabilir (Pluggable) | Bağımlılıkların (ör. test ikizleri) çalışma zamanında değiştirilebilir/takılabilir olması; bu sayfada 'Make Your Threaded Code Pluggable' başlığında geçer. |
 | Point of Declaration | Tanımlama Noktası (Point of Declaration) | Değişkenin tanımlandığı yer |
 | POJO (Plain-Old Java Object) | POJO (Sade Eski Java Nesnesi) | Herhangi bir çerçeveye (framework) veya kapsayıcıya (container) bağımlılığı olmayan, tamamen kendi alanına odaklanmış sade Java sınıfı; kitapta 'Plain-Old Java Object (POJO)' olarak geçer ve BankImpl buna örnektir. Yazar kitapta POJO'lara kısa süre sonra yeniden döneceğini söyler (Pure Java AOP Frameworks). |
 | Polyadic | Çoklu (Polyadic) | Üç veya daha fazla argümanlı fonksiyon |
@@ -326,6 +366,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Position Marker | Konum İşaretçisi (Position Marker) | Kod bloklarını ayırmak için kullanılan görsel banner'lar |
 | Precision | Hassasiyet (Precision) | Gereksinimlerdeki kesinlik |
 | Predicate | Yüklem (Predicate) | JavaBean standardında boolean dönen is metotları |
+| Preemptive Threading | Önemleyici İş Parçacıklama (Preemptive Threading) | İşletim sisteminin veya sanal makinenin, bir iş parçacığının kendisi izin vermeden kontrolü devralarak başka bir iş parçacığına geçebilmesi. Dipnot 16'da Java'nın bu davranışı garanti etmediği, modern işletim sistemlerinin bunu 'bedava' sağladığı belirtilir. |
 | Prefix Convention | Önek Kuralı (Prefix Convention) | Yerel değişkenler için a, argümanlar için the gibi önek kuralları |
 | Premature Decision | Erken Verilmiş Karar (Premature Decision) | Optimal olmayan bilgiyle, gerekli bilgi henüz birikmeden verilen karar |
 | Prequel | Öncül (Prequel) | Bu kitabın PPP kitabına göre konumu |
@@ -333,9 +374,11 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Principle of Least Surprise | En Az Şaşırtma İlkesi (Principle of Least Surprise) |  |
 | Problem Domain | Problem Alanı (Problem Domain) |  |
 | Procedural Code | Prosedürel Kod (Procedural Code) | Veri yapıları üzerinde çalışan fonksiyonlarla yazılan kod |
+| Producer-Consumer | Üretici-Tüketicici (Producer-Consumer) | İşi bir tampona (buffer) veya kuyruğa (queue) bırakan üretici iş parçacıkları ile kuyruktan iş alan tüketici iş parçacıklarını sinyal (signal) alışverişiyle koordine eden klasik eşzamanlılık problemi; sayfa 184'te level-2 başlık. |
 | Production Code | Üretim Kodu (Production Code) | Uygulamanın gerçekte çalışan, test kodu olmayan kısmı |
 | Productivity | Verimlilik (Productivity) |  |
 | Professional | Profesyonel (Professional) |  |
+| Programatic Configuration | Programatik Yapılandırma (Programatic Configuration) | Yapılandırmanın dosya yerine kod içinde programatik olarak yapılması; kitapta 'programatic configurations' olarak geçer (orijinal yazım 'programatic'). |
 | Programmer-eese | Programcı Dili (Programmer-eese) | Programcıların kendi aralarında kullandığı teknik jargon |
 | Pronounceable Names | Telaffuz Edilebilir İsimler (Pronounceable Names) | İsimlerin sesli okunabilir olması gerektiği ilkesi |
 | Prose | Düzyazı (Prose) | Grady Booch: "Temiz kod iyi yazılmış bir düzyazı gibi okunur" |
@@ -346,6 +389,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Race Condition | Yarış Durumu (Race Condition) | Eşzamanlı erişimden kaynaklanan hata |
 | Readability | Okunabilirlik (Readability) | Kodun okunup anlaşılma kolaylığı; sonraki tüm değişiklikleri etkiler |
 | Readable Code | Okunabilir Kod (Readable Code) |  |
+| Readers-Writers | Okuyucu-Yazarlar (Readers-Writers) | Paylaşılan kaynağı sürekli okuyan ve ara sıra güncelleyen tarafların doğruluk, geçirimi (throughput) ve açlık (starvation) dengesini bulmasını gerektiren klasik eşzamanlılık problemi; sayfa 184'te level-2 başlık. |
 | Real-Time System | Gerçek Zamanlı Sistem (Real-Time System) | Girdilere belirli zaman sınırları içinde yanıt vermek zorunda olan sistem; çoğunlukla gömülü olup işlemci ve bellek kaynakları kısıtlıdır (Bölüm 9, çifte standart tartışması) |
 | Reason to Change | Değişme Nedeni (Reason to Change) | Tek Sorumluluk İlkesi'nin (SRP) tanımındaki temel ölçüt: bir sınıfın değişmesine yol açabilecek her ayrı sebep bir sorumluluktur; 'responsibility' ile eş anlamlı kullanılır. |
 | Recompilation | Yeniden Derleme (Recompilation) | Değişiklik sonrası kodun tekrar derlenmesi |
@@ -353,6 +397,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Redeployment | Yeniden Dağıtım (Redeployment) | Değişiklik sonrası kodun tekrar dağıtılması |
 | Redesign | Yeniden Tasarım (Redesign) |  |
 | Redundant Comment | Gereksiz Yorum (Redundant Comment) | Koddan daha fazla bilgi vermeyen, fazlalık yorum |
+| ReentrantLock | ReentrantLock | Bir metotta elde edilip başka bir metotta bırakılabilecek kilit; java.util.concurrent.locks paketinde. Teknik sınıf adı olduğu için çevrilmez. |
 | Refactoring | Yeniden Düzenleme (Refactoring) |  |
 | Reflection | Yansıma (Reflection) | Bir programın kendi yapısını (sınıflar, metotlar, alanlar) çalışma anında incelemesine ve bunlara dinamik olarak erişmesine olanak tanıyan API/mekanizma; Java'da java.lang.reflect paketinde bulunur. Sayfada 'Java reflection API' olarak geçer. |
 | Regular Expression | Düzenli İfade (Regular Expression) | Metin desenlerini eşleştirmek için kullanılan söz dizimi; regex olarak da bilinir |
@@ -361,6 +406,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Renaming | Yeniden Adlandırma (Renaming) | Değişken/fonksiyon/sınıf adını değiştirme |
 | Requirement | Gereksinim (Requirement) |  |
 | Resource | Kaynak (Resource) | Bir isteğin hedeflediği, URL ile adreslenen öğe; ör. FitNesse'de request.setResource("root") |
+| Resource Pool | Kaynak Havuzu (Resource Pool) | Birden çok iş parçacığının ortak kullandığı sınırlı kaynak kümesi (örn. veritabanı bağlantıları); eşzamanlılık sorunlarının olası kaynaklarından biri olarak sayfa 190'da 'a common resource pool' ifadesinde geçer. 'Bound Resources' terimiyle yakından ilgilidir. |
+| Response Time | Yanıt Süresi (Response Time) | Bir isteğin yanıtlanması için geçen süre; bazı sistemler yanıt süresi ve geçirimi (throughput) kısıtlarına tabidir. |
 | Responsibility-Driven Design (RDD) | Sorumluluk Odaklı Tasarım (Responsibility-Driven Design) | Rebecca Wirfs-Brock'un nesne tasarımı yaklaşımı: sınıflar veri alanlarından değil rollerden, sorumluluklardan ve iş birliklerinden yola çıkarak tasarlanır; Chapter 10 kaynakçasında [RDD] etiketiyle anılır |
 | Return Code | Dönüş Kodu (Return Code) | Fonksiyonun başarı/hata durumunu dönüş değeriyle bildirmesi; Bölüm 7 bunun yerine istisna kullanmayı önerir |
 | Reusability | Yeniden Kullanılabilirlik (Reusability) | Kodun başka bağlamlarda yeniden kullanılabilmesi; testlerin güvence altına aldığı -liklerden biri |
@@ -378,17 +425,25 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Seam | Dikiş Noktası (Seam) | Kodu o noktada düzenlemeden davranışı değiştirebildiğiniz yer; ör. bir arayüz üzerinden test için sahte nesne takmak [WELC] |
 | Search-friendly name | Arama Dostu İsim (Search-friendly name) |  |
 | Searchable Names | Aranabilir İsimler (Searchable Names) |  |
+| Semaphore | Sinyal (Semaphore) | Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde. |
 | Separation of Concerns | Kaygıların Ayrılması (Separation of Concerns) | Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer. |
+| Server | Sunucu (Server) | İstemci/sunucu (client/server) kilit modellerinde kilitlenen ve paylaşılan nesneyi barındıran taraf; sayfa 185'te 'lock the server', 'Within the server' ve 'the original server cannot be changed' ifadelerinde geçer. |
+| Server-Based Locking | Sunucu Tabanlı Kilit (Server-Based Locking) | Kilitleme sorumluluğunun sunucuya verilmesi: sunucu, tüm metotları tek seferde çağıran ve kendi kilidiyle çalıştırıcı birleşik bir metot sunar; istemci yalnızca o metodu çağırır. Sayfa 185'te üç düzeltme yolundan ikincisidir. |
+| Servlet | Servlet | Java Web'de gelen istekleri asenkron işleyen bileşen; Web ya da EJB konteyneri tarafından yönetilir. Terim çevrilmez. |
 | Setter Method | Set Metodu (Setter Method) | Bir özelliği dışarıdan atamaya yarayan metot; DI'da bağımlılıklar setter metotları ya da kurucu argümanlarıyla enjekte edilir (JavaBeans'teki Mutator ile aynı kavram) |
 | Setup | Kurulum (Setup) | FitNesse test sayfalarında testten önce çalıştırılan hazırlık sayfası/adımı |
+| Shared State | Paylaşılan Durum (Shared State) | Birden çok iş parçacığının erişip değiştirebildiği nesne/veriyi ifade eder; sayfadaki 'forcing clients to manage shared state' ifadesinde geçer. 'shared data' ile eş anlamlı kullanılır. |
+| Shotgun Approach | Tüfek Yaklaşımı (Shotgun Approach) | Rastgele, hedefsiz uygulama biçimi; sayfa 189'da elle enstrümantasyonun 'It's a shotgun approach' ifadesinde geçer — kusurları bulup bulamayacağınızı bilemezsiniz, olasılıklar lehinize değildir. |
 | Side Effect | Yan Etki (Side Effect) |  |
 | Sieve | Eleme (Sieve) | Asal sayıları bulmak için kullanılan algoritma (Eratosthenes Kalburu) |
+| Signal | Sinyal (Signal) | Eşzamanlı iş parçacıklarının birbirine 'devam edebilirsin' bilgisini iletmesi; sayfa 184'te 'signaling each other' ifadesinde geçer. Kavram kartında kuyruğun doluluk/boşluk bildirimi olarak kullanılır. |
 | Simple Code | Basit Kod (Simple Code) | Beck'in kuralları: testler çalışır, tekrar yok, ifade gücü yüksek, varlıklar minimize |
 | Simple Design | Basit Tasarım (Simple Design) | Kent Beck'in [XPE] kaynağına dayanan dört kural: (1) tüm testleri çalıştırır, (2) tekrar (duplication) yok, (3) ifade gücü (expressiveness) yüksek, (4) sınıf ve metot sayısı minimal. Chapter 12'nin omurgası; bu sayfada 'the four rules of Simple Design' ifadesinde geçer. |
 | Single Responsibility | Tek Sorumluluk (Single Responsibility) |  |
 | Single Responsibility Principle (SRP) | Tek Sorumluluk İlkesi (SRP) | Bir sınıfın/fonksiyonun değişmesi için yalnızca bir nedeni olmalıdır ilkesi |
 | Single-Entry, Single-Exit Rule | Tek Giriş, Tek Çıkış Kuralı (Single-Entry, Single-Exit Rule) | Dijkstra'nın yapısal programlama disiplini: her fonksiyon ve blok yalnızca bir girişe ve bir çıkışa sahip olmalı |
 | Snail's Pace | Salyangoz Hızı (Snail's Pace) | Çok yavaş ilerleme metaforu |
+| Soak Test | Süre Testi (Soak Test) | Eşzamanlı kodu üretime koymadan önce uzun süre, yük altında, birçok yapılandırmada çalıştırma pratiği; kavram kartında (soak-test-before-production) 30 dakikalık CI örneğiyle kullanıldı. |
 | Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship) |  |
 | Software Physics | Yazılım Fiziği (Software Physics) | Terimi ilk kez [Kolence] kullanmıştır; yazılımın, yapı kaygılarını etkili biçimde ayırdığında kökten değişikliğin ekonomik olarak mümkün olduğu kendine özgü doğasını anlatır. |
 | Solution Domain | Çözüm Alanı (Solution Domain) |  |
@@ -397,9 +452,13 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Special Case Pattern | Özel Durum Deseni (Special Case Pattern) | Özel durumu kendisi ele alan bir sınıf/nesne döndürerek istemci kodu istisna yönetiminden kurtaran desen [Fowler] |
 | Specification | Spesifikasyon (Specification) | Biçimsel gereksinim tanımı |
 | Spring Framework | Spring Framework | Java için en bilinen DI kabını (container) sağlayan açık kaynaklı çerçeve; XML yapılandırma dosyasıyla bağlama (wiring) yapmayı destekler; Spring.NET adlı bir .NET sürümü de vardır |
+| Spurious Failure | Sahte Başarısızlık (Spurious Failure) | Bir sonraki çalıştırmada kendiliğinden geçen, tekrarlanamayan düzensiz test başarısızlığı; iş parçacıklı kodda olası eşzamanlılık sorunu adayı olarak ele alınmalıdır. |
+| Stack Backtrace | Yığın İzi (Stack Backtrace) | Çağrı yığınının anlık görüntüsü; tek iş parçacıklı uygulamalarda tüm uygulamanın durumunu gösterir. Sözlükteki 'Stack Trace | Yığın İzi (Stack Trace)' ile tutarlıdır. |
 | Stack Trace | Yığın İzi (Stack Trace) | İstisna anındaki çağrı zinciri; hatanın yerini gösterir ama başarısız işlemin amacını söylemez |
 | Stakeholder | Paydaş (Stakeholder) | Projeden etkilenen ya da projeyle çıkarı olan kişi/grup (müşteri, kullanıcı, sponsor vb.) |
+| Stale Information | Bayat/Eski Bilgi (Stale Information) | Güncellenmemiş, eskimiş bilgi birikimi; sayfa 184'te 'the accumulation of stale information' ifadesinde geçer. |
 | Startup Process | Başlangıç Süreci (Startup Process) | Uygulama nesnelerinin oluşturulduğu ve bağımlılıkların birbirine bağlandığı süreç; çalışma zamanı mantığından ayrı tutulmalıdır |
+| Starvation | Açlık (Starvation) | Bir iş parçacığının ya da grubun aşırı uzun süre ya da sonsuza dek ilerlemesinin engellenmesi; sayfa 183'ün tanım tablosunda geçer. |
 | Static Initializer | Statik Başlatıcı (Static Initializer) | Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
 | Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
@@ -415,6 +474,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Subselect | Alt Sorgu (Subselect) | Bir SQL select ifadesinin içine gömülü ikinci bir select sorgusu |
 | Suite | Suite | Çevrilmez; FitNesse'de bir grup test sayfasını ifade eden yapı |
 | Switch Statement | Switch İfadesi (Switch Statement) | Bir değişkenin farklı değerlerine göre dallanma sağlayan kontrol yapısı |
+| Synchronization | Senkronizasyon (Synchronization) | Eşzamanlı erişimin kilitleme gibi mekanizmalarla koordine edilmesi; sayfadaki 'avoid synchronizing', 'synchronization requirements' ve 'synchronization problems' ifadelerinde geçer. |
+| Synchronized | Senkronize (synchronized) | Java anahtar kelimesi; kod metninde `synchronized` olarak ters tırnakla gösterilir ve çevrilmez. Sayfa 181'de kritik bölgeyi korumak için kullanımı anlatılır. |
 | Synopsis | Özet (Synopsis) | Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar |
 | Table Lookup | Tablo Araması (Table Lookup) | Bir sonucu hesaplamak yerine önceden sabitlenmiş bir tablodan okumak; sabit değer döndüren test stub'larının indirgendiği basit davranış |
 | Talk to Friends, Not to Strangers | Yabancılarla Değil, Arkadaşlarla Konuş (Talk to Friends, Not to Strangers) | Demeter Yasası'nın özlü ifadesi: metot yalnızca doğrudan tanıdığı nesnelerle konuşmalı, onların döndürdüğü nesnelerin metotlarını çağırmamalıdır |
@@ -427,13 +488,17 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Test Double | Test Çifti (Test Double) | Birim testinde gerçek bağımlılığın yerine geçen herhangi bir nesne için kapsayıcı terim; stub, fake, mock vb. varyantları kapsar |
 | Test Drive | test güdümlü geliştirmek (test drive) | Kitapta fiil olarak geçer: bir yapıyı (ör. mimariyi) testler aracılığıyla yönlendirerek geliştirmek; 'Test Driven Development' (Test Güdümlü Geliştirme) terimiyle aynı kökten gelir. |
 | Test Driven Development | Test Güdümlü Geliştirme (Test Driven Development / TDD) | Önce test yaz, sonra kodu yaz disiplini |
+| Test Jig | Test Jig'i (Test Jig) | Kodu denetlenmesi istenen koşullar altında (ör. farklı sleep/yield rejimlerinde) çalıştırmak için kurulan test düzeneği; sayfa 189'da 'test jigs' ifadesinde geçer. |
 | Test Suite | Test Paketi (Test Suite) | Bir sistemin otomatik testlerinin bütünü; üretim kodu değiştikçe onunla birlikte bakımı yapılmalıdır |
 | Testable System | Test Edilebilir Sistem (Testable System) | Kapsamlı biçimde test edilen ve testlerinin tümünü her zaman geçen sistem; test edilemeyen sistem doğrulanamaz ve asla devreye alınmamalıdır. Sayfa 172'de 'Simple Design Rule 1: Runs All the Tests' kesitinde geçer. |
 | Testing API | Test API'si (Testing API) | Testlerin kullandığı, sistemin API'lerini saran özelleşmiş fonksiyon ve yardımcı araçlar kümesi; alana özgü test dilinin kendisi |
 | Third-Party API | Üçüncü Taraf API (Third-Party API) | Başka bir satıcı ya da ekip tarafından sağlanan API; sarmalanarak bağımlılık azaltılır |
 | Third-Party Code | Üçüncü Taraf Kod (Third-Party Code) | Satın alınan paketler, açık kaynak kütüphaneler ya da başka ekiplerin ürettiği, kontrolümüzde olmayan kod; sağlayıcı geniş uygulanabilirlik, kullanıcı ise odaklı bir arayüz ister (Bölüm 8) |
 | Thread | İş Parçacığı (Thread) | Bir süreç içinde diğer işlerle eşzamanlı yürütülebilen bağımsız çalışma birimi |
+| Thread-Aware / Thread-Ignorant | İş Parçacığından Haberdar / Habersiz (Thread-Aware / Thread-Ignorant) | Sistemi POJO'lara bölme stratejisindeki iki kod türü: eşzamanlılık mekanizmalarını bilen (thread-aware) kod ve iş parçacıkları hakkında hiçbir şey bilmeyen, saf iş mantığı taşıyan (thread-ignorant) kod. Sayfa 190'ın Sonuç kesitinde geçer; 'Thread-Safe' teriminden ayrıdır. |
+| Thread-Safe | İş Parçacığına Güvenli (Thread-Safe) | Birden çok iş parçacığı tarafından eşzamanlı erişildiğinde güvenle kullanılabilen yapılar için sıfat; sayfadaki 'Thread-Safe Collections' başlığı ve 'thread-safe collections' maddesinde geçer. |
 | Three Laws of TDD | TDD'nin Üç Yasası (Three Laws of TDD) | Robert C. Martin: başarısız bir birim testi yazmadan üretim kodu yazma; testin yalnızca başarısız olmaya yetecek kadarını yaz (derlenmemek de başarısızlıktır); yalnızca başarısız testi geçirecek kadar üretim kodu yaz |
+| Throughput | Geçirim (Throughput) | Birim zamanda işlenen iş/istek miktarı; sayfa 178'de 'geçirimi (throughput)' biçiminde kullanılmıştır. |
 | Tiger Team | Kaplan Ekibi (Tiger Team) | En yetenekli geliştiricilerden oluşan ekip |
 | TO Paragraph | TO Paragrafı | Fonksiyonun ne yaptığını "Bunu yapmak için (TO)..." kalıbıyla anlatan cümle; LOGO dilindeki TO anahtar kelimesinden esinlenilmiştir |
 | TODO | TODO / Yapılacaklar (TODO) | Gelecek için bırakılan notlar ve hatırlatıcılar |
@@ -442,6 +507,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Transactional Behavior | İşlemsel Davranış (Transactional Behavior) | Bir işlemin (Transaction) bütünlüğünü yöneten davranış; EJB'de dağıtım betimleyicisinde bildirilir |
 | Transformation | Dönüşüm (Transformation) | Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi |
 | Triadic | Üçlü (Triadic) | Üç argümanlı fonksiyon |
+| Trial and Error | Deneme-Yanılma (Trial and Error) | Uygun iş parçacığı dengesinin sistematik ölçümle değil deneysel tekrarlarla bulunması; bu sayfada 'trial an error' (yazım hatası) ifadesinde geçer. |
+| Tunable | Ayarlanabilir (Tunable) | İş parçacığı sayısı gibi parametrelerin çalışma sırasında kolayca ayarlanabilir olması; bu sayfada 'Make Your Threaded Code Tunable' başlığında geçer. |
 | Type System | Tür Sistemi (Type System) |  |
 | Unchecked Exception | Denetlenmeyen İstisna (Unchecked Exception) | Bildirilmesi zorunlu olmayan istisna (Java'da RuntimeException alt sınıfları) |
 | Uncle Bob's Formatting Rules | Uncle Bob'un Biçimlendirme Kuralları | Bölüm 5'te yazarın kişisel biçimlendirme kurallarını CodeAnalyzer.java örneğiyle gösterdiği alt başlık (sayfa 91 ve devamı). |

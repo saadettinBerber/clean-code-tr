@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 176,
+  "lastTranslatedPage": 192,
   "chapters": [
     {
       "num": 1,
@@ -2034,6 +2034,182 @@ window.TOC = {
         "tr": "Küçük Sınıflar ve Metotlar"
       },
       "chapter": 12
+    },
+    "177": {
+      "title": {
+        "en": "Concurrency — Chapter Opening",
+        "tr": "Eşzamanlılık — Bölüm Açılışı"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 13
+    },
+    "178": {
+      "title": {
+        "en": "Introduction & Why Concurrency?",
+        "tr": "Giriş & Eşzamanlılık Neden?"
+      },
+      "section": {
+        "en": "Why Concurrency?",
+        "tr": "Eşzamanlılık Neden?"
+      },
+      "chapter": 13
+    },
+    "179": {
+      "title": {
+        "en": "Why Concurrency? (cont.) & Myths and Misconceptions",
+        "tr": "Eşzamanlılık Neden? (devam) & Efsaneler ve Yanılgılar"
+      },
+      "section": {
+        "en": "Why Concurrency?",
+        "tr": "Eşzamanlılık Neden?"
+      },
+      "chapter": 13
+    },
+    "180": {
+      "title": {
+        "en": "Challenges & Concurrency Defense Principles",
+        "tr": "Zorluklar & Eşzamanlılık Savunma İlkeleri"
+      },
+      "section": {
+        "en": "Challenges",
+        "tr": "Zorluklar (Challenges)"
+      },
+      "chapter": 13
+    },
+    "181": {
+      "title": {
+        "en": "Concurrency Defense Principles: SRP, Data Scope & Data Copies",
+        "tr": "Eşzamanlılık Savunma İlkeleri: TSI, Veri Kapsamı ve Veri Kopyaları"
+      },
+      "section": {
+        "en": "Concurrency Defense Principles",
+        "tr": "Eşzamanlılık Savunma İlkeleri"
+      },
+      "chapter": 13
+    },
+    "182": {
+      "title": {
+        "en": "Independent Threads & Know Your Library",
+        "tr": "Bağımsız İş Parçacıkları & Kütüphanenizi Tanıyın"
+      },
+      "section": {
+        "en": "Know Your Library",
+        "tr": "Kütüphanenizi Tanıyın"
+      },
+      "chapter": 13
+    },
+    "183": {
+      "title": {
+        "en": "Lock Classes & Know Your Execution Models",
+        "tr": "Kilit Sınıfları & Çalışma Modellerinizi Tanıyın"
+      },
+      "section": {
+        "en": "Know Your Execution Models",
+        "tr": "Çalışma Modellerinizi Tanıyın"
+      },
+      "chapter": 13
+    },
+    "184": {
+      "title": {
+        "en": "Classic Problems: Producer-Consumer, Readers-Writers, Dining Philosophers",
+        "tr": "Klasik Problemler: Üretici-Tüketicici, Okuyucu-Yazarlar, Yemek Yiyen Filozoflar"
+      },
+      "section": {
+        "en": "Know Your Execution Models",
+        "tr": "Çalışma Modellerinizi Tanıyın"
+      },
+      "chapter": 13
+    },
+    "185": {
+      "title": {
+        "en": "Beware Dependencies & Keep Synchronized Sections Small",
+        "tr": "Bağımlılıklardan Sakının & Senkronize Bölümleri Küçük Tutun"
+      },
+      "section": {
+        "en": "Beware Dependencies Between Synchronized Methods",
+        "tr": "Senkronize Metotlar Arasındaki Bağımlılıklardan Sakının"
+      },
+      "chapter": 13
+    },
+    "186": {
+      "title": {
+        "en": "Writing Correct Shut-Down Code & Testing Threaded Code",
+        "tr": "Doğru Kapanış Kodu Yazmak & İş Parçacıklı Kodu Test Etme"
+      },
+      "section": {
+        "en": "Writing Correct Shut-Down Code Is Hard",
+        "tr": "Doğru Kapanış Kodu Yazmak Zordur"
+      },
+      "chapter": 13
+    },
+    "187": {
+      "title": {
+        "en": "Testing Threaded Code: Spurious Failures, POJOs, Pluggable & Tunable",
+        "tr": "İş Parçacıklı Kodu Test Etme: Sahte Başarısızlıklar, POJO'lar, Takılabilir ve Ayarlanabilir"
+      },
+      "section": {
+        "en": "Testing Threaded Code",
+        "tr": "İş Parçacıklı Kodu Test Etme"
+      },
+      "chapter": 13
+    },
+    "188": {
+      "title": {
+        "en": "More Threads, Different Platforms & Code Instrumentation",
+        "tr": "Fazla İş Parçacığı, Farklı Platformlar ve Kod Enstrümantasyonu"
+      },
+      "section": {
+        "en": "Testing Threaded Code",
+        "tr": "İş Parçacıklı Kodu Test Etme"
+      },
+      "chapter": 13
+    },
+    "189": {
+      "title": {
+        "en": "Instrumentation: Hand-Coded & Automated",
+        "tr": "Enstrümantasyon: Elle Kodlanan ve Otomatik"
+      },
+      "section": {
+        "en": "Testing Threaded Code",
+        "tr": "İş Parçacıklı Kodu Test Etme"
+      },
+      "chapter": 13
+    },
+    "190": {
+      "title": {
+        "en": "Automated Jiggling & Conclusion",
+        "tr": "Otomatik Jiggle (Titretme) & Sonuç"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 13
+    },
+    "191": {
+      "title": {
+        "en": "Conclusion & Bibliography",
+        "tr": "Sonuç & Kaynakça"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 13
+    },
+    "192": {
+      "title": {
+        "en": "Chapter 13 End (Blank Page)",
+        "tr": "Chapter 13 Sonu (Boş Sayfa)"
+      },
+      "section": {
+        "en": "Conclusion",
+        "tr": "Sonuç"
+      },
+      "chapter": 13
     }
   }
 };
