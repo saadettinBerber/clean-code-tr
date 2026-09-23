@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 174,
+  "last_translated_page": 176,
   "chapters": [
     {
       "num": 1,
@@ -1491,6 +1491,22 @@
       "title_tr": "Tekrar Olmaması (devam) — Şablon Metodu (Template Method)",
       "section_en": "No Duplication",
       "section_tr": "Tekrar Olmaması"
+    },
+    "175": {
+      "pdf_page": 175,
+      "chapter": 12,
+      "title_en": "Expressive",
+      "title_tr": "İfade Gücü (Expressive)",
+      "section_en": "Expressive",
+      "section_tr": "İfade Gücü"
+    },
+    "176": {
+      "pdf_page": 176,
+      "chapter": 12,
+      "title_en": "Minimal Classes and Methods — Conclusion",
+      "title_tr": "Küçük Sınıflar ve Metotlar — Sonuç",
+      "section_en": "Minimal Classes and Methods",
+      "section_tr": "Küçük Sınıflar ve Metotlar"
     }
   }
 }

@@ -635,6 +635,21 @@ window.GLOSSARY = [
     "note": "İsimlerin okuyucuyu yanlış yönlendirmesi"
   },
   {
+    "en": "Documentation by Example",
+    "tr": "Örnekle Dokümantasyon (Documentation by Example)",
+    "note": "Testlerin başlıca amaçlarından biri: testleri okuyan kişinin sınıfın ne işe yaradığını hızlıca anlaması; sayfa 175'te 'documentation by example' ifadesi olarak geçer."
+  },
+  {
+    "en": "Dogma",
+    "tr": "Dogma",
+    "note": "Chapter 12 'Minimal Classes and Methods' kesitinde: her sınıfa arayüz dayatma ya da veri/davranışı zorla ayırma gibi bağlamdan kopuk, sorgulanamaz kurallar; kitapta 'pointless dogmatism' (anlamsız dogmatizm) ifadesiyle eleştirilir."
+  },
+  {
+    "en": "Dogmatism",
+    "tr": "Dogmatizm",
+    "note": "Dogma kelimesinin hâl/kavram karşılığı; 'pointless dogmatism' = 'anlamsız dogmatizm'. 'Minimal Classes and Methods' kesitinde yüksek sınıf/metot sayılarının kaynağı olarak işaret edilir."
+  },
+  {
     "en": "Domain Expert",
     "tr": "Alan Uzmanı (Domain Expert)",
     "note": "İş alanına (problem alanına) hakim uzman kişi"
@@ -788,6 +803,11 @@ window.GLOSSARY = [
     "en": "Explicit",
     "tr": "Açık (Explicit)",
     "note": "Bağlamın kodda doğrudan yer alması"
+  },
+  {
+    "en": "Expressive",
+    "tr": "İfade Gücü (Expressive)",
+    "note": "Chapter 12'nin koşu başlığı (running header) terimi; sözlükteki 'Expressiveness | İfade Gücü (Expressiveness)' teriminin sıfatı. Sayfa 175'te kesit başlığı olarak geçer."
   },
   {
     "en": "Expressiveness",
@@ -1230,6 +1250,11 @@ window.GLOSSARY = [
     "note": "Kodun zaman içinde bakımının yapılabilme kolaylığı"
   },
   {
+    "en": "Maintainer",
+    "tr": "Bakımcı (Maintainer)",
+    "note": "Kodun bakımını üstlenen geliştirici; sözlükteki 'Maintainability | Bakılabilirlik' teriminin kişi karşılığı. Sayfa 175'te 'Other maintainers of the code' ifadesinde geçer."
+  },
+  {
     "en": "Management",
     "tr": "Yönetim (Management)",
     "note": ""
@@ -1313,6 +1338,11 @@ window.GLOSSARY = [
     "en": "Minimal",
     "tr": "Minimal (Minimal)",
     "note": "Mümkün olan en küçük, yalnızca gerekli olanı içeren"
+  },
+  {
+    "en": "Minimal Classes and Methods",
+    "tr": "Küçük Sınıflar ve Metotlar",
+    "note": "Chapter 12'nin (Jeff Langr) Basit Tasarım (Simple Design) kuralları arasındaki DÖRDÜNCÜ ve EN DÜŞÜK öncelikli kural: fonksiyon ve sınıf sayısını düşük tutma. Sayfa 176'da kesit başlığı olarak geçer."
   },
   {
     "en": "Mis-type",
@@ -1848,6 +1878,11 @@ window.GLOSSARY = [
     "en": "Simple Code",
     "tr": "Basit Kod (Simple Code)",
     "note": "Beck'in kuralları: testler çalışır, tekrar yok, ifade gücü yüksek, varlıklar minimize"
+  },
+  {
+    "en": "Simple Design",
+    "tr": "Basit Tasarım (Simple Design)",
+    "note": "Kent Beck'in [XPE] kaynağına dayanan dört kural: (1) tüm testleri çalıştırır, (2) tekrar (duplication) yok, (3) ifade gücü (expressiveness) yüksek, (4) sınıf ve metot sayısı minimal. Chapter 12'nin omurgası; bu sayfada 'the four rules of Simple Design' ifadesinde geçer."
   },
   {
     "en": "Single Responsibility",

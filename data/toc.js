@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 174,
+  "lastTranslatedPage": 176,
   "chapters": [
     {
       "num": 1,
@@ -2010,6 +2010,28 @@ window.TOC = {
       "section": {
         "en": "No Duplication",
         "tr": "Tekrar Olmaması"
+      },
+      "chapter": 12
+    },
+    "175": {
+      "title": {
+        "en": "Expressive",
+        "tr": "İfade Gücü (Expressive)"
+      },
+      "section": {
+        "en": "Expressive",
+        "tr": "İfade Gücü"
+      },
+      "chapter": 12
+    },
+    "176": {
+      "title": {
+        "en": "Minimal Classes and Methods — Conclusion",
+        "tr": "Küçük Sınıflar ve Metotlar — Sonuç"
+      },
+      "section": {
+        "en": "Minimal Classes and Methods",
+        "tr": "Küçük Sınıflar ve Metotlar"
       },
       "chapter": 12
     }
