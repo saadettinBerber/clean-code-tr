@@ -92,6 +92,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Client-Based Locking | İstemci Tabanlı Kilit (Client-Based Locking) | Paylaşılan nesnedeki birden fazla senkronize metodu istemcinin çağırması gerektiğinde, kilitleme sorumluluğunun istemciye verilmesi: istemci ilk çağrıda sunucuyu kilitler ve kilidin kapsamı son metodu çağıran kodu da kapsar. Sayfa 185'te üç düzeltme yolundan ilkidir. |
 | Closed Class | Kapalı Sınıf (Closed Class) | Açık Kapalı İlkesi (OCP) anlamında değişikliğe kapalı sınıf: yeni işlev, mevcut sınıfı düzenleyerek değil yeni bir alt sınıf ekleyerek kazandırılır (Listing 10-10) |
 | Closing Brace | Kapatma Parantezi (Closing Brace) | Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum |
+| Clutter | Karmaşa (Clutter) | Koda değer katmayan, yalnızca okumayı güçleştiren fazlalık; sayfa 276'da metot imzasına bir şey katmayan Javadoc'lar ve final anahtar sözcükleri için geçer. |
+| Code Coverage | Kod Kapsamı (Code Coverage) | Üretim kodunun testlerle çalıştırılan bölümünün oranı; sayfa 284'te 'the code coverage in DayDate has decreased' ifadesinde geçer. Sözlükteki 'Test Coverage | Test Kapsamı (Test Coverage)' terimiyle yakın anlamlıdır. |
 | Code Formatting | Kod Biçimlendirme (Code Formatting) | Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır |
 | Code Rot | Kod Çürümesi (Code Rot) | Kötü kodun zamanla çürümesi, mayalanması ve ekibi aşağı çeken durdurulamaz bir yüke dönüşmesi; 'code rots' = 'kod çürür'. Sözlükteki 'Decay' (Çürüme) teriminin kod bağlamındaki karşılığı. |
 | Code Smell | Kod Kokusu (Code Smell) | Koddaki potansiyel sorunların belirtisi |
@@ -100,6 +102,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Coding Style | Kodlama Biçemi (Coding Style) | Bir geliştirici ya da ekibin kodu yazarken izlediği tutarlı biçim alışkanlıkları |
 | Cognitive Break | Bilişsel Kesinti (Cognitive Break) | Fonksiyon imzasını kontrol etme gerekliliği |
 | Cohesion | Bütünlük (Cohesion) | Bir grup argümanın ya da elemanın birbiriyle ne kadar doğal biçimde ilişkili olduğu; ör. bir noktanın x ve y bileşenleri |
+| Collapse (methods) | birleştirme (collapse) | İki benzer/ikiz metodu tek bir metoda indirgeme yeniden düzenlemesi (refactoring); sayfa 277'de iki getMonths fonksiyonunun tek fonksiyonda birleştirilmesinde geçer. |
 | Collection Abstraction | Koleksiyon Soyutlama (Collection Abstraction) |  |
 | Command Query Separation | Komut Sorgu Ayrımı (Command Query Separation) | Fonksiyonlar ya bir şey yapmalı ya da bir soruyu yanıtlamalı, ikisini birden değil |
 | Command-Line Argument | Komut Satırı Argümanı (Command-Line Argument) | main fonksiyonuna dizgi dizisi olarak geçirilen ve ayrıştırılması gereken satır içi girdi; bu bölümde Args sınıfının konusu. 'Argument' ve 'Argument List' terimlerinden ayrı, dar bir kavramdır. |
@@ -158,6 +161,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Decoupling | Ayrıştırma (Decoupling) | Bileşenler arasındaki bağımlılığı (coupling) azaltma; bu şekilde ayrıştırılmış sistemler daha kolay test edilir, daha esnektir ve yeniden kullanımı teşvik eder |
 | defactored | defactored (yeniden düzenleme yapılmamış) | Listing 15-3'ün başlığında geçer: modülün kasıtlı olarak yeniden düzenlenmemiş (refactoring uygulanmamış), yani daha kötü bırakılmış hâli; 'refactored' sözcüğünün zıt yönlü bir kelime oyunudur. |
 | Default Constructor | Varsayılan Kurucu (Default Constructor) | Argüman almayan kurucu; log4j'de ConsoleAppender'ın varsayılan kurucusu nesneyi yapılandırılmamış bırakır |
+| Degenerate Constructor | Yoz Kurucu (Degenerate Constructor) | Hiçbir iş yapmayan, derleyicinin kendiliğinden üreteceği boş kurucu; sayfa 276'da 'degenerate default constructor' ifadesinde geçer [G12]. |
 | Delegation | Delege Etme (Delegation) | Sorumluluğu başka bir nesneye devretme |
 | Dependency | Bağımlılık (Dependency) |  |
 | Dependency Injection | Bağımlılık Enjeksiyonu (Dependency Injection) |  |
@@ -203,6 +207,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Encapsulation | Kapsülleme (Encapsulation) |  |
 | Entity | Varlık (Entity) | Sınıf, metot, fonksiyon gibi yapı |
 | Entity Bean | Entity Bean (Varlık Bean’i) | EJB2’de ilişkisel verinin (bir tablo satırının) bellek içi temsilini sağlayan kalıcı bileşen; kalıcılık, işlem ve iş API’sini tek sınıfta birleştirmesi organik büyümeyi engeller. |
+| Enum | enum (sıralı sabit kümesi) | Java'da sabit bir değer kümesini tür güvenli (type-safe) biçimde temsil eden dil yapısı; Month ve WeekInMonth buna örnektir. Sayfa 272 ve 275'te olduğu gibi 'enum' olarak kullanılır. |
+| Enumerator | sayıcı (enumerator) | Bir enum'ın (sıralı sabit kümesinin) tek tek değerleri; sayfa 272'de 'sayıcısı (enumerator)' olarak geçmiştir, bu sayfada da aynen kullanılır. |
 | Error Code | Hata Kodu (Error Code) | Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi |
 | Error Flag | Hata Bayrağı (Error Flag) | Hata oluştuğunu belirtmek için ayarlanan ve çağıranın kontrol etmesi gereken değişken; istisnaların eski alternatifi |
 | Error Handling | Hata Yönetimi (Error Handling) | Hataları yakalama ve işleme stratejisi |
@@ -215,6 +221,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Executable Statement | Çalıştırılabilir İfade (Executable Statement) | Kodda bir testin yürütebildiği, komut düzeyindeki çalıştırılabilir ifade; test kapsamı (test coverage) raporlarında kapsanan/yürütülen ifade sayısı olarak geçer. Sayfa 268'de SerialDate'in 185 çalıştırılabilir ifadesinden söz edilir. |
 | Execution Path | Çalışma Yolu (Execution Path) | İş parçacıklarının izleyebileceği talimat sıralaması; bu sayfada 'possible execution paths' ve 'Possible Paths of Execution' başlığında geçer. Sözlükteki 'Normal Flow' (Normal Akış) teriminden farklıdır. |
 | Executor Framework | İcracı Çerçevesi (Executor Framework) | Java 5'in java.util.concurrent paketinde; iş parçacığı yönetimini soyutlayarak görevleri (tasks) çalıştıran çerçeve. Sayfadaki 'Use the executor framework for executing unrelated tasks' maddesinde geçer. |
+| Explaining Temporary Variables | Açıklayıcı Geçici Değişkenler (Explaining Temporary Variables) | Karmaşık bir ifadeyi, her biri hesaplamanın bir adımını kaydeden küçük ve iyi adlandırılmış yerel değişkenlere bölme tekniği; sayfa 279'da addMonths için [G19] işaretiyle geçer. |
 | Explanation of Intent | Niyetin Açıklanması (Explanation of Intent) | Kodun neden o şekilde yazıldığını açıklayan yorum |
 | Explicit | Açık (Explicit) | Bağlamın kodda doğrudan yer alması |
 | Expressive | İfade Gücü (Expressive) | Chapter 12'nin koşu başlığı (running header) terimi; sözlükteki 'Expressiveness | İfade Gücü (Expressiveness)' teriminin sıfatı. Sayfa 175'te kesit başlığı olarak geçer. |
@@ -287,6 +294,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Inline / Inlining | satır içi (inline) | Refactoring tekniği: küçük bir metot çağrısının yerine gövdesinin doğrudan çağrı noktasına yapıştırılması ve metotların kaldırılması. Sayfa başlığında 'Inlining Parse Methods', parçada 'I inlined the three parse methods' ifadesinde geçer; metinde 'satır içine (inline) aldım' biçiminde kullanılmıştır. |
 | Inlining / Inline | Satır İçi Alma (Inlining) | Tek satırlık, tek çağrılı metotların gövdesini çağıran metot içinde doğrudan kullanma yeniden düzenleme (refactoring) tekniği; 'inline (a method)' = (bir metodu) satır içine almak. Sözlükte 'Inline'/'Inlining' girdisi yoktu; bu sayfada 'So I inlined them' ifadesinde geçer. |
 | Instance | Örnek (Instance) | Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği |
+| Instance Method | Örnek Metodu (Instance Method) | Bir sınıfın belirli bir örneği (instance) üzerinde, o örneğin alanlarına erişerek çalışan metot; sayfa 279'da addDays ve addMonths'un statik (static) yerine örnek metoduna dönüştürülmesi bağlamında geçer [G18]. |
 | Instance Variable | Örnek Değişkeni (Instance Variable) | Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken |
 | Instantiation | Örnekleme (Instantiation) | Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer |
 | Instrumentation | Enstrümantasyon (Instrumentation) | Kodun içine, yalnızca test sırasında etkin olacak ölçüm/kesinti noktaları (ör. wait, sleep, yield, priority çağrıları) ekleme tekniği; nadir eşzamanlılık kusurlarını zorlayarak ortaya çıkarmak için kullanılır. Sayfa 188'de 'Instrument Your Code to Try and Force Failures' başlığı altında geçer. |
@@ -326,6 +334,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | LeBlanc's Law | LeBlanc Yasası (LeBlanc's Law) | "Sonra asla demektir" (Later equals never) |
 | Legal Comment | Yasal Yorum (Legal Comment) | Telif hakkı, lisans gibi yasal zorunlulukları belirten yorum |
 | Level of Abstraction | Soyutlama Seviyesi (Level of Abstraction) | Kodun genelden özele doğru soyutluk derecesi |
+| Level of Abstraction (wrong level) | yanlış soyutlama seviyesi (wrong level of abstraction) | Bir adın/uygulamanın, olması gerekenden daha alt ya da üst bir soyutlama düzeyinde kalması; sayfa 271'de [N2] işaretiyle SerialDate adının gerçekleştirimi (implementation) ima ettiği, dolayısıyla yanlış soyutlama seviyesinde olduğu söylenir. |
 | Level of Detail | Ayrıntı Seviyesi (Level of Detail) | Kodun ne kadar alt seviye ayrıntı (nokta, eğik çizgi, dosya uzantısı vb.) içerdiği; farklı ayrıntı seviyeleri aynı kodda karıştırılmamalıdır [G34][G6] |
 | Lexicon | Sözlük (Lexicon) | Bir projedeki tutarlı terimler bütünü |
 | Lifecycle Method | Yaşam Döngüsü Metodu (Lifecycle Method) | Konteynerin çağırdığı ejbCreate, ejbActivate, ejbLoad gibi, bir bileşenin yaşam döngüsünü yöneten metotlar. |
@@ -334,6 +343,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Local Interface | Yerel Arayüz (Local Interface) | EJB'de aynı JVM içinden erişim için kullanılan istemci arayüzü. |
 | Local Variable | Yerel Değişken (Local Variable) | Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken |
 | Lock | Kilit (Lock) | Paylaşılan kaynağa aynı anda yalnız bir iş parçacığının erişmesini sağlayan mekanizma; sayfa 185'te 'lock the server', 'the lock’s extent' ve 'Locks are expensive' ifadelerinde geçer. Sözlükteki 'Deadlock' (Ölü Kilit) ve 'Intrinsic Lock' (İçsel Kilit) terimlerinden ayrı, genel kavramdır. |
+| Logical Dependency | Mantıksal Bağımlılık (Logical Dependency) | Kodun fiziksel yapısında görünmeyen, ama algoritmanın örtük olarak dayandığı varsayım/bağımlılık; sayfa 282'de getDayOfWeek algoritmasının 0. günün haftanın hangi günü olduğuna (başlangıç noktasına) bağımlı olması bağlamında geçer. 'Physical Dependency' (Fiziksel Bağımlılık) teriminin karşıtı olarak kullanılır. |
 | Loop Control Variable | Döngü Kontrol Değişkeni (Loop Control Variable) | Döngünün yinelemesini yöneten değişken; genellikle döngü ifadesinin içinde tanımlanır |
 | Low-Level | Alt Seviye (Low-Level) | Ayrıntılara ve mekanizmaya yakın kod; üst seviye (high-level) kodun çağırdığı katman |
 | Magic Number | Sihirli Sayı (Magic Number) | Kodda açıklamasız kullanılan sabit değer |
@@ -398,11 +408,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | One Pass | Tek Geçiş (One Pass) | Tek seferde, tek vuruşla; temiz ve zarif programların tek geçişte yazılamayacağı beklentisi. Sayfa 200'de 'write clean and elegant programs in one pass' ifadesinde geçer. |
 | One-Off | Tek Seferlik Olay (One-Off) | Yalnızca bir kez görülüp geçiştirilen düzensiz başarısızlık; sayfadaki 'written off as a onetime occurrence' ve 'so-called one-offs' ifadelerinde geçer. Aslında yük altında ya da rastgele zamanlarda ortaya çıkan eşzamanlılık hatası adayıdır. |
 | Open Closed Principle (OCP) | Açık Kapalı İlkesi (OCP) | Sınıflar genişlemeye açık, değişikliğe kapalı olmalı |
+| Open Interval / Half-Open Interval / Closed Interval | Açık Aralık / Yarı Açık Aralık / Kapalı Aralık | Matematikte bir aralığın uç noktalarının o aralığa dahil olup olmadığını tanımlayan terimler; sayfa 276'da DateInterval enum'unun CLOSED, CLOSED_LEFT, CLOSED_RIGHT, OPEN sayıcılarının gerekçesi. |
 | Open Source | Açık Kaynak (Open Source) | Kaynak kodu herkesin kullanımına açık olarak dağıtılan yazılım |
 | Open/Closed Principle (OCP) | Açık/Kapalı İlkesi (OCP) | Genişletmeye açık, değişikliğe kapalı prensibi |
 | Opening a Class | Sınıfı Açmak (Opening a Class) | Var olan bir sınıfı yeni işlev eklemek için değiştirmek; risk getirir ve sınıfın baştan sona yeniden test edilmesini gerektirir (OCP'nin 'değişikliğe kapalı' ilkesinin ihlali) |
 | Operator Precedence | Operatör Önceliği (Operator Precedence) | Bir ifadede operatörlerin hangi sırayla değerlendirileceği; ör. çarpma toplamadan önce |
+| ordinal | sıral sayı (ordinal) | Bir dizideki sırayı/konumu belirten sayı; kitapta seri numarası (serial number) yerine önerilen daha betimleyici terim. Sayfa 271'de 'A more descriptive term might be ordinal' ifadesinde geçer. |
 | Organic Growth | Organik Büyüme (Organic Growth) | Sistemin büyük bir ön tasarım yerine küçük adımlarla, gerçek ihtiyaçlara göre doğal biçimde büyümesi; uygun kaygı ayrımı (separation of concerns) gerektirir. |
+| Origin (of the ordinal day) | Başlangıç Noktası (Origin) | Sıral gün (ordinal day) sayımının sıfır noktası olan gün; sayfa 282'de getDayOfWeek algoritmasının, haftanın hangi günüyle başladığını belirleyen bu başlangıç noktasına örtük bağımlılığından söz edilir. |
 | Outbound Test | Dışa Dönük Test (Outbound Test) | Kendi kodumuzdan üçüncü taraf arayüze doğru yapılan çağrıları, üretim kodunun kullandığı biçimde sınayan test |
 | Output Argument | Çıkış Argümanı (Output Argument) | Değer döndürmek için kullanılan argüman |
 | Output Stream | Çıkış Akışı (Output Stream) | Verinin yazıldığı hedef akış (ör. konsol, dosya); log4j'de bir Appender'ın mesajları gönderdiği yer |
@@ -446,7 +459,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Prose | Düzyazı (Prose) | Grady Booch: "Temiz kod iyi yazılmış bir düzyazı gibi okunur" |
 | Protected Variable | Korumalı Değişken (Protected Variable) | Alt sınıflardan erişilebilen değişken; ilişkili kavramları dosyalara dağıttığı için kaçınılmalıdır |
 | Proxy | Vekil (Proxy) | Başka bir nesneyi temsil eden, istenen işi ona devreden sarmalayıcı nesne; tembel değerlendirme (lazy evaluation) gibi optimizasyonlar için kullanılabilir |
+| Pull Up (a member) | Yukarı Taşımak (Pull Up) | Bir üyeyi alt sınıftan, tüm türevlerin paylaştığı üst sınıfa taşıma yeniden düzenlemesi; sayfa 280-282'de toDate, getDayOfWeek, compare ve isInRange metotlarının SpreadsheetDate'ten DayDate'e taşınmasında geçer. 'Push Down (a member)' (Aşağı Taşımak) teriminin karşıtıdır. |
 | Pun | Kelime Oyunu (Pun) | Bir kelimenin iki farklı anlamda kullanılması |
+| Push Down (a member) | Aşağı Taşımak (Push Down) | Bir üyeyi üst sınıftan, onu gerçekten kullanan alt sınıfa taşıma yeniden düzenlemesi; sayfa 279'da leapYearCount'un DayDate'ten SpreadsheetDate'e taşınması bağlamında geçer [G6]. Sözlükteki 'Deploy' (yerleştirmek) terimiyle yakından ilişkilidir. |
 | Quasi-Encapsulation | Yarı Kapsülleme (Quasi-Encapsulation) | Bean'lerin getter/setter ile sağladığı, pratikte hiçbir şeyi gizlemeyen görünüşte kapsülleme |
 | Query | Sorgu (Query) | Bu sayfada fiil olarak geçer: 'query the Args instance for the values of the arguments' = argüman değerlerini `Args` örneğinden istemek/okumak. Sözlükteki 'Command Query Separation' (Komut Sorgu Ayrımı) terimindeki 'query' kavramıyla bağlantılıdır. |
 | Race Condition | Yarış Durumu (Race Condition) | Eşzamanlı erişimden kaynaklanan hata |
@@ -464,6 +479,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Refactoring | Yeniden Düzenleme (Refactoring) |  |
 | Reflection | Yansıma (Reflection) | Bir programın kendi yapısını (sınıflar, metotlar, alanlar) çalışma anında incelemesine ve bunlara dinamik olarak erişmesine olanak tanıyan API/mekanizma; Java'da java.lang.reflect paketinde bulunur. Sayfada 'Java reflection API' olarak geçer. |
 | Regular Expression | Düzenli İfade (Regular Expression) | Metin desenlerini eşleştirmek için kullanılan söz dizimi; regex olarak da bilinir |
+| relative offset | göreli konum değeri (relative offset) | Bir başlangıç noktasına göre ölçülen fark/değer; SerialDate'in gösterimi bir seri numarasından çok göreli bir konum değeridir. Sayfa 271'de 'the representation is more of a relative offset' ifadesinde geçer. |
 | Release | Sürüm (Release) | Yazılımın yayımlanan bir versiyonu |
 | Release Cycle | Yayın Döngüsü (Release Cycle) | Ürün sürüm yayınlama süreci |
 | Renaming | Yeniden Adlandırma (Renaming) | Değişken/fonksiyon/sınıf adını değiştirme |
@@ -491,9 +507,14 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Seam | Dikiş Noktası (Seam) | Kodu o noktada düzenlemeden davranışı değiştirebildiğiniz yer; ör. bir arayüz üzerinden test için sahte nesne takmak [WELC] |
 | Search-friendly name | Arama Dostu İsim (Search-friendly name) |  |
 | Searchable Names | Aranabilir İsimler (Searchable Names) |  |
+| Self-Descriptive Name | kendini betimleyen isim (self-descriptive name) | Adın, taşıdığı şeyi kendisinin açıklaması; sayfa 277'de getMonths fonksiyonuna [N1] ile işaretlenen daha betimleyici isim verme işleminde geçer. Sözlükteki 'Descriptive Names' (Betimleyici İsimler) terimiyle ilişkilidir. |
 | Semaphore | Sinyal (Semaphore) | Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde. |
 | Separate | Ayırmak (Separate) | Bir yapıyı ana modülden bağımsız bir parça hâline getirerek dışarı çıkarma; sayfa 242'de 'completely separated the exception and error code from the Args module' ifadesinde geçer. 'Decoupling | Ayrıştırma (Decoupling)' teriminden farklıdır: burada bağımlılığı azaltmak değil, kodun fiziksel olarak başka bir modüle taşınması kastedilir. |
 | Separation of Concerns | Kaygıların Ayrılması (Separation of Concerns) | Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer. |
+| serial number | seri numarası (serial number) | Ürün tanımlama işareti olarak kullanılan numara; kitapta SerialDate'in 30 Aralık 1899'dan bu yana geçen gün sayısını tutan gösterimi için kullanılmıştır ve yazar bunu yanıltıcı bulur. Sayfa 271'de 'serial number' teriminin tarih bağlamında doğru olmadığı tartışılır. |
+| Serialization | Serileştirme (Serialization) | Bir nesnenin durumunun, saklanabilir ya da iletilebilir bir biçime (ör. bayt akışı) dönüştürülmesi; Java'da Serializable arayüzü ve serialVersionUID değişkeniyle kontrol edilir. Sayfa 272'de serileştirme denetiminin (serialization control) elle mi otomatik mi olacağı tartışılır. |
+| Serialize / Deserialize | serileştirmek / seri durumdan çözmek (serialize / deserialize) | Nesne durumunu bayt akışına dönüştürmek (serialize) ya da bayt akışından yeniden nesneye kurmak (deserialize); 'deserialize' için 'seri durumdan çözmek' kullanılmıştır. Sayfa 272 dipnotunda sürümler arası seri durumdan çözme (deserialize) beklentisi eleştirilir. |
+| Serializer | Serileştirici (Serializer) | Nesneleri serileştirme (serialization) işlemini yürüten bileşen/mekanizma; sayfa 272'de serialVersionUID değişkeninin 'the serializer'ı denetlemek için kullanıldığı söylenir. |
 | Server | Sunucu (Server) | İstemci/sunucu (client/server) kilit modellerinde kilitlenen ve paylaşılan nesneyi barındıran taraf; sayfa 185'te 'lock the server', 'Within the server' ve 'the original server cannot be changed' ifadelerinde geçer. |
 | Server-Based Locking | Sunucu Tabanlı Kilit (Server-Based Locking) | Kilitleme sorumluluğunun sunucuya verilmesi: sunucu, tüm metotları tek seferde çağıran ve kendi kilidiyle çalıştırıcı birleşik bir metot sunar; istemci yalnızca o metodu çağırır. Sayfa 185'te üç düzeltme yolundan ikincisidir. |
 | Servlet | Servlet | Java Web'de gelen istekleri asenkron işleyen bileşen; Web ya da EJB konteyneri tarafından yönetilir. Terim çevrilmez. |
@@ -509,6 +530,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Single Responsibility | Tek Sorumluluk (Single Responsibility) |  |
 | Single Responsibility Principle (SRP) | Tek Sorumluluk İlkesi (SRP) | Bir sınıfın/fonksiyonun değişmesi için yalnızca bir nedeni olmalıdır ilkesi |
 | Single-Entry, Single-Exit Rule | Tek Giriş, Tek Çıkış Kuralı (Single-Entry, Single-Exit Rule) | Dijkstra'nın yapısal programlama disiplini: her fonksiyon ve blok yalnızca bir girişe ve bir çıkışa sahip olmalı |
+| Singleton | Tekil (Singleton) | Nesne oluşturmayı denetleyen ve sistem genelinde tek bir örneğin (instance) paylaşılmasını sağlayan tasarım deseni; bu sayfada ABSTRACT FACTORY ve DECORATOR desenleriyle birlikte, statik metotların tek bir fabrika örneğine yönlendirme yaptığı yapıda kullanılır. |
 | Snail's Pace | Salyangoz Hızı (Snail's Pace) | Çok yavaş ilerleme metaforu |
 | Soak Test | Süre Testi (Soak Test) | Eşzamanlı kodu üretime koymadan önce uzun süre, yük altında, birçok yapılandırmada çalıştırma pratiği; kavram kartında (soak-test-before-production) 30 dakikalık CI örneğiyle kullanıldı. |
 | Software Craftsmanship | Yazılım Zanaatı (Software Craftsmanship) |  |
@@ -527,6 +549,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Startup Process | Başlangıç Süreci (Startup Process) | Uygulama nesnelerinin oluşturulduğu ve bağımlılıkların birbirine bağlandığı süreç; çalışma zamanı mantığından ayrı tutulmalıdır |
 | Starvation | Açlık (Starvation) | Bir iş parçacığının ya da grubun aşırı uzun süre ya da sonsuza dek ilerlemesinin engellenmesi; sayfa 183'ün tanım tablosunda geçer. |
 | Static Initializer | Statik Başlatıcı (Static Initializer) | Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu |
+| Static Method | Statik Metot (Static Method) | Sınıfa ait olan, örnek (instance) gerektirmeyen ve doğrudan sınıf adıyla çağrılan metot; getMonthNames, isLeapYear ve lastDayOfMonth metotlarının DateUtil sınıfına taşınması bağlamında geçer. |
+| Static Variable | Statik Değişken (Static Variable) | Sınıfa ait olan ve tüm örnekler arasında paylaşılan değişken; sayfa 283'te `dateFormatSymbols`'un DateUtil sınıfına taşınması bağlamında geçer. |
 | Status Value | Durum Değeri (Status Value) | Bir öğenin mevcut durumunu temsil eden değer |
 | Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
 | Story | Hikaye (Story) | Çevik geliştirme (Agile) bağlamında, müşteriye değer katan küçük ve uygulanabilir işlev parçası; “bugünün hikayeleri” (today’s stories) ifadesi bu anlamdadır. |
@@ -547,6 +571,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Synchronized | Senkronize (synchronized) | Java anahtar kelimesi; kod metninde `synchronized` olarak ters tırnakla gösterilir ve çevrilmez. Sayfa 181'de kritik bölgeyi korumak için kullanımı anlatılır. |
 | Synopsis | Özet (Synopsis) | Gazete metaforunda ilk paragraf; kodda dosyanın tepesindeki üst seviye kavram ve algoritmalar |
 | Synthesis Function | Sentez Fonksiyonu (Synthesis Function) | Analiz sonuçlarından çıktıyı/karşılaştırma sonucunu bir araya getiren fonksiyon grubu; sayfa 265'te 'another group of synthesis functions' ifadesinde geçer. |
+| Table (constant array) | sabit tablosu (table) | Bu sayfada statik sabit diziler (int[]) biçimindeki veri tabloları (LAST_DAY_OF_MONTH, AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH vb.); JCommon'da gün hesaplamaları için kullanılır ve enum'a dönüştürülme adaylarıdır. |
 | Table Lookup | Tablo Araması (Table Lookup) | Bir sonucu hesaplamak yerine önceden sabitlenmiş bir tablodan okumak; sabit değer döndüren test stub'larının indirgendiği basit davranış |
 | Talk to Friends, Not to Strangers | Yabancılarla Değil, Arkadaşlarla Konuş (Talk to Friends, Not to Strangers) | Demeter Yasası'nın özlü ifadesi: metot yalnızca doğrudan tanıdığı nesnelerle konuşmalı, onların döndürdüğü nesnelerin metotlarını çağırmamalıdır |
 | Teardown | Temizlik (Teardown) | FitNesse test sayfalarında testten sonra çalıştırılan temizlik sayfası/adımı |

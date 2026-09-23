@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 270,
+  "last_translated_page": 285,
   "chapters": [
     {
       "num": 1,
@@ -2259,6 +2259,126 @@
       "title_tr": "Sonra Doğrusunu Yapın — Kod Temizliği Başlıyor",
       "section_en": "Then Make It Right",
       "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "271": {
+      "pdf_page": 271,
+      "chapter": 16,
+      "title_en": "Renaming SerialDate to DayDate",
+      "title_tr": "SerialDate'i DayDate Olarak Yeniden Adlandırmak",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "272": {
+      "pdf_page": 272,
+      "chapter": 16,
+      "title_en": "Enums, Serialization, and Comments",
+      "title_tr": "Enum'lar, Serileştirme ve Yorumlar",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "273": {
+      "pdf_page": 273,
+      "chapter": 16,
+      "title_en": "Moving Constants and Creating a Factory",
+      "title_tr": "Sabitleri Taşıma ve Bir Fabrika (Factory) Oluşturma",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "274": {
+      "pdf_page": 274,
+      "chapter": 16,
+      "title_en": "The DayDateFactory and SpreadsheetDateFactory",
+      "title_tr": "DayDateFactory ve SpreadsheetDateFactory",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "275": {
+      "pdf_page": 275,
+      "chapter": 16,
+      "title_en": "Cleaning Up Tables and Constants",
+      "title_tr": "Tabloları ve Sabitleri Temizleme",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "276": {
+      "pdf_page": 276,
+      "chapter": 16,
+      "title_en": "From Constants to Enumerations",
+      "title_tr": "Sabitlerden Numaralandırmalara (Enumerations)",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "277": {
+      "pdf_page": 277,
+      "chapter": 16,
+      "title_en": "Moving the Day Enumeration and Consolidating getMonths",
+      "title_tr": "Day Numaralandırmasını Taşıma ve getMonths'u Birleştirme",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "278": {
+      "pdf_page": 278,
+      "chapter": 16,
+      "title_en": "Moving Month Methods to the Month Enum",
+      "title_tr": "Ay Metotlarını Month Enum'una Taşıma",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "279": {
+      "pdf_page": 279,
+      "chapter": 16,
+      "title_en": "Methods Made More Expressive",
+      "title_tr": "Daha İfade Edici Kılınan Metotlar",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "280": {
+      "pdf_page": 280,
+      "chapter": 16,
+      "title_en": "Method Names That Read Well",
+      "title_tr": "Akıcı Okunan Metot Adları",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "281": {
+      "pdf_page": 281,
+      "chapter": 16,
+      "title_en": "Methods Renamed and Deleted",
+      "title_tr": "Yeniden Adlandırılan ve Silinen Metotlar",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "282": {
+      "pdf_page": 282,
+      "chapter": 16,
+      "title_en": "Cleaning Up the Abstract Data Class",
+      "title_tr": "Soyut Veri Sınıfının Temizlenmesi",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "283": {
+      "pdf_page": 283,
+      "chapter": 16,
+      "title_en": "One More Pass Over the Whole Class",
+      "title_tr": "Tüm Sınıfın Üzerinden Bir Kez Daha Geçiş",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "284": {
+      "pdf_page": 284,
+      "chapter": 16,
+      "title_en": "Conclusion and Bibliography",
+      "title_tr": "Sonuç ve Kaynakça",
+      "section_en": "Then Make It Right",
+      "section_tr": "Sonra Doğrusunu Yapın (Then Make It Right)"
+    },
+    "285": {
+      "pdf_page": 285,
+      "chapter": 17,
+      "title_en": "Smells and Heuristics — Chapter Opening",
+      "title_tr": "Kokular ve Sezgisel Kurallar — Bölüm Açılışı",
+      "section_en": "",
+      "section_tr": ""
     }
   }
 }

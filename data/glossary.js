@@ -420,6 +420,16 @@ window.GLOSSARY = [
     "note": "Fonksiyon veya blok sonuna eklenen (artık gereksiz) yorum"
   },
   {
+    "en": "Clutter",
+    "tr": "Karmaşa (Clutter)",
+    "note": "Koda değer katmayan, yalnızca okumayı güçleştiren fazlalık; sayfa 276'da metot imzasına bir şey katmayan Javadoc'lar ve final anahtar sözcükleri için geçer."
+  },
+  {
+    "en": "Code Coverage",
+    "tr": "Kod Kapsamı (Code Coverage)",
+    "note": "Üretim kodunun testlerle çalıştırılan bölümünün oranı; sayfa 284'te 'the code coverage in DayDate has decreased' ifadesinde geçer. Sözlükteki 'Test Coverage | Test Kapsamı (Test Coverage)' terimiyle yakın anlamlıdır."
+  },
+  {
     "en": "Code Formatting",
     "tr": "Kod Biçimlendirme (Code Formatting)",
     "note": "Kodun biçimini yöneten kuralların uygulanması; bir iletişim aracıdır"
@@ -458,6 +468,11 @@ window.GLOSSARY = [
     "en": "Cohesion",
     "tr": "Bütünlük (Cohesion)",
     "note": "Bir grup argümanın ya da elemanın birbiriyle ne kadar doğal biçimde ilişkili olduğu; ör. bir noktanın x ve y bileşenleri"
+  },
+  {
+    "en": "Collapse (methods)",
+    "tr": "birleştirme (collapse)",
+    "note": "İki benzer/ikiz metodu tek bir metoda indirgeme yeniden düzenlemesi (refactoring); sayfa 277'de iki getMonths fonksiyonunun tek fonksiyonda birleştirilmesinde geçer."
   },
   {
     "en": "Collection Abstraction",
@@ -750,6 +765,11 @@ window.GLOSSARY = [
     "note": "Argüman almayan kurucu; log4j'de ConsoleAppender'ın varsayılan kurucusu nesneyi yapılandırılmamış bırakır"
   },
   {
+    "en": "Degenerate Constructor",
+    "tr": "Yoz Kurucu (Degenerate Constructor)",
+    "note": "Hiçbir iş yapmayan, derleyicinin kendiliğinden üreteceği boş kurucu; sayfa 276'da 'degenerate default constructor' ifadesinde geçer [G12]."
+  },
+  {
     "en": "Delegation",
     "tr": "Delege Etme (Delegation)",
     "note": "Sorumluluğu başka bir nesneye devretme"
@@ -975,6 +995,16 @@ window.GLOSSARY = [
     "note": "EJB2’de ilişkisel verinin (bir tablo satırının) bellek içi temsilini sağlayan kalıcı bileşen; kalıcılık, işlem ve iş API’sini tek sınıfta birleştirmesi organik büyümeyi engeller."
   },
   {
+    "en": "Enum",
+    "tr": "enum (sıralı sabit kümesi)",
+    "note": "Java'da sabit bir değer kümesini tür güvenli (type-safe) biçimde temsil eden dil yapısı; Month ve WeekInMonth buna örnektir. Sayfa 272 ve 275'te olduğu gibi 'enum' olarak kullanılır."
+  },
+  {
+    "en": "Enumerator",
+    "tr": "sayıcı (enumerator)",
+    "note": "Bir enum'ın (sıralı sabit kümesinin) tek tek değerleri; sayfa 272'de 'sayıcısı (enumerator)' olarak geçmiştir, bu sayfada da aynen kullanılır."
+  },
+  {
     "en": "Error Code",
     "tr": "Hata Kodu (Error Code)",
     "note": "Bir fonksiyonun başarı/hata durumunu bildirmek için döndürdüğü özel değer; istisnaların (exception) alternatifi"
@@ -1033,6 +1063,11 @@ window.GLOSSARY = [
     "en": "Executor Framework",
     "tr": "İcracı Çerçevesi (Executor Framework)",
     "note": "Java 5'in java.util.concurrent paketinde; iş parçacığı yönetimini soyutlayarak görevleri (tasks) çalıştıran çerçeve. Sayfadaki 'Use the executor framework for executing unrelated tasks' maddesinde geçer."
+  },
+  {
+    "en": "Explaining Temporary Variables",
+    "tr": "Açıklayıcı Geçici Değişkenler (Explaining Temporary Variables)",
+    "note": "Karmaşık bir ifadeyi, her biri hesaplamanın bir adımını kaydeden küçük ve iyi adlandırılmış yerel değişkenlere bölme tekniği; sayfa 279'da addMonths için [G19] işaretiyle geçer."
   },
   {
     "en": "Explanation of Intent",
@@ -1395,6 +1430,11 @@ window.GLOSSARY = [
     "note": "Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği"
   },
   {
+    "en": "Instance Method",
+    "tr": "Örnek Metodu (Instance Method)",
+    "note": "Bir sınıfın belirli bir örneği (instance) üzerinde, o örneğin alanlarına erişerek çalışan metot; sayfa 279'da addDays ve addMonths'un statik (static) yerine örnek metoduna dönüştürülmesi bağlamında geçer [G18]."
+  },
+  {
     "en": "Instance Variable",
     "tr": "Örnek Değişkeni (Instance Variable)",
     "note": "Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken"
@@ -1590,6 +1630,11 @@ window.GLOSSARY = [
     "note": "Kodun genelden özele doğru soyutluk derecesi"
   },
   {
+    "en": "Level of Abstraction (wrong level)",
+    "tr": "yanlış soyutlama seviyesi (wrong level of abstraction)",
+    "note": "Bir adın/uygulamanın, olması gerekenden daha alt ya da üst bir soyutlama düzeyinde kalması; sayfa 271'de [N2] işaretiyle SerialDate adının gerçekleştirimi (implementation) ima ettiği, dolayısıyla yanlış soyutlama seviyesinde olduğu söylenir."
+  },
+  {
     "en": "Level of Detail",
     "tr": "Ayrıntı Seviyesi (Level of Detail)",
     "note": "Kodun ne kadar alt seviye ayrıntı (nokta, eğik çizgi, dosya uzantısı vb.) içerdiği; farklı ayrıntı seviyeleri aynı kodda karıştırılmamalıdır [G34][G6]"
@@ -1628,6 +1673,11 @@ window.GLOSSARY = [
     "en": "Lock",
     "tr": "Kilit (Lock)",
     "note": "Paylaşılan kaynağa aynı anda yalnız bir iş parçacığının erişmesini sağlayan mekanizma; sayfa 185'te 'lock the server', 'the lock’s extent' ve 'Locks are expensive' ifadelerinde geçer. Sözlükteki 'Deadlock' (Ölü Kilit) ve 'Intrinsic Lock' (İçsel Kilit) terimlerinden ayrı, genel kavramdır."
+  },
+  {
+    "en": "Logical Dependency",
+    "tr": "Mantıksal Bağımlılık (Logical Dependency)",
+    "note": "Kodun fiziksel yapısında görünmeyen, ama algoritmanın örtük olarak dayandığı varsayım/bağımlılık; sayfa 282'de getDayOfWeek algoritmasının 0. günün haftanın hangi günü olduğuna (başlangıç noktasına) bağımlı olması bağlamında geçer. 'Physical Dependency' (Fiziksel Bağımlılık) teriminin karşıtı olarak kullanılır."
   },
   {
     "en": "Loop Control Variable",
@@ -1950,6 +2000,11 @@ window.GLOSSARY = [
     "note": "Sınıflar genişlemeye açık, değişikliğe kapalı olmalı"
   },
   {
+    "en": "Open Interval / Half-Open Interval / Closed Interval",
+    "tr": "Açık Aralık / Yarı Açık Aralık / Kapalı Aralık",
+    "note": "Matematikte bir aralığın uç noktalarının o aralığa dahil olup olmadığını tanımlayan terimler; sayfa 276'da DateInterval enum'unun CLOSED, CLOSED_LEFT, CLOSED_RIGHT, OPEN sayıcılarının gerekçesi."
+  },
+  {
     "en": "Open Source",
     "tr": "Açık Kaynak (Open Source)",
     "note": "Kaynak kodu herkesin kullanımına açık olarak dağıtılan yazılım"
@@ -1970,9 +2025,19 @@ window.GLOSSARY = [
     "note": "Bir ifadede operatörlerin hangi sırayla değerlendirileceği; ör. çarpma toplamadan önce"
   },
   {
+    "en": "ordinal",
+    "tr": "sıral sayı (ordinal)",
+    "note": "Bir dizideki sırayı/konumu belirten sayı; kitapta seri numarası (serial number) yerine önerilen daha betimleyici terim. Sayfa 271'de 'A more descriptive term might be ordinal' ifadesinde geçer."
+  },
+  {
     "en": "Organic Growth",
     "tr": "Organik Büyüme (Organic Growth)",
     "note": "Sistemin büyük bir ön tasarım yerine küçük adımlarla, gerçek ihtiyaçlara göre doğal biçimde büyümesi; uygun kaygı ayrımı (separation of concerns) gerektirir."
+  },
+  {
+    "en": "Origin (of the ordinal day)",
+    "tr": "Başlangıç Noktası (Origin)",
+    "note": "Sıral gün (ordinal day) sayımının sıfır noktası olan gün; sayfa 282'de getDayOfWeek algoritmasının, haftanın hangi günüyle başladığını belirleyen bu başlangıç noktasına örtük bağımlılığından söz edilir."
   },
   {
     "en": "Outbound Test",
@@ -2190,9 +2255,19 @@ window.GLOSSARY = [
     "note": "Başka bir nesneyi temsil eden, istenen işi ona devreden sarmalayıcı nesne; tembel değerlendirme (lazy evaluation) gibi optimizasyonlar için kullanılabilir"
   },
   {
+    "en": "Pull Up (a member)",
+    "tr": "Yukarı Taşımak (Pull Up)",
+    "note": "Bir üyeyi alt sınıftan, tüm türevlerin paylaştığı üst sınıfa taşıma yeniden düzenlemesi; sayfa 280-282'de toDate, getDayOfWeek, compare ve isInRange metotlarının SpreadsheetDate'ten DayDate'e taşınmasında geçer. 'Push Down (a member)' (Aşağı Taşımak) teriminin karşıtıdır."
+  },
+  {
     "en": "Pun",
     "tr": "Kelime Oyunu (Pun)",
     "note": "Bir kelimenin iki farklı anlamda kullanılması"
+  },
+  {
+    "en": "Push Down (a member)",
+    "tr": "Aşağı Taşımak (Push Down)",
+    "note": "Bir üyeyi üst sınıftan, onu gerçekten kullanan alt sınıfa taşıma yeniden düzenlemesi; sayfa 279'da leapYearCount'un DayDate'ten SpreadsheetDate'e taşınması bağlamında geçer [G6]. Sözlükteki 'Deploy' (yerleştirmek) terimiyle yakından ilişkilidir."
   },
   {
     "en": "Quasi-Encapsulation",
@@ -2278,6 +2353,11 @@ window.GLOSSARY = [
     "en": "Regular Expression",
     "tr": "Düzenli İfade (Regular Expression)",
     "note": "Metin desenlerini eşleştirmek için kullanılan söz dizimi; regex olarak da bilinir"
+  },
+  {
+    "en": "relative offset",
+    "tr": "göreli konum değeri (relative offset)",
+    "note": "Bir başlangıç noktasına göre ölçülen fark/değer; SerialDate'in gösterimi bir seri numarasından çok göreli bir konum değeridir. Sayfa 271'de 'the representation is more of a relative offset' ifadesinde geçer."
   },
   {
     "en": "Release",
@@ -2415,6 +2495,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Self-Descriptive Name",
+    "tr": "kendini betimleyen isim (self-descriptive name)",
+    "note": "Adın, taşıdığı şeyi kendisinin açıklaması; sayfa 277'de getMonths fonksiyonuna [N1] ile işaretlenen daha betimleyici isim verme işleminde geçer. Sözlükteki 'Descriptive Names' (Betimleyici İsimler) terimiyle ilişkilidir."
+  },
+  {
     "en": "Semaphore",
     "tr": "Sinyal (Semaphore)",
     "note": "Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde."
@@ -2428,6 +2513,26 @@ window.GLOSSARY = [
     "en": "Separation of Concerns",
     "tr": "Kaygıların Ayrılması (Separation of Concerns)",
     "note": "Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer."
+  },
+  {
+    "en": "serial number",
+    "tr": "seri numarası (serial number)",
+    "note": "Ürün tanımlama işareti olarak kullanılan numara; kitapta SerialDate'in 30 Aralık 1899'dan bu yana geçen gün sayısını tutan gösterimi için kullanılmıştır ve yazar bunu yanıltıcı bulur. Sayfa 271'de 'serial number' teriminin tarih bağlamında doğru olmadığı tartışılır."
+  },
+  {
+    "en": "Serialization",
+    "tr": "Serileştirme (Serialization)",
+    "note": "Bir nesnenin durumunun, saklanabilir ya da iletilebilir bir biçime (ör. bayt akışı) dönüştürülmesi; Java'da Serializable arayüzü ve serialVersionUID değişkeniyle kontrol edilir. Sayfa 272'de serileştirme denetiminin (serialization control) elle mi otomatik mi olacağı tartışılır."
+  },
+  {
+    "en": "Serialize / Deserialize",
+    "tr": "serileştirmek / seri durumdan çözmek (serialize / deserialize)",
+    "note": "Nesne durumunu bayt akışına dönüştürmek (serialize) ya da bayt akışından yeniden nesneye kurmak (deserialize); 'deserialize' için 'seri durumdan çözmek' kullanılmıştır. Sayfa 272 dipnotunda sürümler arası seri durumdan çözme (deserialize) beklentisi eleştirilir."
+  },
+  {
+    "en": "Serializer",
+    "tr": "Serileştirici (Serializer)",
+    "note": "Nesneleri serileştirme (serialization) işlemini yürüten bileşen/mekanizma; sayfa 272'de serialVersionUID değişkeninin 'the serializer'ı denetlemek için kullanıldığı söylenir."
   },
   {
     "en": "Server",
@@ -2503,6 +2608,11 @@ window.GLOSSARY = [
     "en": "Single-Entry, Single-Exit Rule",
     "tr": "Tek Giriş, Tek Çıkış Kuralı (Single-Entry, Single-Exit Rule)",
     "note": "Dijkstra'nın yapısal programlama disiplini: her fonksiyon ve blok yalnızca bir girişe ve bir çıkışa sahip olmalı"
+  },
+  {
+    "en": "Singleton",
+    "tr": "Tekil (Singleton)",
+    "note": "Nesne oluşturmayı denetleyen ve sistem genelinde tek bir örneğin (instance) paylaşılmasını sağlayan tasarım deseni; bu sayfada ABSTRACT FACTORY ve DECORATOR desenleriyle birlikte, statik metotların tek bir fabrika örneğine yönlendirme yaptığı yapıda kullanılır."
   },
   {
     "en": "Snail's Pace",
@@ -2593,6 +2703,16 @@ window.GLOSSARY = [
     "en": "Static Initializer",
     "tr": "Statik Başlatıcı (Static Initializer)",
     "note": "Java'da bir sınıf yüklenirken bir kez çalışan başlatma bloğu"
+  },
+  {
+    "en": "Static Method",
+    "tr": "Statik Metot (Static Method)",
+    "note": "Sınıfa ait olan, örnek (instance) gerektirmeyen ve doğrudan sınıf adıyla çağrılan metot; getMonthNames, isLeapYear ve lastDayOfMonth metotlarının DateUtil sınıfına taşınması bağlamında geçer."
+  },
+  {
+    "en": "Static Variable",
+    "tr": "Statik Değişken (Static Variable)",
+    "note": "Sınıfa ait olan ve tüm örnekler arasında paylaşılan değişken; sayfa 283'te `dateFormatSymbols`'un DateUtil sınıfına taşınması bağlamında geçer."
   },
   {
     "en": "Status Value",
@@ -2693,6 +2813,11 @@ window.GLOSSARY = [
     "en": "Synthesis Function",
     "tr": "Sentez Fonksiyonu (Synthesis Function)",
     "note": "Analiz sonuçlarından çıktıyı/karşılaştırma sonucunu bir araya getiren fonksiyon grubu; sayfa 265'te 'another group of synthesis functions' ifadesinde geçer."
+  },
+  {
+    "en": "Table (constant array)",
+    "tr": "sabit tablosu (table)",
+    "note": "Bu sayfada statik sabit diziler (int[]) biçimindeki veri tabloları (LAST_DAY_OF_MONTH, AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH vb.); JCommon'da gün hesaplamaları için kullanılır ve enum'a dönüştürülme adaylarıdır."
   },
   {
     "en": "Table Lookup",
