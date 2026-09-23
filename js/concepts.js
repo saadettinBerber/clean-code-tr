@@ -32,14 +32,28 @@ const Concepts = (function () {
       `<pre><code>${Highlight.render(sample.code, sample.lang)}</code></pre>${why}`;
   }
 
+  function relatedLink(link) {
+    return `<button class="related-page" data-page="${link.page}">${Blocks.pair(link)} · ${label("p.", "s.")} ${link.page}</button>`;
+  }
+
+  // Kitap dışı kartlar (◇): kaynak ve kitaptaki ilgili sayfalar kartın başında durur.
+  function offbookNote(concept) {
+    if (!concept.offbook) return "";
+    const related = (concept.related || []).map(relatedLink).join("");
+    const links = related ? `<div class="related-pages">${label("Related in the book", "Kitapta ilgili")} ${related}</div>` : "";
+    return `<div class="offbook-note"><strong>${label("◇ Not in Clean Code", "◇ Clean Code'da geçmez")}</strong>` +
+      `<span class="offbook-source">${Blocks.pair(concept.source)}</span>${links}</div>`;
+  }
+
   function structuredBody(concept) {
+    const note = offbookNote(concept);
     const summary = concept.summary ? `<h4>${label("Concept", "Kavram")}</h4><p>${cardText(concept.summary)}</p>` : "";
     const bad = concept.bad ? `<h4>${label("Bad example (before)", "Kötü örnek (Before)")}</h4>` +
       codeSample(concept.bad, label("BAD", "KÖTÜ"), "label-bad") : "";
     const good = concept.good ? `<h4>${label("Good example (after)", "İyi örnek (After)")}</h4>` +
       codeSample(concept.good, label("GOOD", "İYİ"), "label-good") : "";
     const tip = concept.tip ? `<div class="tip"><strong>${label("Practical tip", "Pratik ipucu")}</strong>${cardText(concept.tip)}</div>` : "";
-    return summary + bad + good + tip;
+    return note + summary + bad + good + tip;
   }
 
   // Eski kartların (body_html) hazır HTML'inde lang yok; büyük harfli İngilizce etiket "İ" almasın.
@@ -78,5 +92,5 @@ const Concepts = (function () {
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") close(); });
   }
 
-  return { init, renderButtons, close };
+  return { init, renderButtons, open, close };
 })();

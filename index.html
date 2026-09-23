@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/reader.css?v=18">
+  <link rel="stylesheet" href="css/reader.css?v=19">
 </head>
 <body>
 
@@ -36,6 +36,7 @@
     </div>
     <button class="ui-btn" id="glossary-btn" title="Terim sözlüğü">📖 <span class="label">Sözlük</span></button>
     <button class="ui-btn" id="mindmap-btn" title="Zihin haritası">🧠 <span class="label">Harita</span></button>
+    <button class="ui-btn" id="offbook-btn" title="Kitap dışı kalıplar (Clean Code'da geçmez)">◇ <span class="label">Kalıplar</span></button>
   </div>
 </header>
 
@@ -74,6 +75,10 @@
   <input class="glossary-search" id="glossary-search" type="search" placeholder="Terim ara… (örn. refactoring)">
   <div class="drawer-body" id="glossary-body"></div>
 </aside>
+<aside class="drawer right" id="offbook-panel" aria-label="Kitap dışı kalıplar">
+  <div class="drawer-head"><span class="grow">◇ Kitap Dışı Kalıplar</span><button class="icon-btn drawer-close" aria-label="Kapat">×</button></div>
+  <div class="drawer-body ui-pair" id="offbook-body"></div>
+</aside>
 
 <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
   <div class="modal">
@@ -95,17 +100,19 @@
 
 <script src="data/toc.js?v=17"></script>
 <script src="data/glossary.js?v=17"></script>
-<script src="data/mindmap.js?v=17"></script>
+<script src="data/mindmap.js?v=19"></script>
+<script src="data/offbook.js?v=2"></script>
 <script src="js/highlight.js?v=17"></script>
 <script src="js/blocks.js?v=17"></script>
 <script src="js/pages.js?v=17"></script>
 <script src="js/sheet.js?v=17"></script>
-<script src="js/concepts.js?v=18"></script>
+<script src="js/concepts.js?v=19"></script>
 <script src="js/panels.js?v=17"></script>
 <script src="js/mindmap.js?v=17"></script>
+<script src="js/offbook.js?v=1"></script>
 <script src="js/cover.js?v=17"></script>
 <script src="js/controls.js?v=17"></script>
 <script src="js/flip.js?v=17"></script>
-<script src="js/reader.js?v=17"></script>
+<script src="js/reader.js?v=18"></script>
 </body>
 </html>
