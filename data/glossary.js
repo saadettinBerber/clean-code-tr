@@ -630,6 +630,11 @@ window.GLOSSARY = [
     "note": "Modern işlemcilerin sunduğu donanım işlemi: bir değeri beklenen eski değerle karşılaştır, eşleşiyorsa değiştir; eşleşmiyorsa yeniden dene. İyimser (optimistic) kilitlemenin donanım karşılığıdır."
   },
   {
+    "en": "Comparison Predicate",
+    "tr": "Karşılaştırma Yüklemi (Comparison Predicate)",
+    "note": "İki nesne (ör. tarih) arasındaki ilişkiyi boolean döndüren ve cümle gibi okunan metot; SerialDate'in isOn, isBefore, isOnOrBefore, isAfter, isOnOrAfter soyut metotları buna örnektir. Sözlükteki 'Predicate | Yüklem (Predicate)' girdisinden (JavaBean is-metotları) ayrıdır; sıralama ilişkisi odaklıdır."
+  },
+  {
     "en": "compile",
     "tr": "derlemek (compile)",
     "note": "Glossary'deki 'Compiler | Derleyici (Compiler)'in fiil hâli; 'get this to compile' = 'bunun derlenmesi için'."
@@ -720,6 +725,11 @@ window.GLOSSARY = [
     "note": "Programın çalışması boyunca değişmeyen, adlandırılmış değer; uygun soyutlama seviyesinde tutulmalıdır [G35]"
   },
   {
+    "en": "Constants Interface",
+    "tr": "Sabit Arayüzü (Constants Interface)",
+    "note": "Yalnızca sabitleri (constants) taşıyan ve istemcilerin bu sabitlere niteleme yapmadan erişmek için gerçekleştirdiği arayüz; MonthConstants bunun bir örneğidir. J2 sezgisel kuralı (sabitlerden kalıtım almayın — Don't Inherit Constants), sabitler arayüzü gerçekleştiren sınıfın genel API'sine (public API) sızdığı için bu deseni eleştirir."
+  },
+  {
     "en": "Constructor",
     "tr": "Kurucu (Constructor)",
     "note": "Bir nesne oluşturulurken çağrılan, ilklendirme yapan özel metot"
@@ -768,6 +778,11 @@ window.GLOSSARY = [
     "en": "Conundrum",
     "tr": "İkilem (Conundrum)",
     "note": "Temiz kodun temel felsefesiyle ilgili zorluk"
+  },
+  {
+    "en": "convention",
+    "tr": "kural (convention)",
+    "note": "İki gösterim arasındaki dönüşümde, farklı hassasiyet (precision) yüzünden belirsiz kalan davranışı (ör. 'günün saati — time of day') sabitlemek için API'de yazılı olarak bildirilen uzlaşım; Listing B-1'deki toDate() Javadoc'unda ve sayfa 362 kavram kartlarında geçer. Sözlükteki 'Convention over Configuration' (yapılandırmadan çok kural) ve 'Naming Convention' (İsimlendirme Kuralı) terimlerinden ayrı, genel kavramdır."
   },
   {
     "en": "Convention over Configuration",
@@ -898,6 +913,21 @@ window.GLOSSARY = [
     "en": "Database Connections",
     "tr": "Veritabanı Bağlantıları (Database Connections)",
     "note": "Birden çok iş parçacığının aynı anda kullanamayacağı, doğası gereği iş parçacığına güvenli (thread safe) olmayan kaynaklar; sayfa 328'in 'İş Parçacığına Güvenli Olmayan Sınıflar' listesinde geçer."
+  },
+  {
+    "en": "date format",
+    "tr": "tarih biçimi (date format)",
+    "note": "Tarihlerin temsil edildiği/okunduğu biçim; kod yorumunda 'this date format' ifadesinde geçer (MINIMUM_YEAR_SUPPORTED civarı)."
+  },
+  {
+    "en": "date format symbols",
+    "tr": "tarih biçimi simgeleri (date format symbols)",
+    "note": "java.text.DateFormatSymbols sınıfının temsil ettiği, ay ve gün adları gibi yerelleştirilmiş (localized) tarih biçimleme (formatting) öğeleri; SerialDate'in DATE_FORMAT_SYMBOLS sabitinde kullanılır."
+  },
+  {
+    "en": "Day-of-the-week relative constant",
+    "tr": "Hafta Günü Göreli Sabiti (Day-of-the-week Relative Constant)",
+    "note": "PRECEDING / NEAREST / FOLLOWING sabitleri, bir hafta gününü sabit bir tarihe göreli olarak (önceki, en yakın, sonraki) belirtir; işaretli ofsetlerin (1, 0, -1) anlamını gizlemesi yerine çağrıyı düz metin gibi okutur (Listing B-1)."
   },
   {
     "en": "DBMS",
@@ -1400,6 +1430,11 @@ window.GLOSSARY = [
     "note": "Testte gerçek bağımlılığın yerine geçen, basit ama çalışan gerçekleştirim; ör. FakeTransmitter"
   },
   {
+    "en": "fallback",
+    "tr": "geri dönüş (fallback)",
+    "note": "Asıl yol sonuç üretemediğinde denenmek üzere sıralı denemelerin içindeki ikincil yol; stringToMonthCode'ta tamsayı ayrıştırması başarısız olunca ay adlarında aramaya geçilmesi buna örnektir."
+  },
+  {
     "en": "False Clue",
     "tr": "Yanlış İpucu (False Clue)",
     "note": "Kodun anlamını bulanıklaştıran yanıltıcı isimler"
@@ -1810,6 +1845,11 @@ window.GLOSSARY = [
     "note": "Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken"
   },
   {
+    "en": "instant in time",
+    "tr": "zamandaki an (instant in time)",
+    "note": "java.util.Date'in temsil ettiği, milisaniye hassasiyetinde ve tarihin hangi gün sayılacağı saat dilimine (time zone) bağlı olan noktasal zaman; SerialDate'in yalnızca günü temsil etme amacıyla karşılaştırma yaptığı kavram."
+  },
+  {
     "en": "Instantiation",
     "tr": "Örnekleme (Instantiation)",
     "note": "Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer"
@@ -1975,6 +2015,11 @@ window.GLOSSARY = [
     "note": "EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API."
   },
   {
+    "en": "JUnit test runner",
+    "tr": "JUnit test çalıştırıcısı (JUnit test runner)",
+    "note": "JUnit framework'ünde test sınıfını bulup metotlarını çalıştıran mekanizma; kod yorumundaki 'Returns a test suite for the JUnit test runner' ifadesinde geçer."
+  },
+  {
     "en": "Just-in-Time",
     "tr": "Tam Zamanında (Just-in-Time)",
     "note": "Kararların en güncel bilgiyle, en geç gerektiği anda alınması yaklaşımı"
@@ -2013,6 +2058,11 @@ window.GLOSSARY = [
     "en": "Lazy Initialization",
     "tr": "Tembel Başlatma (Lazy Initialization)",
     "note": "Nesne oluşturmayı ilk kullanıma erteleyen kalıp; ek yükü azaltsa da kurulum mantığını çalışma zamanı koduna karıştırabilir"
+  },
+  {
+    "en": "leap year",
+    "tr": "artık yıl (leap year)",
+    "note": "Şubat ayı 29 çeken, gün sayısı 366 olan yıl; SerialDate'in artık yıla özgü gün toplamı dizilerinde (LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_MONTH) geçer. Kod yorumlarında 'leap year' ve 'non leap year' (artık olmayan yıl) olarak kullanılır."
   },
   {
     "en": "Learning Test",
@@ -2078,6 +2128,11 @@ window.GLOSSARY = [
     "en": "Local Variable",
     "tr": "Yerel Değişken (Local Variable)",
     "note": "Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken"
+  },
+  {
+    "en": "locale",
+    "tr": "yerel ayar (locale)",
+    "note": "Dile ve bölgeye özgü biçimleme kuralları (tarih/saat biçimleri, ay ve gün adları); 'default locale' (varsayılan yerel ayar) ifadesiyle DateFormatSymbols'un ay adlarını hangi dile göre ürettiğini belirtir. Listing B-1 Javadoc'unda geçer."
   },
   {
     "en": "Lock",
@@ -2313,6 +2368,11 @@ window.GLOSSARY = [
     "en": "Monte Carlo Testing",
     "tr": "Monte Carlo Testi (Monte Carlo Testing)",
     "note": "Testin ayar (tuning) değerlerini rastgele değiştirerek testi tekrar tekrar — ör. bir test sunucusunda — çalıştırıp seyrek görülen eşzamanlılık (concurrency) hatalarını yakalamaya çalışan test tekniği; sayfa 341'de 'Monte Carlo Testing' maddesinde geçer."
+  },
+  {
+    "en": "month code",
+    "tr": "ay kodu (month code)",
+    "note": "Ayları temsil eden tamsayı kodlar (JANUARY..DECEMBER); SerialDate'in isValidMonthCode ve monthCodeToQuarter metotlarının girdisi olarak geçer. java.util.Calendar sabitleriyle aynı değerleri kullanır."
   },
   {
     "en": "MQ (Message Queue)",
@@ -2865,6 +2925,11 @@ window.GLOSSARY = [
     "note": "Bir üyeyi üst sınıftan, onu gerçekten kullanan alt sınıfa taşıma yeniden düzenlemesi; sayfa 279'da leapYearCount'un DayDate'ten SpreadsheetDate'e taşınması bağlamında geçer [G6]. Sözlükteki 'Deploy' (yerleştirmek) terimiyle yakından ilişkilidir."
   },
   {
+    "en": "quarter",
+    "tr": "çeyrek (quarter)",
+    "note": "Üç aylık dönem; monthCodeToQuarter metodu, ay kodunu yılın 1-4 arasındaki çeyreğine eşler. Takvim/finans bağlamında 'çeyrek' Türkçede yerleşik karşılıktır."
+  },
+  {
     "en": "Quasi-Encapsulation",
     "tr": "Yarı Kapsülleme (Quasi-Encapsulation)",
     "note": "Bean'lerin getter/setter ile sağladığı, pratikte hiçbir şeyi gizlemeyen görünüşte kapsülleme"
@@ -2878,6 +2943,11 @@ window.GLOSSARY = [
     "en": "Race Condition",
     "tr": "Yarış Durumu (Race Condition)",
     "note": "Eşzamanlı erişimden kaynaklanan hata"
+  },
+  {
+    "en": "Range constant (inclusion)",
+    "tr": "Kapsama Sabiti (Range Constant)",
+    "note": "INCLUDE_NONE / INCLUDE_FIRST / INCLUDE_SECOND / INCLUDE_BOTH sabitleri, bir tarih aralığının hangi uçlarının kapsandığını tek bir adlandırılmış değerde kodlar; iki boolean parametrenin ürettiği anlamsız kombinasyonları önler (Listing B-1)."
   },
   {
     "en": "Readability",
@@ -3160,6 +3230,11 @@ window.GLOSSARY = [
     "note": "Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde."
   },
   {
+    "en": "sentinel value",
+    "tr": "gösterge değer (sentinel value)",
+    "note": "Geçerli bir sonucun bulunamadığını belirtmek için döndürülen özel değer; stringToMonthCode, tanınamayan bir dizgi için -1 döndürür. Ayrıca 'find' benzeri aramalarda 'bulunamadı' (not found) göstergesi olarak yaygındır."
+  },
+  {
     "en": "Separate",
     "tr": "Ayırmak (Separate)",
     "note": "Bir yapıyı ana modülden bağımsız bir parça hâline getirerek dışarı çıkarma; sayfa 242'de 'completely separated the exception and error code from the Args module' ifadesinde geçer. 'Decoupling | Ayrıştırma (Decoupling)' teriminden farklıdır: burada bağımlılığı azaltmak değil, kodun fiziksel olarak başka bir modüle taşınması kastedilir."
@@ -3440,6 +3515,11 @@ window.GLOSSARY = [
     "note": "Bir algoritma ailesini tanımlayıp her birini kendi sınıfına kapsülleyen ve aralarında değiştirilebilir kılan tasarım deseni; tekrarı ortadan kaldırmanın yollarından biri olarak anılır, Şablon Metot (Template Method) ile birlikte geçer."
   },
   {
+    "en": "string representation",
+    "tr": "dizge gösterimi (string representation)",
+    "note": "Bir nesnenin metin biçimindeki karşılığı; Java'da toString() metodu bu gösterimi sağlar. Listing B-1'de 'a string representation of the date' ifadesinde geçer — toString() günü '10-Şub-2007' gibi okunur bir dizgeye çevirir."
+  },
+  {
     "en": "StringBuffer",
     "tr": "StringBuffer",
     "note": "Java'da değiştirilebilir dizgi nesnesi"
@@ -3710,6 +3790,11 @@ window.GLOSSARY = [
     "note": "En yetenekli geliştiricilerden oluşan ekip"
   },
   {
+    "en": "time zone",
+    "tr": "zaman dilimi (time zone)",
+    "note": "Bir bölgede geçerli olan standart saat ayarı; bir anın (instant) hangi takvim gününe denk geldiğini belirlediği için tarih temsilinde önem taşır. Kod Javadoc'unda 'the date itself depending on the time-zone' ifadesinde geçer."
+  },
+  {
     "en": "Time-Sharing System",
     "tr": "Zaman Paylaşımlı Sistem (Time-Sharing System)",
     "note": "Birden çok kullanıcının/terminalin tek bir bilgisayarı dönüşümlü olarak paylaştığı eski işletim sistemi mimarisi; 'multi-terminal time-sharing system' ifadesinde geçer."
@@ -3938,6 +4023,16 @@ window.GLOSSARY = [
     "en": "weasel words",
     "tr": "kaypak sözcükler (weasel words)",
     "note": "Processor, Manager, Super gibi anlamı belirsiz bırakan, bir sınıfın gerçekte ne yaptığını gizleyen ve çoğu zaman fazla sorumluluk yığılmasına işaret eden isim bileşenleri."
+  },
+  {
+    "en": "Week In Month (constant)",
+    "tr": "Aydaki Hafta (Week In Month sabiti)",
+    "note": "SerialDate'in bir ay içindeki haftayı belirten public static final int sabitleri: FIRST_WEEK_IN_MONTH = 1, SECOND_WEEK_IN_MONTH = 2, THIRD_WEEK_IN_MONTH = 3, FOURTH_WEEK_IN_MONTH = 4; ayın son haftası LAST_WEEK_IN_MONTH = 0 ile temsil edilir (Listing B-1)."
+  },
+  {
+    "en": "weekday code",
+    "tr": "hafta günü kodu (weekday code)",
+    "note": "Haftanın günlerini temsil eden tamsayı kodu; SerialDate'in getDayOfWeek() ve isValidWeekdayCode gibi metotlarında geçer (bu sayfada getDayOfWeek() soyut metodu ve javadoc'u). 'Day-of-the-week relative constant' (Hafta Günü Göreli Sabiti) teriminden ayrıdır."
   },
   {
     "en": "Whim",

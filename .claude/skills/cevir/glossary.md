@@ -134,6 +134,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Common Closure Principle | Ortak Kapanış İlkesi (Common Closure Principle) | Dipnot 7'de geçer: birlikte değişme nedeni paylaşan sınıfların aynı pakette/parçada toplanmasını öneren paketleme ilkesi [PPP]. |
 | Communication Gap | İletişim Boşluğu (Communication Gap) | Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir |
 | Compare and Swap (CAS) | Karşılaştır ve Değiştir (Compare and Swap — CAS) | Modern işlemcilerin sunduğu donanım işlemi: bir değeri beklenen eski değerle karşılaştır, eşleşiyorsa değiştir; eşleşmiyorsa yeniden dene. İyimser (optimistic) kilitlemenin donanım karşılığıdır. |
+| Comparison Predicate | Karşılaştırma Yüklemi (Comparison Predicate) | İki nesne (ör. tarih) arasındaki ilişkiyi boolean döndüren ve cümle gibi okunan metot; SerialDate'in isOn, isBefore, isOnOrBefore, isAfter, isOnOrAfter soyut metotları buna örnektir. Sözlükteki 'Predicate | Yüklem (Predicate)' girdisinden (JavaBean is-metotları) ayrıdır; sıralama ilişkisi odaklıdır. |
 | compile | derlemek (compile) | Glossary'deki 'Compiler | Derleyici (Compiler)'in fiil hâli; 'get this to compile' = 'bunun derlenmesi için'. |
 | Compiler | Derleyici (Compiler) | Kaynak kodu makine koduna çeviren program |
 | Compiler Warning | Derleyici Uyarısı (Compiler Warning) | Derleyicinin potansiyel sorunlara karşı ürettiği uyarı; G4 kuralına göre bunları kapatmak (ya da tümünü kapatmak) risklidir. |
@@ -152,6 +153,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Connection Strategy | Bağlantı Stratejisi (Connection Strategy) | Bir modemin bağlanma yöntemi (çevirme, sabit kablolama, USB anahtarı üzerinden vb.); sayfa 311'de 'any other kind of connection strategy' ifadesinde geçer. |
 | Consistent Lexicon | Tutarlı Kelime Haznesi (Consistent Lexicon) | Kod tabanında tutarlı terimler kullanma prensibi |
 | Constant | Sabit (Constant) | Programın çalışması boyunca değişmeyen, adlandırılmış değer; uygun soyutlama seviyesinde tutulmalıdır [G35] |
+| Constants Interface | Sabit Arayüzü (Constants Interface) | Yalnızca sabitleri (constants) taşıyan ve istemcilerin bu sabitlere niteleme yapmadan erişmek için gerçekleştirdiği arayüz; MonthConstants bunun bir örneğidir. J2 sezgisel kuralı (sabitlerden kalıtım almayın — Don't Inherit Constants), sabitler arayüzü gerçekleştiren sınıfın genel API'sine (public API) sızdığı için bu deseni eleştirir. |
 | Constructor | Kurucu (Constructor) | Bir nesne oluşturulurken çağrılan, ilklendirme yapan özel metot |
 | Constructor Argument | kurucu argümanı | Bir nesnenin kurucusuna (constructor) geçirilen parametre; Abstract Factory bağlamında uygulama, kurulum ayrıntılarını bilmeden fabrika yöntemiyle uygulamaya özgü kurucu argümanları sağlayabilir |
 | Container | Kap (Container) | Veri yapısı kapsayıcısı (List, Set, Map vb.) |
@@ -162,6 +164,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Continuous Improvement | Sürekli İyileştirme (Continuous Improvement) |  |
 | Continuous Integration | Sürekli Entegrasyon (Continuous Integration) | Kod değişikliklerini otomatik olarak derleyip test eden ve bu sayede testlerin sürekli çalıştırıldığı geliştirme uygulaması/ortamı; sayfa 341'de 'a continuous integration server starts running them soon' ifadesinde geçer. |
 | Conundrum | İkilem (Conundrum) | Temiz kodun temel felsefesiyle ilgili zorluk |
+| convention | kural (convention) | İki gösterim arasındaki dönüşümde, farklı hassasiyet (precision) yüzünden belirsiz kalan davranışı (ör. 'günün saati — time of day') sabitlemek için API'de yazılı olarak bildirilen uzlaşım; Listing B-1'deki toDate() Javadoc'unda ve sayfa 362 kavram kartlarında geçer. Sözlükteki 'Convention over Configuration' (yapılandırmadan çok kural) ve 'Naming Convention' (İsimlendirme Kuralı) terimlerinden ayrı, genel kavramdır. |
 | Convention over Configuration | yapılandırmadan çok kural (convention over configuration) | Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır. |
 | Corner Case | Uç Durum (Corner Case) | Bir algoritmanın uç/uç değerlerinde ortaya çıkan özel durum; kitapta 'corner and boundary cases' ifadesinde geçer. 'Boundary Case' (Sınır Durumu) ile yakın anlamlıdır. |
 | Cosmic Ray | Kozmik Işın (Cosmic Ray) | Tek seferlik, açıklanamayan başarısızlıklara uydurulan bahane; bu sayfada 'write off the failure as a cosmic ray' ifadesinde geçer. |
@@ -188,6 +191,9 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Data Type | Veri Türü (Data Type) | Bir değişkenin veya değerin türünü belirten kavram |
 | Data/Object Anti-Symmetry | Veri/Nesne Karşı Simetrisi (Data/Object Anti-Symmetry) | Nesneler yeni türü, veri yapıları yeni işlemi kolaylaştırır |
 | Database Connections | Veritabanı Bağlantıları (Database Connections) | Birden çok iş parçacığının aynı anda kullanamayacağı, doğası gereği iş parçacığına güvenli (thread safe) olmayan kaynaklar; sayfa 328'in 'İş Parçacığına Güvenli Olmayan Sınıflar' listesinde geçer. |
+| date format | tarih biçimi (date format) | Tarihlerin temsil edildiği/okunduğu biçim; kod yorumunda 'this date format' ifadesinde geçer (MINIMUM_YEAR_SUPPORTED civarı). |
+| date format symbols | tarih biçimi simgeleri (date format symbols) | java.text.DateFormatSymbols sınıfının temsil ettiği, ay ve gün adları gibi yerelleştirilmiş (localized) tarih biçimleme (formatting) öğeleri; SerialDate'in DATE_FORMAT_SYMBOLS sabitinde kullanılır. |
+| Day-of-the-week relative constant | Hafta Günü Göreli Sabiti (Day-of-the-week Relative Constant) | PRECEDING / NEAREST / FOLLOWING sabitleri, bir hafta gününü sabit bir tarihe göreli olarak (önceki, en yakın, sonraki) belirtir; işaretli ofsetlerin (1, 0, -1) anlamını gizlemesi yerine çağrıyı düz metin gibi okutur (Listing B-1). |
 | DBMS | DBMS (Veritabanı Yönetim Sistemi — Database Management System) | Database Management System; veritabanını yöneten yazılım. Kısaltma İngilizce kalır |
 | Dead Code | Ölü Kod (Dead Code) | Çalıştırılmayan, artık kullanılmayan kod (ulaşılamayan if dalları, asla istisna fırlatmayan try'ların catch blokları, hiç çağrılmayan yardımcı metotlar); G9 sezgisel kuralının konusu. Tasarım değiştikçe güncellenmediği için çürür, silinmelidir. |
 | Deadline | Son Teslim Tarihi (Deadline) | Projenin teslim edilmesi gereken tarih |
@@ -288,6 +294,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Factory Method | Fabrika Metodu (Factory Method) | Nesne oluşturma mantığını kapsülleyen metot |
 | Failover | Hata Devri (Failover) | Bir bileşenin ya da sunucunun devre dışı kalması durumunda iş yükünün otomatik olarak yedek/başka bir bileşene aktarılması; çapraz kesim kaygısı (cross-cutting concern) örneği. |
 | Fake | Sahte Nesne (Fake) | Testte gerçek bağımlılığın yerine geçen, basit ama çalışan gerçekleştirim; ör. FakeTransmitter |
+| fallback | geri dönüş (fallback) | Asıl yol sonuç üretemediğinde denenmek üzere sıralı denemelerin içindeki ikincil yol; stringToMonthCode'ta tamsayı ayrıştırması başarısız olunca ay adlarında aramaya geçilmesi buna örnektir. |
 | False Clue | Yanlış İpucu (False Clue) | Kodun anlamını bulanıklaştıran yanıltıcı isimler |
 | Fault | Hata (fault) | Kusur/arıza; sayfa 330'da 'causes a fault' ifadesinde geçer — iş parçacığının yineleyicinin (iterator) sonunu aşıp istisna (exception) fırlatması durumu. 'Bug | Hata (Bug)' teriminden ayrı, daha dar kullanımı. |
 | Feature | Özellik (Feature) |  |
@@ -370,6 +377,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Instance | Örnek (Instance) | Bir sınıftan oluşturulmuş somut nesne; ör. PathParser.parse çağrısının döndürdüğü PagePath örneği |
 | Instance Method | Örnek Metodu (Instance Method) | Bir sınıfın belirli bir örneği (instance) üzerinde, o örneğin alanlarına erişerek çalışan metot; sayfa 279'da addDays ve addMonths'un statik (static) yerine örnek metoduna dönüştürülmesi bağlamında geçer [G18]. |
 | Instance Variable | Örnek Değişkeni (Instance Variable) | Bir sınıfın her nesnesinde ayrı ayrı tutulan üye değişken |
+| instant in time | zamandaki an (instant in time) | java.util.Date'in temsil ettiği, milisaniye hassasiyetinde ve tarihin hangi gün sayılacağı saat dilimine (time zone) bağlı olan noktasal zaman; SerialDate'in yalnızca günü temsil etme amacıyla karşılaştırma yaptığı kavram. |
 | Instantiation | Örnekleme (Instantiation) | Bir sınıftan nesne oluşturma işlemi; 'instantiate' = örneklemek. Tembel örnekleme (lazy instantiation) ile birlikte geçer |
 | Instrumentation | Enstrümantasyon (Instrumentation) | Kodun içine, yalnızca test sırasında etkin olacak ölçüm/kesinti noktaları (ör. wait, sleep, yield, priority çağrıları) ekleme tekniği; nadir eşzamanlılık kusurlarını zorlayarak ortaya çıkarmak için kullanılır. Sayfa 188'de 'Instrument Your Code to Try and Force Failures' başlığı altında geçer. |
 | integer | tamsayı (integer) | Tam sayı veri tipi; sayfa 208'de 'String and integer' ifadesinde argüman tipi olarak geçer. Sözlükteki 'Integer Handle' teriminden farklıdır. |
@@ -403,6 +411,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | JobQueue | İş Kuyruğu (JobQueue) |  |
 | Journal Comment | Günlük Yorumu (Journal Comment) | Modüldeki değişikliklerin kaydını tutan (artık gereksiz) yorum |
 | JPA (Java Persistence API) | JPA (Java Kalıcılık API'si — Java Persistence API) | EJB3 ile birlikte ortaya çıkan, Java'da kalıcılığı (persistence) ek açıklamalar (annotations) ve XML üzerinden bildirimsel olarak yöneten standart API. |
+| JUnit test runner | JUnit test çalıştırıcısı (JUnit test runner) | JUnit framework'ünde test sınıfını bulup metotlarını çalıştıran mekanizma; kod yorumundaki 'Returns a test suite for the JUnit test runner' ifadesinde geçer. |
 | Just-in-Time | Tam Zamanında (Just-in-Time) | Kararların en güncel bilgiyle, en geç gerektiği anda alınması yaklaşımı |
 | Just-In-Time Compiler | Tam Zamanında Derleyici (Just-In-Time Compiler) | JVM'nin bayt kodunu çalışma anında makine koduna çeviren bileşeni (JIT); bu sayfada üretilen bayt kodunun nasıl yürütüldüğünü anlamak için anahattır. Sözlükteki 'Just-in-Time' (karar alma yaklaşımı) teriminden farklı bir kavramdır. |
 | JVM | JVM (Java Sanal Makinesi) | Java Virtual Machine; Java bayt kodunu çalıştıran sanal makine. Kitapta “ayrı JVM” (separate JVM), uzak arayüzün çalıştığı ayrı süreci ifade eder. |
@@ -411,6 +420,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Law of Demeter | Demeter Yasası (Law of Demeter) | Bir modül üzerinde çalıştığı nesnelerin iç yapısını bilmemelidir |
 | Lazy Evaluation | Tembel Değerlendirme (Lazy Evaluation) | Bir değerin yalnızca gerçekten gerektiğinde hesaplanması; kitapta Lazy Initialization ile birlikte LAZY INITIALIZATION/EVALUATION kalıbı olarak geçer |
 | Lazy Initialization | Tembel Başlatma (Lazy Initialization) | Nesne oluşturmayı ilk kullanıma erteleyen kalıp; ek yükü azaltsa da kurulum mantığını çalışma zamanı koduna karıştırabilir |
+| leap year | artık yıl (leap year) | Şubat ayı 29 çeken, gün sayısı 366 olan yıl; SerialDate'in artık yıla özgü gün toplamı dizilerinde (LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_MONTH) geçer. Kod yorumlarında 'leap year' ve 'non leap year' (artık olmayan yıl) olarak kullanılır. |
 | Learning Test | Öğrenme Testi (Learning Test) | Jim Newkirk'ün terimi: üçüncü taraf bir API'yi, uygulamada kullanılacağı şekilde çağırarak onu ne kadar anladığımızı sınayan kontrollü deney niteliğindeki test |
 | LeBlanc's Law | LeBlanc Yasası (LeBlanc's Law) | "Sonra asla demektir" (Later equals never) |
 | Legal Comment | Yasal Yorum (Legal Comment) | Telif hakkı, lisans gibi yasal zorunlulukları belirten yorum |
@@ -424,6 +434,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Livelock | Canlı Kilit (Livelock) | İş parçacıkları sürekli yeniden deneyip ilerleyemediğinde oluşan durum; ölü kilit (deadlock) ve açlık (starvation) ile birlikte sayfa 183'ün tanım tablosunda geçer. |
 | Local Interface | Yerel Arayüz (Local Interface) | EJB'de aynı JVM içinden erişim için kullanılan istemci arayüzü. |
 | Local Variable | Yerel Değişken (Local Variable) | Yalnızca tanımlandığı fonksiyon ya da blok içinde geçerli değişken |
+| locale | yerel ayar (locale) | Dile ve bölgeye özgü biçimleme kuralları (tarih/saat biçimleri, ay ve gün adları); 'default locale' (varsayılan yerel ayar) ifadesiyle DateFormatSymbols'un ay adlarını hangi dile göre ürettiğini belirtir. Listing B-1 Javadoc'unda geçer. |
 | Lock | Kilit (Lock) | Paylaşılan kaynağa aynı anda yalnız bir iş parçacığının erişmesini sağlayan mekanizma; sayfa 185'te 'lock the server', 'the lock’s extent' ve 'Locks are expensive' ifadelerinde geçer. Sözlükteki 'Deadlock' (Ölü Kilit) ve 'Intrinsic Lock' (İçsel Kilit) terimlerinden ayrı, genel kavramdır. |
 | Lock & Wait | Kilitlen ve Bekle (Lock & Wait) | Kilitlenmenin (deadlock) dört koşulundan ikincisi: bir iş parçacığı bir kaynağı edindikten sonra, gereksinim duyduğu diğer kaynakların tümünü edininceye kadar onu bırakmaz. Sayfa 337'de tek tek açıklanır. |
 | Lock-up | Kilitlenme (lock-up) | Bir sistemin/iş parçacığının ilerleyemeyecek biçimde takılıp kalması durumu; sayfadaki 'the frequency of the lock-ups' ifadesinde geçer. 'Deadlock | Ölü Kilit' teriminden ayrı, genel takılma durumudur. |
@@ -471,6 +482,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Monadic | Tekli (Monadic) | Bir argümanlı fonksiyon |
 | Monolithic | Tek parça (monolithic) | Tek blok hâlinde, bölümlere ayrılmamış (yapı) anlamında sıfat; sayfadaki 'monolithic assembly language code' ifadesinde geçer. |
 | Monte Carlo Testing | Monte Carlo Testi (Monte Carlo Testing) | Testin ayar (tuning) değerlerini rastgele değiştirerek testi tekrar tekrar — ör. bir test sunucusunda — çalıştırıp seyrek görülen eşzamanlılık (concurrency) hatalarını yakalamaya çalışan test tekniği; sayfa 341'de 'Monte Carlo Testing' maddesinde geçer. |
+| month code | ay kodu (month code) | Ayları temsil eden tamsayı kodlar (JANUARY..DECEMBER); SerialDate'in isValidMonthCode ve monthCodeToQuarter metotlarının girdisi olarak geçer. java.util.Calendar sabitleriyle aynı değerleri kullanır. |
 | MQ (Message Queue) | MQ (İleti Kuyruğu — Message Queue) | Uygulamalar arasında zaman uyumsuz (asynchronous) ileti alışverişi sağlayan mesajlaşma sistemi; bu sayfada ana depoya (master repository) giden, sonlu boyutlu paylaşılan bağlantı havuzunun kaynağı. Kısaltma İngilizce kalır. |
 | Multithreaded / Single-threaded | Çok İş Parçacıklı (multithreaded) / Tek İş Parçacıklı (single-threaded) | Sözlükteki 'Thread | İş Parçacığı (Thread)' teriminin sıfat biçimleri; sayfa 179'da 'single threaded', 'multithreaded algorithm', 'single-threaded system' ifadelerinde geçer. |
 | Mumbling | Mırıldanma (Mumbling) | Belirsiz, özensiz veya ne dediği anlaşılmayan yorum |
@@ -581,9 +593,11 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Pull Up (a member) | Yukarı Taşımak (Pull Up) | Bir üyeyi alt sınıftan, tüm türevlerin paylaştığı üst sınıfa taşıma yeniden düzenlemesi; sayfa 280-282'de toDate, getDayOfWeek, compare ve isInRange metotlarının SpreadsheetDate'ten DayDate'e taşınmasında geçer. 'Push Down (a member)' (Aşağı Taşımak) teriminin karşıtıdır. |
 | Pun | Kelime Oyunu (Pun) | Bir kelimenin iki farklı anlamda kullanılması |
 | Push Down (a member) | Aşağı Taşımak (Push Down) | Bir üyeyi üst sınıftan, onu gerçekten kullanan alt sınıfa taşıma yeniden düzenlemesi; sayfa 279'da leapYearCount'un DayDate'ten SpreadsheetDate'e taşınması bağlamında geçer [G6]. Sözlükteki 'Deploy' (yerleştirmek) terimiyle yakından ilişkilidir. |
+| quarter | çeyrek (quarter) | Üç aylık dönem; monthCodeToQuarter metodu, ay kodunu yılın 1-4 arasındaki çeyreğine eşler. Takvim/finans bağlamında 'çeyrek' Türkçede yerleşik karşılıktır. |
 | Quasi-Encapsulation | Yarı Kapsülleme (Quasi-Encapsulation) | Bean'lerin getter/setter ile sağladığı, pratikte hiçbir şeyi gizlemeyen görünüşte kapsülleme |
 | Query | Sorgu (Query) | Bu sayfada fiil olarak geçer: 'query the Args instance for the values of the arguments' = argüman değerlerini `Args` örneğinden istemek/okumak. Sözlükteki 'Command Query Separation' (Komut Sorgu Ayrımı) terimindeki 'query' kavramıyla bağlantılıdır. |
 | Race Condition | Yarış Durumu (Race Condition) | Eşzamanlı erişimden kaynaklanan hata |
+| Range constant (inclusion) | Kapsama Sabiti (Range Constant) | INCLUDE_NONE / INCLUDE_FIRST / INCLUDE_SECOND / INCLUDE_BOTH sabitleri, bir tarih aralığının hangi uçlarının kapsandığını tek bir adlandırılmış değerde kodlar; iki boolean parametrenin ürettiği anlamsız kombinasyonları önler (Listing B-1). |
 | Readability | Okunabilirlik (Readability) | Kodun okunup anlaşılma kolaylığı; sonraki tüm değişiklikleri etkiler |
 | Readable Code | Okunabilir Kod (Readable Code) |  |
 | Readers-Writers | Okuyucu-Yazarlar (Readers-Writers) | Paylaşılan kaynağı sürekli okuyan ve ara sıra güncelleyen tarafların doğruluk, geçirimi (throughput) ve açlık (starvation) dengesini bulmasını gerektiren klasik eşzamanlılık problemi; sayfa 184'te level-2 başlık. |
@@ -640,6 +654,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Selector Arguments | Seçici Argümanlar (Selector Arguments) | G15 sezgisel kuralı: bir fonksiyonun davranışını birden fazla mod arasında değiştirmek için kullanılan boolean/enum/tamsayı bayrak argümanı; amacı hatırlaması zordur ve birçok fonksiyonu tek fonksiyonda birleştirir. |
 | Self-Descriptive Name | kendini betimleyen isim (self-descriptive name) | Adın, taşıdığı şeyi kendisinin açıklaması; sayfa 277'de getMonths fonksiyonuna [N1] ile işaretlenen daha betimleyici isim verme işleminde geçer. Sözlükteki 'Descriptive Names' (Betimleyici İsimler) terimiyle ilişkilidir. |
 | Semaphore | Sinyal (Semaphore) | Sayaçlı bir kilitle klasik semaforun gerçekleştirimi; java.util.concurrent paketinde. |
+| sentinel value | gösterge değer (sentinel value) | Geçerli bir sonucun bulunamadığını belirtmek için döndürülen özel değer; stringToMonthCode, tanınamayan bir dizgi için -1 döndürür. Ayrıca 'find' benzeri aramalarda 'bulunamadı' (not found) göstergesi olarak yaygındır. |
 | Separate | Ayırmak (Separate) | Bir yapıyı ana modülden bağımsız bir parça hâline getirerek dışarı çıkarma; sayfa 242'de 'completely separated the exception and error code from the Args module' ifadesinde geçer. 'Decoupling | Ayrıştırma (Decoupling)' teriminden farklıdır: burada bağımlılığı azaltmak değil, kodun fiziksel olarak başka bir modüle taşınması kastedilir. |
 | Separation of Concerns | Kaygıların Ayrılması (Separation of Concerns) | Yazılımı çalıştırma kaygısı ile onu düzenli ve temiz tutma kaygısının ayrı, birbiri kadar önemli iki etkinlik olarak ele alınması gerektiği ilkesi; Chapter 10'da sınıf tasarımı bağlamında geçer. |
 | serial number | seri numarası (serial number) | Ürün tanımlama işareti olarak kullanılan numara; kitapta SerialDate'in 30 Aralık 1899'dan bu yana geçen gün sayısını tutan gösterimi için kullanılmıştır ve yazar bunu yanıltıcı bulur. Sayfa 271'de 'serial number' teriminin tarih bağlamında doğru olmadığı tartışılır. |
@@ -696,6 +711,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Stepdown Rule | Basamak Kuralı (Stepdown Rule) | Kodun üst seviyeden alt seviyeye "aşağı doğru" okunması prensibi |
 | Story | Hikaye (Story) | Çevik geliştirme (Agile) bağlamında, müşteriye değer katan küçük ve uygulanabilir işlev parçası; “bugünün hikayeleri” (today’s stories) ifadesi bu anlamdadır. |
 | Strategy Pattern | Strateji Deseni (Strategy Pattern) | Bir algoritma ailesini tanımlayıp her birini kendi sınıfına kapsülleyen ve aralarında değiştirilebilir kılan tasarım deseni; tekrarı ortadan kaldırmanın yollarından biri olarak anılır, Şablon Metot (Template Method) ile birlikte geçer. |
+| string representation | dizge gösterimi (string representation) | Bir nesnenin metin biçimindeki karşılığı; Java'da toString() metodu bu gösterimi sağlar. Listing B-1'de 'a string representation of the date' ifadesinde geçer — toString() günü '10-Şub-2007' gibi okunur bir dizgeye çevirir. |
 | StringBuffer | StringBuffer | Java'da değiştirilebilir dizgi nesnesi |
 | Struct | Yapı (Struct) | Yalnızca veri alanları bulunan, davranışı olmayan veri yapısı |
 | Structure over Convention | Yapı, Kuraldan Üstündür (Structure over Convention) | G27 sezgisel kuralı: uyumu zorunlu kılan yapıların (ör. soyut metotlu üst sınıflar) gönüllü isimlendirme kurallarından (naming conventions) daha güçlü olduğunu ifade eder. |
@@ -750,6 +766,7 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Three Laws of TDD | TDD'nin Üç Yasası (Three Laws of TDD) | Robert C. Martin: başarısız bir birim testi yazmadan üretim kodu yazma; testin yalnızca başarısız olmaya yetecek kadarını yaz (derlenmemek de başarısızlıktır); yalnızca başarısız testi geçirecek kadar üretim kodu yaz |
 | Throughput | Geçirim (Throughput) | Birim zamanda işlenen iş/istek miktarı; sayfa 178'de 'geçirimi (throughput)' biçiminde kullanılmıştır. |
 | Tiger Team | Kaplan Ekibi (Tiger Team) | En yetenekli geliştiricilerden oluşan ekip |
+| time zone | zaman dilimi (time zone) | Bir bölgede geçerli olan standart saat ayarı; bir anın (instant) hangi takvim gününe denk geldiğini belirlediği için tarih temsilinde önem taşır. Kod Javadoc'unda 'the date itself depending on the time-zone' ifadesinde geçer. |
 | Time-Sharing System | Zaman Paylaşımlı Sistem (Time-Sharing System) | Birden çok kullanıcının/terminalin tek bir bilgisayarı dönüşümlü olarak paylaştığı eski işletim sistemi mimarisi; 'multi-terminal time-sharing system' ifadesinde geçer. |
 | TO Paragraph | TO Paragrafı | Fonksiyonun ne yaptığını "Bunu yapmak için (TO)..." kalıbıyla anlatan cümle; LOGO dilindeki TO anahtar kelimesinden esinlenilmiştir |
 | TODO | TODO / Yapılacaklar (TODO) | Gelecek için bırakılan notlar ve hatırlatıcılar |
@@ -796,6 +813,8 @@ Her yeni sayfa çevrildikten sonra, o sayfada geçen yeni teknik terimler buraya
 | Ward's Principle | Ward'ın İlkesi (Ward's Principle) | Ward Cunningham'ın temiz kod tanımı: her rutin, tam olarak beklediğiniz gibi çıkar |
 | Warning of Consequences | Sonuçlara Dair Uyarı (Warning of Consequences) | Belirli bir işlemin etkileri hakkında diğer programcıları uyaran yorum |
 | weasel words | kaypak sözcükler (weasel words) | Processor, Manager, Super gibi anlamı belirsiz bırakan, bir sınıfın gerçekte ne yaptığını gizleyen ve çoğu zaman fazla sorumluluk yığılmasına işaret eden isim bileşenleri. |
+| Week In Month (constant) | Aydaki Hafta (Week In Month sabiti) | SerialDate'in bir ay içindeki haftayı belirten public static final int sabitleri: FIRST_WEEK_IN_MONTH = 1, SECOND_WEEK_IN_MONTH = 2, THIRD_WEEK_IN_MONTH = 3, FOURTH_WEEK_IN_MONTH = 4; ayın son haftası LAST_WEEK_IN_MONTH = 0 ile temsil edilir (Listing B-1). |
+| weekday code | hafta günü kodu (weekday code) | Haftanın günlerini temsil eden tamsayı kodu; SerialDate'in getDayOfWeek() ve isValidWeekdayCode gibi metotlarında geçer (bu sayfada getDayOfWeek() soyut metodu ve javadoc'u). 'Day-of-the-week relative constant' (Hafta Günü Göreli Sabiti) teriminden ayrıdır. |
 | Whim | Keyfî (Whim) | 'on a whim' = keyfî olarak, içinden geldiği anda; test paketinin anında ve istekle çalıştırılabilir olması TDD'nin güveninin temelidir. Sayfa 213'te 'run on a whim' ifadesinde geçer. |
 | Whole Picture | tüm resim (whole picture) | Uzun bir yeniden düzenleme sırasında ya da ardından ayrıntılardan uzaklaşıp sınıfın/sistemin bütününe yeniden bakıp değerlendirmek; bu sayfada 'let’s look at the whole picture again' ifadesinde geçer. Sözlükteki 'Big Picture' (Büyük Resim) girdisinden ayrıdır: Big Picture genel sistem bakış açısıdır, Whole Picture ise mevcut bütüncül biçime atılan kontrol noktası niteliğindeki bakıştır. |
 | Wildcard Import | Joker İmport (Wildcard Import) | J1 sezgisel kuralı: bir paketten iki ya da daha fazla sınıf kullanıldığında paketin tamamını (import package.*) içe aktaran import biçimi; özel (specific) importlardan farklı olarak gerçek bir bağımlılık (dependency) yaratmaz, paketi yalnızca arama yoluna (search path) ekler. |

@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 348,
+  "lastTranslatedPage": 381,
   "chapters": [
     {
       "num": 1,
@@ -3924,6 +3924,369 @@ window.TOC = {
       "section": {
         "en": "Tutorial: Full Code Examples",
         "tr": "Öğretici: Tam Kod Örnekleri (Tutorial: Full Code Examples)"
+      },
+      "chapter": 18
+    },
+    "349": {
+      "title": {
+        "en": "Appendix B: org.jfree.date.SerialDate — Chapter Opening",
+        "tr": "Ek B: org.jfree.date.SerialDate — Bölüm Açılışı"
+      },
+      "section": {
+        "en": "",
+        "tr": ""
+      },
+      "chapter": 18
+    },
+    "350": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "351": {
+      "title": {
+        "en": "Listing B-1 (continued): SerialDate Constants",
+        "tr": "Listing B-1 (devamı): SerialDate Sabitleri"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "352": {
+      "title": {
+        "en": "Listing B-1 (continued): Week, Range, and Day Constants",
+        "tr": "Listing B-1 (devamı): Hafta, Kapsama ve Gün Sabitleri"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "353": {
+      "title": {
+        "en": "Listing B-1 (continued): Weekday Codes and Conversions",
+        "tr": "Listing B-1 (devamı): Haftanın Günü Kodları ve Dönüşümleri"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "354": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "355": {
+      "title": {
+        "en": "Listing B-1 (continued): Month Codes and Conversions",
+        "tr": "Listing B-1 (devamı): Ay Kodları ve Dönüşümleri"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "356": {
+      "title": {
+        "en": "Listing B-1 (continued): Parsing Month Codes",
+        "tr": "Listing B-1 (devamı): Ay Kodlarını Ayrıştırma"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "357": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "358": {
+      "title": {
+        "en": "Listing B-1 (continued): Day and Month Arithmetic",
+        "tr": "Listing B-1 (devamı): Gün ve Ay Aritmetiği"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "359": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "360": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "361": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "362": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "363": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "364": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "365": {
+      "title": {
+        "en": "Listing B-1 (continued) SerialDate.Java",
+        "tr": "Listing B-1 (devamı) SerialDate.Java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "366": {
+      "title": {
+        "en": "Listing B-2 SerialDateTest.java",
+        "tr": "Listing B-2 SerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "367": {
+      "title": {
+        "en": "Listing B-2 (continued) SerialDateTest.java",
+        "tr": "Listing B-2 (devamı) SerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "368": {
+      "title": {
+        "en": "Listing B-2 (continued) SerialDateTest.java",
+        "tr": "Listing B-2 (devamı) SerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "369": {
+      "title": {
+        "en": "Listing B-2 (continued) SerialDateTest.java",
+        "tr": "Listing B-2 (devamı) SerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "370": {
+      "title": {
+        "en": "Listing B-2 (continued) SerialDateTest.java",
+        "tr": "Listing B-2 (devamı) SerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "371": {
+      "title": {
+        "en": "Listing B-2 (continued): SerialDateTest.java",
+        "tr": "Listing B-2 (devamı): SerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "372": {
+      "title": {
+        "en": "Listing B-3 MonthConstants.java",
+        "tr": "Listing B-3 MonthConstants.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "373": {
+      "title": {
+        "en": "Listing B-3 (continued) MonthConstants.java",
+        "tr": "Listing B-3 (devamı) MonthConstants.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "374": {
+      "title": {
+        "en": "Listing B-4 BobsSerialDateTest.java",
+        "tr": "Listing B-4 BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "375": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "376": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "377": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "378": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "379": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "380": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "381": {
+      "title": {
+        "en": "Listing B-4 (continued) BobsSerialDateTest.java",
+        "tr": "Listing B-4 (devamı) BobsSerialDateTest.java"
+      },
+      "section": {
+        "en": "Appendix B: org.jfree.date.SerialDate",
+        "tr": "Ek B: org.jfree.date.SerialDate"
       },
       "chapter": 18
     }
