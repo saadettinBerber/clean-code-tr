@@ -3800,6 +3800,11 @@ window.GLOSSARY = [
     "note": "Kodu denetlenmesi istenen koşullar altında (ör. farklı sleep/yield rejimlerinde) çalıştırmak için kurulan test düzeneği; sayfa 189'da 'test jigs' ifadesinde geçer."
   },
   {
+    "en": "Test Obsessed",
+    "tr": "Test Tutkunu (Test Obsessed)",
+    "note": "Epilogue'daki yeşil bilekliğin üzerinde yazan slogan; test güdümlü geliştirmeye (TDD) tutkuyla bağlı olma zihniyetini ifade eder. Slogan metni olduğu için İngilizce korunur."
+  },
+  {
     "en": "Test Suite",
     "tr": "Test Paketi (Test Suite)",
     "note": "Bir sistemin otomatik testlerinin bütünü; üretim kodu değiştikçe onunla birlikte bakımı yapılmalıdır"

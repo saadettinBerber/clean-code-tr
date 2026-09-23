@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 408,
+  "last_translated_page": 414,
   "chapters": [
     {
       "num": 1,
@@ -3363,6 +3363,54 @@
       "title_tr": "Ek B Sonu (Boş Sayfa)",
       "section_en": "org.jfree.date.SerialDate",
       "section_tr": "Ek B: org.jfree.date.SerialDate"
+    },
+    "409": {
+      "pdf_page": 409,
+      "chapter": 18,
+      "title_en": "Cross References of Heuristics",
+      "title_tr": "Sezgisel Kuralların Çapraz Referansları",
+      "section_en": "",
+      "section_tr": "Sezgisel Kuralların Çapraz Referansları"
+    },
+    "410": {
+      "pdf_page": 410,
+      "chapter": 18,
+      "title_en": "Cross References of Heuristics (G15–T9)",
+      "title_tr": "Sezgisel Kuralların Çapraz Referansları (G15–T9)",
+      "section_en": "Appendix C: Cross References of Heuristics",
+      "section_tr": "Ek C: Sezgisel Kuralların Çapraz Referansları"
+    },
+    "411": {
+      "pdf_page": 411,
+      "chapter": 18,
+      "title_en": "Epilogue",
+      "title_tr": "Son Söz (Epilogue)",
+      "section_en": "Epilogue",
+      "section_tr": "Son Söz (Epilogue)"
+    },
+    "412": {
+      "pdf_page": 412,
+      "chapter": 18,
+      "title_en": "Appendix C/Epilogue End (Blank Page)",
+      "title_tr": "Ek C/Son Söz Sonu (Boş Sayfa)",
+      "section_en": "Epilogue",
+      "section_tr": "Son Söz (Epilogue)"
+    },
+    "413": {
+      "pdf_page": 413,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
+    },
+    "414": {
+      "pdf_page": 414,
+      "chapter": 18,
+      "title_en": "Index",
+      "title_tr": "Dizin (Index)",
+      "section_en": "Index",
+      "section_tr": "Dizin (Index)"
     }
   }
 }

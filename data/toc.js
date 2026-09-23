@@ -1,7 +1,7 @@
 window.TOC = {
   "bookTotalPages": 431,
   "pdfOffset": 0,
-  "lastTranslatedPage": 408,
+  "lastTranslatedPage": 414,
   "chapters": [
     {
       "num": 1,
@@ -4584,6 +4584,72 @@ window.TOC = {
       "section": {
         "en": "org.jfree.date.SerialDate",
         "tr": "Ek B: org.jfree.date.SerialDate"
+      },
+      "chapter": 18
+    },
+    "409": {
+      "title": {
+        "en": "Cross References of Heuristics",
+        "tr": "Sezgisel Kuralların Çapraz Referansları"
+      },
+      "section": {
+        "en": "",
+        "tr": "Sezgisel Kuralların Çapraz Referansları"
+      },
+      "chapter": 18
+    },
+    "410": {
+      "title": {
+        "en": "Cross References of Heuristics (G15–T9)",
+        "tr": "Sezgisel Kuralların Çapraz Referansları (G15–T9)"
+      },
+      "section": {
+        "en": "Appendix C: Cross References of Heuristics",
+        "tr": "Ek C: Sezgisel Kuralların Çapraz Referansları"
+      },
+      "chapter": 18
+    },
+    "411": {
+      "title": {
+        "en": "Epilogue",
+        "tr": "Son Söz (Epilogue)"
+      },
+      "section": {
+        "en": "Epilogue",
+        "tr": "Son Söz (Epilogue)"
+      },
+      "chapter": 18
+    },
+    "412": {
+      "title": {
+        "en": "Appendix C/Epilogue End (Blank Page)",
+        "tr": "Ek C/Son Söz Sonu (Boş Sayfa)"
+      },
+      "section": {
+        "en": "Epilogue",
+        "tr": "Son Söz (Epilogue)"
+      },
+      "chapter": 18
+    },
+    "413": {
+      "title": {
+        "en": "Index",
+        "tr": "Dizin (Index)"
+      },
+      "section": {
+        "en": "Index",
+        "tr": "Dizin (Index)"
+      },
+      "chapter": 18
+    },
+    "414": {
+      "title": {
+        "en": "Index",
+        "tr": "Dizin (Index)"
+      },
+      "section": {
+        "en": "Index",
+        "tr": "Dizin (Index)"
       },
       "chapter": 18
     }
