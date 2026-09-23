@@ -1,5 +1,10 @@
 window.GLOSSARY = [
   {
+    "en": "@Ignore",
+    "tr": "@Ignore",
+    "note": "T4 bağlamında: bir testin, belirsiz bir gereksinimle ilgili soruyu kaydetmek üzere çalıştırılmadan bırakılmasını sağlayan ek açıklama (annotation); test derlenebiliyorsa @Ignore, derlenemiyorsa yorum satırına alma (commented out) tercih edilir. Ek açıklama adı olduğu için çevrilmez."
+  },
+  {
     "en": "Abstract Class",
     "tr": "Soyut Sınıf (Abstract Class)",
     "note": "Yalnızca kavramı temsil eden, gerçekleştirim ayrıntısı taşımayan (ya da kısmen taşıyan) sınıf; istemciyi somut ayrıntılardan yalıtmak için arayüzlerle birlikte kullanılır"
@@ -75,6 +80,11 @@ window.GLOSSARY = [
     "note": "Belirli bir işi yapmak için izlenen adım dizisi; bu sayfada `Args` sınıfının şemayı (schema) ayrıştırma akışı. Sayfadaki 'the three different maps up at the top of the algorithm' ifadesinde geçer."
   },
   {
+    "en": "Ambiguity",
+    "tr": "Belirsizlik (Ambiguity)",
+    "note": "T4 sezgisel kuralının başlığında geçer: gereksinimlerin (requirements) netleştirmediği davranış ayrıntısı; bu belirsizlik, yorum satırına alınmış ya da @Ignore ile yoksayılmış bir test aracılığıyla soru olarak ifade edilir. Sözlükteki 'Belirsizliğe Yer Bırakmayan İsimler (Unambiguous Names)' terimiyle ilişkilidir."
+  },
+  {
     "en": "Amplification",
     "tr": "Önem Belirtme (Amplification)",
     "note": "Önemsiz görünebilecek bir şeyin önemini vurgulayan yorum"
@@ -108,6 +118,16 @@ window.GLOSSARY = [
     "en": "Argument Object",
     "tr": "Argüman Nesnesi (Argument Object)",
     "note": "Birden fazla argümanı bir sınıfa sarma tekniği"
+  },
+  {
+    "en": "artifact",
+    "tr": "yapıt (artifact)",
+    "note": "Derleme (build) sürecinin ürettiği ya da gerektirdiği dosya/ürün (ör. JAR, XML dosyası); bu sayfada 'other artifacts that the system requires' ifadesinde geçer."
+  },
+  {
+    "en": "Artificial Coupling",
+    "tr": "Yapay Bağımlılık (Artificial Coupling)",
+    "note": "G13 sezgisel kuralı: doğrudan bir amaca hizmet etmeyen, iki modül arasındaki bağımlılık; genel enum'ların/statik fonksiyonların daha özel bir sınıfın içine konulmasıyla oluşur."
   },
   {
     "en": "ASM",
@@ -150,6 +170,11 @@ window.GLOSSARY = [
     "note": "Bir değişkene değer atayan ifade"
   },
   {
+    "en": "Assumption",
+    "tr": "Varsayım (Assumption)",
+    "note": "Bir modülün, bağımlı olduğu modül hakkında koda hiçbir şekilde yansımayan kabulü; G22 kuralında 'mantıksal bağımlılık' (logical dependency) ile eş anlamlı kullanılır. 'make assumptions' = 'varsayımlarda bulunmak'."
+  },
+  {
     "en": "Atomic Operation",
     "tr": "Atomik İşlem (Atomic Operation)",
     "note": "Bölünemeyen, tek adımda bütün olarak gerçekleşen işlem; birlikte anlam taşıyan değerlerin tek çağrıyla ayarlanması"
@@ -188,6 +213,11 @@ window.GLOSSARY = [
     "en": "Base Class",
     "tr": "Üst Sınıf (Base Class)",
     "note": "Kalıtım hiyerarşisinde davranışın önce toplandığı kök sınıf; bu sayfada 'the ArgumentMarshaler base class' ifadesinde geçer. Sözlükteki 'Concrete Class' ve 'Abstract Class' terimlerinden ayrı, genel kavram."
+  },
+  {
+    "en": "Be Precise",
+    "tr": "Kesin Olun (Be Precise)",
+    "note": "G26 sezgisel kuralı: kodda verilen her kararın (tür seçimi, null kontrolü, para birimi, eş zamanlılık) kesin ve belirsizlikten uzak olması gerektiğini söyler."
   },
   {
     "en": "Bean",
@@ -240,6 +270,11 @@ window.GLOSSARY = [
     "note": "Eşzamanlı kodda özellikle inatçı olan uç durumlar: örn. temiz biçimde kapanmak, bir döngünün yinelemesini tamamlamak. Sayfa 190'ın Sonuç kesitinde geçer; 'Boundary' (Sınır) ve 'Boundary Test' terimlerinden ayrı, daha genel bir kavramdır."
   },
   {
+    "en": "Boundary Condition",
+    "tr": "Sınır Koşulu (Boundary Condition)",
+    "note": "Bir algoritmanın sınır değerlerinde geçerli olan koşul; G3 kuralına göre her sınır koşulu için test yazılmalıdır. 'Boundary Condition Error' (Sınır Koşulu Hatası) teriminden ayrı, daha genel kavramdır."
+  },
+  {
     "en": "Boundary Condition Error",
     "tr": "Sınır Koşulu Hatası (Boundary Condition Error)",
     "note": "[T5] ile işaretli hata türü: sınır değerlerdeki kapsayıcılık yanlışının (ör. > yerine >= olması gereken koşul) yol açtığı tipik hata. Sayfa 269'da getFollowingDayOfWeek metodundaki hata için geçer."
@@ -275,9 +310,24 @@ window.GLOSSARY = [
     "note": "Pragmatik Programcılar metaforu: bir kırık pencere tüm binayı çürütür"
   },
   {
+    "en": "brute force",
+    "tr": "kaba kuvvet (brute force)",
+    "note": "G23 bağlamında: durum için en doğru çözüm olmasa da bariz ve akla ilk gelen çözüm; çoğu switch kullanımının ardındaki neden."
+  },
+  {
+    "en": "Bucket Brigade",
+    "tr": "Kova Zinciri (Bucket Brigade)",
+    "note": "G31 bağlamında: her fonksiyonun ürettiği sonucu bir sonraki fonksiyonun girdisi olarak aktardığı veri akışı deseni; fonksiyonların çağrılma sırasını görünür kılarak zamansal bağımlılığı (temporal coupling) açığa çıkarır."
+  },
+  {
     "en": "Bug",
     "tr": "Hata (Bug)",
     "note": "Sektörde \"bug\" olarak da kullanılır"
+  },
+  {
+    "en": "Build",
+    "tr": "derleme (build)",
+    "note": "Projeyi çalıştırılabilir ürüne dönüştüren süreç; bu sayfada tek adımlı, önemsiz (trivial) bir işlem olması gerektiği vurgulanır (E1). Sözlükteki 'derlemek (compile)' teriminden farklı, üst seviye bir kavramdır. Fiil olarak 'derlemek (build)'."
   },
   {
     "en": "BUILD-OPERATE-CHECK",
@@ -355,9 +405,19 @@ window.GLOSSARY = [
     "note": "Bir sınıftan üst sınıflarına uzanan kalıtım hiyerarşisi"
   },
   {
+    "en": "Change History",
+    "tr": "Değişiklik Geçmişi (Change History)",
+    "note": "Dosyaya eklenen, kimin ne zaman hangi değişikliği yaptığını listeleyen kayıt; C1 kuralına göre sürüm kontrol sistemine aittir, yorumlara konmaz."
+  },
+  {
     "en": "Check In",
     "tr": "Teslim Etmek (Check In)",
     "note": "Kod ve test değişikliklerini sürüm kontrol sistemindeki depoya kaydetmek; commit ile benzer anlamda"
+  },
+  {
+    "en": "Check Out",
+    "tr": "çekip almak (check out)",
+    "note": "Kaynak kodu kontrol sisteminden (source code control) bir sürümü yerel çalışma kopyasınıza almak; 'check out a previous version' ifadesinde geçer."
   },
   {
     "en": "Checked Exception",
@@ -410,6 +470,11 @@ window.GLOSSARY = [
     "note": "Paylaşılan nesnedeki birden fazla senkronize metodu istemcinin çağırması gerektiğinde, kilitleme sorumluluğunun istemciye verilmesi: istemci ilk çağrıda sunucuyu kilitler ve kilidin kapsamı son metodu çağıran kodu da kapsar. Sayfa 185'te üç düzeltme yolundan ilkidir."
   },
   {
+    "en": "Client/Server",
+    "tr": "İstemci/Sunucu (Client/Server)",
+    "note": "Bir tarafın (sunucu) hizmet sunduğu, diğer tarafın (istemci) bağlanıp istek gönderdiği mimari desen; sayfa 317'de 'client/server application' ifadesinde geçer."
+  },
+  {
     "en": "Closed Class",
     "tr": "Kapalı Sınıf (Closed Class)",
     "note": "Açık Kapalı İlkesi (OCP) anlamında değişikliğe kapalı sınıf: yeni işlev, mevcut sınıfı düzenleyerek değil yeni bir alt sınıf ekleyerek kazandırılır (Listing 10-10)"
@@ -423,6 +488,11 @@ window.GLOSSARY = [
     "en": "Clutter",
     "tr": "Karmaşa (Clutter)",
     "note": "Koda değer katmayan, yalnızca okumayı güçleştiren fazlalık; sayfa 276'da metot imzasına bir şey katmayan Javadoc'lar ve final anahtar sözcükleri için geçer."
+  },
+  {
+    "en": "Codd Normal Forms",
+    "tr": "Codd Normal Formları (Codd Normal Forms)",
+    "note": "Codd'un veritabanı şemalarındaki tekrarı (duplication) ortadan kaldırmak için önerdiği normalleştirme (normalization) biçimleri; sözlükteki 'Normal Forms' (Normal Formlar) girdisiyle aynı kavram, bu sayfada 'Codd Normal Forms' olarak geçer."
   },
   {
     "en": "Code Coverage",
@@ -510,6 +580,16 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Committer",
+    "tr": "committer (commit hakkına sahip geliştirici)",
+    "note": "Kaynak kodu deposuna doğrudan değişiklik yazma (commit) yetkisine sahip geliştirici; kitapta 'one of our committers' ifadesinde geçer. Sözlükteki 'Commit | Commit' terimiyle ilişkilidir."
+  },
+  {
+    "en": "Common Closure Principle",
+    "tr": "Ortak Kapanış İlkesi (Common Closure Principle)",
+    "note": "Dipnot 7'de geçer: birlikte değişme nedeni paylaşan sınıfların aynı pakette/parçada toplanmasını öneren paketleme ilkesi [PPP]."
+  },
+  {
     "en": "Communication Gap",
     "tr": "İletişim Boşluğu (Communication Gap)",
     "note": "Alan kavramı ile onu gerçekleştiren kod arasındaki anlam kaybı/uzaklık; DSL'ler bu boşluğu en aza indirir"
@@ -523,6 +603,11 @@ window.GLOSSARY = [
     "en": "Compiler",
     "tr": "Derleyici (Compiler)",
     "note": "Kaynak kodu makine koduna çeviren program"
+  },
+  {
+    "en": "Compiler Warning",
+    "tr": "Derleyici Uyarısı (Compiler Warning)",
+    "note": "Derleyicinin potansiyel sorunlara karşı ürettiği uyarı; G4 kuralına göre bunları kapatmak (ya da tümünü kapatmak) risklidir."
   },
   {
     "en": "Completeness",
@@ -560,9 +645,19 @@ window.GLOSSARY = [
     "note": "Bölüm 13'ün açılış sayfası ve konusu: birden çok işin iş parçacıkları (threads) aracılığıyla aynı anda yürütülmesini sağlayan tasarım ve programlama disiplini. Sözlükteki 'Race Condition' (Yarış Durumu) terimiyle ilişkili ama ayrı bir kavramdır."
   },
   {
+    "en": "Configurable Data",
+    "tr": "Yapılandırılabilir Veri (Configurable Data)",
+    "note": "G35 sezgisel kuralı: yüksek soyutlama seviyesinde bilinen ve beklenen varsayılan/yapılandırma değerlerinin düşük seviyeli fonksiyonlara gömülmesi yerine, onlara argüman olarak aşağı aktarılması gerektiğini söyler."
+  },
+  {
     "en": "Configuration File",
     "tr": "Yapılandırma Dosyası (Configuration File)",
     "note": "Hangi nesnelerin birbirine bağlanacağı (wiring) gibi kurulum kararlarının koda gömülmek yerine dışarıda tutulduğu dosya; ör. Spring'in XML yapılandırma dosyası"
+  },
+  {
+    "en": "Connection Strategy",
+    "tr": "Bağlantı Stratejisi (Connection Strategy)",
+    "note": "Bir modemin bağlanma yöntemi (çevirme, sabit kablolama, USB anahtarı üzerinden vb.); sayfa 311'de 'any other kind of connection strategy' ifadesinde geçer."
   },
   {
     "en": "Consistent Lexicon",
@@ -620,6 +715,11 @@ window.GLOSSARY = [
     "note": "Açıkça yapılandırılacak pek çok şey için akla uygun varsayılan davranışlar tanımlama ilkesi; açık 'bağlama' (wiring) mantığı miktarını azaltır."
   },
   {
+    "en": "Corner Case",
+    "tr": "Uç Durum (Corner Case)",
+    "note": "Bir algoritmanın uç/uç değerlerinde ortaya çıkan özel durum; kitapta 'corner and boundary cases' ifadesinde geçer. 'Boundary Case' (Sınır Durumu) ile yakın anlamlıdır."
+  },
+  {
     "en": "Cosmic Ray",
     "tr": "Kozmik Işın (Cosmic Ray)",
     "note": "Tek seferlik, açıklanamayan başarısızlıklara uydurulan bahane; bu sayfada 'write off the failure as a cosmic ray' ifadesinde geçer."
@@ -643,6 +743,11 @@ window.GLOSSARY = [
     "en": "Coverage Map",
     "tr": "Kapsam Haritası (Coverage Map)",
     "note": "Kod kapsamı (code coverage) aracının, sınıfın hangi bölgelerinin testlerce yürütüldüğünü/çalıştırılmadığını renklendirerek gösteren görselleştirmesi; yeniden düzenlemede riskli bölgeleri işaret eder. Sayfa 268'de 'yama yorganına (patchwork quilt) benzer' olarak betimlenir."
+  },
+  {
+    "en": "Coverage Tool",
+    "tr": "Kapsam Aracı (Coverage Tool)",
+    "note": "T2 sezgisel kuralının konusu: test stratejisindeki boşlukları gösteren, kapsanan satırları yeşil, kapsanmayanları kırmızı işaretleyen araç; çoğu IDE'de yerleşiktir. Sözlükteki 'Kod Kapsamı (Code Coverage)' ve 'Test Kapsamı (Test Coverage)' terimleriyle ilişkilidir."
   },
   {
     "en": "Craft",
@@ -673,6 +778,11 @@ window.GLOSSARY = [
     "en": "Cross-Cutting Concern",
     "tr": "Çapraz Kesim Kaygısı (Cross-Cutting Concern)",
     "note": "Kalıcılık, güvenlik, işlem yönetimi gibi nesnelerin doğal sınırlarını keserek birçok modüle yayılan kaygı türü"
+  },
+  {
+    "en": "Cross-Reference",
+    "tr": "Çapraz Başvuru (Cross-Reference)",
+    "note": "Bir sezgisel kuralın (heuristic) metnin başka bir yerinde (ör. Ek C) nerede anıldığını gösteren bağlantı."
   },
   {
     "en": "crufty",
@@ -713,6 +823,11 @@ window.GLOSSARY = [
     "en": "DBMS",
     "tr": "DBMS (Veritabanı Yönetim Sistemi — Database Management System)",
     "note": "Database Management System; veritabanını yöneten yazılım. Kısaltma İngilizce kalır"
+  },
+  {
+    "en": "Dead Code",
+    "tr": "Ölü Kod (Dead Code)",
+    "note": "Çalıştırılmayan, artık kullanılmayan kod (ulaşılamayan if dalları, asla istisna fırlatmayan try'ların catch blokları, hiç çağrılmayan yardımcı metotlar); G9 sezgisel kuralının konusu. Tasarım değiştikçe güncellenmediği için çürür, silinmelidir."
   },
   {
     "en": "Deadline",
@@ -845,6 +960,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Design Patterns",
+    "tr": "Tasarım Desenleri (Design Patterns)",
+    "note": "Gamma ve diğerleri (GoF) tarafından kataloglanan, yinelenen nesne yönelimli sorunlara yeniden kullanılabilir çözümler; kaynakçadaki [GOF] maddesinde geçer."
+  },
+  {
     "en": "Dining Philosophers",
     "tr": "Yemek Yiyen Filozoflar (Dining Philosophers)",
     "note": "Yuvarlak masada çatal (resource) için yarışan filozoflar (threads) metaforuyla kaynak yarışı; dikkat edilmezse ölü kilit (deadlock) ve canlı kilit (livelock) üretir; sayfa 184'te level-2 başlık."
@@ -865,6 +985,11 @@ window.GLOSSARY = [
     "note": "İsimlerin okuyucuyu yanlış yönlendirmesi"
   },
   {
+    "en": "Do One Thing",
+    "tr": "Tek Bir Şey Yap (Do One Thing)",
+    "note": "Fonksiyonların tek bir işi yerine getirmesi ilkesi; Chapter 3'teki bölüm başlığı, G30 sezgisel kuralında yeniden anılır."
+  },
+  {
     "en": "Documentation by Example",
     "tr": "Örnekle Dokümantasyon (Documentation by Example)",
     "note": "Testlerin başlıca amaçlarından biri: testleri okuyan kişinin sınıfın ne işe yaradığını hızlıca anlaması; sayfa 175'te 'documentation by example' ifadesi olarak geçer."
@@ -878,6 +1003,11 @@ window.GLOSSARY = [
     "en": "Dogmatism",
     "tr": "Dogmatizm",
     "note": "Dogma kelimesinin hâl/kavram karşılığı; 'pointless dogmatism' = 'anlamsız dogmatizm'. 'Minimal Classes and Methods' kesitinde yüksek sınıf/metot sayılarının kaynağı olarak işaret edilir."
+  },
+  {
+    "en": "Domain Driven Design",
+    "tr": "Alan Odaklı Tasarım (Domain Driven Design)",
+    "note": "Eric Evans'ın, kodun iş alanının dilini yansıtan bir alan modeli (domain model) etrafında kurulması gerektiğini savunan yaklaşımı; kaynakçadaki [DDD] maddesinde geçer."
   },
   {
     "en": "Domain Expert",
@@ -903,6 +1033,11 @@ window.GLOSSARY = [
     "en": "Don't Repeat Yourself (DRY)",
     "tr": "Kendini Tekrar Etme (Don't Repeat Yourself / DRY)",
     "note": "Kod ve bilgi tekrarını en aza indirmeyi amaçlayan ilke; sayfa 48 başlığı"
+  },
+  {
+    "en": "Don’t Inherit Constants",
+    "tr": "Sabitlerden Kalıtım Almayın (Don’t Inherit Constants)",
+    "note": "J2 sezgisel kuralı: sabitleri erişmek için bir arayüze koyup o arayüzden kalıtım almak; dilin kapsam (scoping) kurallarını atlatan ve sabitleri hiyerarşinin tepesinde gizleyen kötü bir uygulama."
   },
   {
     "en": "Double Dispatch",
@@ -980,9 +1115,24 @@ window.GLOSSARY = [
     "note": "Tasarımın baştan büyük bir planla değil, çalışma sırasında birkaç basit kurala uyularak adım adım ortaya çıkması kavramı; Chapter 12'nin açılış teması. Sayfada 'Getting Clean via Emergent Design' başlığı ve 'emergence of good designs' ifadesinde geçer."
   },
   {
+    "en": "Encapsulate Boundary Conditions",
+    "tr": "Sınır Koşullarını Kapsülleyin (Encapsulate Boundary Conditions)",
+    "note": "G33 sezgisel kuralının başlığı: sınır koşullarının (boundary conditions) işlenmesini tek bir yerde toplayın ve +1/-1 gibi sınır aritmetiğinin koda yayılmasına izin vermeyin; 'nextLevel' örneğinde olduğu gibi adlandırılmış bir değişkenle kapsüllenmelidir. Sözlükteki 'Boundary Condition | Sınır Koşulu (Boundary Condition)' terimiyle ilişkilidir."
+  },
+  {
+    "en": "Encapsulate Conditionals",
+    "tr": "Koşulları Kapsülleyin (Encapsulate Conditionals)",
+    "note": "G28 sezgisel kuralı: karmaşık boolean mantığını, koşulun amacını açıklayan bir fonksiyonun arkasına gizleme tekniği."
+  },
+  {
     "en": "Encapsulation",
     "tr": "Kapsülleme (Encapsulation)",
     "note": ""
+  },
+  {
+    "en": "Encoding",
+    "tr": "Kodlama (encoding)",
+    "note": "N6 bağlamında: bir isme tür ya da kapsam bilgisini önek/sonek olarak kodlama uygulaması (ör. m_, f); günümüz ortamlarında gereksizdir."
   },
   {
     "en": "Entity",
@@ -1000,9 +1150,19 @@ window.GLOSSARY = [
     "note": "Java'da sabit bir değer kümesini tür güvenli (type-safe) biçimde temsil eden dil yapısı; Month ve WeekInMonth buna örnektir. Sayfa 272 ve 275'te olduğu gibi 'enum' olarak kullanılır."
   },
   {
+    "en": "Enumeration",
+    "tr": "Sayım (Enumeration)",
+    "note": "Adlandırılmış bir değer/sabit kümesi; enum’lar adlandırılmış bir sayıma ait oldukları için anlamlarını kaybetmezler. Sözlükteki 'Enum | enum (sıralı sabit kümesi)' ve 'Enumerator | sayıcı (enumerator)' terimleriyle ilişkilidir."
+  },
+  {
     "en": "Enumerator",
     "tr": "sayıcı (enumerator)",
     "note": "Bir enum'ın (sıralı sabit kümesinin) tek tek değerleri; sayfa 272'de 'sayıcısı (enumerator)' olarak geçmiştir, bu sayfada da aynen kullanılır."
+  },
+  {
+    "en": "Environment",
+    "tr": "Ortam (Environment)",
+    "note": "Chapter 17'de derleme (build) ve test çalıştırma deneyimini düzenleyen koşullar bütünü; E1/E2 sezgisel kurallarının kesit başlığı."
   },
   {
     "en": "Error Code",
@@ -1028,6 +1188,11 @@ window.GLOSSARY = [
     "en": "Event (argument form)",
     "tr": "Olay (Event)",
     "note": "Tek argümanlı fonksiyonların üçüncü ortak formu: bir girdi argümanı alır ama çıktı döndürmez, çağrının bir olay olarak yorumlanmasını ve sistemin durumunu değiştirmesini amaçlar."
+  },
+  {
+    "en": "Event Polling Loop",
+    "tr": "Olay Yoklama Döngüsü (Event Polling Loop)",
+    "note": "Bir olayın meydana gelip gelmediğini sürekli kontrol ederek bekleyen döngü; bu sayfada tek iş parçacıklı (single-threaded) kodu hızlandırmanın sınırlı yollarından biri olarak geçer."
   },
   {
     "en": "Exception",
@@ -1075,6 +1240,11 @@ window.GLOSSARY = [
     "note": "Kodun neden o şekilde yazıldığını açıklayan yorum"
   },
   {
+    "en": "Explanatory Variables",
+    "tr": "Açıklayıcı Değişkenler (Explanatory Variables)",
+    "note": "G19 sezgisel kuralının başlığı: karmaşık hesaplamaları anlamlı (meaningful) isimli ara değerlere (intermediate values) bölerek okunabilirliği artırma tekniği."
+  },
+  {
     "en": "Explicit",
     "tr": "Açık (Explicit)",
     "note": "Bağlamın kodda doğrudan yer alması"
@@ -1103,6 +1273,11 @@ window.GLOSSARY = [
     "en": "extraneous",
     "tr": "gereksiz/fazlalık (extraneous)",
     "note": "İşlevi bulunmayan, ortamda fazladan duran yapı; sayfa 262'de 'eliminate the extraneous if statements' ifadesinde geçer."
+  },
+  {
+    "en": "Extreme Programming (XP)",
+    "tr": "Aşırı Programlama (Extreme Programming)",
+    "note": "Test güdümlü geliştirme ve çift programlama gibi pratikleri çekirdek uygulamalardan biri sayan çevik (Agile) yazılım geliştirme yaklaşımı; G5 kuralında Kent Beck'in 'Bir kez, ve yalnızca bir kez' ilkesiyle anılır."
   },
   {
     "en": "F.I.R.S.T.",
@@ -1153,6 +1328,11 @@ window.GLOSSARY = [
     "en": "final",
     "tr": "son sürüm (final)",
     "note": "Listing 15-5'in caption'ında '(final)' olarak geçer; '(interim)' (geçici sürüm) teriminin karşıtıdır ve yeniden düzenleme (refactoring) sürecinin son ürününü belirtir."
+  },
+  {
+    "en": "Finite State Machine",
+    "tr": "Sonlu Durum Makinesi (Finite State Machine)",
+    "note": "Belirli bir anda yalnızca bir durumda (state) bulunabilen ve durumlara göre olaylara (events) tepki veren hesaplama modeli; türev (derivative) sayısının kesin olarak sabitlendiği ve üst sınıfın (base class) türevler arasında seçim yapan kod içerdiği tipik senaryo. Sayfa 291'de 'finite state machine implementations' ifadesinde geçer."
   },
   {
     "en": "First Draft",
@@ -1230,6 +1410,11 @@ window.GLOSSARY = [
     "note": "Fonksiyon içinde ayrılmış bölümler (declarations, initializations vb.)"
   },
   {
+    "en": "Functions Should Descend Only One Level of Abstraction",
+    "tr": "Fonksiyonlar Yalnızca Tek Bir Soyutlama Seviyesi İnmelidir (Functions Should Descend Only One Level of Abstraction)",
+    "note": "G34 sezgisel kuralının başlığı: bir fonksiyonun içindeki tüm ifadeler aynı soyutlama seviyesinde (level of abstraction) yazılmalı; bu seviye, fonksiyonun adının tanımladığı işlemin bir seviye altında olmalıdır. Sözlükteki 'Level of Abstraction' (Soyutlama Seviyesi) ve 'Level of Detail' (Ayrıntı Seviyesi) terimleriyle ilişkilidir."
+  },
+  {
     "en": "Garbage Collection",
     "tr": "Çöp Toplama (Garbage Collection)",
     "note": "Artık ulaşılamayan nesneleri bellekten geri alan otomatik bellek yönetimi işlemi; sayfadaki 'garbage collection overhead' ifadesinde 'çöp toplama ek yükü' olarak geçer."
@@ -1285,6 +1470,11 @@ window.GLOSSARY = [
     "note": "Hiçbir hatanın oluşmadığı, kodun normal akışta izlediği yol"
   },
   {
+    "en": "Hard Wiring",
+    "tr": "Sabit Kablolama (Hard Wiring)",
+    "note": "Modemlerin çevirme (dialling) yerine birbirine fiziksel olarak doğrudan bağlanması; sayfa 311'de 'hard wiring them together' ifadesinde geçer."
+  },
+  {
     "en": "Hard-coded Dependency",
     "tr": "Sabit Kodlanmış Bağımlılık (Hard-coded Dependency)",
     "note": "Bir sınıfın içinde doğrudan new ile oluşturulan ya da sabit yapılandırmayla gömülen bağımlılık; değiştirilmesi ve test edilmesi zordur, küçük Tek Sorumluluk İlkesi ihlaline yol açar"
@@ -1298,6 +1488,11 @@ window.GLOSSARY = [
     "en": "Heuristic",
     "tr": "Sezgisel Kural (Heuristic)",
     "note": ""
+  },
+  {
+    "en": "Hidden Temporal Coupling",
+    "tr": "Gizli Zamansal Bağımlılık (Hidden Temporal Coupling)",
+    "note": "Fonksiyonların hangi sırayla çağrılması gerektiğinin koddan anlaşılamadığı, gizlenmiş sıra bağımlılığı; G31 sezgisel kuralının konusu. Sözlükteki 'Temporal Coupling | Zamansal Bağımlılık (Temporal Coupling)' teriminin özel biçimidir."
   },
   {
     "en": "Hiding Structure",
@@ -1340,6 +1535,16 @@ window.GLOSSARY = [
     "note": "Satır içindeki boşluklar; güçlü ilişkiyi birleştirmek, zayıf ilişkiyi ayırmak için kullanılır"
   },
   {
+    "en": "Hourly Employee",
+    "tr": "Saatlik Ücretli Çalışan (Hourly Employee)",
+    "note": "Saat başına ücretle çalışan personel; sayfadaki test veritabanında 'John Doe' bu rolü temsil eder."
+  },
+  {
+    "en": "Hungarian notation",
+    "tr": "Macar Notasyonu (Hungarian notation)",
+    "note": "Değişken adının başına türünü kodlayan önekler ekleme geleneği (ör. iThsWkd, sName); Charles Simonyi'nin adını taşır ve niyeti kararttığı için günümüzde önerilmez."
+  },
+  {
     "en": "Hybrid",
     "tr": "Melez Yapı (Hybrid)",
     "note": "Hem anlamlı davranışı hem de açık durumu olan yarı nesne, yarı veri yapısı"
@@ -1370,9 +1575,24 @@ window.GLOSSARY = [
     "note": "Bağlamın kodda açıkça belirtilmeme derecesi"
   },
   {
+    "en": "Inappropriate Information",
+    "tr": "Uygunsuz Bilgi (Inappropriate Information)",
+    "note": "C1 sezgisel kuralı: yorumlar, kaynak kod kontrol sistemi, sorun takip sistemi gibi başka sistemlere ait bilgileri barındırmamalıdır."
+  },
+  {
+    "en": "Inappropriate Static",
+    "tr": "Uygunsuz Statik (Inappropriate Static)",
+    "note": "G18 sezgisel kuralının başlığı: çok biçimli (polymorphic) davranışa ihtiyaç duyabileceği için statik (static) yapılmaması gereken fonksiyonlarla ilgili."
+  },
+  {
     "en": "Include Directive",
     "tr": "Dahil Etme Yönergesi (Include Directive)",
     "note": "FitNesse'de sayfa dahil etme komutu"
+  },
+  {
+    "en": "Inconsistency",
+    "tr": "Tutarsızlık (Inconsistency)",
+    "note": "Benzer işlerin aynı şekilde yapılmaması, aynı tür yapılara farklı adlar verilmesi; G11 sezgisel kuralının konusu. 'En Az Şaşırtma İlkesi'nin (Principle of Least Surprise) ihlalidir."
   },
   {
     "en": "incremental",
@@ -1398,6 +1618,16 @@ window.GLOSSARY = [
     "en": "Index",
     "tr": "Dizin (Index)",
     "note": "Bir dizgideki ya da koleksiyondaki konum değeri; bu sayfada `prefixIndex` ve `suffixIndex` üye değişkenlerinin gerçekte birer dizin olduğu vurgulanır. Çoğulu 'indices' olarak geçer."
+  },
+  {
+    "en": "Infer",
+    "tr": "çıkarımda bulunmak (infer)",
+    "note": "İyi adlandırılmış kodda bir fonksiyonun amacını/gerçekleştirimini gövdesine bakmadan anlayabilmek; sayfa 310'da 'you can infer' ifadesinde geçer. Sözlükteki 'Inferred Meaning / Anlam Çıkarımı (Inferred Meaning)' terimiyle ilişkilidir."
+  },
+  {
+    "en": "Inferred Meaning",
+    "tr": "Anlam Çıkarımı (Inferred Meaning)",
+    "note": "İsimlerin yapıya yüklediği betimlemeden çıkarılan anlam; sayfa 310'da 'based on that inferred meaning' ifadesinde geçer. Sözlükteki 'Infer / çıkarımda bulunmak (infer)' ve 'Descriptive Names' terimleriyle ilişkilidir."
   },
   {
     "en": "Informative Comment",
@@ -1490,6 +1720,11 @@ window.GLOSSARY = [
     "note": "Listing 15-4 başlığında (interim): yeniden düzenleme (refactoring) sürecindeki ara, beklenen-geçiş sürümünü belirtir; 'Listing 15-4 ComparisonCompactor.java (interim)' ifadesinde geçer."
   },
   {
+    "en": "Intermediate Value",
+    "tr": "Ara Değer (Intermediate Value)",
+    "note": "Bir hesaplamanın akışında üretilen ve anlamlı bir isimle değişkende tutulan ara sonuç; 'açıklayıcı değişkenler' (explanatory variables) tekniğinin temel öğesidir. Sayfadaki 'well-named intermediate values' ifadesinde geçer."
+  },
+  {
     "en": "Interpreter",
     "tr": "Yorumlayıcı (Interpreter)",
     "note": "Kaynak kodu satır satır çalıştıran program"
@@ -1515,6 +1750,11 @@ window.GLOSSARY = [
     "note": "Java yansıma (reflection) API'sindeki arayüz; vekile yapılan her metot çağrısı, bu nesnenin invoke metodu aracılığıyla ele alınır."
   },
   {
+    "en": "Issue Tracking System",
+    "tr": "Sorun Takip Sistemi (Issue Tracking System)",
+    "note": "Hata, görev ve istek kayıtlarının izlendiği sistem; kural C1'e göre bu tür bilgiler yorumlarda değil burada tutulur."
+  },
+  {
     "en": "Iteration (test loop)",
     "tr": "Yineleme (Iteration)",
     "note": "Testin belirli sayıda kez tekrarlanması; bu sayfada 'run for a number of iterations' maddesinde geçer."
@@ -1528,6 +1768,11 @@ window.GLOSSARY = [
     "en": "iterator",
     "tr": "Yineleyici (Iterator)",
     "note": "Bir koleksiyonda sırayla elemanlara erişen nesne (ör. Iterator<String>); bu sayfada currentArgument olarak üç set fonksiyonuna da geçirilir"
+  },
+  {
+    "en": "jar file",
+    "tr": "jar dosyası (jar file)",
+    "note": "Java arşiv dosyası: sıkıştırılmış biçimde tek dosyada paketlenmiş sınıf ve kaynaklar. Sayfa 291'de türevlerin ve üst sınıfların aynı ya da farklı jar dosyalarında birlikte/ayrı dağıtılabilmesi (deploy) bağlamında geçer."
   },
   {
     "en": "Java Memory Model",
@@ -1830,6 +2075,11 @@ window.GLOSSARY = [
     "note": "Kodun gerçekte yaptığından farklı bir şey söyleyen hatalı yorum"
   },
   {
+    "en": "Misplaced Responsibility",
+    "tr": "Yanlış Yerleştirilmiş Sorumluluk (Misplaced Responsibility)",
+    "note": "G17 sezgisel kuralı: kodun (sabit, fonksiyon vb.) nereye konacağı kararı; en az şaşırtma ilkesine (principle of least surprise) göre kod, okuyucunun doğal olarak bekleyeceği yere yerleştirilmelidir. Ör. PI sabiti trigonometrik fonksiyonların, OVERTIME_RATE ise HourlyPayCalculator sınıfının yanında olmalıdır."
+  },
+  {
     "en": "Misspelling",
     "tr": "Kasıtlı Yazım Hatası (Misspelling)",
     "note": "Derleyiciyi tatmin etmek için yapılan yanlış yazım (ör. klass)"
@@ -1880,6 +2130,11 @@ window.GLOSSARY = [
     "note": "Bir anda yalnızca bir iş parçacığının ortak veriye ya da kaynağa erişebilmesi ilkesi; sayfa 183'ün tanım tablosunda geçer."
   },
   {
+    "en": "Named Constant",
+    "tr": "Adlandırılmış Sabit (Named Constant)",
+    "note": "G25 sezgisel kuralı: ham sayıları ya da değeri belirsiz simgeleri iyi adlandırılmış, anlamlı sabitlerin arkasına gizleme; sözlükteki 'Constant | Sabit (Constant)' teriminin G25 bağlamındaki özel kullanımı."
+  },
+  {
     "en": "Namespace",
     "tr": "Ad Alanı (Namespace)",
     "note": ""
@@ -1893,6 +2148,11 @@ window.GLOSSARY = [
     "en": "Necessary Evil",
     "tr": "Zorunlu Kötülük (Necessary Evil)",
     "note": "Yorumların en iyi ihtimalle kaçınılmaz ama asla övülmemesi gereken bir kötülük olduğu fikri; Bölüm 4'ün açılış temasıdır"
+  },
+  {
+    "en": "Negative Conditional",
+    "tr": "Olumsuz Koşul (Negative Conditional)",
+    "note": "Değilleme (!) içeren, olumlu karşılığına göre anlaşılması daha zor olan koşul ifadesi; G29 sezgisel kuralı, mümkün olduğunda koşulların olumlu yazılmasını önerir."
   },
   {
     "en": "Nesting Level",
@@ -1940,6 +2200,16 @@ window.GLOSSARY = [
     "note": "Bulunduğu yerle doğrudan ilgili olmayan sistem bilgisi"
   },
   {
+    "en": "nonstatic",
+    "tr": "statik olmayan (nonstatic)",
+    "note": "G18 kuralında statik (static) metotların karşıtı; örnek (instance) gerektiren, bir nesneye bağlı üye fonksiyonu (member function) anlamında kullanılır."
+  },
+  {
+    "en": "Nonthreaded",
+    "tr": "İş Parçacıksız (Nonthreaded)",
+    "note": "İstekleri aynı iş parçacığında sırayla işleyen sunucu modeli; sayfa 317'de 'Client/Server Nonthreaded' kesit başvurusunda geçer."
+  },
+  {
     "en": "Normal Flow",
     "tr": "Normal Akış (Normal Flow)",
     "note": "Hata durumlarıyla kesintiye uğramayan, asıl iş akışı"
@@ -1970,6 +2240,11 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Object Graph",
+    "tr": "Nesne Grafiği (Object Graph)",
+    "note": "Sistemdeki nesnelerin ve aralarındaki iş birlikçi (collaborator) ilişkilerinin bütünü; Demeter Yasası'nın (Law of Demeter) ihlali, çağrılacak metodu aramak için nesne grafiğinde dolaşmak (roam) anlamına gelir."
+  },
+  {
     "en": "Object-Oriented Code",
     "tr": "Nesne Yönelimli Kod (Object-Oriented Code)",
     "note": "Davranışı nesnelere dağıtan kod; yeni sınıf eklemeyi kolaylaştırır, yeni fonksiyon eklemeyi zorlaştırır (sayfa 97)"
@@ -1980,6 +2255,21 @@ window.GLOSSARY = [
     "note": ""
   },
   {
+    "en": "Obscured Intent",
+    "tr": "Karartılmış Niyet (Obscured Intent)",
+    "note": "G16 sezgisel kuralı: uzun soluklu ifadeler (run-on expressions), Macar notasyonu (Hungarian notation) ve sihirli sayılar (magic numbers) gibi yapıların yazarın niyetini gizlemesi; kod mümkün olduğunca ifade gücü yüksek (expressive) yazılmalıdır."
+  },
+  {
+    "en": "Obsolete Comment",
+    "tr": "Eskimiş Yorum (Obsolete Comment)",
+    "note": "C2 sezgisel kuralı: eskimiş, alakasız ve yanlış hale gelmiş yorum; mümkün olduğunca çabuk güncellenmeli ya da silinmelidir."
+  },
+  {
+    "en": "Obvious Behavior Is Unimplemented",
+    "tr": "Açık Davranış Gerçekleştirilmemiş (Obvious Behavior Is Unimplemented)",
+    "note": "Bir fonksiyon ya da sınıfın, başka bir programcının makul biçimde bekleyebileceği davranışları gerçekleştirmemiş olması; 'En Az Şaşırtma İlkesi'nin (Principle of Least Surprise) ihlali [G2]."
+  },
+  {
     "en": "off-by-one",
     "tr": "bir eksik/fazla (off-by-one)",
     "note": "Sayacın/indeksin birer birim sapmasından kaynaklanan sınır hatası; sıfır tabanlı ile birden başlayan (1 based) sayımlar karıştırıldığında ortaya çıkar. Sayfa 261'de suffixIndex'in 1 tabanlı olmasının computeCommonSuffix'teki +1 düzeltmelerinin nedeni olması bağlamında geçer."
@@ -1988,6 +2278,11 @@ window.GLOSSARY = [
     "en": "One Pass",
     "tr": "Tek Geçiş (One Pass)",
     "note": "Tek seferde, tek vuruşla; temiz ve zarif programların tek geçişte yazılamayacağı beklentisi. Sayfa 200'de 'write clean and elegant programs in one pass' ifadesinde geçer."
+  },
+  {
+    "en": "ONE SWITCH rule",
+    "tr": "TEK SWITCH kuralı (ONE SWITCH rule)",
+    "note": "G23'teki kural: belirli bir seçim türü için en fazla bir switch ifadesi olabilir ve o switch, sistemin geri kalanındaki benzer switch'lerin yerini alacak çok biçimli (polymorphic) nesneler üretmelidir."
   },
   {
     "en": "One-Off",
@@ -2050,6 +2345,11 @@ window.GLOSSARY = [
     "note": "Değer döndürmek için kullanılan argüman"
   },
   {
+    "en": "Output Arguments",
+    "tr": "Çıkış Argümanları (Output Arguments)",
+    "note": "Fonksiyona geçirilen argümanın, girdi yerine çıktı taşımak için kullanılması; okuyucu beklentisine aykırı olduğu için kaçınılması gereken biçim [F2]. Sözlükteki 'Argument' (Argüman) teriminin zıt kullanımıdır."
+  },
+  {
     "en": "Output Stream",
     "tr": "Çıkış Akışı (Output Stream)",
     "note": "Verinin yazıldığı hedef akış (ör. konsol, dosya); log4j'de bir Appender'ın mesajları gönderdiği yer"
@@ -2063,6 +2363,11 @@ window.GLOSSARY = [
     "en": "Overload",
     "tr": "Aşırı Yükleme (Overload)",
     "note": "Aynı isimli fonksiyon/metodun farklı parametre listeleriyle birden fazla kez tanımlanması"
+  },
+  {
+    "en": "Overload the Structure",
+    "tr": "Yapıyı Betimlemeyle Donatma (Overload the Structure)",
+    "note": "Özenli isimlerin kodun yapısına betimleme yüklemesi; sayfa 310'da 'they overload the structure of the code with description' ifadesinde geçer. Sözlükteki 'Overload / Aşırı Yükleme (Overload)' teriminden farklı bir metafor kullanımıdır."
   },
   {
     "en": "Oxymoron",
@@ -2110,9 +2415,24 @@ window.GLOSSARY = [
     "note": "'the same pattern of changes' ifadesinde genel terim olarak geçer; glossary'de yalnız 'Design Pattern' (Tasarım Deseni) gibi bileşik terimler vardır."
   },
   {
+    "en": "Performance Test",
+    "tr": "Performans Testi (Performance Test)",
+    "note": "Bir sistemin belirli bir süre içinde işi tamamlayıp tamamlayamadığını doğrulayan test; bu sayfada 10.000 milisaniyelik zaman aşımıyla (timeout) yazılan `shouldRunInUnder10Seconds` testi örneğinde geçer."
+  },
+  {
     "en": "Persistence",
     "tr": "Kalıcılık (Persistence)",
     "note": "Verinin veritabanı, düz dosya gibi kalıcı bir depoda saklanması"
+  },
+  {
+    "en": "Physical Dependency",
+    "tr": "Fiziksel Bağımlılık (Physical Dependency)",
+    "note": "Kodun yapısında açıkça görünen, fiziksel olarak gerçekleştirilmiş bağımlılık; G22 kuralına göre bağımlı modül, bağımlı olduğu modülden gereksindiği tüm bilgileri açıkça istemelidir. Sözlükteki 'Logical Dependency' (Mantıksal Bağımlılık) teriminin karşıtıdır."
+  },
+  {
+    "en": "physicalize",
+    "tr": "fizikselleştirmek (physicalize)",
+    "note": "G22 bağlamında: örtük (mantıksal) bir bağımlılığı kodun yapısında görünür hale getirmek; bağımlılığı bir metot/sabit aracılığıyla açıkça ifade etmek. 'Mantıksal Bağımlılık (Logical Dependency)' teriminin karşıtı yönünde bir eylemdir."
   },
   {
     "en": "Plug-ability",
@@ -2143,6 +2463,11 @@ window.GLOSSARY = [
     "en": "Polymorphism",
     "tr": "Çok Biçimlilik (Polymorphism)",
     "note": ""
+  },
+  {
+    "en": "Poorly Written Comment",
+    "tr": "Kötü Yazılmış Yorum (Poorly Written Comment)",
+    "note": "C4 kuralı: yazılmaya değer yorum iyi yazılmaya da değer; özensiz, geveze, dil bilgisi hatalı yorumlar."
   },
   {
     "en": "Position Marker",
@@ -2198,6 +2523,11 @@ window.GLOSSARY = [
     "en": "Procedural Code",
     "tr": "Prosedürel Kod (Procedural Code)",
     "note": "Veri yapıları üzerinde çalışan fonksiyonlarla yazılan kod"
+  },
+  {
+    "en": "Processor-Bound / I/O-Bound",
+    "tr": "İşlemciye Bağlı (Processor-Bound) / I/O'ya Bağlı (I/O-Bound)",
+    "note": "Performansın işlemci hesaplamasına mı yoksa giriş/çıkış (I/O) beklemesine mi bağlı olduğunu belirten sınıflandırma; eşzamanlılık (concurrency) yalnızca I/O'ya bağlı işlerde verimliliği artırır."
   },
   {
     "en": "Producer-Consumer",
@@ -2375,6 +2705,11 @@ window.GLOSSARY = [
     "note": "Değişken/fonksiyon/sınıf adını değiştirme"
   },
   {
+    "en": "Request",
+    "tr": "İstek (Request)",
+    "note": "İstemcinin sunucuya gönderdiği işlem talebi; sayfa 317'de 'sends a request' ifadesinde geçer."
+  },
+  {
     "en": "Requirement",
     "tr": "Gereksinim (Requirement)",
     "note": ""
@@ -2425,9 +2760,24 @@ window.GLOSSARY = [
     "note": "İlkokul kompozisyonu metaforundaki ilk taslak; 'ardışık iyileştirme' (successive refinement) temasının parçası. Sayfa 200'de 'write rough drafts of our compositions' ifadesinde geçer."
   },
   {
+    "en": "Rounding",
+    "tr": "Yuvarlama (Rounding)",
+    "note": "Bir sayıyı daha az anlamlı basamağa tamamlama işlemi; para birimi tamsayılarla (integers) temsil edildiğinde yuvarlama uygun biçimde ele alınmalıdır."
+  },
+  {
     "en": "Routine",
     "tr": "Rutin (Routine)",
     "note": "Programlamanın ilk günlerindeki fonksiyon benzeri yapı"
+  },
+  {
+    "en": "Run-on expressions",
+    "tr": "Uzun soluklu ifadeler (run-on expressions)",
+    "note": "Birbiri içine geçen, soluksuz yazılmış birleşik ifadeler; okunması güçtür ve yazarın niyetini karartır. G16 sezgisel kuralında 'the author’s intent' ifadesiyle birlikte geçer."
+  },
+  {
+    "en": "running total",
+    "tr": "güncel toplam (running total)",
+    "note": "G16 bağlamında: zaman kartları (time cards) kabul edilirken adım adım biriktirilen toplam; bu sayfada 'koddaki güncel toplam' ifadesinde geçer."
   },
   {
     "en": "Runtime Error",
@@ -2443,6 +2793,11 @@ window.GLOSSARY = [
     "en": "rvalue",
     "tr": "Sağ Taraf Değeri (rvalue)",
     "note": "Bir atama ifadesinde eşittir işaretinin sağında kalan değer"
+  },
+  {
+    "en": "Safeties",
+    "tr": "Güvenlik Önlemleri (Safeties)",
+    "note": "Derleyici uyarıları, testler, otomatik denetimler gibi sistemin hatalara karşı sunduğu koruyucu mekanizmalar; G4 kuralının konusu. 'override' = geçersiz kılmak."
   },
   {
     "en": "Scary Noise",
@@ -2475,9 +2830,19 @@ window.GLOSSARY = [
     "note": "Bir değişkenin geçerli olduğu kod alanı"
   },
   {
+    "en": "Scope (of a class)",
+    "tr": "Kapsam (Scope)",
+    "note": "G14'te 'envies the scope of the class' ifadesinde geçer: sınıfın sahip olduğu değişkenler ve fonksiyonlar bütünü; mevcut 'Kapsam (Scope)' girdisinin sınıf bağlamındaki kullanımı."
+  },
+  {
     "en": "Scope Encoding",
     "tr": "Kapsam Kodlaması (Scope Encoding)",
     "note": "Bir değişkenin kapsamını (ör. üyelik/statiklik) isminin başına önek (f_, m_, s_) kodlayarak belirtme; günümüz IDE'leri bunu gereksiz kılar. Sayfa 257'de 'this kind of scope encoding' ifadesinde geçer."
+  },
+  {
+    "en": "Scoping Rules",
+    "tr": "Kapsam Kuralları (Scoping Rules)",
+    "note": "Bir dilin, tanımlayıcıların (değişken, sabit, üye vb.) nerelerden görünür/erişilebilir olduğunu belirleyen kuralları; J2 kuralında kalıtımın bu kuralları atlatmak için kullanılmaması gerektiği belirtilir."
   },
   {
     "en": "Seam",
@@ -2493,6 +2858,11 @@ window.GLOSSARY = [
     "en": "Searchable Names",
     "tr": "Aranabilir İsimler (Searchable Names)",
     "note": ""
+  },
+  {
+    "en": "Selector Arguments",
+    "tr": "Seçici Argümanlar (Selector Arguments)",
+    "note": "G15 sezgisel kuralı: bir fonksiyonun davranışını birden fazla mod arasında değiştirmek için kullanılan boolean/enum/tamsayı bayrak argümanı; amacı hatırlaması zordur ve birçok fonksiyonu tek fonksiyonda birleştirir."
   },
   {
     "en": "Self-Descriptive Name",
@@ -2625,6 +2995,11 @@ window.GLOSSARY = [
     "note": "Eşzamanlı kodu üretime koymadan önce uzun süre, yük altında, birçok yapılandırmada çalıştırma pratiği; kavram kartında (soak-test-before-production) 30 dakikalık CI örneğiyle kullanıldı."
   },
   {
+    "en": "Socket",
+    "tr": "Soket (Socket)",
+    "note": "Ağ iletişiminin uç noktası; sunucu istemci bağlantılarını bir sokette dinler (listen), istemci bağlanır ve istek gönderir. Sayfa 317'de 'listening on a socket' ifadesinde geçer."
+  },
+  {
     "en": "Software Craftsmanship",
     "tr": "Yazılım Zanaatı (Software Craftsmanship)",
     "note": ""
@@ -2638,6 +3013,16 @@ window.GLOSSARY = [
     "en": "Solution Domain",
     "tr": "Çözüm Alanı (Solution Domain)",
     "note": ""
+  },
+  {
+    "en": "Source Code Control",
+    "tr": "Kaynak Kodu Kontrolü (Source Code Control)",
+    "note": "Kaynak kodu değişikliklerini ve sürümlerini saklayan sistem ('source code control system'); sayfa 68/69'da 'kaynak kodu kontrol sistemleri' olarak geçmişti."
+  },
+  {
+    "en": "Source Code Control System",
+    "tr": "Kaynak Kod Kontrol Sistemi (Source Code Control System)",
+    "note": "Kaynak kodu sürümlü olarak saklayan sistem (CVS, SVN, Git); değişiklik geçmişi gibi bilgiler yorumlarda değil burada tutulur."
   },
   {
     "en": "Source File",
@@ -2658,6 +3043,11 @@ window.GLOSSARY = [
     "en": "Specification",
     "tr": "Spesifikasyon (Specification)",
     "note": "Biçimsel gereksinim tanımı"
+  },
+  {
+    "en": "SPR Number",
+    "tr": "SPR Numarası (SPR Number)",
+    "note": "Software Problem Report (Yazılım Sorun Raporu) numarası; kurumsal ortamlarda hata kayıtlarını izlemek için kullanılır, C1 kuralına göre yorumlara yazılmaz."
   },
   {
     "en": "Spring Framework",
@@ -2690,6 +3080,11 @@ window.GLOSSARY = [
     "note": "Güncellenmemiş, eskimiş bilgi birikimi; sayfa 184'te 'the accumulation of stale information' ifadesinde geçer."
   },
   {
+    "en": "Standard Nomenclature",
+    "tr": "Standart Adlandırma (Standard Nomenclature)",
+    "note": "N3 sezgisel kuralının başlığı: isimlendirmede mevcut kural ve kullanımları (tasarım desenleri, dil gelenekleri, takımın kendi standardı) esas alma; 'Use Standard Nomenclature Where Possible' başlığında geçer."
+  },
+  {
     "en": "Startup Process",
     "tr": "Başlangıç Süreci (Startup Process)",
     "note": "Uygulama nesnelerinin oluşturulduğu ve bağımlılıkların birbirine bağlandığı süreç; çalışma zamanı mantığından ayrı tutulmalıdır"
@@ -2698,6 +3093,11 @@ window.GLOSSARY = [
     "en": "Starvation",
     "tr": "Açlık (Starvation)",
     "note": "Bir iş parçacığının ya da grubun aşırı uzun süre ya da sonsuza dek ilerlemesinin engellenmesi; sayfa 183'ün tanım tablosunda geçer."
+  },
+  {
+    "en": "Static Import",
+    "tr": "Statik İçe Aktarma (Static Import)",
+    "note": "Java'da bir sınıfın statik (static) üyelerine sınıf adı kullanmadan erişmeyi sağlayan import bildirimi (ör. import static PayrollConstants.*;); J2 kuralında sabitlere miras yoluyla değil, doğrudan erişmek için önerilir."
   },
   {
     "en": "Static Initializer",
@@ -2730,6 +3130,11 @@ window.GLOSSARY = [
     "note": "Çevik geliştirme (Agile) bağlamında, müşteriye değer katan küçük ve uygulanabilir işlev parçası; “bugünün hikayeleri” (today’s stories) ifadesi bu anlamdadır."
   },
   {
+    "en": "Strategy Pattern",
+    "tr": "Strateji Deseni (Strategy Pattern)",
+    "note": "Bir algoritma ailesini tanımlayıp her birini kendi sınıfına kapsülleyen ve aralarında değiştirilebilir kılan tasarım deseni; tekrarı ortadan kaldırmanın yollarından biri olarak anılır, Şablon Metot (Template Method) ile birlikte geçer."
+  },
+  {
     "en": "StringBuffer",
     "tr": "StringBuffer",
     "note": "Java'da değiştirilebilir dizgi nesnesi"
@@ -2738,6 +3143,11 @@ window.GLOSSARY = [
     "en": "Struct",
     "tr": "Yapı (Struct)",
     "note": "Yalnızca veri alanları bulunan, davranışı olmayan veri yapısı"
+  },
+  {
+    "en": "Structure over Convention",
+    "tr": "Yapı, Kuraldan Üstündür (Structure over Convention)",
+    "note": "G27 sezgisel kuralı: uyumu zorunlu kılan yapıların (ör. soyut metotlu üst sınıflar) gönüllü isimlendirme kurallarından (naming conventions) daha güçlü olduğunu ifade eder."
   },
   {
     "en": "Structured Programming",
@@ -2773,6 +3183,11 @@ window.GLOSSARY = [
     "en": "Subselect",
     "tr": "Alt Sorgu (Subselect)",
     "note": "Bir SQL select ifadesinin içine gömülü ikinci bir select sorgusu"
+  },
+  {
+    "en": "Subsystem",
+    "tr": "Alt Sistem (Subsystem)",
+    "note": "Projenin kendi içindeki alt sistemi; N6'da proje ve/veya alt sistem adına göre yapılan kodlamaların dikkat dağıtıcı ve gereksiz olduğu söylenir."
   },
   {
     "en": "Successive Refinement",
@@ -2845,9 +3260,19 @@ window.GLOSSARY = [
     "note": "Ortak algoritma iskeletini üst sınıfta tanımlayıp değişen adımları alt sınıflara bırakan tasarım deseni [GOF]."
   },
   {
+    "en": "TEMPLATE METHOD pattern",
+    "tr": "ŞABLON METOT Deseni (TEMPLATE METHOD pattern)",
+    "note": "Ortak algoritma iskeletini üst sınıfta tanımlayıp değişen adımları alt sınıflara bırakan tasarım deseni; bu sayfada büyük harflerle desen adı olarak geçer, sözlükteki 'Template Method | Şablon Metot (Template Method)' girdisiyle aynı kavramdır."
+  },
+  {
     "en": "Temporal Coupling",
     "tr": "Zamansal Bağımlılık (Temporal Coupling)",
     "note": "Fonksiyonun sadece belirli zamanlarda çağrılabilmesi sorunu"
+  },
+  {
+    "en": "Temporaries",
+    "tr": "geçici değişkenler (temporaries)",
+    "note": "Fonksiyon içinde kısa süreli ara hesaplar için kullanılan yerel değişkenler; 'Hide your constants and your temporaries.' ifadesinde (sabitlerinizi ve geçici değişkenlerinizi gizleyin) geçer. Sözlükteki 'Explaining Temporary Variables' (Açıklayıcı Geçici Değişkenler) terimiyle ilişkilidir."
   },
   {
     "en": "temporary regression",
@@ -2903,6 +3328,11 @@ window.GLOSSARY = [
     "en": "Testing API",
     "tr": "Test API'si (Testing API)",
     "note": "Testlerin kullandığı, sistemin API'lerini saran özelleşmiş fonksiyon ve yardımcı araçlar kümesi; alana özgü test dilinin kendisi"
+  },
+  {
+    "en": "The Principle of Least Astonishment",
+    "tr": "En Az Şaşkınlık İlkesi (The Principle of Least Astonishment)",
+    "note": "'The Principle of Least Surprise' (En Az Şaşırtma İlkesi) teriminin eş anlamlı varyantı; dipnot 2'de geçer."
   },
   {
     "en": "Third-Party API",
@@ -2985,6 +3415,11 @@ window.GLOSSARY = [
     "note": "Kodun bir halden başka bir hale davranışı koruyarak değiştirilmesi"
   },
   {
+    "en": "Transitive Navigation",
+    "tr": "Geçişli Gezinme (Transitive Navigation)",
+    "note": "G36 sezgisel kuralı: bir modülün, iş birlikçilerinin iş birlikçilerini bilmesi (ör. a.getB().getC() gezinmesi); Demeter Yasası'nın (Law of Demeter) ihlal biçimidir."
+  },
+  {
     "en": "Triadic",
     "tr": "Üçlü (Triadic)",
     "note": "Üç argümanlı fonksiyon"
@@ -3000,6 +3435,16 @@ window.GLOSSARY = [
     "note": "Çok basit, az uğraş gerektiren; bu sayfada `setBooleanArg` fonksiyonu için kullanılır ve taşınmaya ilk o hazırlanır"
   },
   {
+    "en": "trivial operation",
+    "tr": "önemsiz işlem (trivial operation)",
+    "note": "Az çaba ve düşünme gerektiren, basit işlem; derlemenin (build) tek ve önemsiz bir işlem olması gerektiği ifadesinde geçer. Sözlükteki 'trivial' girdisiyle uyumludur."
+  },
+  {
+    "en": "Trivial Test",
+    "tr": "Önemsiz Test (Trivial Test)",
+    "note": "T3 sezgisel kuralının konusu: yazması kolay ve belgeleme değeri, üretim maliyetinden yüksek olan testler; atlanmamalıdır. Sözlükteki 'trivial | önemsiz (trivial)' teriminin test bağlamındaki kullanımı."
+  },
+  {
     "en": "Tunable",
     "tr": "Ayarlanabilir (Tunable)",
     "note": "İş parçacığı sayısı gibi parametrelerin çalışma sırasında kolayca ayarlanabilir olması; bu sayfada 'Make Your Threaded Code Tunable' başlığında geçer."
@@ -3013,6 +3458,16 @@ window.GLOSSARY = [
     "en": "Type-Case",
     "tr": "Tip-Zinciri (Type-Case)",
     "note": "Bir değerin türüne göre if/else veya switch ile dallanan kod bloğu; davranış polimorfizme (çok biçimliliğe) devredilerek kaldırılmalıdır. Sayfa 231'de setArgument içindeki 'horrible type-case' ifadesinde geçer."
+  },
+  {
+    "en": "Ubiquitous Language",
+    "tr": "Her Yerde Geçerli Dil (Ubiquitous Language)",
+    "note": "Eric Evans'ın [DDD]'deki terimi: bir projenin tüm katılımcılarının (alan uzmanları ve geliştiriciler) ortaklaşa kullandığı, kodda da birebir geçerli olan ortak dil; sayfa 311'de 'a ubiquitous language for the project' ifadesinde geçer."
+  },
+  {
+    "en": "Unambiguous Names",
+    "tr": "Belirsizliğe Yer Bırakmayan İsimler (Unambiguous Names)",
+    "note": "N4 sezgisel kuralının başlığı: isimlerin, fonksiyonun ya da değişkenin ne yaptığını belirsizliğe yer bırakmayacak biçimde anlatması gerektiğini söyler."
   },
   {
     "en": "Unchecked Exception",
@@ -3080,6 +3535,11 @@ window.GLOSSARY = [
     "note": "Çağrılan fonksiyonun çağıranın altında yer alması; kaynak dosya üst seviyeden alt seviyeye akar"
   },
   {
+    "en": "Vertical Separation",
+    "tr": "Dikey Ayrım (Vertical Separation)",
+    "note": "Değişkenlerin ve fonksiyonların kullanıldıkları yere yakın tanımlanması: yerel değişkenler ilk kullanımın hemen üstünde, özel fonksiyonlar ilk çağrının hemen altında; G10 sezgisel kuralının konusu. Sözlükteki 'Dikey Mesafe (Vertical Distance)' terimiyle ilişkilidir."
+  },
+  {
     "en": "Virtualization",
     "tr": "Sanallaştırma (Virtualization)",
     "note": "Donanım, işletim sistemi gibi kaynakları yazılım katmanında soyutlayarak birden çok sanal ortamda paylaştırma; dünyanın büyük Web sitelerinin ölçeklenirken kullandığı altyapı tekniklerinden biri."
@@ -3125,6 +3585,11 @@ window.GLOSSARY = [
     "note": "Uzun bir yeniden düzenleme sırasında ya da ardından ayrıntılardan uzaklaşıp sınıfın/sistemin bütününe yeniden bakıp değerlendirmek; bu sayfada 'let’s look at the whole picture again' ifadesinde geçer. Sözlükteki 'Big Picture' (Büyük Resim) girdisinden ayrıdır: Big Picture genel sistem bakış açısıdır, Whole Picture ise mevcut bütüncül biçime atılan kontrol noktası niteliğindeki bakıştır."
   },
   {
+    "en": "Wildcard Import",
+    "tr": "Joker İmport (Wildcard Import)",
+    "note": "J1 sezgisel kuralı: bir paketten iki ya da daha fazla sınıf kullanıldığında paketin tamamını (import package.*) içe aktaran import biçimi; özel (specific) importlardan farklı olarak gerçek bir bağımlılık (dependency) yaratmaz, paketi yalnızca arama yoluna (search path) ekler."
+  },
+  {
     "en": "Wiring",
     "tr": "Bağlama (Wiring)",
     "note": "Nesnelerin bağımlılıklarının kurularak uygulamanın bir araya getirilmesi işlemi"
@@ -3138,6 +3603,11 @@ window.GLOSSARY = [
     "en": "Wrapper",
     "tr": "Sarmalayıcı (Wrapper)",
     "note": ""
+  },
+  {
+    "en": "Writing Shy Code",
+    "tr": "Utangaç Kod Yazmak (Writing Shy Code)",
+    "note": "Pragmatik Programcılar'ın (The Pragmatic Programmers) Demeter Yasası için kullandığı ifade: modüller yalnızca doğrudan iş birlikçilerini (immediate collaborators) bilmeli, tüm sistemin gezinme haritasını bilmemelidir."
   },
   {
     "en": "zero based",

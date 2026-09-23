@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 285,
+  "last_translated_page": 318,
   "chapters": [
     {
       "num": 1,
@@ -2379,6 +2379,270 @@
       "title_tr": "Kokular ve Sezgisel Kurallar — Bölüm Açılışı",
       "section_en": "",
       "section_tr": ""
+    },
+    "286": {
+      "pdf_page": 286,
+      "chapter": 17,
+      "title_en": "Comments (C1–C3)",
+      "title_tr": "Yorumlar (C1–C3)",
+      "section_en": "Comments",
+      "section_tr": "Yorumlar (Comments)"
+    },
+    "287": {
+      "pdf_page": 287,
+      "chapter": 17,
+      "title_en": "Environment",
+      "title_tr": "Ortam (Environment)",
+      "section_en": "Environment",
+      "section_tr": "Ortam (Environment)"
+    },
+    "288": {
+      "pdf_page": 288,
+      "chapter": 17,
+      "title_en": "Functions / General",
+      "title_tr": "Fonksiyonlar / Genel Kurallar (Functions / General)",
+      "section_en": "Functions",
+      "section_tr": "Fonksiyonlar (Functions)"
+    },
+    "289": {
+      "pdf_page": 289,
+      "chapter": 17,
+      "title_en": "General",
+      "title_tr": "Genel Kurallar (General)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "290": {
+      "pdf_page": 290,
+      "chapter": 17,
+      "title_en": "Duplication / Code at Wrong Level of Abstraction",
+      "title_tr": "Tekrar / Yanlış Soyutlama Seviyesindeki Kod (Duplication / Code at Wrong Level of Abstraction)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "291": {
+      "pdf_page": 291,
+      "chapter": 17,
+      "title_en": "G7–G8: Base Classes and Too Much Information",
+      "title_tr": "G7–G8: Üst Sınıflar ve Çok Fazla Bilgi (Base Classes and Too Much Information)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "292": {
+      "pdf_page": 292,
+      "chapter": 17,
+      "title_en": "G9–G11: Dead Code, Vertical Separation, and Inconsistency",
+      "title_tr": "G9–G11: Ölü Kod, Dikey Ayrım ve Tutarsızlık (Dead Code, Vertical Separation, and Inconsistency)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "293": {
+      "pdf_page": 293,
+      "chapter": 17,
+      "title_en": "G12–G14: Clutter, Artificial Coupling, and Feature Envy",
+      "title_tr": "G12–G14: Karmaşa, Yapay Bağımlılık ve Özellik Kıskançlığı (Clutter, Artificial Coupling, and Feature Envy)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "294": {
+      "pdf_page": 294,
+      "chapter": 17,
+      "title_en": "G14–G15: Feature Envy and Selector Arguments",
+      "title_tr": "G14–G15: Özellik Kıskançlığı ve Seçici Argümanlar (Feature Envy and Selector Arguments)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "295": {
+      "pdf_page": 295,
+      "chapter": 17,
+      "title_en": "G16–G17: Obscured Intent and Misplaced Responsibility",
+      "title_tr": "G16–G17: Karartılmış Niyet ve Yanlış Yerleştirilmiş Sorumluluk (Obscured Intent and Misplaced Responsibility)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "296": {
+      "pdf_page": 296,
+      "chapter": 17,
+      "title_en": "G18–G19: Inappropriate Static and Explanatory Variables",
+      "title_tr": "G18–G19: Uygunsuz Statik (Inappropriate Static) ve Açıklayıcı Değişkenler (Explanatory Variables)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "297": {
+      "pdf_page": 297,
+      "chapter": 17,
+      "title_en": "G20–G21: Function Names Should Say What They Do and Understand the Algorithm",
+      "title_tr": "G20–G21: Fonksiyon Adları Ne Yaptığını Söylemeli ve Algoritmayı Anlamak (Function Names Should Say What They Do and Understand the Algorithm)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "298": {
+      "pdf_page": 298,
+      "chapter": 17,
+      "title_en": "G22: Make Logical Dependencies Physical",
+      "title_tr": "G22: Mantıksal Bağımlılıkları Fiziksel Yapın (Make Logical Dependencies Physical)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "299": {
+      "pdf_page": 299,
+      "chapter": 17,
+      "title_en": "G23–G24: Prefer Polymorphism to If/Else or Switch/Case and Follow Standard Conventions",
+      "title_tr": "G23–G24: If/Else veya Switch/Case Yerine Çok Biçimliliği Tercih Edin ve Standart Kurallara Uyun (Prefer Polymorphism to If/Else or Switch/Case and Follow Standard Conventions)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "300": {
+      "pdf_page": 300,
+      "chapter": 17,
+      "title_en": "G25: Replace Magic Numbers with Named Constants",
+      "title_tr": "G25: Sihirli Sayıları Adlandırılmış Sabitlerle Değiştirin (Replace Magic Numbers with Named Constants)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "301": {
+      "pdf_page": 301,
+      "chapter": 17,
+      "title_en": "G26–G28: Be Precise, Structure over Convention and Encapsulate Conditionals",
+      "title_tr": "G26–G28: Kesin Olun, Yapı Kuraldan Üstündür ve Koşulları Kapsülleyin (Be Precise, Structure over Convention and Encapsulate Conditionals)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "302": {
+      "pdf_page": 302,
+      "chapter": 17,
+      "title_en": "G29–G31: Avoid Negative Conditionals, Functions Should Do One Thing, and Hidden Temporal Couplings",
+      "title_tr": "G29–G31: Olumsuz Koşullardan Kaçının, Fonksiyonlar Tek Bir Şey Yapmalı ve Gizli Zamansal Bağımlılıklar (Avoid Negative Conditionals, Functions Should Do One Thing, and Hidden Temporal Couplings)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "303": {
+      "pdf_page": 303,
+      "chapter": 17,
+      "title_en": "G31–G32: Hidden Temporal Couplings and Don't Be Arbitrary",
+      "title_tr": "G31–G32: Gizli Zamansal Bağımlılıklar ve Keyfî Olmayın (Hidden Temporal Couplings and Don't Be Arbitrary)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "304": {
+      "pdf_page": 304,
+      "chapter": 17,
+      "title_en": "G33–G34: Encapsulate Boundary Conditions and Functions Should Descend Only One Level of Abstraction",
+      "title_tr": "G33–G34: Sınır Koşullarını Kapsülleyin ve Fonksiyonlar Yalnızca Tek Bir Soyutlama Seviyesi İnmelidir (Encapsulate Boundary Conditions and Functions Should Descend Only One Level of Abstraction)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "305": {
+      "pdf_page": 305,
+      "chapter": 17,
+      "title_en": "G34: Functions Should Descend Only One Level of Abstraction",
+      "title_tr": "G34: Fonksiyonlar Soyutlamada Yalnızca Tek Bir Seviyeye İnmelidir (Functions Should Descend Only One Level of Abstraction)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "306": {
+      "pdf_page": 306,
+      "chapter": 17,
+      "title_en": "G35–G36: Keep Configurable Data at High Levels and Avoid Transitive Navigation",
+      "title_tr": "G35–G36: Yapılandırılabilir Veriyi Yüksek Seviyelerde Tutun ve Geçişli Gezinmeden Kaçının (Keep Configurable Data at High Levels and Avoid Transitive Navigation)",
+      "section_en": "General",
+      "section_tr": "Genel Kurallar (General)"
+    },
+    "307": {
+      "pdf_page": 307,
+      "chapter": 17,
+      "title_en": "J1–J2: Avoid Long Import Lists by Using Wildcards and Don’t Inherit Constants",
+      "title_tr": "J1–J2: Uzun İmport Listelerinden Kaçınmak için Joker İmportlar Kullanın ve Sabitlerden Kalıtım Almayın (J1–J2: Avoid Long Import Lists by Using Wildcards and Don’t Inherit Constants)",
+      "section_en": "Java",
+      "section_tr": "Java"
+    },
+    "308": {
+      "pdf_page": 308,
+      "chapter": 17,
+      "title_en": "J2–J3: Don’t Inherit Constants; Constants versus Enums",
+      "title_tr": "J2–J3: Sabitleri Miras Almayın; Sabitler ve Enum’lar (Constants versus Enums)",
+      "section_en": "Java",
+      "section_tr": "Java"
+    },
+    "309": {
+      "pdf_page": 309,
+      "chapter": 17,
+      "title_en": "N1: Choose Descriptive Names",
+      "title_tr": "N1: Betimleyici İsimler Seçin (Choose Descriptive Names)",
+      "section_en": "Names",
+      "section_tr": "İsimler (Names)"
+    },
+    "310": {
+      "pdf_page": 310,
+      "chapter": 17,
+      "title_en": "N1: Choose Descriptive Names (continued)",
+      "title_tr": "N1: Betimleyici İsimler Seçin (devamı) (Choose Descriptive Names)",
+      "section_en": "Names",
+      "section_tr": "İsimler (Names)"
+    },
+    "311": {
+      "pdf_page": 311,
+      "chapter": 17,
+      "title_en": "N2–N3: Choose Names at the Appropriate Level of Abstraction; Use Standard Nomenclature Where Possible",
+      "title_tr": "N2–N3: İsimleri Uygun Soyutlama Seviyesinde Seçin; Mümkün Olduğunda Standart Adlandırmayı Kullanın (N2–N3: Choose Names at the Appropriate Level of Abstraction; Use Standard Nomenclature Where Possible)",
+      "section_en": "Names",
+      "section_tr": "İsimler (Names)"
+    },
+    "312": {
+      "pdf_page": 312,
+      "chapter": 17,
+      "title_en": "N4: Unambiguous Names",
+      "title_tr": "N4: Belirsizliğe Yer Bırakmayan İsimler (Unambiguous Names)",
+      "section_en": "Names",
+      "section_tr": "İsimler (Names)"
+    },
+    "313": {
+      "pdf_page": 313,
+      "chapter": 17,
+      "title_en": "Tests: T1–T4",
+      "title_tr": "Testler: T1–T4 (Tests)",
+      "section_en": "Tests",
+      "section_tr": "Testler (Tests)"
+    },
+    "314": {
+      "pdf_page": 314,
+      "chapter": 17,
+      "title_en": "T5–T9: Test Boundary Conditions, Exhaustively Test Near Bugs, Patterns of Failure, Test Coverage, Fast Tests and Conclusion",
+      "title_tr": "T5–T9: Sınır Koşullarını Test Edin, Hataların Yakınını Kapsamlı Test Edin, Başarısızlık Desenleri, Test Kapsamı, Hızlı Testler ve Sonuç (T5–T9: Test Boundary Conditions, Exhaustively Test Near Bugs, Patterns of Failure, Test Coverage, Fast Tests and Conclusion)",
+      "section_en": "Tests",
+      "section_tr": "Testler (Tests)"
+    },
+    "315": {
+      "pdf_page": 315,
+      "chapter": 17,
+      "title_en": "Bibliography",
+      "title_tr": "Kaynakça (Bibliography)",
+      "section_en": "Bibliography",
+      "section_tr": "Kaynakça (Bibliography)"
+    },
+    "316": {
+      "pdf_page": 316,
+      "chapter": 17,
+      "title_en": "Chapter 17 End (Blank Page)",
+      "title_tr": "Chapter 17 Sonu (Boş Sayfa)",
+      "section_en": "Bibliography",
+      "section_tr": "Kaynakça (Bibliography)"
+    },
+    "317": {
+      "pdf_page": 317,
+      "chapter": 18,
+      "title_en": "Appendix A: Concurrency II — Client/Server Example",
+      "title_tr": "Ek A: Eşzamanlılık II — İstemci/Sunucu Örneği",
+      "section_en": "Client/Server Example",
+      "section_tr": "İstemci/Sunucu Örneği"
+    },
+    "318": {
+      "pdf_page": 318,
+      "chapter": 18,
+      "title_en": "Client/Server Example: Performance Test",
+      "title_tr": "İstemci/Sunucu Örneği: Performans Testi",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
     }
   }
 }
