@@ -4,7 +4,7 @@
   "book_total_pages": 431,
   "pdf_total_pages": 431,
   "pages_per_run": 3,
-  "last_translated_page": 318,
+  "last_translated_page": 348,
   "chapters": [
     {
       "num": 1,
@@ -2643,6 +2643,246 @@
       "title_tr": "İstemci/Sunucu Örneği: Performans Testi",
       "section_en": "Appendix A: Concurrency II",
       "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "319": {
+      "pdf_page": 319,
+      "chapter": 18,
+      "title_en": "Adding Threading & Server Observations",
+      "title_tr": "İş Parçacıklama Eklemek ve Sunucu Gözlemleri (Adding Threading & Server Observations)",
+      "section_en": "Client/Server Example",
+      "section_tr": "İstemci/Sunucu Örneği (Client/Server Example)"
+    },
+    "320": {
+      "pdf_page": 320,
+      "chapter": 18,
+      "title_en": "Client/Server Example: Isolating Thread Management",
+      "title_tr": "İstemci/Sunucu Örneği: İş Parçacığı Yönetimini Ayırmak",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "321": {
+      "pdf_page": 321,
+      "chapter": 18,
+      "title_en": "Possible Paths of Execution",
+      "title_tr": "Olası Yürütme Yolları",
+      "section_en": "Possible Paths of Execution",
+      "section_tr": "Olası Yürütme Yolları (Possible Paths of Execution)"
+    },
+    "322": {
+      "pdf_page": 322,
+      "chapter": 18,
+      "title_en": "Number of Paths",
+      "title_tr": "Yol Sayısı",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "323": {
+      "pdf_page": 323,
+      "chapter": 18,
+      "title_en": "Calculating the Possible Orderings",
+      "title_tr": "Olası Sıralamaları Hesaplamak",
+      "section_en": "Possible Paths of Execution",
+      "section_tr": "Olası Yürütme Yolları (Possible Paths of Execution)"
+    },
+    "324": {
+      "pdf_page": 324,
+      "chapter": 18,
+      "title_en": "Atomic Operations and Byte-Code",
+      "title_tr": "Atomik İşlemler ve Bayt Kodu",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "325": {
+      "pdf_page": 325,
+      "chapter": 18,
+      "title_en": "Atomic Byte-Code: resetId vs. getNextId",
+      "title_tr": "Atomik Bayt Kodu: resetId ve getNextId",
+      "section_en": "Possible Paths of Execution",
+      "section_tr": "Olası Yürütme Yolları (Possible Paths of Execution)"
+    },
+    "326": {
+      "pdf_page": 326,
+      "chapter": 18,
+      "title_en": "Conclusion & Knowing Your Library",
+      "title_tr": "Sonuç ve Kütüphanenizi Tanıyın",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "327": {
+      "pdf_page": 327,
+      "chapter": 18,
+      "title_en": "Executor Framework and Nonblocking Solutions",
+      "title_tr": "İcracı Çerçevesi ve Engel Olmayan Çözümler",
+      "section_en": "Knowing Your Library",
+      "section_tr": "Kütüphanenizi Tanıyın"
+    },
+    "328": {
+      "pdf_page": 328,
+      "chapter": 18,
+      "title_en": "Nonthread-Safe Classes",
+      "title_tr": "İş Parçacığına Güvenli Olmayan Sınıflar",
+      "section_en": "Knowing Your Library",
+      "section_tr": "Kütüphanenizi Tanıyın"
+    },
+    "329": {
+      "pdf_page": 329,
+      "chapter": 18,
+      "title_en": "Thread-Safe Collections & Dependencies Between Methods",
+      "title_tr": "İş Parçacığına Güvenli Koleksiyonlar ve Metotlar Arasındaki Bağımlılıklar",
+      "section_en": "Dependencies Between Methods Can Break Concurrent Code",
+      "section_tr": "Metotlar Arasındaki Bağımlılıklar Eşzamanlı Kodu Bozabilir (Dependencies Between Methods Can Break Concurrent Code)"
+    },
+    "330": {
+      "pdf_page": 330,
+      "chapter": 18,
+      "title_en": "Tolerate the Failure and Client-Based Locking",
+      "title_tr": "Başarısızlığa Katlanmak ve İstemci Tabanlı Kilit",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "331": {
+      "pdf_page": 331,
+      "chapter": 18,
+      "title_en": "The Forgotten Lock",
+      "title_tr": "Unutulan Kilit",
+      "section_en": "Dependencies Between Methods Can Break Concurrent Code",
+      "section_tr": "Metotlar Arasındaki Bağımlılıklar Eşzamanlı Kodu Bozabilir (Dependencies Between Methods Can Break Concurrent Code)"
+    },
+    "332": {
+      "pdf_page": 332,
+      "chapter": 18,
+      "title_en": "Server-Based Locking",
+      "title_tr": "Sunucu Tabanlı Kilit (Server-Based Locking)",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "333": {
+      "pdf_page": 333,
+      "chapter": 18,
+      "title_en": "Increasing Throughput",
+      "title_tr": "Geçirimi Artırmak",
+      "section_en": "Increasing Throughput",
+      "section_tr": "Geçirimi Artırmak"
+    },
+    "334": {
+      "pdf_page": 334,
+      "chapter": 18,
+      "title_en": "Single-Thread Calculation of Throughput",
+      "title_tr": "Tek İş Parçacıklı Geçirim Hesabı",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "335": {
+      "pdf_page": 335,
+      "chapter": 18,
+      "title_en": "Deadlock",
+      "title_tr": "Ölü Kilit (Deadlock)",
+      "section_en": "Deadlock",
+      "section_tr": "Ölü Kilit (Deadlock)"
+    },
+    "336": {
+      "pdf_page": 336,
+      "chapter": 18,
+      "title_en": "The Four Conditions for Deadlock",
+      "title_tr": "Kilitlenmenin Dört Koşulu (The Four Conditions for Deadlock)",
+      "section_en": "Deadlock",
+      "section_tr": "Kilitlenme (Deadlock)"
+    },
+    "337": {
+      "pdf_page": 337,
+      "chapter": 18,
+      "title_en": "Breaking the Deadlock Conditions",
+      "title_tr": "Kilitlenme Koşullarını Kırmak (Breaking the Deadlock Conditions)",
+      "section_en": "Deadlock",
+      "section_tr": "Ölü Kilit (Deadlock)"
+    },
+    "338": {
+      "pdf_page": 338,
+      "chapter": 18,
+      "title_en": "Breaking Lock & Wait, Preemption, and Circular Wait",
+      "title_tr": "Kilitlen ve Bekle, Önalım ve Döngüsel Beklemeyi Kırmak",
+      "section_en": "Deadlock",
+      "section_tr": "Ölü Kilit (Deadlock)"
+    },
+    "339": {
+      "pdf_page": 339,
+      "chapter": 18,
+      "title_en": "Testing Multithreaded Code",
+      "title_tr": "Çok İş Parçacıklı Kodu Test Etme",
+      "section_en": "Testing Multithreaded Code",
+      "section_tr": "Çok İş Parçacıklı Kodu Test Etme"
+    },
+    "340": {
+      "pdf_page": 340,
+      "chapter": 18,
+      "title_en": "Line-by-Line Analysis of Listing A-2",
+      "title_tr": "Listing A-2’nin Satır Satır Analizi",
+      "section_en": "Testing Multithreaded Code",
+      "section_tr": "Çok İş Parçacıklı Kodu Test Etme"
+    },
+    "341": {
+      "pdf_page": 341,
+      "chapter": 18,
+      "title_en": "A Few Ideas for Testing Multithreaded Code",
+      "title_tr": "Çok İş Parçacıklı Kodu Test Etmek İçin Birkaç Fikir",
+      "section_en": "Testing Multithreaded Code",
+      "section_tr": "Çok İş Parçacıklı Kodu Test Etme"
+    },
+    "342": {
+      "pdf_page": 342,
+      "chapter": 18,
+      "title_en": "Tool Support for Testing Thread-Based Code",
+      "title_tr": "İş Parçacığı Tabanlı Kodu Test Etmek İçin Araç Desteği",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "343": {
+      "pdf_page": 343,
+      "chapter": 18,
+      "title_en": "Tutorial: Full Code Examples",
+      "title_tr": "Öğretici: Tam Kod Örnekleri",
+      "section_en": "Tutorial: Full Code Examples",
+      "section_tr": "Öğretici: Tam Kod Örnekleri"
+    },
+    "344": {
+      "pdf_page": 344,
+      "chapter": 18,
+      "title_en": "Client/Server Nonthreaded — Listing A-4 (cont.)",
+      "title_tr": "İstemci/Sunucu İş Parçacıksız — Listing A-4 (devam)",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "345": {
+      "pdf_page": 345,
+      "chapter": 18,
+      "title_en": "Listing A-4 (continued) ClientTest.java",
+      "title_tr": "Listing A-4 (devamı) ClientTest.java",
+      "section_en": "Tutorial: Full Code Examples",
+      "section_tr": "Öğretici: Tam Kod Örnekleri (Tutorial: Full Code Examples)"
+    },
+    "346": {
+      "pdf_page": 346,
+      "chapter": 18,
+      "title_en": "Client/Server Using Threads",
+      "title_tr": "İstemci/Sunucu İş Parçacıklı (Client/Server Using Threads)",
+      "section_en": "Appendix A: Concurrency II",
+      "section_tr": "Ek A: Eşzamanlılık II (Concurrency II)"
+    },
+    "347": {
+      "pdf_page": 347,
+      "chapter": 18,
+      "title_en": "Listing A-4 (continued) ClientTest.java",
+      "title_tr": "Listing A-4 (devamı) ClientTest.java",
+      "section_en": "Tutorial: Full Code Examples",
+      "section_tr": "Öğretici: Tam Kod Örnekleri (Tutorial: Full Code Examples)"
+    },
+    "348": {
+      "pdf_page": 348,
+      "chapter": 18,
+      "title_en": "Appendix A End (Blank Page)",
+      "title_tr": "Ek A Sonu (Boş Sayfa)",
+      "section_en": "Tutorial: Full Code Examples",
+      "section_tr": "Öğretici: Tam Kod Örnekleri (Tutorial: Full Code Examples)"
     }
   }
 }
