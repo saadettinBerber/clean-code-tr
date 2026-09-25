@@ -82,19 +82,67 @@ window.PAGE({
   "concepts": [
     {
       "id": "meaningful-context",
+      "kind": "code",
       "title": {
         "en": "Meaningful Context",
         "tr": "Anlamlı Bağlam (Meaningful Context)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Değişkenler tek başlarına muğlak olabilir. <code>state</code> isminde bir değişken, bir adresin eyaletini mi, bir siparişin durumunu mu yoksa bir makinenin o anki halini mi temsil ediyor? Değişkeni anlamlı bir yapının (sınıf, fonksiyon) içine koyarak ona bir \"ev\" ve dolayısıyla net bir anlam kazandırırız.</span><span class=\"en-text\">Variables can be ambiguous on their own. Does a variable named <code>state</code> represent an address state, an order status, or a machine's current state? By putting the variable inside a meaningful structure (class, function), we give it a \"home\" and thus a clear meaning.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Bağlamı anlamak için kodun tamamını okumak gerekiyor</span><span class=\"en-text\">BAD — Must read entire code to understand context</span></span>\n<pre>public void logStatus(String msg, int code) {\n    // code burada ne kodu? HTTP mi? Hata mı?\n    System.out.println(\"Log: \" + msg + \" [\" + code + \"]\");\n}</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Açık bağlam (Explicit Context)</span><span class=\"en-text\">GOOD — Explicit Context</span></span>\n<pre>public class HttpResponse {\n    private String message;\n    private int statusCode; // Bağlam netleşti\n\n    public void log() {\n        System.out.println(\"Response: \" + message + \" (Status: \" + statusCode + \")\");\n    }\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Okuyucunun bağlamı (context) \"kazıyıp çıkarmasına\" (dig out) izin vermeyin. Bağlamı kodun yapısıyla (sınıf hiyerarşisi vb.) göz önüne serin.</span><span class=\"en-text\">Don't make the reader \"dig out\" the context. Lay it out through the structure of your code (class hierarchy, etc.).</span></div>"
+      "summary": {
+        "en": "Variables can be ambiguous on their own. Does a variable named `state` represent an address state, an order status, or a machine's current state? By putting the variable inside a meaningful structure (class, function), we give it a \"home\" and thus a clear meaning.",
+        "tr": "Değişkenler tek başlarına muğlak olabilir. `state` isminde bir değişken, bir adresin eyaletini mi, bir siparişin durumunu mu yoksa bir makinenin o anki halini mi temsil ediyor? Değişkeni anlamlı bir yapının (sınıf, fonksiyon) içine koyarak ona bir \"ev\" ve dolayısıyla net bir anlam kazandırırız."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "public void logStatus(String msg, int code) {\n    // code burada ne kodu? HTTP mi? Hata mı?\n    System.out.println(\"Log: \" + msg + \" [\" + code + \"]\");\n}",
+        "why": {
+          "en": "`code` carries no home, so its meaning (HTTP, error?) must be inferred from the whole method.",
+          "tr": "`code`'un bir evi yok; anlamı (HTTP mi, hata mı?) tüm metottan çıkarılmak zorunda."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "public class HttpResponse {\n    private String message;\n    private int statusCode; // Bağlam netleşti\n\n    public void log() {\n        System.out.println(\"Response: \" + message + \" (Status: \" + statusCode + \")\");\n    }\n}",
+        "why": {
+          "en": "As `statusCode` inside HttpResponse, the field's meaning is given by its context.",
+          "tr": "HttpResponse içinde `statusCode` olarak alanın anlamı bağlamından bellidir."
+        }
+      },
+      "tip": {
+        "en": "Don't make the reader \"dig out\" the context. Lay it out through the structure of your code (class hierarchy, etc.).",
+        "tr": "Okuyucunun bağlamı (context) \"kazıyıp çıkarmasına\" (dig out) izin vermeyin. Bağlamı kodun yapısıyla (sınıf hiyerarşisi vb.) göz önüne serin."
+      }
     },
     {
       "id": "address-class",
+      "kind": "code",
       "title": {
         "en": "Address Class Solution",
         "tr": "Address Sınıfı Çözümü (Address Class Solution)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Birbirleriyle ilişkili değişkenler (street, city, zip) genellikle bir \"kavramsal bütün\" oluşturur. Bunları ayrı ayrı taşımak yerine bir sınıf altında toplamak (Data Clump refactoring), hem bağlamı güçlendirir hem de kodun taşınabilirliğini artırır.</span><span class=\"en-text\">Related variables (street, city, zip) often form a \"conceptual whole.\" Instead of carrying them separately, grouping them under a class (Data Clump refactoring) both strengthens context and increases code portability.</span></p>\n<h4><span class=\"tr-text\">İyi Örnek</span><span class=\"en-text\">Good Example</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Nesne tabanlı bağlam</span><span class=\"en-text\">GOOD — Object-oriented context</span></span>\n<pre>public class MailingAddress {\n    private String street;\n    private String city;\n    private String postalCode;\n\n    public String formatForLabel() {\n        return street + \", \" + city + \" \" + postalCode;\n    }\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Eğer bir grup değişken sürekli birlikte metotlara parametre olarak gönderiliyorsa, bu bir \"Data Clump\" (Veri Kümesi) kokusudur. Bunları hemen bir sınıfa dönüştürün.</span><span class=\"en-text\">If a group of variables is constantly passed together as parameters to methods, it's a \"Data Clump\" smell. Convert them into a class immediately.</span></div>"
+      "summary": {
+        "en": "Related variables (street, city, zip) often form a \"conceptual whole.\" Instead of carrying them separately, grouping them under a class (Data Clump refactoring) both strengthens context and increases code portability.",
+        "tr": "Birbirleriyle ilişkili değişkenler (street, city, zip) genellikle bir \"kavramsal bütün\" oluşturur. Bunları ayrı ayrı taşımak yerine bir sınıf altında toplamak (Data Clump refactoring), hem bağlamı güçlendirir hem de kodun taşınabilirliğini artırır."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "public void printLabel(String street, String city, String postalCode) {\n    System.out.println(street + \", \" + city + \" \" + postalCode);\n}",
+        "why": {
+          "en": "The three values travel separately with no grouping name, so the address concept never appears in the code.",
+          "tr": "Üç değer bir grup adı olmadan ayrı ayrı taşınır; adres kavramı kodda hiç görünmez."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "public class MailingAddress {\n    private String street;\n    private String city;\n    private String postalCode;\n\n    public String formatForLabel() {\n        return street + \", \" + city + \" \" + postalCode;\n    }\n}",
+        "why": {
+          "en": "MailingAddress groups street, city, postalCode and owns the formatting behavior.",
+          "tr": "MailingAddress street, city, postalCode'u gruplar ve biçimlendirme davranışına sahiptir."
+        }
+      },
+      "tip": {
+        "en": "If a group of variables is constantly passed together as parameters to methods, it's a \"Data Clump\" smell. Convert them into a class immediately.",
+        "tr": "Eğer bir grup değişken sürekli birlikte metotlara parametre olarak gönderiliyorsa, bu bir \"Data Clump\" (Veri Kümesi) kokusudur. Bunları hemen bir sınıfa dönüştürün."
+      }
     }
   ]
 });

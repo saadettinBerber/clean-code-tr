@@ -102,27 +102,113 @@ window.PAGE({
   "concepts": [
     {
       "id": "pronounceable",
+      "kind": "code",
       "title": {
         "en": "Pronounceable Names",
         "tr": "Telaffuz Edilebilir İsimler (Pronounceable Names)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">İsimler, ekip içi iletişimde sesli olarak söylenebilir olmalıdır. Telaffuz edilemeyen kısaltmalar, kodun anlaşılmasını bir bulmacaya dönüştürür ve tartışmaları zorlaştırır.</span><span class=\"en-text\">Names should be pronounceable in team communication. Unpronounceable abbreviations turn code comprehension into a puzzle and make discussions difficult.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Telaffuzu zor kısaltma</span><span class=\"en-text\">BAD — Hard to pronounce abbreviation</span></span>\n<pre>class UsrLgnInf {\n    private String loginId;\n    private long tmstmp;\n    // \"Yuser-ligin-inf'teki tim-stimp'i kontrol et\"\n}</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Doğal dil kullanımı</span><span class=\"en-text\">GOOD — Natural language usage</span></span>\n<pre>class UserLogin {\n    private String userId;\n    private long loginTimestamp;\n    // \"User login'deki login timestamp'i kontrol et\"\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Eğer bir ismi sesli okuduğunuzda kulağa saçma geliyorsa veya hecelemek zorunda kalıyorsanız, o ismi düzeltin.</span><span class=\"en-text\">If a name sounds silly when read aloud or if you have to spell it out, fix that name.</span></div>"
+      "summary": {
+        "en": "Names should be pronounceable in team communication. Unpronounceable abbreviations turn code comprehension into a puzzle and make discussions difficult.",
+        "tr": "İsimler, ekip içi iletişimde sesli olarak söylenebilir olmalıdır. Telaffuz edilemeyen kısaltmalar, kodun anlaşılmasını bir bulmacaya dönüştürür ve tartışmaları zorlaştırır."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "class UsrLgnInf {\n    private String loginId;\n    private long tmstmp;\n    // \"Yuser-ligin-inf'teki tim-stimp'i kontrol et\"\n}",
+        "why": {
+          "en": "Every name is an abbreviation puzzle (UsrLgnInf, tmstmp), so even reading it aloud requires decoding.",
+          "tr": "Her isim bir kısaltma bulmacası (UsrLgnInf, tmstmp); sesli okumak bile deşifre gerektirir."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "class UserLogin {\n    private String userId;\n    private long loginTimestamp;\n    // \"User login'deki login timestamp'i kontrol et\"\n}",
+        "why": {
+          "en": "UserLogin and loginTimestamp read as natural language, so talking about the code is easy.",
+          "tr": "UserLogin ve loginTimestamp doğal dil gibi okunur; kod hakkında konuşmak kolaylaşır."
+        }
+      },
+      "tip": {
+        "en": "If a name sounds silly when read aloud or if you have to spell it out, fix that name.",
+        "tr": "Eğer bir ismi sesli okuduğunuzda kulağa saçma geliyorsa veya hecelemek zorunda kalıyorsanız, o ismi düzeltin."
+      }
     },
     {
       "id": "searchable",
+      "kind": "code",
       "title": {
         "en": "Searchable Names",
         "tr": "Aranabilir İsimler (Searchable Names)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Sayısal sabitler ve tek harfli isimler kod tabanında aranması (search) zor olan yapılardır. Sabitlere anlamlı isimler vermek, hem niyetinizi belirtir hem de gerektiğinde o değeri tüm projede bulmanızı sağlar.</span><span class=\"en-text\">Numeric constants and single-letter names are difficult to search for in a codebase. Giving constants meaningful names both expresses your intent and allows you to find that value throughout the project when needed.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Sihirli sayı kullanımı</span><span class=\"en-text\">BAD — Magic number usage</span></span>\n<pre>if (userStatus == 1) {\n    // 1 ne anlama geliyor? \n    // Projede \"1\" aratırsanız binlerce sonuç çıkar.\n}</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Aranabilir sabit</span><span class=\"en-text\">GOOD — Searchable constant</span></span>\n<pre>const int STATUS_ACTIVE = 1;\n\nif (userStatus == STATUS_ACTIVE) {\n    // Niyet belli, \"STATUS_ACTIVE\" aranabilir.\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Kodunuzdaki herhangi bir sayıyı (0 ve 1 dışındakiler dahil) isimlendirilmiş bir sabite dönüştürmeyi alışkanlık haline getirin.</span><span class=\"en-text\">Make it a habit to convert any number in your code (including those other than 0 and 1) into a named constant.</span></div>"
+      "summary": {
+        "en": "Numeric constants and single-letter names are difficult to search for in a codebase. Giving constants meaningful names both expresses your intent and allows you to find that value throughout the project when needed.",
+        "tr": "Sayısal sabitler ve tek harfli isimler kod tabanında aranması (search) zor olan yapılardır. Sabitlere anlamlı isimler vermek, hem niyetinizi belirtir hem de gerektiğinde o değeri tüm projede bulmanızı sağlar."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "if (userStatus == 1) {\n    // 1 ne anlama geliyor? \n    // Projede \"1\" aratırsanız binlerce sonuç çıkar.\n}",
+        "why": {
+          "en": "`1` reveals nothing and cannot be searched — thousands of hits, no meaning.",
+          "tr": "`1` hiçbir şey anlatmaz ve aranamaz — binlerce sonuç, hiçbir anlam."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "const int STATUS_ACTIVE = 1;\n\nif (userStatus == STATUS_ACTIVE) {\n    // Niyet belli, \"STATUS_ACTIVE\" aranabilir.\n}",
+        "why": {
+          "en": "STATUS_ACTIVE both states its meaning and is findable across the project.",
+          "tr": "STATUS_ACTIVE hem anlamını söyler hem proje genelinde aranabilir."
+        }
+      },
+      "tip": {
+        "en": "Make it a habit to convert any number in your code (including those other than 0 and 1) into a named constant.",
+        "tr": "Kodunuzdaki herhangi bir sayıyı (0 ve 1 dışındakiler dahil) isimlendirilmiş bir sabite dönüştürmeyi alışkanlık haline getirin."
+      }
     },
     {
       "id": "scope-rule",
+      "kind": "tradeoff",
       "title": {
         "en": "Scope Rule",
         "tr": "Kapsam İlkesi (Scope Rule)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Bir ismin uzunluğu, o ismin geçerli olduğu kapsamın (scope) boyutuyla doğru orantılı olmalıdır. Kısa ömürlü ve küçük kapsamlı yerel değişkenler kısa olabilir, ancak küresel veya geniş kapsamlı öğeler mutlaka açıklayıcı ve aranabilir olmalıdır.</span><span class=\"en-text\">The length of a name should correspond to the size of its scope. Local variables with a short lifespan and small scope can be short, but global or wide-scope elements must be descriptive and searchable.</span></p>\n<h4><span class=\"tr-text\">Örnek Karşılaştırma</span><span class=\"en-text\">Example Comparison</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">DAR KAPSAM (İzin verilebilir)</span><span class=\"en-text\">NARROW SCOPE (Permissible)</span></span>\n<pre>for (int i=0; i &lt; items.length; i++) {\n    // i sadece 3 satırda yaşıyor\n}</pre>\n<span class=\"label-good\"><span class=\"tr-text\">GENİŞ KAPSAM (Zorunlu)</span><span class=\"en-text\">WIDE SCOPE (Mandatory)</span></span>\n<pre>public class TaskManager {\n    // Sınıf boyunca her yerde kullanılıyor\n    private int numberOfCompletedTasksToday; \n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Eğer bir değişken 50 satırdan fazla bir alanda kullanılıyorsa, ona tek harfli veya 3 harfli bir isim vermeyin.</span><span class=\"en-text\">If a variable is used in an area of more than 50 lines, do not give it a single-letter or 3-letter name.</span></div>"
+      "summary": {
+        "en": "The length of a name should correspond to the size of its scope. Local variables with a short lifespan and small scope can be short, but global or wide-scope elements must be descriptive and searchable.",
+        "tr": "Bir ismin uzunluğu, o ismin geçerli olduğu kapsamın (scope) boyutuyla doğru orantılı olmalıdır. Kısa ömürlü ve küçük kapsamlı yerel değişkenler kısa olabilir, ancak küresel veya geniş kapsamlı öğeler mutlaka açıklayıcı ve aranabilir olmalıdır."
+      },
+      "options": [
+        {
+          "name": {
+            "en": "Short name — narrow scope",
+            "tr": "Kısa isim — dar kapsam"
+          },
+          "gains": {
+            "en": "Concise and quick to read where the scope is small (e.g. a loop counter living a few lines).",
+            "tr": "Kapsam küçükken (ör. birkaç satırda yaşayan döngü sayacı) kısa ve çabuk okunur."
+          },
+          "costs": {
+            "en": "Useless when the scope is wide: it cannot be searched and communicates nothing.",
+            "tr": "Kapsam genişken işe yaramaz: aranamaz ve hiçbir şey anlatmaz."
+          }
+        },
+        {
+          "name": {
+            "en": "Descriptive name — wide scope",
+            "tr": "Açıklayıcı isim — geniş kapsam"
+          },
+          "gains": {
+            "en": "Searchable and self-explanatory for members used across a class.",
+            "tr": "Sınıf genelinde kullanılan üyeler için aranabilir ve kendini açıklar."
+          },
+          "costs": {
+            "en": "Longer to type and read; overkill for a three-line local scope.",
+            "tr": "Yazması ve okuması uzun; üç satırlık yerel bir kapsam için fazladır."
+          }
+        }
+      ],
+      "tip": {
+        "en": "If a variable is used in an area of more than 50 lines, do not give it a single-letter or 3-letter name.",
+        "tr": "Eğer bir değişken 50 satırdan fazla bir alanda kullanılıyorsa, ona tek harfli veya 3 harfli bir isim vermeyin."
+      }
     }
   ]
 });

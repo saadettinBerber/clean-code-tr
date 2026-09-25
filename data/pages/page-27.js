@@ -121,35 +121,131 @@ window.PAGE({
   "concepts": [
     {
       "id": "pun",
+      "kind": "code",
       "title": {
         "en": "Avoid Punning",
         "tr": "Kelime Oyunlarından Kaçınma (Avoid Punning)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Aynı kelimeyi iki farklı amaç için kullanmak bir kelime oyunudur. \"Tutarlılık\" adına farklı anlamlara gelen eylemler için aynı kelimeyi seçmek okuyucuyu yanıltır. Örneğin, iki sayıyı toplamak ile bir öğeyi listeye eklemek farklı anlamsal eylemlerdir.</span><span class=\"en-text\">Using the same word for two different purposes is punning. Choosing the same word for actions with different meanings for the sake of \"consistency\" misleads the reader. For example, adding two numbers and inserting an item into a list are different semantic actions.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — \"add\" kelimesinin aşırı yüklenmesi</span><span class=\"en-text\">BAD — Overloading the word \"add\"</span></span>\n<pre>public class Calculator {\n    public int add(int a, int b) { return a + b; }\n}\n\npublic class UserList {\n    // Koleksiyona ekleme yaparken de 'add' kullanılmış\n    public void add(User user) { users.add(user); }\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Burada <code>UserList.add</code> metodu matematiksel bir toplama yapmıyor, sadece koleksiyona bir öğe yerleştiriyor. Diğer sınıflardaki <code>add</code> metotlarıyla \"benzer\" görünse de işlevi farklıdır.</span><span class=\"en-text\">Here, <code>UserList.add</code> doesn't perform a mathematical addition; it just inserts an item into a collection. Even if it looks \"consistent\" with other <code>add</code> methods, its function is different.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Anlamsal olarak doğru terimler</span><span class=\"en-text\">GOOD — Semantically correct terms</span></span>\n<pre>public class Calculator {\n    public int add(int a, int b) { return a + b; }\n}\n\npublic class UserList {\n    public void insert(User user) { users.add(user); }\n    // veya\n    public void append(User user) { users.add(user); }\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Kodunuzu bir \"paperback\" (karton kapaklı popüler roman) gibi yazın. Okuyucunun anlamı çözmek için dedektiflik yapmasına gerek kalmamalı. Kelimelerin yaygın teknik anlamlarına sadık kalın.</span><span class=\"en-text\">Write your code like a \"paperback\" novel. The reader shouldn't have to play detective to figure out the meaning. Stick to common technical meanings of words.</span></div>"
+      "summary": {
+        "en": "Using the same word for two different purposes is punning. Choosing the same word for actions with different meanings for the sake of \"consistency\" misleads the reader. For example, adding two numbers and inserting an item into a list are different semantic actions.",
+        "tr": "Aynı kelimeyi iki farklı amaç için kullanmak bir kelime oyunudur. \"Tutarlılık\" adına farklı anlamlara gelen eylemler için aynı kelimeyi seçmek okuyucuyu yanıltır. Örneğin, iki sayıyı toplamak ile bir öğeyi listeye eklemek farklı anlamsal eylemlerdir."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "public class Calculator {\n    public int add(int a, int b) { return a + b; }\n}\n\npublic class UserList {\n    // Koleksiyona ekleme yaparken de 'add' kullanılmış\n    public void add(User user) { users.add(user); }\n}",
+        "why": {
+          "en": "Here, `UserList.add` doesn't perform a mathematical addition; it just inserts an item into a collection. Even if it looks \"consistent\" with other `add` methods, its function is different.",
+          "tr": "Burada `UserList.add` metodu matematiksel bir toplama yapmıyor, sadece koleksiyona bir öğe yerleştiriyor. Diğer sınıflardaki `add` metotlarıyla \"benzer\" görünse de işlevi farklıdır."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "public class Calculator {\n    public int add(int a, int b) { return a + b; }\n}\n\npublic class UserList {\n    public void insert(User user) { users.add(user); }\n    // veya\n    public void append(User user) { users.add(user); }\n}",
+        "why": {
+          "en": "insert/append vs add separate the collection operation from arithmetic.",
+          "tr": "insert/append ile add, koleksiyon işlemini aritmetikten ayırır."
+        }
+      },
+      "tip": {
+        "en": "Write your code like a \"paperback\" novel. The reader shouldn't have to play detective to figure out the meaning. Stick to common technical meanings of words.",
+        "tr": "Kodunuzu bir \"paperback\" (karton kapaklı popüler roman) gibi yazın. Okuyucunun anlamı çözmek için dedektiflik yapmasına gerek kalmamalı. Kelimelerin yaygın teknik anlamlarına sadık kalın."
+      }
     },
     {
       "id": "solution-domain",
+      "kind": "code",
       "title": {
         "en": "Solution Domain Names",
         "tr": "Çözüm Alanı İsimleri (Solution Domain Names)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Kodunuzu programcılar okur. Bu yüzden teknik terimleri (algoritmalar, desenler, veri yapıları) kullanmaktan çekinmeyin. Bir programcıya \"Müşteri Hesabı Veri Erişim Nesnesi\" demek yerine \"AccountDAO\" demek çok daha hızlı ve net bir iletişim sağlar.</span><span class=\"en-text\">Programmers read your code. So don't hesitate to use technical terms (algorithms, patterns, data structures). Saying \"AccountDAO\" to a programmer is much faster and clearer than saying \"Customer Account Data Access Object.\"</span></p>\n<h4><span class=\"tr-text\">İyi Örnekler</span><span class=\"en-text\">Good Examples</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Teknik terimlerin kullanımı</span><span class=\"en-text\">GOOD — Use of technical terms</span></span>\n<pre>// Programcılar bu isimlerin ne anlama geldiğini hemen anlar:\nclass AccountObserver { ... }\nclass EmailPriorityQueue { ... }\npublic void sortWithQuickSort() { ... }\npublic UserFactory userFactory; </pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Eğer bir tasarım deseni (design pattern) kullanıyorsanız, o desenin adını sınıf ismine dahil edin. Örneğin, <code>Account</code> yerine <code>AccountProxy</code> veya <code>AccountDecorator</code> kullanmak, kodun mimari rolünü anında açıklar.</span><span class=\"en-text\">If you are using a design pattern, include its name in the class name. For example, using <code>AccountProxy</code> or <code>AccountDecorator</code> instead of just <code>Account</code> immediately clarifies the code's architectural role.</span></div>"
+      "summary": {
+        "en": "Programmers read your code. So don't hesitate to use technical terms (algorithms, patterns, data structures). Saying \"AccountDAO\" to a programmer is much faster and clearer than saying \"Customer Account Data Access Object.\"",
+        "tr": "Kodunuzu programcılar okur. Bu yüzden teknik terimleri (algoritmalar, desenler, veri yapıları) kullanmaktan çekinmeyin. Bir programcıya \"Müşteri Hesabı Veri Erişim Nesnesi\" demek yerine \"AccountDAO\" demek çok daha hızlı ve net bir iletişim sağlar."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "public class CustomerAccountDataAccessObject {\n    public CustomerAccount getCustomerAccount() { ... }\n}",
+        "why": {
+          "en": "Naming by description ('Customer Account Data Access Object') instead of the technical term (DAO) forces the reader through a sentence and hides the pattern.",
+          "tr": "Açıklamayla adlandırmak ('Müşteri Hesabı Veri Erişim Nesnesi') teknik terim (DAO) yerine okuyucuyu bir cümle boyunca yürütür ve deseni gizler."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "// Programcılar bu isimlerin ne anlama geldiğini hemen anlar:\nclass AccountObserver { ... }\nclass EmailPriorityQueue { ... }\npublic void sortWithQuickSort() { ... }\npublic UserFactory userFactory; ",
+        "why": {
+          "en": "AccountObserver, EmailPriorityQueue, sortWithQuickSort speak the programmer's technical vocabulary.",
+          "tr": "AccountObserver, EmailPriorityQueue, sortWithQuickSort programcının teknik sözlüğüyle konuşur."
+        }
+      },
+      "tip": {
+        "en": "If you are using a design pattern, include its name in the class name. For example, using `AccountProxy` or `AccountDecorator` instead of just `Account` immediately clarifies the code's architectural role.",
+        "tr": "Eğer bir tasarım deseni (design pattern) kullanıyorsanız, o desenin adını sınıf ismine dahil edin. Örneğin, `Account` yerine `AccountProxy` veya `AccountDecorator` kullanmak, kodun mimari rolünü anında açıklar."
+      }
     },
     {
       "id": "problem-domain",
+      "kind": "code",
       "title": {
         "en": "Problem Domain Names",
         "tr": "Problem Alanı İsimleri (Problem Domain Names)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Yaptığınız işin teknik bir karşılığı yoksa, o işin yapıldığı alanın (finans, sağlık, oyun vb.) terminolojisini kullanın. Bu, teknik olmayan ekip üyeleri ve alan uzmanlarıyla aynı dili konuşmanızı sağlar ve bakım aşamasında anlam karmaşasını önler.</span><span class=\"en-text\">If there is no technical equivalent for what you're doing, use the terminology of the domain (finance, health, gaming, etc.) where the work is done. This allows you to speak the same language as non-technical team members and domain experts, preventing confusion during maintenance.</span></p>\n<h4><span class=\"tr-text\">Örnek</span><span class=\"en-text\">Example</span></h4>\n<div class=\"explanation\"><span class=\"tr-text\">Bir bankacılık uygulamasında teknik bir kuyruk yapısı kurmuyorsanız, \"bekleyen işlemler\" için <code>PendingTransactions</code> demek, <code>OperationBuffer</code> demekten daha anlamlıdır.</span><span class=\"en-text\">In a banking application, unless you are building a technical queue structure, saying <code>PendingTransactions</code> for \"waiting operations\" is more meaningful than saying <code>OperationBuffer</code>.</span></div>\n<pre>// Problem alanından isimler:\nclass InsurancePolicy { ... }\nclass ClaimAdjustment { ... }\npublic void applyDiscount(Voucher voucher) { ... }</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">İyi bir tasarımcı, çözüm alanı (teknik) ve problem alanı (iş) kavramlarını nerede ayıracağını bilir. Kullanıcı arayüzüne ve iş kurallarına yakın kodlar problem alanı isimlerini kullanmalıdır.</span><span class=\"en-text\">A good designer knows where to separate solution domain (technical) and problem domain (business) concepts. Code close to the UI and business rules should use problem domain names.</span></div>"
+      "summary": {
+        "en": "If there is no technical equivalent for what you're doing, use the terminology of the domain (finance, health, gaming, etc.) where the work is done. This allows you to speak the same language as non-technical team members and domain experts, preventing confusion during maintenance.",
+        "tr": "Yaptığınız işin teknik bir karşılığı yoksa, o işin yapıldığı alanın (finans, sağlık, oyun vb.) terminolojisini kullanın. Bu, teknik olmayan ekip üyeleri ve alan uzmanlarıyla aynı dili konuşmanızı sağlar ve bakım aşamasında anlam karmaşasını önler."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "public class OperationBuffer {\n    public void push(Operation op) { ... }\n}",
+        "why": {
+          "en": "OperationBuffer says nothing about the business; a banker cannot tell it holds pending transactions.",
+          "tr": "OperationBuffer iş hakkında hiçbir şey söylemez; bir bankacı onun bekleyen işlemleri tuttuğunu anlayamaz."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "// Problem alanından isimler:\nclass InsurancePolicy { ... }\nclass ClaimAdjustment { ... }\npublic void applyDiscount(Voucher voucher) { ... }",
+        "why": {
+          "en": "In a banking application, unless you are building a technical queue structure, saying `PendingTransactions` for \"waiting operations\" is more meaningful than saying `OperationBuffer`.",
+          "tr": "Bir bankacılık uygulamasında teknik bir kuyruk yapısı kurmuyorsanız, \"bekleyen işlemler\" için `PendingTransactions` demek, `OperationBuffer` demekten daha anlamlıdır."
+        }
+      },
+      "tip": {
+        "en": "A good designer knows where to separate solution domain (technical) and problem domain (business) concepts. Code close to the UI and business rules should use problem domain names.",
+        "tr": "İyi bir tasarımcı, çözüm alanı (teknik) ve problem alanı (iş) kavramlarını nerede ayıracağını bilir. Kullanıcı arayüzüne ve iş kurallarına yakın kodlar problem alanı isimlerini kullanmalıdır."
+      }
     },
     {
       "id": "context",
+      "kind": "code",
       "title": {
         "en": "Meaningful Context",
         "tr": "Anlamlı Bağlam (Meaningful Context)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Değişken isimleri tek başlarına yetersiz kalabilir. Örneğin <code>state</code> değişkeni bir adresin eyaletini mi, yoksa bir nesnenin durumunu mu temsil ediyor? İsmi bir sınıfın veya fonksiyonun içine yerleştirerek ona bir bağlam kazandırın.</span><span class=\"en-text\">Variable names alone can be insufficient. For example, does the <code>state</code> variable represent an address's state or an object's status? Give it context by placing the name inside a class or function.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Bağlamdan kopuk değişkenler</span><span class=\"en-text\">BAD — Variables disconnected from context</span></span>\n<pre>public void process(String firstName, String lastName, String state) {\n    // 'state' burada ne anlama geliyor? \n    // Sipariş durumu mu? Eyalet mi?\n}</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Sınıf ile sağlanan bağlam</span><span class=\"en-text\">GOOD — Context provided by class</span></span>\n<pre>public class Address {\n    private String firstName;\n    private String lastName;\n    private String state; // Artık eyalet olduğu açık.\n}\n\npublic void process(Address address) { ... }</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Eğer değişkenlerin önüne sürekli aynı öneki (örn: <code>addrState</code>, <code>addrZip</code>) ekleme ihtiyacı duyuyorsanız, bu değişkenleri kendi sınıflarına taşımanın zamanı gelmiş demektir.</span><span class=\"en-text\">If you feel the need to constantly add the same prefix to variables (e.g., <code>addrState</code>, <code>addrZip</code>), it's time to move these variables into their own class.</span></div>"
+      "summary": {
+        "en": "Variable names alone can be insufficient. For example, does the `state` variable represent an address's state or an object's status? Give it context by placing the name inside a class or function.",
+        "tr": "Değişken isimleri tek başlarına yetersiz kalabilir. Örneğin `state` değişkeni bir adresin eyaletini mi, yoksa bir nesnenin durumunu mu temsil ediyor? İsmi bir sınıfın veya fonksiyonun içine yerleştirerek ona bir bağlam kazandırın."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "public void process(String firstName, String lastName, String state) {\n    // 'state' burada ne anlama geliyor? \n    // Sipariş durumu mu? Eyalet mi?\n}",
+        "why": {
+          "en": "A bare `state` parameter leaves its meaning (order status or US state?) to guesswork.",
+          "tr": "Çıplak bir `state` parametresi anlamını (sipariş durumu mu, eyalet mi?) tahmine bırakır."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "public class Address {\n    private String firstName;\n    private String lastName;\n    private String state; // Artık eyalet olduğu açık.\n}\n\npublic void process(Address address) { ... }",
+        "why": {
+          "en": "Inside Address the same field is unambiguously the state of an address.",
+          "tr": "Address içinde aynı alan tartışmasız bir adresin eyaletidir."
+        }
+      },
+      "tip": {
+        "en": "If you feel the need to constantly add the same prefix to variables (e.g., `addrState`, `addrZip`), it's time to move these variables into their own class.",
+        "tr": "Eğer değişkenlerin önüne sürekli aynı öneki (örn: `addrState`, `addrZip`) ekleme ihtiyacı duyuyorsanız, bu değişkenleri kendi sınıflarına taşımanın zamanı gelmiş demektir."
+      }
     }
   ]
 });

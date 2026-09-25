@@ -146,35 +146,131 @@ window.PAGE({
   "concepts": [
     {
       "id": "mental-mapping",
+      "kind": "code",
       "title": {
         "en": "Mental Mapping",
         "tr": "Zihinsel Eşleştirme (Mental Mapping)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Kod okuyucusu, gördüğü bir ismi zihninde asıl anlamına dönüştürmek için çaba sarf etmemelidir. Tek harfli isimler (döngü sayaçları hariç) veya sadece yazarın bildiği kısaltmalar zihinsel yük yaratır. Profesyonel bir programcı, zekasını karmaşık eşleştirmeleri hatırlamak için değil, herkesin anlayabileceği netlikte kod yazmak için kullanır.</span><span class=\"en-text\">A code reader should not have to spend effort mentally converting a name into its actual meaning. Single-letter names (except for loop counters) or abbreviations known only to the author create mental burden. A professional programmer uses their intelligence not to remember complex mappings, but to write code clear enough for everyone to understand.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Zihinsel eşleştirme gerektiren isimler</span><span class=\"en-text\">BAD — Names requiring mental mapping</span></span>\n<pre>for (int i = 0; i &lt; n; i++) {\n    var r = getR(u[i]);\n    // r neydi? u neydi? r -&gt; result, u -&gt; urls?\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Burada okuyucu sürekli <code>r</code>'nin \"sonuç\" ve <code>u</code>'nun \"URL listesi\" olduğunu hatırlamak zorundadır. Bu bir \"zihinsel hokkabazlık\"tır.</span><span class=\"en-text\">Here, the reader must constantly remember that <code>r</code> is \"result\" and <code>u</code> is \"URL list.\" This is \"mental juggling.\"</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Açık ve net isimler</span><span class=\"en-text\">GOOD — Clear and explicit names</span></span>\n<pre>for (String url : urlList) {\n    String pageContent = fetchPageContent(url);\n    // sayfa içeriği doğrudan anlaşılıyor\n}</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Sadece sizin bildiğiniz \"kısayol\" isimlerden kaçının. Kodunuzu, projeye bugün katılan birinin sözlüğe bakmadan anlayabileceği şekilde yazın. \"Clarity is King\" (Açıklık Kraldır).</span><span class=\"en-text\">Avoid \"shortcut\" names known only to you. Write your code so that someone joining the project today can understand it without looking at a glossary. \"Clarity is King.\"</span></div>"
+      "summary": {
+        "en": "A code reader should not have to spend effort mentally converting a name into its actual meaning. Single-letter names (except for loop counters) or abbreviations known only to the author create mental burden. A professional programmer uses their intelligence not to remember complex mappings, but to write code clear enough for everyone to understand.",
+        "tr": "Kod okuyucusu, gördüğü bir ismi zihninde asıl anlamına dönüştürmek için çaba sarf etmemelidir. Tek harfli isimler (döngü sayaçları hariç) veya sadece yazarın bildiği kısaltmalar zihinsel yük yaratır. Profesyonel bir programcı, zekasını karmaşık eşleştirmeleri hatırlamak için değil, herkesin anlayabileceği netlikte kod yazmak için kullanır."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "for (int i = 0; i < n; i++) {\n    var r = getR(u[i]);\n    // r neydi? u neydi? r -> result, u -> urls?\n}",
+        "why": {
+          "en": "Here, the reader must constantly remember that `r` is \"result\" and `u` is \"URL list.\" This is \"mental juggling.\"",
+          "tr": "Burada okuyucu sürekli `r`'nin \"sonuç\" ve `u`'nun \"URL listesi\" olduğunu hatırlamak zorundadır. Bu bir \"zihinsel hokkabazlık\"tır."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "for (String url : urlList) {\n    String pageContent = fetchPageContent(url);\n    // sayfa içeriği doğrudan anlaşılıyor\n}",
+        "why": {
+          "en": "url and pageContent are read directly, no mapping table in the head required.",
+          "tr": "url ve pageContent doğrudan okunur; kafada eşleştirme tablosu gerekmez."
+        }
+      },
+      "tip": {
+        "en": "Avoid \"shortcut\" names known only to you. Write your code so that someone joining the project today can understand it without looking at a glossary. \"Clarity is King.\"",
+        "tr": "Sadece sizin bildiğiniz \"kısayol\" isimlerden kaçının. Kodunuzu, projeye bugün katılan birinin sözlüğe bakmadan anlayabileceği şekilde yazın. \"Clarity is King\" (Açıklık Kraldır)."
+      }
     },
     {
       "id": "class-naming",
+      "kind": "code",
       "title": {
         "en": "Class Naming",
         "tr": "Sınıf İsimlendirme (Class Naming)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Sınıf isimleri nesneleri temsil ettiği için isim (noun) veya isim tamlaması olmalıdır. Sınıf isimlerinde fiil kullanılmamalıdır. Ayrıca <code>Data</code>, <code>Info</code>, <code>Manager</code> gibi çok genel ve belirsiz kelimelerden kaçınılmalıdır, çünkü bu kelimeler sınıfın sorumluluğunu netleştirmez.</span><span class=\"en-text\">Since class names represent objects, they should be nouns or noun phrases. Verbs should not be used in class names. Additionally, very general and vague words like <code>Data</code>, <code>Info</code>, <code>Manager</code> should be avoided because they don't clarify the class's responsibility.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Belirsiz veya hatalı sınıf isimleri</span><span class=\"en-text\">BAD — Vague or incorrect class names</span></span>\n<pre>class CleanData { } // Fiil gibi duruyor (Verbal)\nclass UserInfo { }  // Info gürültü kelimesidir\nclass Processor { } // Çok genel, neyi işliyor?</pre>\n<div class=\"explanation\"><span class=\"tr-text\"><code>UserInfo</code> yerine sadece <code>User</code> demek çoğu zaman yeterlidir. <code>Processor</code> gibi isimler sınıfın \"her şeyi yapan\" dev bir yapıya dönüşmesine neden olabilir.</span><span class=\"en-text\">Saying just <code>User</code> instead of <code>UserInfo</code> is often sufficient. Names like <code>Processor</code> can lead to the class becoming a \"do-it-all\" giant structure.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Net isim tamlamaları</span><span class=\"en-text\">GOOD — Clear noun phrases</span></span>\n<pre>class User { }\nclass AddressParser { }\nclass PaymentAccount { }</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Eğer bir sınıfı isimlendirmekte zorlanıyorsanız, muhtemelen o sınıf birden fazla iş yapıyordur. Sınıfı küçülttüğünüzde daha spesifik ve anlamlı bir isim bulmak kolaylaşacaktır.</span><span class=\"en-text\">If you're having trouble naming a class, it probably does more than one thing. When you make the class smaller, finding a specific and meaningful name will become easier.</span></div>"
+      "summary": {
+        "en": "Since class names represent objects, they should be nouns or noun phrases. Verbs should not be used in class names. Additionally, very general and vague words like `Data`, `Info`, `Manager` should be avoided because they don't clarify the class's responsibility.",
+        "tr": "Sınıf isimleri nesneleri temsil ettiği için isim (noun) veya isim tamlaması olmalıdır. Sınıf isimlerinde fiil kullanılmamalıdır. Ayrıca `Data`, `Info`, `Manager` gibi çok genel ve belirsiz kelimelerden kaçınılmalıdır, çünkü bu kelimeler sınıfın sorumluluğunu netleştirmez."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "class CleanData { } // Fiil gibi duruyor (Verbal)\nclass UserInfo { }  // Info gürültü kelimesidir\nclass Processor { } // Çok genel, neyi işliyor?",
+        "why": {
+          "en": "Saying just `User` instead of `UserInfo` is often sufficient. Names like `Processor` can lead to the class becoming a \"do-it-all\" giant structure.",
+          "tr": "`UserInfo` yerine sadece `User` demek çoğu zaman yeterlidir. `Processor` gibi isimler sınıfın \"her şeyi yapan\" dev bir yapıya dönüşmesine neden olabilir."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "class User { }\nclass AddressParser { }\nclass PaymentAccount { }",
+        "why": {
+          "en": "User, AddressParser, PaymentAccount are nouns that state the class's responsibility.",
+          "tr": "User, AddressParser, PaymentAccount sınıfın sorumluluğunu söyleyen isimlerdir."
+        }
+      },
+      "tip": {
+        "en": "If you're having trouble naming a class, it probably does more than one thing. When you make the class smaller, finding a specific and meaningful name will become easier.",
+        "tr": "Eğer bir sınıfı isimlendirmekte zorlanıyorsanız, muhtemelen o sınıf birden fazla iş yapıyordur. Sınıfı küçülttüğünüzde daha spesifik ve anlamlı bir isim bulmak kolaylaşacaktır."
+      }
     },
     {
       "id": "method-naming",
+      "kind": "code",
       "title": {
         "en": "Method Naming",
         "tr": "Metot İsimlendirme (Method Naming)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Metotlar eylemleri temsil eder, bu yüzden fiil (verb) veya fiil tamlaması olmalıdırlar. Erişimciler için <code>get</code>, değiştiriciler için <code>set</code> ve mantıksal (boolean) kontroller için <code>is</code> standartlarına uyulmalıdır.</span><span class=\"en-text\">Methods represent actions, so they should be verbs or verb phrases. Standards like <code>get</code> for accessors, <code>set</code> for mutators, and <code>is</code> for logical (boolean) checks should be followed.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Eylem belirtmeyen isimler</span><span class=\"en-text\">BAD — Names not indicating action</span></span>\n<pre>user.name();      // Ne yapıyor? Get mi set mi?\naccount.status(); // Durumu mu dönüyor yoksa güncelliyor mu?\nif(order.posted)  // Boolean mı metot mu?</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Fiil odaklı isimler</span><span class=\"en-text\">GOOD — Verb-oriented names</span></span>\n<pre>user.getName();\naccount.updateStatus(newStatus);\nif(order.isPosted())</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Bir metot ismini okuduğunuzda bir soru sormuş gibi (<code>isReady?</code>) veya bir emir vermiş gibi (<code>saveUser!</code>) hissetmelisiniz. Eğer metot isminde \"and\", \"or\" gibi bağlaçlar geçiyorsa, metot muhtemelen birden fazla iş yapıyordur.</span><span class=\"en-text\">When you read a method name, it should feel like asking a question (<code>isReady?</code>) or giving a command (<code>saveUser!</code>). If connectors like \"and\" or \"or\" appear in the method name, the method is likely doing more than one thing.</span></div>"
+      "summary": {
+        "en": "Methods represent actions, so they should be verbs or verb phrases. Standards like `get` for accessors, `set` for mutators, and `is` for logical (boolean) checks should be followed.",
+        "tr": "Metotlar eylemleri temsil eder, bu yüzden fiil (verb) veya fiil tamlaması olmalıdırlar. Erişimciler için `get`, değiştiriciler için `set` ve mantıksal (boolean) kontroller için `is` standartlarına uyulmalıdır."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "user.name();      // Ne yapıyor? Get mi set mi?\naccount.status(); // Durumu mu dönüyor yoksa güncelliyor mu?\nif(order.posted)  // Boolean mı metot mu?",
+        "why": {
+          "en": "name()/status()/posted leave the action or the return type unclear.",
+          "tr": "name()/status()/posted eylemin ya da dönüş tipinin ne olduğunu belirsiz bırakır."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "user.getName();\naccount.updateStatus(newStatus);\nif(order.isPosted())",
+        "why": {
+          "en": "get/set/is verbs state exactly what each method does.",
+          "tr": "get/set/is fiilleri her metodun ne yaptığını tam olarak söyler."
+        }
+      },
+      "tip": {
+        "en": "When you read a method name, it should feel like asking a question (`isReady?`) or giving a command (`saveUser!`). If connectors like \"and\" or \"or\" appear in the method name, the method is likely doing more than one thing.",
+        "tr": "Bir metot ismini okuduğunuzda bir soru sormuş gibi (`isReady?`) veya bir emir vermiş gibi (`saveUser!`) hissetmelisiniz. Eğer metot isminde \"and\", \"or\" gibi bağlaçlar geçiyorsa, metot muhtemelen birden fazla iş yapıyordur."
+      }
     },
     {
       "id": "static-factory",
+      "kind": "code",
       "title": {
         "en": "Static Factory Methods",
         "tr": "Statik Fabrika Metotları (Static Factory Methods)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Yapıcılar (constructors) aşırı yüklendiğinde (farklı parametrelerle birden fazla yapıcı), hangisinin ne amaçla kullanıldığını anlamak zorlaşabilir. Statik fabrika metotları, niyet belirten isimleri sayesinde nesne oluşturma sürecini çok daha açık hale getirir.</span><span class=\"en-text\">When constructors are overloaded (multiple constructors with different parameters), it can be difficult to understand which one is used for what purpose. Static factory methods make the object creation process much clearer thanks to their intention-revealing names.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — Kafa karıştırıcı overloaded yapıcılar</span><span class=\"en-text\">BAD — Confusing overloaded constructors</span></span>\n<pre>Duration d1 = new Duration(60);   // Saniye mi? Dakika mı?\nDuration d2 = new Duration(1, 30); // Saat-dakika mı? Dakika-saniye mi?</pre>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — Kendini açıklayan fabrika metotları</span><span class=\"en-text\">GOOD — Self-explaining factory methods</span></span>\n<pre>Duration d1 = Duration.fromSeconds(60);\nDuration d2 = Duration.fromMinutesAndSeconds(1, 30);</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Nesne oluştururken sadece <code>new</code> kullanmak yerine, eğer varsa sınıfın sunduğu statik fabrika metotlarını arayın. Bu metotlar genellikle <code>from...</code>, <code>of...</code>, <code>valueOf...</code> veya <code>newInstance...</code> gibi öneklerle başlar.</span><span class=\"en-text\">Instead of just using <code>new</code> when creating objects, look for static factory methods offered by the class if available. These methods usually start with prefixes like <code>from...</code>, <code>of...</code>, <code>valueOf...</code>, or <code>newInstance...</code>.</span></div>"
+      "summary": {
+        "en": "When constructors are overloaded (multiple constructors with different parameters), it can be difficult to understand which one is used for what purpose. Static factory methods make the object creation process much clearer thanks to their intention-revealing names.",
+        "tr": "Yapıcılar (constructors) aşırı yüklendiğinde (farklı parametrelerle birden fazla yapıcı), hangisinin ne amaçla kullanıldığını anlamak zorlaşabilir. Statik fabrika metotları, niyet belirten isimleri sayesinde nesne oluşturma sürecini çok daha açık hale getirir."
+      },
+      "bad": {
+        "lang": "java",
+        "code": "Duration d1 = new Duration(60);   // Saniye mi? Dakika mı?\nDuration d2 = new Duration(1, 30); // Saat-dakika mı? Dakika-saniye mi?",
+        "why": {
+          "en": "`new Duration(60)` leaves the unit of the argument ambiguous.",
+          "tr": "`new Duration(60)` argümanın birimini belirsiz bırakır."
+        }
+      },
+      "good": {
+        "lang": "java",
+        "code": "Duration d1 = Duration.fromSeconds(60);\nDuration d2 = Duration.fromMinutesAndSeconds(1, 30);",
+        "why": {
+          "en": "fromSeconds/fromMinutesAndSeconds name the units, so the call documents itself.",
+          "tr": "fromSeconds/fromMinutesAndSeconds birimleri adlandırır; çağrı kendini belgeler."
+        }
+      },
+      "tip": {
+        "en": "Instead of just using `new` when creating objects, look for static factory methods offered by the class if available. These methods usually start with prefixes like `from...`, `of...`, `valueOf...`, or `newInstance...`.",
+        "tr": "Nesne oluştururken sadece `new` kullanmak yerine, eğer varsa sınıfın sunduğu statik fabrika metotlarını arayın. Bu metotlar genellikle `from...`, `of...`, `valueOf...` veya `newInstance...` gibi öneklerle başlar."
+      }
     }
   ]
 });

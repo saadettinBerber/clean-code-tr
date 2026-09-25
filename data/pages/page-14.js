@@ -219,27 +219,67 @@ window.PAGE({
   "concepts": [
     {
       "id": "reading-ratio",
+      "kind": "explain",
       "title": {
         "en": "10:1 Reading Ratio",
         "tr": "10:1 Okuma Oranı (10:1 Reading Ratio)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Yazılımcılar olarak vaktimizin büyük çoğunluğunu (oransal olarak 10'a 1) kod okuyarak geçiririz. Yeni bir kod eklemeden önce etrafındaki kodu anlamak zorundayız. Bu yüzden, kodun okunabilirliğini artırmak, aslında yazma hızımızı da artırır. Okunması zor kod, geliştirme sürecini yavaşlatır çünkü her değişiklik öncesi \"burada ne yapılmış?\" sorusuna harcanan zaman artar.</span><span class=\"en-text\">As developers, we spend the vast majority of our time (at a ratio of 10 to 1) reading code. Before adding new code, we must understand the code around it. Therefore, increasing the readability of code actually increases our writing speed. Hard-to-read code slows down the development process because the time spent on \"what was done here?\" before each change increases.</span></p>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Kod yazarken harcadığınız ekstra 5 dakika (daha iyi bir isim bulmak, fonksiyonu bölmek), gelecekte o kodu okuyacak kişilere (ve size) saatler kazandırabilir. 10:1 kuralını unutmayın!</span><span class=\"en-text\">The extra 5 minutes you spend while writing code (finding a better name, splitting a function) can save hours for those who will read that code in the future (and you). Don't forget the 10:1 rule!</span></div>"
+      "summary": {
+        "en": "As developers, we spend the vast majority of our time (at a ratio of 10 to 1) reading code. Before adding new code, we must understand the code around it. Therefore, increasing the readability of code actually increases our writing speed. Hard-to-read code slows down the development process because the time spent on \"what was done here?\" before each change increases.",
+        "tr": "Yazılımcılar olarak vaktimizin büyük çoğunluğunu (oransal olarak 10'a 1) kod okuyarak geçiririz. Yeni bir kod eklemeden önce etrafındaki kodu anlamak zorundayız. Bu yüzden, kodun okunabilirliğini artırmak, aslında yazma hızımızı da artırır. Okunması zor kod, geliştirme sürecini yavaşlatır çünkü her değişiklik öncesi \"burada ne yapılmış?\" sorusuna harcanan zaman artar."
+      },
+      "tip": {
+        "en": "The extra 5 minutes you spend while writing code (finding a better name, splitting a function) can save hours for those who will read that code in the future (and you). Don't forget the 10:1 rule!",
+        "tr": "Kod yazarken harcadığınız ekstra 5 dakika (daha iyi bir isim bulmak, fonksiyonu bölmek), gelecekte o kodu okuyacak kişilere (ve size) saatler kazandırabilir. 10:1 kuralını unutmayın!"
+      }
     },
     {
       "id": "boy-scout-rule",
+      "kind": "code",
       "title": {
         "en": "The Boy Scout Rule",
         "tr": "İzci Kuralı (The Boy Scout Rule)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">\"Kamp alanını bulduğundan daha temiz bırak.\" Bu basit kural, kod tabanının zamanla çürümesini (code rot) engellemenin en etkili yoludur. Her geliştirici, üzerinde çalıştığı dosyada küçük bir iyileştirme yaparsa (bir isimlendirmeyi düzeltmek, gereksiz bir yorumu silmek, bir metodu bölmek), kod tabanı giderek daha sağlıklı hale gelir.</span><span class=\"en-text\">\"Leave the campground cleaner than you found it.\" This simple rule is the most effective way to prevent code rot over time. If every developer makes a small improvement in the file they are working on (fixing a naming, deleting an unnecessary comment, splitting a method), the codebase becomes increasingly healthy.</span></p>\n<h4><span class=\"tr-text\">Kötü Örnek (Before)</span><span class=\"en-text\">Bad Example (Before)</span></h4>\n<span class=\"label-bad\"><span class=\"tr-text\">KÖTÜ — \"Dokunma, bozulmasın\" veya \"Benim işim değil\"</span><span class=\"en-text\">BAD — \"Don't touch, it might break\" or \"It's not my job\"</span></span>\n<pre>// Mevcut kirli kod\nfunction update(d) {\n    // ... iş mantığı\n}\n\n// Yeni özellik eklenmiş hali (hala kirli)\nfunction update(d) {\n    // ... eski kirli iş mantığı\n    if (d.flag) {\n        // Yeni eklenen ama eski kirliliği koruyan kod\n    }\n}</pre>\n<div class=\"explanation\"><span class=\"tr-text\">Geliştirici sadece kendi işini yapmış ama etraftaki kirliliğe dokunmamıştır. Bu yaklaşım kodun zamanla çürümesine neden olur.</span><span class=\"en-text\">The developer only did their own job but didn't touch the surrounding mess. This approach causes code to rot over time.</span></div>\n<h4><span class=\"tr-text\">İyi Örnek (After)</span><span class=\"en-text\">Good Example (After)</span></h4>\n<span class=\"label-good\"><span class=\"tr-text\">İYİ — İzci kuralı uygulanmış hali</span><span class=\"en-text\">GOOD — Applying the Boy Scout rule</span></span>\n<pre>// İzci kuralı: İsmi düzelttim ve yeni özelliği ekledim\nfunction updateUserData(userData) {\n    // ... iyileştirilmiş iş mantığı\n    if (userData.isPremium) {\n        applyPremiumFeatures(userData);\n    }\n}\n\nfunction applyPremiumFeatures(userData) { ... }</pre>\n<div class=\"tip\"><strong><span class=\"tr-text\">Pratik İpucu</span><span class=\"en-text\">Practical Tip</span></strong><span class=\"tr-text\">Her commit'te şu soruyu sorun: \"Bu dosyayı aldığım halinden daha mı iyi bıraktım?\" Cevap evet ise, profesyonel bir yazılımcı gibi davranıyorsunuz demektir. İyileştirmenin büyük olmasına gerek yok, bir değişken adını düzeltmek bile yeterlidir.</span><span class=\"en-text\">Ask this question in every commit: \"Did I leave this file better than I found it?\" If the answer is yes, you are acting like a professional developer. The improvement doesn't have to be big; even fixing a variable name is enough.</span></div>"
+      "summary": {
+        "en": "\"Leave the campground cleaner than you found it.\" This simple rule is the most effective way to prevent code rot over time. If every developer makes a small improvement in the file they are working on (fixing a naming, deleting an unnecessary comment, splitting a method), the codebase becomes increasingly healthy.",
+        "tr": "\"Kamp alanını bulduğundan daha temiz bırak.\" Bu basit kural, kod tabanının zamanla çürümesini (code rot) engellemenin en etkili yoludur. Her geliştirici, üzerinde çalıştığı dosyada küçük bir iyileştirme yaparsa (bir isimlendirmeyi düzeltmek, gereksiz bir yorumu silmek, bir metodu bölmek), kod tabanı giderek daha sağlıklı hale gelir."
+      },
+      "bad": {
+        "lang": "javascript",
+        "code": "// Mevcut kirli kod\nfunction update(d) {\n    // ... iş mantığı\n}\n\n// Yeni özellik eklenmiş hali (hala kirli)\nfunction update(d) {\n    // ... eski kirli iş mantığı\n    if (d.flag) {\n        // Yeni eklenen ama eski kirliliği koruyan kod\n    }\n}",
+        "why": {
+          "en": "\"Don't touch, it might break\" or \"It's not my job\". The developer only did their own job but didn't touch the surrounding mess. This approach causes code to rot over time.",
+          "tr": "\"Dokunma, bozulmasın\" veya \"Benim işim değil\". Geliştirici sadece kendi işini yapmış ama etraftaki kirliliğe dokunmamıştır. Bu yaklaşım kodun zamanla çürümesine neden olur."
+        }
+      },
+      "good": {
+        "lang": "javascript",
+        "code": "// İzci kuralı: İsmi düzelttim ve yeni özelliği ekledim\nfunction updateUserData(userData) {\n    // ... iyileştirilmiş iş mantığı\n    if (userData.isPremium) {\n        applyPremiumFeatures(userData);\n    }\n}\n\nfunction applyPremiumFeatures(userData) { ... }",
+        "why": {
+          "en": "Applying the Boy Scout rule",
+          "tr": "İzci kuralı uygulanmış hali"
+        }
+      },
+      "tip": {
+        "en": "Ask this question in every commit: \"Did I leave this file better than I found it?\" If the answer is yes, you are acting like a professional developer. The improvement doesn't have to be big; even fixing a variable name is enough.",
+        "tr": "Her commit'te şu soruyu sorun: \"Bu dosyayı aldığım halinden daha mı iyi bıraktım?\" Cevap evet ise, profesyonel bir yazılımcı gibi davranıyorsunuz demektir. İyileştirmenin büyük olmasına gerek yok, bir değişken adını düzeltmek bile yeterlidir."
+      }
     },
     {
       "id": "continuous-improvement",
+      "kind": "explain",
       "title": {
         "en": "Continuous Improvement",
         "tr": "Sürekli İyileştirme (Continuous Improvement)"
       },
-      "body_html": "<h4><span class=\"tr-text\">Kavram Açıklaması</span><span class=\"en-text\">Concept Explanation</span></h4>\n<p><span class=\"tr-text\">Sürekli iyileştirme, profesyonelliğin temel bir parçasıdır. Kodun \"bir kere yazılıp biten\" bir şey değil, sürekli evrilen ve gelişen bir canlı organizma olduğu bilincidir. Kalitenin korunması değil, her adımda artırılması hedeflenir.</span><span class=\"en-text\">Continuous improvement is a fundamental part of professionalism. It's the awareness that code is not something \"written once and done,\" but a constantly evolving and developing living organism. The goal is not just to maintain quality, but to increase it at every step.</span></p>"
+      "summary": {
+        "en": "Continuous improvement is a fundamental part of professionalism. It's the awareness that code is not something \"written once and done,\" but a constantly evolving and developing living organism. The goal is not just to maintain quality, but to increase it at every step.",
+        "tr": "Sürekli iyileştirme, profesyonelliğin temel bir parçasıdır. Kodun \"bir kere yazılıp biten\" bir şey değil, sürekli evrilen ve gelişen bir canlı organizma olduğu bilincidir. Kalitenin korunması değil, her adımda artırılması hedeflenir."
+      },
+      "tip": {
+        "en": "Treat code as a living system and increase its quality at every step, not just maintain it.",
+        "tr": "Kodu yaşayan bir sistem olarak ele alın ve onu yalnızca korumayı değil, her adımda kalitesini artırmayı hedefleyin."
+      }
     }
   ]
 });
