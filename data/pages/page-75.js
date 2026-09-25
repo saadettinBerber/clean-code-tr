@@ -55,6 +55,7 @@ window.PAGE({
   "concepts": [
     {
       "id": "formatting-is-communication",
+      "kind": "code",
       "title": {
         "en": "Formatting Is Communication",
         "tr": "Biçimlendirme Bir İletişimdir (Formatting Is Communication)"
@@ -86,6 +87,7 @@ window.PAGE({
     },
     {
       "id": "consistency-over-taste",
+      "kind": "code",
       "title": {
         "en": "Consistency Over Personal Taste",
         "tr": "Tutarlılık, Kişisel Zevkten Önce Gelir (Consistency Over Personal Taste)"
@@ -117,6 +119,7 @@ window.PAGE({
     },
     {
       "id": "attention-to-detail",
+      "kind": "code",
       "title": {
         "en": "Attention to Detail",
         "tr": "Detaylara Dikkat (Attention to Detail)"
