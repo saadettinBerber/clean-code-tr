@@ -18,6 +18,9 @@ docs/
 # Çeviri çalışma dizini (geçici girdi/çıktı JSON)
 tools/_work/
 
+# Kindle için üretilen EPUB (kitap-cevir export_epub.py)
+dist/
+
 # Python derleme çıktıları
 __pycache__/
 *.py[cod]
