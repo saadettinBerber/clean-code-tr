@@ -1,4 +1,12 @@
 {
+  "book": {
+    "slug": "clean-code",
+    "title": "Clean Code",
+    "subtitle": "A Handbook of Agile Software Craftsmanship",
+    "subtitle_tr": "Çevik Yazılım Ustalığı El Kitabı",
+    "author": "Robert C. Martin",
+    "series": "Robert C. Martin Series"
+  },
   "book_pdf": "my_book.pdf",
   "pdf_offset": 0,
   "book_total_pages": 431,
