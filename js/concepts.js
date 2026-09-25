@@ -25,11 +25,52 @@ const Concepts = (function () {
     return `<span class="card-text">${Blocks.pair(unit)}</span>`;
   }
 
-  function codeSample(sample, badge, badgeClass) {
-    if (!sample || !sample.code) return "";
-    const why = sample.why ? `<p class="why">${cardText(sample.why)}</p>` : "";
-    return `<span class="${badgeClass}">${badge}</span>` +
-      `<pre><code>${Highlight.render(sample.code, sample.lang)}</code></pre>${why}`;
+  // Kart türleri (kind): code, explain, tradeoff — references/FORMAT.md.
+  const SIDE_LABELS = {
+    code: { bad: ["Before", "Önce"], good: ["After", "Sonra"] },
+    contrast: { bad: ["Avoid", "Kaçın"], good: ["Prefer", "Tercih et"] },
+  };
+  const TIP_LABELS = { tradeoff: ["When to choose", "Ne zaman hangisi"] };
+  const DEFAULT_TIP_LABEL = ["Practical tip", "Pratik ipucu"];
+  const OPTION_COLUMNS = [["name", "Option", "Seçenek"], ["gains", "Gains", "Kazandırır"],
+                          ["costs", "Costs", "Bedeli"]];
+
+  // `kind` alanı olmayan eski kartlarda tür içerikten çıkarılır.
+  function kindOf(concept) {
+    if (concept.kind) return concept.kind;
+    if (concept.options) return "tradeoff";
+    const sample = concept.bad || {};
+    if (sample.code) return "code";
+    return sample.text ? "contrast" : "explain";
+  }
+
+  function sampleBody(sample) {
+    if (!sample) return "";
+    if (sample.code) return `<pre><code>${Highlight.render(sample.code, sample.lang)}</code></pre>`;
+    if (sample.text) return `<p class="sample-text">${cardText(sample.text)}</p>`;
+    return "";
+  }
+
+  function example(concept, side, kind) {
+    const labels = SIDE_LABELS[kind];
+    const body = labels ? sampleBody(concept[side]) : "";
+    if (!body) return "";
+    const why = concept[side].why ? `<p class="why">${cardText(concept[side].why)}</p>` : "";
+    return `<span class="label-${side}">${label(...labels[side])}</span>${body}${why}`;
+  }
+
+  function optionCell([field, en, tr], option) {
+    const text = cardText(option[field] || {});
+    if (field === "name") return `<th scope="row">${text}</th>`;
+    return `<td><span class="cell-label">${label(en, tr)}</span>${text}</td>`;
+  }
+
+  function tradeoffTable(concept) {
+    const options = concept.options || [];
+    if (!options.length) return "";
+    const head = OPTION_COLUMNS.map(([, en, tr]) => `<th scope="col">${label(en, tr)}</th>`).join("");
+    const rows = options.map((option) => `<tr>${OPTION_COLUMNS.map((c) => optionCell(c, option)).join("")}</tr>`);
+    return `<table class="tradeoff"><thead><tr>${head}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
   }
 
   function relatedLink(link) {
@@ -46,27 +87,19 @@ const Concepts = (function () {
   }
 
   function structuredBody(concept) {
+    const kind = kindOf(concept);
     const note = offbookNote(concept);
     const summary = concept.summary ? `<h4>${label("Concept", "Kavram")}</h4><p>${cardText(concept.summary)}</p>` : "";
-    const bad = concept.bad ? `<h4>${label("Bad example (before)", "Kötü örnek (Before)")}</h4>` +
-      codeSample(concept.bad, label("BAD", "KÖTÜ"), "label-bad") : "";
-    const good = concept.good ? `<h4>${label("Good example (after)", "İyi örnek (After)")}</h4>` +
-      codeSample(concept.good, label("GOOD", "İYİ"), "label-good") : "";
-    const tip = concept.tip ? `<div class="tip"><strong>${label("Practical tip", "Pratik ipucu")}</strong>${cardText(concept.tip)}</div>` : "";
-    return note + summary + bad + good + tip;
-  }
-
-  // Eski kartların (body_html) hazır HTML'inde lang yok; büyük harfli İngilizce etiket "İ" almasın.
-  function legacyBody(html) {
-    const body = document.createElement("div");
-    body.innerHTML = html;
-    body.querySelectorAll(".en-text").forEach((span) => { span.lang = "en"; });
-    return body.innerHTML;
+    const middle = kind === "tradeoff" ? tradeoffTable(concept)
+      : example(concept, "bad", kind) + example(concept, "good", kind);
+    const tipLabel = TIP_LABELS[kind] || DEFAULT_TIP_LABEL;
+    const tip = concept.tip ? `<div class="tip"><strong>${label(...tipLabel)}</strong>${cardText(concept.tip)}</div>` : "";
+    return note + summary + middle + tip;
   }
 
   function open(concept) {
     document.getElementById("modal-title").innerHTML = Blocks.pair(concept.title);
-    document.getElementById("modal-body").innerHTML = concept.body_html ? legacyBody(concept.body_html) : structuredBody(concept);
+    document.getElementById("modal-body").innerHTML = structuredBody(concept);
     document.getElementById("modal").classList.add("active");
     document.body.style.overflow = "hidden";
   }
